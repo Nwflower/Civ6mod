@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: CIVILIZATION_NW_HANJ_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/15 18:21:35 -->
+<GameData>
+	<LocalizedText>
+		<!--Civ-->
+		<Replace Tag="LOC_CIVILIZATION_CIV_HANJ_NAME" Language="zh_Hans_CN">
+			<Text>汉</Text>
+		</Replace>
+		<Replace Tag="LOC_CIVILIZATION_CIV_HANJ_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>汉王朝</Text>
+		</Replace>
+		<Replace Tag="LOC_CIVILIZATION_CIV_HANJ_ADJECTIVE" Language="zh_Hans_CN">
+			<Text>汉朝的</Text>
+		</Replace>
+
+
+		<!--Leader-->
+		<Replace Tag="LOC_LEADER_NW_LIUXUN_NAME" Language="zh_Hans_CN">
+			<Text>刘询（汉宣帝）</Text>
+		</Replace>
+		<Replace Tag="LOC_CITY_NAME_CHANGAN" Language="zh_Hans_CN">
+			<Text>长安</Text>
+		</Replace>
+
+
+		<Replace Tag="LOC_LEADER_NW_JET_LIUCHE_NAME" Language="zh_Hans_CN">
+			<Text>刘彻（汉武帝）</Text>
+		</Replace>
+
+		<!--TRAIT-->
+		<Replace Tag="LOC_TRAIT_LEADER_NW_LIUXUN_NW004_NAME" Language="zh_Hans_CN">
+			<Text>霸王道杂之</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_NW_LIUXUN_NW004_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>“政治哲学”市政后，政体中的每个军事政策为所有城市+1 [ICON_PRODUCTION] 生产力；政体中的每个经济政策为所有城市+2 [ICON_GOLD] 金币。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_TRAIT_LEADER_NW_JET_LIUCHE_NW005_NAME" Language="zh_Hans_CN">
+			<Text>寇可往，我亦可往</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_NW_JET_LIUCHE_NW005_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>如果在敌方领土开始回合，则 [ICON_MOVEMENT] 移动力+1。骑兵单位+2视野。拥有太仓的城市，战略资源+1 [ICON_FOOD] 食物、+1 [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_NW_JET_LIUCHE_ADD_MOVEMENT_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>开始回合时，+1 [ICON_MOVEMENT] 移动力。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_NW_JET_LIUCHE_JET_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>+2视野。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_CIV_HANJ_NW003_NAME" Language="zh_Hans_CN">
+			<Text>民数者，庶事之所自出也</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_CIV_HANJ_NW003_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>区域不会获得相邻加成。拥有对应区域的城市，每位公民产出0.5对应产出。[NEWLINE][NEWLINE]从区域相邻加成获得额外产出的建筑，额外获得5点 [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+
+		<!--ITEM-->
+		<Replace Tag="LOC_UNIT_NW_YULIN_NAME" Language="zh_Hans_CN">
+			<Text>羽林孤儿</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_NW_YULIN_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>大汉特色单位，替代骑士。若从附近的大将军获得提升，则进攻时有30%的概率不会消耗血量。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_UNIT_NW_BIAOQI_NAME" Language="zh_Hans_CN">
+			<Text>骠骑</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_NW_BIAOQI_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>刘彻特色单位，替代追猎者，拥有更高的基础花费。掠夺农田、牧场和营地改良设施后回复50血量。可以使用自身的高 [ICON_MOVEMENT] 移动力护送平民单位。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_UNIT_NW_BIAOQI_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>可以使用自身的高 [ICON_MOVEMENT] 移动力护送平民单位。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_BUILDING_TAICANG_NAME" Language="zh_Hans_CN">
+			<Text>太仓</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_TAICANG_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>大汉特色建筑，替代粮仓，建造费用更低。战略储量上限+10（联机速度下）。</Text>
+		</Replace>
+
+		<Row Tag="LOC_LOADING_INFO_LEADER_NW_JET_LIUCHE" Language="zh_Hans_CN" Text="你北击匈奴，打通西域，让汉家的战旗插遍四方。你用铁骑与雄心，将‘犯强汉者，虽远必诛’刻进了时代的骨血。在你眼中，帝国的疆域没有尽头，文明的荣光需要用剑与火来铸就。汉武帝刘彻，你的名字，本身就是一个王朝的鼎盛与强音。"/>
+		<Row Tag="LOC_DIPLO_FIRST_MEET_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="朕之江山，正缺一位能臣良将。汝，可愿与朕共谱这盛世华章？抑或，想成为朕的功业碑上一道浅浅的刻痕？"/>
+		<Row Tag="LOC_DIPLO_DECLARE_WAR_FROM_HUMAN_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="哼，蚍蜉撼树，自取灭亡！卫青、霍去病何在？为朕碾碎这不知天高地厚的狂徒！"/>
+		<Row Tag="LOC_DIPLO_DECLARE_WAR_FROM_AI_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="你的存在，便是对‘天下一统’最大的不敬！汉家的战旗所指，即为新的疆界。跪伏，或者毁灭！"/>
+		<Row Tag="LOC_DIPLO_DEFEAT_FROM_AI_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="……泰山封禅，竟成绝响？……罢黜百家，独尊儒术……莫非天道，终不佑朕？……求仙……长生……皆是虚妄……"/>
+		<Row Tag="LOC_DIPLO_ACCEPT_MAKE_DEAL_FROM_AI_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="善！此物于朕征伐匈奴大有裨益。你的贡品，朕收下了。"/>
+		<Row Tag="LOC_DIPLO_REJECT_MAKE_DEAL_FROM_AI_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="区区此物，也配与朕的国库讨价还价？等你拿得出真正有价值的东西再来吧！"/>
+		<Row Tag="LOC_DIPLO_DENOUNCE_FROM_HUMAN_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="哈哈哈哈哈！真是滑天下之大稽！一群茹毛饮血的蛮夷，也配来指责朕？这世上唯有强弓硬弩才是真理！你的谴责，在朕面前，不过是一缕杂音！"/>
+		<Row Tag="LOC_DIPLO_DENOUNCE_FROM_AI_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="哼，宵小之辈！你的存在就是对‘天下一统’的亵渎！朕的北军铁骑正缺一个演练的靶场，你若再不知收敛，休怪朕将你的疆土化为焦土！"/>
+		<Row Tag="LOC_DIPLO_ACCEPT_DELEGATION_FROM_HUMAN_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="准了。就让你的使者留在长安，好好见识一下天朝上国的富庶与威仪。他们会明白，何为真正的文明。"/>
+		<Row Tag="LOC_DIPLO_REJECT_DELEGATION_FROM_HUMAN_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="哼，朕的皇宫岂是闲杂人等可随意窥探的？谁知道你的使者是不是细作？退下！"/>
+		<Row Tag="LOC_DIPLO_DELEGATION_FROM_AI_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="朕的使者将携丝绸与利剑而至。他们会向你展示何谓天朝威仪，望你好生礼待，莫生事端。"/>
+		<Row Tag="LOC_DIPLO_REJECT_DECLARE_FRIEND_FROM_AI_LEADER_NW_JET_LIUCHE_ANY" Language="zh_Hans_CN" Text="好，很好！竟敢将汉家的使者拒之门外？此等羞辱，朕记下了。他日朕的冠军侯，自会去你的城下‘登门拜访’！"/>
+
+		<Row Tag="LOC_LOADING_INFO_LEADER_NW_LIUXUN" Language="zh_Hans_CN" Text="你来自民间，却深谙制衡之道。你王霸杂用，既能让匈奴单于俯首称臣，也能让百姓休养生息。你完成了武帝未竟的伟业，却选择了一条不同的道路。汉宣帝刘询，在你手中，大汉的武力与民生达到了完美的平衡，史书将你的时代称为‘孝宣中兴’——一个真正的盛世。"/>
+		<Row Tag="LOC_DIPLO_FIRST_MEET_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="朕少时游历诸州，深知治国之道，在于张弛有度。不必惊讶，与朕对话的，是一位真正的皇帝，也曾是一位普通的百姓。"/>
+		<Row Tag="LOC_DIPLO_DECLARE_WAR_FROM_HUMAN_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="麒麟阁十一功臣的画像正注视着朕。为了他们，为了大汉，朕绝不会让盛世倾覆。赵充国，备战！"/>
+		<Row Tag="LOC_DIPLO_DECLARE_WAR_FROM_AI_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="朕本愿与尔等共享太平。然，尔既坏我法度，扰我百姓，乱我四方。那么，朕便只好‘以霸道行之’，令尔等见识何为汉家雷霆。"/>
+		<Row Tag="LOC_DIPLO_DEFEAT_FROM_AI_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="朕终究……辜负了祖父的遗志吗？‘乱我家者，太子也’……此言，竟是应在今日……民生复苏，匈奴称臣……这一切，竟如梦幻泡影……"/>
+		<Row Tag="LOC_DIPLO_ACCEPT_MAKE_DEAL_FROM_AI_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="此议于国于民皆有利，朕准了。愿此番往来，能使我两国百姓皆得实惠。"/>
+		<Row Tag="LOC_DIPLO_REJECT_MAKE_DEAL_FROM_AI_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="此事关乎国计民生，不可轻率。你的条件，尚不足以让朕动摇法度。"/>
+		<Row Tag="LOC_DIPLO_DENOUNCE_FROM_HUMAN_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="朕，来自民间，深知何为民心所向。朕之中兴盛世，天下皆知，万民称颂。你的几句妄言，岂能动摇社稷之本？"/>
+		<Row Tag="LOC_DIPLO_DENOUNCE_FROM_AI_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="朕本以为你是一方明主，如今看来，是朕看走了眼。你坏我法度，扰我边民，乱天下之和乎。此举非为君之道。若你一意孤行，就莫怪朕‘以霸道行之’，届时休谈仁义！"/>
+		<Row Tag="LOC_DIPLO_ACCEPT_DELEGATION_FROM_HUMAN_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="可。朕已令大鸿胪安排馆驿。希望你的使者能遵守汉家法度，与民无犯。彼此增益见闻，方为往来之道。"/>
+		<Row Tag="LOC_DIPLO_REJECT_DELEGATION_FROM_HUMAN_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="边关不靖，恐路上多有风险。为使者安危计，此事暂且作罢。待风平浪静之后，再议不迟。"/>
+		<Row Tag="LOC_DIPLO_DELEGATION_FROM_AI_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="朕会派遣使者，与你交流典章制度，互通有无。他们来自民间，深知疾苦，望你以诚相待。"/>
+		<Row Tag="LOC_DIPLO_REJECT_DECLARE_FRIEND_FROM_AI_LEADER_NW_LIUXUN_ANY" Language="zh_Hans_CN" Text="哦？竟是如此……无妨。‘礼尚往来’，今日你闭门谢客，他日若再有使者持节而至，望你也能如今日一般从容。"/>
+
+	</LocalizedText>
+</GameData>

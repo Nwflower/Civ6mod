@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<!--大音乐家-->
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MUSICIAN_CLASSICAL_1_NAME" Language="zh_Hans_CN">
+			<Text>阿里斯托芬</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MUSICIAN_MEDIEVAL_1_NAME" Language="zh_Hans_CN">
+			<Text>沃尔夫拉姆</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MUSICIAN_MEDIEVAL_2_NAME" Language="zh_Hans_CN">
+			<Text>纪尧姆・德・马肖</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MUSICIAN_RENAISSANCE_1_NAME" Language="zh_Hans_CN">
+			<Text>克劳迪奥·蒙特威尔第</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MUSICIAN_RENAISSANCE_2_NAME" Language="zh_Hans_CN">
+			<Text>杜阿尔特·罗博</Text>
+		</Replace>
+
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_CLASSICAL_11_NAME" Language="zh_Hans_CN">
+			<Text>《鸟》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_CLASSICAL_12_NAME" Language="zh_Hans_CN">
+			<Text>《蛙》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_MEDIEVAL_11_NAME" Language="zh_Hans_CN">
+			<Text>《帕西法尔》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_MEDIEVAL_21_NAME" Language="zh_Hans_CN">
+			<Text>《圣母弥撒》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_RENAISSANCE_11_NAME" Language="zh_Hans_CN">
+			<Text>《奥菲欧》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_RENAISSANCE_12_NAME" Language="zh_Hans_CN">
+			<Text>《圣母大礼拜》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_RENAISSANCE_21_NAME" Language="zh_Hans_CN">
+			<Text>《圣歌集》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_RENAISSANCE_22_NAME" Language="zh_Hans_CN">
+			<Text>《安魂曲》</Text>
+		</Replace>
+	</LocalizedText>
+</GameData>

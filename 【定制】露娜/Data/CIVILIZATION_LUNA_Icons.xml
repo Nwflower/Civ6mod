@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: CIVILIZATION_LUNA_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/2 16:15:28 -->
+<GameData>
+	<IconTextureAtlases>
+		<Row Filename="CivZuan256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan128" IconsPerColumn="1" IconsPerRow="1" IconSize="128" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan44" IconsPerColumn="1" IconsPerRow="1" IconSize="44" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan36" IconsPerColumn="1" IconsPerRow="1" IconSize="36" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan30" IconsPerColumn="1" IconsPerRow="1" IconSize="30" Name="ICON_ATLAS_CIV_ZUAN"/>
+		<Row Filename="CivZuan22" IconsPerColumn="1" IconsPerRow="1" IconSize="22" Name="ICON_ATLAS_CIV_ZUAN"/>
+
+		<Row Filename="NwLuna32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_NW_LUNA"/>
+		<Row Filename="NwLuna45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_NW_LUNA"/>
+		<Row Filename="NwLuna48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_NW_LUNA"/>
+		<Row Filename="NwLuna50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_NW_LUNA"/>
+		<Row Filename="NwLuna55" IconsPerColumn="1" IconsPerRow="1" IconSize="55" Name="ICON_ATLAS_NW_LUNA"/>
+		<Row Filename="NwLuna64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_NW_LUNA"/>
+		<Row Filename="NwLuna80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_NW_LUNA"/>
+		<Row Filename="NwLuna256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_NW_LUNA"/>
+	</IconTextureAtlases>
+	
+	<IconDefinitions>
+		<Row Name="ICON_CIVILIZATION_CIV_ZUAN" Atlas="ICON_ATLAS_CIV_ZUAN" Index="0"/>
+		<Row Name="ICON_LEADER_NW_LUNA" Atlas="ICON_ATLAS_NW_LUNA" Index="0"/>
+	</IconDefinitions>
+
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_DISTRICT_MOON_BAY" IconSize="22" Filename="ICON_DISTRICT_MOON_BAY_22"/>
+        <Row Name="ATLAS_ICON_DISTRICT_MOON_BAY" IconSize="32" Filename="ICON_DISTRICT_MOON_BAY_32"/>
+        <Row Name="ATLAS_ICON_DISTRICT_MOON_BAY" IconSize="38" Filename="ICON_DISTRICT_MOON_BAY_38"/>
+        <Row Name="ATLAS_ICON_DISTRICT_MOON_BAY" IconSize="50" Filename="ICON_DISTRICT_MOON_BAY_50"/>
+        <Row Name="ATLAS_ICON_DISTRICT_MOON_BAY" IconSize="80" Filename="ICON_DISTRICT_MOON_BAY_80"/>
+        <Row Name="ATLAS_ICON_DISTRICT_MOON_BAY" IconSize="128" Filename="ICON_DISTRICT_MOON_BAY_128"/>
+        <Row Name="ATLAS_ICON_DISTRICT_MOON_BAY" IconSize="256" Filename="ICON_DISTRICT_MOON_BAY_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_DISTRICT_MOON_BAY" Atlas="ATLAS_ICON_DISTRICT_MOON_BAY" Index="0"/>
+    </IconDefinitions>
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_LEADER_NW_LUNA_NEUTRAL" IconSize="706" Filename="LEADER_NW_LUNA_NEUTRAL"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="LEADER_NW_LUNA_NEUTRAL" Atlas="ATLAS_LEADER_NW_LUNA_NEUTRAL" Index="0"/>
+    </IconDefinitions>
+
+
+    <IconAliases>
+        <Row Name="ICON_UNIT_LUNAR_BOAT" OtherName="ICON_UNIT_FRIGATE"/>
+        <Row Name="ICON_UNIT_LUNAR_BOAT_PORTRAIT" OtherName="ICON_UNIT_FRIGATE_PORTRAIT"/>
+    </IconAliases>
+</GameData>

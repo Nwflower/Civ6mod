@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<!-- ========== -->
+	<!-- Social Policies -->
+	<!-- ========== -->
+	<Types>
+		<Replace Type="POLICY_DECENTRALIZATION" Kind="KIND_POLICY"/>
+		<Replace Type="POLICY_SOFT_TARGETS" Kind="KIND_POLICY"/>
+		<Replace Type="POLICY_DESPOTIC_PATERNALISM" Kind="KIND_POLICY"/>
+		<Replace Type="POLICY_SAMODERZHAVIYE" Kind="KIND_POLICY"/>
+		<Replace Type="MODIFIER_PLAYER_ADJUST_NEUTRALIZE_INDEFINITELY" Kind="KIND_MODIFIER"/>
+		<Replace Type="ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE" Kind="KIND_ABILITY"/>
+		<Replace Type="ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS" Kind="KIND_ABILITY"/>
+		<Replace Type="ABILITY_SOFT_TARGETS_ATTACKING_UNITS" Kind="KIND_ABILITY"/>
+	</Types>
+	<TypeTags>
+		<Replace Type="ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE" Tag="CLASS_ALL_COMBAT_UNITS"/>
+		<Replace Type="ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS" Tag="CLASS_ALL_COMBAT_UNITS"/>
+		<Replace Type="ABILITY_SOFT_TARGETS_ATTACKING_UNITS" Tag="CLASS_ALL_COMBAT_UNITS"/>
+	</TypeTags>
+	<DynamicModifiers>
+		<Replace>
+			<ModifierType>MODIFIER_PLAYER_ADJUST_NEUTRALIZE_INDEFINITELY</ModifierType>
+			<CollectionType>COLLECTION_OWNER</CollectionType>
+			<EffectType>EFFECT_ADJUST_NEUTRALIZE_INDEFINITELY</EffectType>
+		</Replace>
+	</DynamicModifiers>
+	<Policies>
+		<!-- Dark Age Social Policies -->
+		<Replace PolicyType="POLICY_DECENTRALIZATION" Name="LOC_POLICY_DECENTRALIZATION_NAME" Description="LOC_POLICY_DECENTRALIZATION_DESCRIPTION" GovernmentSlotType="SLOT_WILDCARD"/>
+		<Replace PolicyType="POLICY_SOFT_TARGETS" Name="LOC_POLICY_SOFT_TARGETS_NAME" Description="LOC_POLICY_SOFT_TARGETS_DESCRIPTION" GovernmentSlotType="SLOT_WILDCARD"/>
+		<Replace PolicyType="POLICY_DESPOTIC_PATERNALISM" Name="LOC_POLICY_DESPOTIC_PATERNALISM_NAME" Description="LOC_POLICY_DESPOTIC_PATERNALISM_DESCRIPTION" GovernmentSlotType="SLOT_WILDCARD"/>
+		<Replace PolicyType="POLICY_SAMODERZHAVIYE" Name="LOC_POLICY_SAMODERZHAVIYE_NAME" Description="LOC_POLICY_SAMODERZHAVIYE_DESCRIPTION" GovernmentSlotType="SLOT_WILDCARD"/>
+	</Policies>
+	<Policies_XP1>
+		<Replace PolicyType="POLICY_DECENTRALIZATION" MinimumGameEra="ERA_CLASSICAL" MaximumGameEra="ERA_RENAISSANCE" RequiresDarkAge="true"/>
+		<Replace PolicyType="POLICY_SAMODERZHAVIYE" MinimumGameEra="ERA_RENAISSANCE" MaximumGameEra="ERA_MODERN" RequiresDarkAge="true"/>
+		<Replace PolicyType="POLICY_SOFT_TARGETS" MinimumGameEra="ERA_INDUSTRIAL" MaximumGameEra="ERA_MODERN" RequiresDarkAge="true"/>
+		<Replace PolicyType="POLICY_DESPOTIC_PATERNALISM" MinimumGameEra="ERA_INDUSTRIAL" MaximumGameEra="ERA_ATOMIC" RequiresDarkAge="true"/>
+	</Policies_XP1>
+	<UnitAbilities>
+		<Replace UnitAbilityType="ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE" Name="LOC_ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE_NAME" Description="LOC_ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE_DESCRIPTION" Inactive="true"/>
+		<Replace UnitAbilityType="ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS" Name="LOC_ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS_NAME" Description="LOC_ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS_DESCRIPTION" Inactive="true"/>
+		<Replace UnitAbilityType="ABILITY_SOFT_TARGETS_ATTACKING_UNITS" Name="LOC_ABILITY_SOFT_TARGETS_ATTACKING_UNITS_NAME" Description="LOC_ABILITY_SOFT_TARGETS_ATTACKING_UNITS_DESCRIPTION" Inactive="true"/>
+	</UnitAbilities>
+	<UnitAbilityModifiers>
+		<Replace UnitAbilityType="ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE" ModifierId="SOFTTARGETS_COMBAT_STENGTH_DEFENDING_CITIES"/>
+		<Replace UnitAbilityType="ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS" ModifierId="SOFTTARGETS_COMBAT_STENGTH_ATTACKING_DISTRICTS"/>
+		<Replace UnitAbilityType="ABILITY_SOFT_TARGETS_ATTACKING_UNITS" ModifierId="SOFTTARGETS_COMBAT_STENGTH_ATTACKING_UNITS"/>
+	</UnitAbilityModifiers>
+	<PolicyModifiers>
+		<!-- Dark Age Social Policies -->
+		<Replace PolicyType="POLICY_DECENTRALIZATION" ModifierId="DECENTRALIZATION_LOWPOP_LOYALTY"/>
+		<Replace PolicyType="POLICY_DECENTRALIZATION" ModifierId="DECENTRALIZATION_HIGHPOP_GOLD"/>
+		<Replace PolicyType="POLICY_SOFT_TARGETS" ModifierId="SOFT_TARGETS_DEFENDING_CITY_RANGE"/>
+		<Replace PolicyType="POLICY_SOFT_TARGETS" ModifierId="SOFT_TARGETS_ATTACKING_DISTRICTS"/>
+		<Replace PolicyType="POLICY_SOFT_TARGETS" ModifierId="SOFT_TARGETS_ATTACKING_UNITS"/>
+		<Replace PolicyType="POLICY_DESPOTIC_PATERNALISM" ModifierId="DESPOTIC_PATERNALISM_LOYALTY"/>
+		<Replace PolicyType="POLICY_DESPOTIC_PATERNALISM" ModifierId="DESPOTIC_PATERNALISM_SCIENCE"/>
+		<Replace PolicyType="POLICY_DESPOTIC_PATERNALISM" ModifierId="DESPOTIC_PATERNALISM_CULTURE"/>
+		<Replace PolicyType="POLICY_SAMODERZHAVIYE" ModifierId="SAMODERZHAVIYE_CAPITAL_PRODUCTION"/>
+		<Replace PolicyType="POLICY_SAMODERZHAVIYE" ModifierId="SAMODERZHAVIYE_GOVERNOR_NEUTRALIZE"/>
+	</PolicyModifiers>
+	<Modifiers>
+		<Replace>
+			<ModifierId>DECENTRALIZATION_LOWPOP_LOYALTY</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_CITIES_ADJUST_IDENTITY_PER_TURN</ModifierType>
+			<SubjectRequirementSetId>CITY_HAS_6_OR_LESS_POP_REQUIREMENTS</SubjectRequirementSetId>
+		</Replace>
+		<Replace>
+			<ModifierId>DECENTRALIZATION_HIGHPOP_GOLD</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER</ModifierType>
+			<SubjectRequirementSetId>CITY_HAS_7_OR_MORE_POP_REQUIREMENTS</SubjectRequirementSetId>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFT_TARGETS_DEFENDING_CITY_RANGE</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_UNITS_GRANT_ABILITY</ModifierType>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFT_TARGETS_ATTACKING_DISTRICTS</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_UNITS_GRANT_ABILITY</ModifierType>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFT_TARGETS_ATTACKING_UNITS</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_UNITS_GRANT_ABILITY</ModifierType>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFTTARGETS_COMBAT_STENGTH_DEFENDING_CITIES</ModifierId>
+			<ModifierType>MODIFIER_UNIT_ADJUST_COMBAT_STRENGTH</ModifierType>
+			<SubjectRequirementSetId>EMPLACEMENT_REQUIREMENTS</SubjectRequirementSetId>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFTTARGETS_COMBAT_STENGTH_ATTACKING_DISTRICTS</ModifierId>
+			<ModifierType>MODIFIER_UNIT_ADJUST_COMBAT_STRENGTH</ModifierType>
+			<SubjectRequirementSetId>SHELLS_REQUIREMENTS</SubjectRequirementSetId>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFTTARGETS_COMBAT_STENGTH_ATTACKING_UNITS</ModifierId>
+			<ModifierType>MODIFIER_UNIT_ADJUST_COMBAT_STRENGTH</ModifierType>
+			<SubjectRequirementSetId>ATTACK_AGAINST_UNITS_REQUIREMENTS</SubjectRequirementSetId>
+		</Replace>
+		<Replace>
+			<ModifierId>DESPOTIC_PATERNALISM_LOYALTY</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_CITIES_ADJUST_IDENTITY_PER_TURN</ModifierType>
+			<SubjectRequirementSetId>CITY_HAS_ASSIGNED_GOVERNOR</SubjectRequirementSetId>
+		</Replace>
+		<Replace>
+			<ModifierId>DESPOTIC_PATERNALISM_SCIENCE</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER</ModifierType>
+			<SubjectRequirementSetId>CITY_HAS_NO_GOVERNOR_REQUIREMENTS</SubjectRequirementSetId>
+		</Replace>
+		<Replace>
+			<ModifierId>DESPOTIC_PATERNALISM_CULTURE</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER</ModifierType>
+			<SubjectRequirementSetId>CITY_HAS_NO_GOVERNOR_REQUIREMENTS</SubjectRequirementSetId>
+		</Replace>
+		<Replace>
+			<ModifierId>SAMODERZHAVIYE_CAPITAL_PRODUCTION</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER</ModifierType>
+			<SubjectRequirementSetId>BUILDING_IS_PALACE</SubjectRequirementSetId>
+		</Replace>
+		<Replace>
+			<ModifierId>SAMODERZHAVIYE_GOVERNOR_NEUTRALIZE</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_ADJUST_NEUTRALIZE_INDEFINITELY</ModifierType>
+		</Replace>
+	</Modifiers>
+	<ModifierArguments>
+		<Replace>
+			<ModifierId>DECENTRALIZATION_LOWPOP_LOYALTY</ModifierId>
+			<Name>Amount</Name>
+			<Value>4</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>DECENTRALIZATION_HIGHPOP_GOLD</ModifierId>
+			<Name>YieldType</Name>
+			<Value>YIELD_GOLD</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>DECENTRALIZATION_HIGHPOP_GOLD</ModifierId>
+			<Name>Amount</Name>
+			<Value>-15</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFT_TARGETS_DEFENDING_CITY_RANGE</ModifierId>
+			<Name>AbilityType</Name>
+			<Value>ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFT_TARGETS_ATTACKING_DISTRICTS</ModifierId>
+			<Name>AbilityType</Name>
+			<Value>ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFT_TARGETS_ATTACKING_UNITS</ModifierId>
+			<Name>AbilityType</Name>
+			<Value>ABILITY_SOFT_TARGETS_ATTACKING_UNITS</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFTTARGETS_COMBAT_STENGTH_DEFENDING_CITIES</ModifierId>
+			<Name>Amount</Name>
+			<Value>10</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFTTARGETS_COMBAT_STENGTH_ATTACKING_DISTRICTS</ModifierId>
+			<Name>Amount</Name>
+			<Value>10</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>SOFTTARGETS_COMBAT_STENGTH_ATTACKING_UNITS</ModifierId>
+			<Name>Amount</Name>
+			<Value>-3</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>DESPOTIC_PATERNALISM_LOYALTY</ModifierId>
+			<Name>Amount</Name>
+			<Value>4</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>DESPOTIC_PATERNALISM_SCIENCE</ModifierId>
+			<Name>YieldType</Name>
+			<Value>YIELD_SCIENCE</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>DESPOTIC_PATERNALISM_SCIENCE</ModifierId>
+			<Name>Amount</Name>
+			<Value>-15</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>DESPOTIC_PATERNALISM_CULTURE</ModifierId>
+			<Name>YieldType</Name>
+			<Value>YIELD_CULTURE</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>DESPOTIC_PATERNALISM_CULTURE</ModifierId>
+			<Name>Amount</Name>
+			<Value>-15</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>SAMODERZHAVIYE_CAPITAL_PRODUCTION</ModifierId>
+			<Name>YieldType</Name>
+			<Value>YIELD_PRODUCTION</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>SAMODERZHAVIYE_CAPITAL_PRODUCTION</ModifierId>
+			<Name>Amount</Name>
+			<Value>50</Value>
+		</Replace>
+		<Replace>
+			<ModifierId>SAMODERZHAVIYE_GOVERNOR_NEUTRALIZE</ModifierId>
+			<Name>Neutralize</Name>
+			<Value>true</Value>
+		</Replace>
+	</ModifierArguments>
+	<ModifierStrings>
+		<Replace ModifierId="SOFTTARGETS_COMBAT_STENGTH_DEFENDING_CITIES" Context="Preview" Text="LOC_ABILITY_ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE_COMPLEX_COMBAT_STRENGTH_PREVIEW_DESCRIPTION"/>
+		<Replace ModifierId="SOFTTARGETS_COMBAT_STENGTH_ATTACKING_DISTRICTS" Context="Preview" Text="LOC_ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS_COMBAT_STRENGTH_PREVIEW_DESCRIPTION"/>
+		<Replace ModifierId="SOFTTARGETS_COMBAT_STENGTH_ATTACKING_UNITS" Context="Preview" Text="LOC_ABILITY_SOFT_TARGETS_ATTACKING_UNITS_COMBAT_STRENGTH_PREVIEW_DESCRIPTION"/>
+	</ModifierStrings>
+	<RequirementSets>
+		<Replace>
+			<RequirementSetId>UNIT_IS_RELIGIOUS_ALL_DRAMATIC_AGES</RequirementSetId>
+			<RequirementSetType>REQUIREMENTSET_TEST_ALL</RequirementSetType>
+		</Replace>
+		<Replace>
+			<RequirementSetId>UNIT_IS_SETTLER</RequirementSetId>
+			<RequirementSetType>REQUIREMENTSET_TEST_ALL</RequirementSetType>
+		</Replace>
+		<Replace>
+			<RequirementSetId>CITY_IS_PRODUCING_PROJECT</RequirementSetId>
+			<RequirementSetType>REQUIREMENTSET_TEST_ALL</RequirementSetType>
+		</Replace>
+		<Replace>
+			<RequirementSetId>CITY_HAS_AERODROME_OR_SPACEPORT</RequirementSetId>
+			<RequirementSetType>REQUIREMENTSET_TEST_ANY</RequirementSetType>
+		</Replace>
+		<Replace>
+			<RequirementSetId>NOT_CITY_HAS_HOLY_SITE</RequirementSetId>
+			<RequirementSetType>REQUIREMENTSET_TEST_ANY</RequirementSetType>
+		</Replace>
+		<Replace>
+			<RequirementSetId>BUILDING_IS_BANK_OR_SHIPYARD</RequirementSetId>
+			<RequirementSetType>REQUIREMENTSET_TEST_ANY</RequirementSetType>
+		</Replace>
+		<Replace>
+			<RequirementSetId>CITY_HAS_6_OR_LESS_POP_REQUIREMENTS</RequirementSetId>
+			<RequirementSetType>REQUIREMENTSET_TEST_ANY</RequirementSetType>
+		</Replace>
+		<Replace>
+			<RequirementSetId>CITY_HAS_7_OR_MORE_POP_REQUIREMENTS</RequirementSetId>
+			<RequirementSetType>REQUIREMENTSET_TEST_ALL</RequirementSetType>
+		</Replace>
+		<Replace>
+			<RequirementSetId>ATTACK_AGAINST_UNITS_REQUIREMENTS</RequirementSetId>
+			<RequirementSetType>REQUIREMENTSET_TEST_ALL</RequirementSetType>
+		</Replace>
+	</RequirementSets>
+	<RequirementSetRequirements>
+		<Replace>
+			<RequirementSetId>UNIT_IS_RELIGIOUS_ALL_DRAMATIC_AGES</RequirementSetId>
+			<RequirementId>REQUIRES_UNIT_IS_RELIGIOUS_ALL</RequirementId>
+		</Replace>
+		<Replace>
+			<RequirementSetId>UNIT_IS_SETTLER</RequirementSetId>
+			<RequirementId>REQUIRES_UNIT_IS_SETTLER</RequirementId>
+		</Replace>
+		<Replace>
+			<RequirementSetId>CITY_HAS_AERODROME_OR_SPACEPORT</RequirementSetId>
+			<RequirementId>REQUIRES_CITY_HAS_AERODROME</RequirementId>
+		</Replace>
+		<Replace>
+			<RequirementSetId>CITY_IS_PRODUCING_PROJECT</RequirementSetId>
+			<RequirementId>REQUIRES_CITY_IS_PRODUCING_PROJECT</RequirementId>
+		</Replace>
+		<Replace>
+			<RequirementSetId>CITY_HAS_AERODROME_OR_SPACEPORT</RequirementSetId>
+			<RequirementId>REQUIRES_CITY_HAS_SPACEPORT</RequirementId>
+		</Replace>
+		<Replace>
+			<RequirementSetId>NOT_CITY_HAS_HOLY_SITE</RequirementSetId>
+			<RequirementId>REQUIRES_CITY_HAS_NO_HOLY_SITE</RequirementId>
+		</Replace>
+		<Replace>
+			<RequirementSetId>BUILDING_IS_BANK_OR_SHIPYARD</RequirementSetId>
+			<RequirementId>REQUIRES_CITY_HAS_BANK_DRAMATIC</RequirementId>
+		</Replace>
+		<Replace>
+			<RequirementSetId>BUILDING_IS_BANK_OR_SHIPYARD</RequirementSetId>
+			<RequirementId>REQUIRES_CITY_HAS_SHIPYARD_DRAMATIC</RequirementId>
+		</Replace>
+		<Replace>
+			<RequirementSetId>CITY_HAS_6_OR_LESS_POP_REQUIREMENTS</RequirementSetId>
+			<RequirementId>REQUIRES_CITY_HAS_7_POP_INVERSE</RequirementId>
+		</Replace>
+		<Replace>
+			<RequirementSetId>CITY_HAS_7_OR_MORE_POP_REQUIREMENTS</RequirementSetId>
+			<RequirementId>REQUIRES_CITY_HAS_7_POP</RequirementId>
+		</Replace>
+		<Replace>
+			<RequirementSetId>ATTACK_AGAINST_UNITS_REQUIREMENTS</RequirementSetId>
+			<RequirementId>COMBAT_IS_NOT_DISTRICT</RequirementId>
+		</Replace>
+	</RequirementSetRequirements>
+	<Requirements>
+		<Replace>
+			<RequirementId>REQUIRES_UNIT_IS_SETTLER</RequirementId>
+			<RequirementType>REQUIREMENT_UNIT_TYPE_MATCHES</RequirementType>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_AERODROME</RequirementId>
+			<RequirementType>REQUIREMENT_CITY_HAS_DISTRICT</RequirementType>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_IS_PRODUCING_PROJECT</RequirementId>
+			<RequirementType>REQUIREMENT_CITY_IS_PRODUCING_PROJECT</RequirementType>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_NO_HOLY_SITE</RequirementId>
+			<RequirementType>REQUIREMENT_CITY_HAS_DISTRICT</RequirementType>
+			<Inverse>true</Inverse>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_BANK_DRAMATIC</RequirementId>
+			<RequirementType>REQUIREMENT_CITY_HAS_BUILDING</RequirementType>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_SHIPYARD_DRAMATIC</RequirementId>
+			<RequirementType>REQUIREMENT_CITY_HAS_BUILDING</RequirementType>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_7_POP_INVERSE</RequirementId>
+			<RequirementType>REQUIREMENT_CITY_HAS_X_POPULATION</RequirementType>
+			<Inverse>true</Inverse>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_7_POP</RequirementId>
+			<RequirementType>REQUIREMENT_CITY_HAS_X_POPULATION</RequirementType>
+		</Replace>
+		<Replace>
+			<RequirementId>COMBAT_IS_NOT_DISTRICT</RequirementId>
+			<RequirementType>REQUIREMENT_OPPONENT_IS_DISTRICT</RequirementType>
+			<Inverse>true</Inverse>
+		</Replace>
+	</Requirements>
+	<RequirementArguments>
+		<Replace>
+			<RequirementId>REQUIRES_UNIT_IS_SETTLER</RequirementId>
+			<Name>UnitType</Name>
+			<Value>UNIT_SETTLER</Value>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_AERODROME</RequirementId>
+			<Name>DistrictType</Name>
+			<Value>DISTRICT_AERODROME</Value>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_NO_HOLY_SITE</RequirementId>
+			<Name>DistrictType</Name>
+			<Value>DISTRICT_HOLY_SITE</Value>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_BANK_DRAMATIC</RequirementId>
+			<Name>BuildingType</Name>
+			<Value>BUILDING_BANK</Value>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_SHIPYARD_DRAMATIC</RequirementId>
+			<Name>BuildingType</Name>
+			<Value>BUILDING_SHIPYARD</Value>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_7_POP_INVERSE</RequirementId>
+			<Name>Amount</Name>
+			<Value>7</Value>
+		</Replace>
+		<Replace>
+			<RequirementId>REQUIRES_CITY_HAS_7_POP</RequirementId>
+			<Name>Amount</Name>
+			<Value>7</Value>
+		</Replace>
+	</RequirementArguments>
+
+</GameInfo>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="d2a7e909-410b-4999-4a44-61f3652896b0" version="1">
+  <Properties>
+    <Name>[COLOR:Civ6Yellow]城市限制3环[ENDCOLOR]</Name>
+    <Description>玩家和AI的城市无法获得三环外单元格</Description>
+    <Created>1745481858</Created>
+    <Teaser>玩家和AI的城市无法获得三环外单元格</Teaser>
+    <Authors>千川白浪</Authors>
+    <CompatibleVersions>1.2,2.0</CompatibleVersions>
+  </Properties>
+  <InGameActions>
+    <AddGameplayScripts id="NewAction">
+      <Properties>
+        <LoadOrder>500</LoadOrder>
+      </Properties>
+      <File>CityTileOwner.lua</File>
+    </AddGameplayScripts>
+  </InGameActions>
+  <Files>
+    <File>CityTileOwner.lua</File>
+  </Files>
+</Mod>

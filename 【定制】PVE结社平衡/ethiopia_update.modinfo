@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="1076C1D9-B7BD-A991-293A-DF5338899000" version="1.1">
+  <Properties>
+    <Name>LOC_MOD_PVESAB_NAME</Name>
+    <Description>LOC_MOD_PVESAB_DES</Description>
+    <Authors>千川白浪</Authors>
+    <CompatibleVersions>2.0</CompatibleVersions>
+  </Properties>
+  <ActionCriteria>
+    <Criteria id="Ethiopia_Mode_Expansion1">
+      <RuleSetInUse>RULESET_EXPANSION_1</RuleSetInUse>
+      <ConfigurationValueMatches>
+        <Group>Game</Group>
+        <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+    <Criteria id="Ethiopia_Mode_Expansion2">
+      <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+      <ConfigurationValueMatches>
+        <Group>Game</Group>
+        <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+  </ActionCriteria>
+  <FrontEndActions>
+    <UpdateDatabase id="UpdateDatabase">
+      <Properties>
+        <LoadOrder>9999</LoadOrder>
+      </Properties>
+      <File>Config.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="TextEthiopiaMOD">
+       <Properties>
+        <LoadOrder>1000</LoadOrder>
+       </Properties>
+      <File>ethiopia_update_text.sql</File>
+    </UpdateText>
+  </FrontEndActions>
+  <InGameActions>
+    <UpdateDatabase id="GamePlayEthiopia" criteria="Ethiopia_Mode_Expansion1">
+      <Properties>
+        <LoadOrder>1000</LoadOrder>
+      </Properties>
+      <File>ethiopia_update.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="TextEthiopia" criteria="Ethiopia_Mode_Expansion1">
+       <Properties>
+        <LoadOrder>1000</LoadOrder>
+       </Properties>
+      <File>ethiopia_update_text.sql</File>
+    </UpdateText>
+    <UpdateDatabase id="GamePlayEthiopia" criteria="Ethiopia_Mode_Expansion2">
+      <Properties>
+        <LoadOrder>1000</LoadOrder>
+      </Properties>
+      <File>ethiopia_update.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="TextEthiopia" criteria="Ethiopia_Mode_Expansion2">
+       <Properties>
+        <LoadOrder>1000</LoadOrder>
+       </Properties>
+      <File>ethiopia_update_text.sql</File>
+    </UpdateText>
+
+
+    <UpdateDatabase id="Team_PVP_More_GreatPeople">
+      <Properties>
+        <LoadOrder>12000</LoadOrder>
+      </Properties>
+      <File>Team_PVP_More_GreatPeople/Database/TPMG_Merchant.sql</File>
+      <File>Team_PVP_More_GreatPeople/Database/TPMG_Science.sql</File>
+      <File>Team_PVP_More_GreatPeople/Database/TPMG_General.sql</File>
+      <File>Team_PVP_More_GreatPeople/Database/TPMG_Engineer.sql</File>
+      <File>Team_PVP_More_GreatPeople/Database/TPMG_Writer.sql</File>
+      <File>Team_PVP_More_GreatPeople/Database/TPMG_Musician.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="Team_PVP_More_GreatPeople_TT">
+      <Properties>
+        <LoadOrder>16000</LoadOrder>
+      </Properties>
+      <File>Team_PVP_More_GreatPeople/Text/Team_PVP_More_GreatPeople_Text.xml</File>
+    </UpdateText>
+    <AddGameplayScripts id="Team_PVP_More_GreatPeople_Script">
+      <File>Team_PVP_More_GreatPeople/GamePlay/Team_PVP_More_GreatPeople_Gameplay.lua</File>
+    </AddGameplayScripts>
+    <AddUserInterfaces id="Team_PVP_More_GreatPeople_UIScript">
+      <Properties>
+        <Context>InGame</Context>
+        <LoadOrder>10</LoadOrder>
+      </Properties>
+      <File>Team_PVP_More_GreatPeople/UI/Team_PVP_More_GreatPeople_UIRequest.xml</File>
+    </AddUserInterfaces>
+    <ImportFiles id="Team_PVP_More_GreatPeople_Import">
+      <File>Team_PVP_More_GreatPeople/Import/SardinianPath.lua</File>
+    </ImportFiles>
+  </InGameActions>
+  <Files>
+    <File>Config.sql</File>
+    <File>ethiopia_update.sql</File>
+    <File>ethiopia_update_text.sql</File>
+
+    <File>Team_PVP_More_GreatPeople/Database/TPMG_Engineer.sql</File>
+    <File>Team_PVP_More_GreatPeople/Database/TPMG_General.sql</File>
+    <File>Team_PVP_More_GreatPeople/Database/TPMG_Merchant.sql</File>
+    <File>Team_PVP_More_GreatPeople/Database/TPMG_Musician.sql</File>
+    <File>Team_PVP_More_GreatPeople/Database/TPMG_Science.sql</File>
+    <File>Team_PVP_More_GreatPeople/Database/TPMG_Writer.sql</File>
+    <File>Team_PVP_More_GreatPeople/GamePlay/Team_PVP_More_GreatPeople_Gameplay.lua</File>
+    <File>Team_PVP_More_GreatPeople/Import/SardinianPath.lua</File>
+    <File>Team_PVP_More_GreatPeople/Text/Team_PVP_More_GreatPeople_Text.xml</File>
+    <File>Team_PVP_More_GreatPeople/Text/Team_PVP_More_GreatPeople_Text_HD_SUPPORT.xml</File>
+    <File>Team_PVP_More_GreatPeople/UI/Team_PVP_More_GreatPeople_UIRequest.lua</File>
+    <File>Team_PVP_More_GreatPeople/UI/Team_PVP_More_GreatPeople_UIRequest.xml</File>
+  </Files>
+  <LocalizedText>
+    <Text id="LOC_MOD_PVESAB_NAME">
+      <zh_Hans_CN>[COLOR_FLOAT_GOLD]PVE秘密结社平衡[ENDCOLOR]</zh_Hans_CN>
+      <en_US>[COLOR_FLOAT_GOLD]PVE Secret Societies Balance[ENDCOLOR]</en_US>
+    </Text>
+    <Text id="LOC_MOD_PVESAB_DES">
+      <zh_Hans_CN>·每次触发随机解锁多个结社 结社总督可以提前解锁[NEWLINE]
+·地脉变多 可以修建矿山 可以移除和覆盖但是提供的加成会消失[NEWLINE]
+·直接显示地脉 所有文明都可以享受地脉加成[NEWLINE]
+·解锁黄金黎明 每回合送1点科学家、商人、作家伟人点数[NEWLINE]
+·黄金黎明二级总督 每回合再送5点科学家、商人、作家伟人点数[NEWLINE]
+·黄金黎明特殊项目所需要的生产力略微减少[NEWLINE]
+
+·解锁夜莺送3个使者 贸易路线提供的使者为2[NEWLINE]
+·夜莺最高等级的效果翻倍 国库利息为5% 镀金宝库提供4点生产力
+
+·吸血鬼移速为3 为近战单位可以升级[NEWLINE]
+·吸血鬼城堡上限+1 提供4点住房 二级总督解锁[NEWLINE]
+·虚空3级: 多一个通配槽[NEWLINE]
+·虚空4级: 虚空之音遍及四方（每被解锁一次效果都可以叠加）：所有文明魅力为惊艳的单元格将产出1点 [ICON_Faith] 信仰[NEWLINE]
+·其他定制性改动</zh_Hans_CN>
+      <en_US>[NEWLINE]Multiple associations can be unlocked at random each time, and the association governor can unlock them in advance.
+  [NEWLINE]More layline and mines can be built on it.Layline can be removed and covered, but the bonus provided will disappear.
+  [NEWLINE]Directly display the layline. All civilizations can enjoy the layline bonus.
+  [NEWLINE]Unlock Hermetic order gain 1 points for scientists, businessmen and writers each round.
+  [NEWLINE]The second governor of Hermetic order will give another 5 points for scientists, businessmen and writers each round.
+  [NEWLINE]The productivity required for the Hermetic order special project is slightly reduced.
+  [NEWLINE]Unlock Owls of minerva gain 3 envoys. The envoys provided by the trade route are 2.
+  [NEWLINE]Vampire movement speed is 3. It is a melee unit and can be upgraded.
+  [NEWLINE]Vampire castle upper limit + 1 provides 4 points of housing. Level 2 governor unlocks it.
+  [NEWLINE]Level 3:Voidsingers earn 1 Wildcard policy slot.
+  [NEWLINE]Level 4:The sound of void spreads everywhere (can be superimposed):All civilizations +1 [ICON_Faith] faith to cells with breathtaking appeal.
+  [NEWLINE]The effect of Owls of minervas's highest level is doubles.Treasury interest is 5%.Characteristic architecture provides 4 points of productivity.</en_US>
+    </Text>
+  </LocalizedText>
+</Mod>

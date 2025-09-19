@@ -1,0 +1,133 @@
+<GameInfo>
+	<Types>
+		<Row Type="RANDOM_EVENT_SOLAR_FLARE_MINOR"     Kind="KIND_RANDOM_EVENT"/>
+		<Row Type="RANDOM_EVENT_SOLAR_FLARE_MAJOR"     Kind="KIND_RANDOM_EVENT"/>
+	</Types>
+	
+	<RandomEvents>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" Global="true" Name="LOC_RANDOM_EVENT_SOLAR_FLARE_NAME" Description="LOC_RANDOM_EVENT_SOLAR_FLARE_DESCRIPTION" EffectString="LOC_RANDOM_EVENT_SOLAR_FLARE_EFFECT_DESCRIPTION" EffectOperatorType="SOLAR_FLARE" Severity="1" IconLarge="ClimateEvent_SolarFlare" IconSmall="ClimateEventStat_SolarFlare"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" Global="true" Name="LOC_RANDOM_EVENT_SOLAR_FLARE_NAME" Description="LOC_RANDOM_EVENT_SOLAR_FLARE_DESCRIPTION" EffectString="LOC_RANDOM_EVENT_SOLAR_FLARE_EFFECT_DESCRIPTION" EffectOperatorType="SOLAR_FLARE" Severity="1" IconLarge="ClimateEvent_SolarFlare" IconSmall="ClimateEventStat_SolarFlare"/>
+	</RandomEvents>
+    
+	<RandomEvent_Notifications>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" NotificationType="NOTIFICATION_SOLAR_FLARE" Title="LOC_SOLAR_FLARE_HAPPENED" Summary="LOC_SOLAR_FLARE_HAPPENED_DESC" />
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" NotificationType="NOTIFICATION_SOLAR_FLARE" Title="LOC_SOLAR_FLARE_HAPPENED" Summary="LOC_SOLAR_FLARE_HAPPENED_DESC" />
+	</RandomEvent_Notifications>
+	
+	<RandomEvent_Frequencies>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR"     RealismSettingType="REALISM_SETTING_MINIMAL" OccurrencesPerGame="2"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR"     RealismSettingType="REALISM_SETTING_MINIMAL" OccurrencesPerGame="0"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR"     RealismSettingType="REALISM_SETTING_LIGHT" OccurrencesPerGame="2"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR"     RealismSettingType="REALISM_SETTING_LIGHT" OccurrencesPerGame="1"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR"     RealismSettingType="REALISM_SETTING_MODERATE" OccurrencesPerGame="2"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR"     RealismSettingType="REALISM_SETTING_MODERATE" OccurrencesPerGame="2"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR"     RealismSettingType="REALISM_SETTING_HEAVY" OccurrencesPerGame="2"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR"     RealismSettingType="REALISM_SETTING_HEAVY" OccurrencesPerGame="4"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR"     RealismSettingType="REALISM_SETTING_HYPERREAL" OccurrencesPerGame="0"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR"     RealismSettingType="REALISM_SETTING_HYPERREAL" OccurrencesPerGame="6"/>
+	</RandomEvent_Frequencies>
+  
+	<RandomEvent_Damages>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" DamageType="SPECIFIC_UNIT_DAMAGED" Percentage="35" MinHP="25" MaxHP="75"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" DamageType="SPECIFIC_DISTRICT_PILLAGED" Percentage="25"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" DamageType="SPECIFIC_BUILDING_PILLAGED" Percentage="25"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" DamageType="SPECIFIC_IMPROVEMENT_DESTROYED" Percentage="15"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" DamageType="SPECIFIC_IMPROVEMENT_PILLAGED" Percentage="35"/>
+		
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" DamageType="SPECIFIC_UNIT_DAMAGED" Percentage="70" MinHP="25" MaxHP="75"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" DamageType="SPECIFIC_DISTRICT_PILLAGED" Percentage="50"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" DamageType="SPECIFIC_BUILDING_PILLAGED" Percentage="50"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" DamageType="SPECIFIC_IMPROVEMENT_DESTROYED" Percentage="30"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" DamageType="SPECIFIC_IMPROVEMENT_PILLAGED" Percentage="70"/>
+		
+	</RandomEvent_Damages>
+	
+	<RandomEvent_PillagedImprovements>
+	
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" ImprovementType="IMPROVEMENT_SOLAR_FARM"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" ImprovementType="IMPROVEMENT_WIND_FARM"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" ImprovementType="IMPROVEMENT_OFFSHORE_WIND_FARM"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" ImprovementType="IMPROVEMENT_SEASTEAD"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" ImprovementType="IMPROVEMENT_GEOTHERMAL_PLANT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" ImprovementType="IMPROVEMENT_OIL_WELL"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" ImprovementType="IMPROVEMENT_OFFSHORE_OIL_RIG"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" ImprovementType="IMPROVEMENT_MISSILE_SILO"/>
+		
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" ImprovementType="IMPROVEMENT_SOLAR_FARM"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" ImprovementType="IMPROVEMENT_WIND_FARM"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" ImprovementType="IMPROVEMENT_OFFSHORE_WIND_FARM"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" ImprovementType="IMPROVEMENT_SEASTEAD"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" ImprovementType="IMPROVEMENT_GEOTHERMAL_PLANT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" ImprovementType="IMPROVEMENT_OIL_WELL"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" ImprovementType="IMPROVEMENT_OFFSHORE_OIL_RIG"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" ImprovementType="IMPROVEMENT_MISSILE_SILO"/>
+	
+	</RandomEvent_PillagedImprovements>
+	
+	<RandomEvent_PillagedDistricts>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" DistrictType="DISTRICT_SPACEPORT"/>
+
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" DistrictType="DISTRICT_SPACEPORT"/>
+		
+	</RandomEvent_PillagedDistricts>
+  
+	<RandomEvent_PillagedBuildings>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" BuildingType="BUILDING_COAL_POWER_PLANT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" BuildingType="BUILDING_FOSSIL_FUEL_POWER_PLANT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" BuildingType="BUILDING_POWER_PLANT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" BuildingType="BUILDING_RESEARCH_LAB"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" BuildingType="BUILDING_BROADCAST_CENTER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" BuildingType="BUILDING_FILM_STUDIO"/>
+
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" BuildingType="BUILDING_COAL_POWER_PLANT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" BuildingType="BUILDING_FOSSIL_FUEL_POWER_PLANT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" BuildingType="BUILDING_POWER_PLANT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" BuildingType="BUILDING_RESEARCH_LAB"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" BuildingType="BUILDING_BROADCAST_CENTER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" BuildingType="BUILDING_FILM_STUDIO"/>
+	</RandomEvent_PillagedBuildings>
+  
+	<RandomEvent_DamagedUnits>
+	
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_GIANT_DEATH_ROBOT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_ROCK_BAND"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_AIRCRAFT_CARRIER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_DESTROYER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_MISSILE_CRUISER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_NUCLEAR_SUBMARINE"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_MECHANIZED_INFANTRY"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_MACHINE_GUN"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_HELICOPTER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_ROCKET_ARTILLERY"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_MODERN_ARMOR"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_JET_BOMBER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_JET_FIGHTER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_DRONE"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_MODERN_AT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" UnitType="UNIT_MOBILE_SAM"/>
+	
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_GIANT_DEATH_ROBOT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_ROCK_BAND"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_AIRCRAFT_CARRIER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_DESTROYER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_MISSILE_CRUISER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_NUCLEAR_SUBMARINE"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_MECHANIZED_INFANTRY"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_MACHINE_GUN"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_HELICOPTER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_ROCKET_ARTILLERY"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_MODERN_ARMOR"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_JET_BOMBER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_JET_FIGHTER"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_DRONE"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_MODERN_AT"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" UnitType="UNIT_MOBILE_SAM"/>
+
+	</RandomEvent_DamagedUnits>
+  
+	<RandomEvent_Presentation>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MINOR" Animation="REVEAL_FLOOD" Sound="Play_Disaster_SolarFlare_Movie_Loop" VFX="DISASTER_SOLAR_FLARE" ForceShowVFX="true"/>
+		<Row RandomEventType="RANDOM_EVENT_SOLAR_FLARE_MAJOR" Animation="REVEAL_FLOOD" Sound="Play_Disaster_SolarFlare_Movie_Loop" VFX="DISASTER_SOLAR_FLARE" ForceShowVFX="true"/>
+	</RandomEvent_Presentation>
+	
+</GameInfo>

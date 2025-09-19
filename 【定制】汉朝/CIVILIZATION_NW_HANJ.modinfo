@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="82dc00aa-a401-4399-bb64-5972ace10c7b" version="2">
+  <Properties>
+    <Name>LOC_CIVILIZATION_NW_HANJ_MOD_TITLE</Name>
+    <Description>LOC_CIVILIZATION_NW_HANJ_MOD_DESCRIPTION</Description>
+    <Created>1758163384</Created>
+    <Teaser>LOC_CIVILIZATION_NW_HANJ_MOD_TEASER</Teaser>
+    <Authors>LOC_CIVILIZATION_NW_HANJ_MOD_AUTHORS</Authors>
+    <CompatibleVersions>2.0</CompatibleVersions>
+  </Properties>
+  <References>
+    <Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall" />
+    <Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion: Gathering Storm" />
+  </References>
+  <ActionCriteria>
+    <Criteria id="CIVILIZATION_NW_HANJ">
+      <LeaderPlayable>Players:StandardPlayers::LEADER_NW_LIUXUN,StandardPlayers::LEADER_NW_LIUXUN,Players:Expansion1_Players::LEADER_NW_LIUXUN,Players:Expansion2_Players::LEADER_NW_LIUXUN</LeaderPlayable>
+      <RuleSetInUse>RULESET_STANDARD,RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="CIVILIZATION_NW_HANJ_Expansion1">
+      <LeaderPlayable>Players:Expansion1_Players::LEADER_NW_LIUXUN</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_1</RuleSetInUse>
+    </Criteria>
+    <Criteria id="CIVILIZATION_NW_HANJ_Expansion2">
+      <LeaderPlayable>Players:Expansion2_Players::LEADER_NW_LIUXUN</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="SecretSocieties">
+      <ConfigurationValueMatches>
+        <Group>Game</Group>
+        <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+  </ActionCriteria>
+  <FrontEndActions>
+    <UpdateDatabase id="CIVILIZATION_NW_HANJSettings">
+      <File>Data/CIVILIZATION_NW_HANJ_Config.sql</File>
+    </UpdateDatabase>
+    <UpdateArt id="CIVILIZATION_NW_HANJSettingsArt">
+      <File>CIVILIZATION_NW_HANJ.dep</File>
+    </UpdateArt>
+    <UpdateColors id="CIVILIZATION_NW_HANJColors">
+      <File>Data/CIVILIZATION_NW_HANJ_Colors.sql</File>
+    </UpdateColors>
+    <UpdateText id="CIVILIZATION_NW_HANJSettingsText">
+      <File>Text/CIVILIZATION_NW_HANJ_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="CIVILIZATION_NW_HANJSettingsIcons">
+      <File>Data/CIVILIZATION_NW_HANJ_Icons.xml</File>
+    </UpdateIcons>
+  </FrontEndActions>
+  <InGameActions>
+    <ImportFiles id="CIVILIZATION_NW_HANJ_ImportFiles">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ</Criteria>
+      <File>Import/NwflowerMODCore.lua</File>
+    </ImportFiles>
+    <UpdateArt id="CIVILIZATION_NW_HANJArt">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ</Criteria>
+      <File>CIVILIZATION_NW_HANJ.dep</File>
+    </UpdateArt>
+    <UpdateDatabase id="CIVILIZATION_NW_HANJGameplay">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ</Criteria>
+      <File>Data/CIVILIZATION_NW_HANJ_Buildings.sql</File>
+      <File>Data/CIVILIZATION_NW_HANJ_Civilizations.sql</File>
+      <File>Data/CIVILIZATION_NW_HANJ_Distrcits.sql</File>
+      <File>Data/CIVILIZATION_NW_HANJ_Improvement.sql</File>
+      <File>Data/CIVILIZATION_NW_HANJ_Leaders.sql</File>
+      <File>Data/CIVILIZATION_NW_HANJ_Modifier.sql</File>
+      <File>Data/CIVILIZATION_NW_HANJ_Units.sql</File>
+    </UpdateDatabase>
+    <UpdateColors id="CIVILIZATION_NW_HANJColors">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ</Criteria>
+      <File>Data/CIVILIZATION_NW_HANJ_Colors.sql</File>
+    </UpdateColors>
+    <UpdateDatabase id="CIVILIZATION_NW_HANJGameplay_XP1">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ_Expansion1</Criteria>
+      <File>Data/CIVILIZATION_NW_HANJ_Expansion1.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="CIVILIZATION_NW_HANJGameplay_XP2">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ_Expansion2</Criteria>
+      <File>Data/CIVILIZATION_NW_HANJ_Expansion2.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="CIVILIZATION_NW_HANJ_SecretSocieties_MODE">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>SecretSocieties</Criteria>
+      <File>Data/CIVILIZATION_NW_HANJ_SecretSocieties_MODE.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="CIVILIZATION_NW_HANJ_Text">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ</Criteria>
+      <File>Text/CIVILIZATION_NW_HANJ_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="CIVILIZATION_NW_HANJ_Icons">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ</Criteria>
+      <File>Data/CIVILIZATION_NW_HANJ_Icons.xml</File>
+    </UpdateIcons>
+    <UpdateLogitechARX id="CIVILIZATION_NW_HANJ_ARX">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ</Criteria>
+    </UpdateLogitechARX>
+    <UpdateAudio id="CIVILIZATION_NW_HANJ_Audio">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ</Criteria>
+      <File>Platforms/Windows/Audio/CIVILIZATION_NW_HANJ_Banks.ini</File>
+    </UpdateAudio>
+    <AddGameplayScripts id="CIVILIZATION_NW_HANJ_AddGameplayScripts">
+      <Properties>
+        <LoadOrder>50005</LoadOrder>
+      </Properties>
+      <Criteria>CIVILIZATION_NW_HANJ</Criteria>
+      <File>Script/CIVILIZATION_NW_HANJ_Script.lua</File>
+    </AddGameplayScripts>
+    <AddUserInterfaces id="CIVILIZATION_NW_HANJ_AddUserInterfaces">
+      <Properties>
+        <Context>InGame</Context>
+        <LoadOrder>500</LoadOrder>
+      </Properties>
+      <File>UI/UIScript.xml</File>
+    </AddUserInterfaces>
+  </InGameActions>
+  <LocalizedText>
+    <File>Text/CIVILIZATION_NW_HANJ_PackageText.xml</File>
+  </LocalizedText>
+  <Files>
+    <File>ArtDefs/Buildings.artdef</File>
+    <File>ArtDefs/Civilizations.artdef</File>
+    <File>ArtDefs/Cultures.artdef</File>
+    <File>ArtDefs/Districts.artdef</File>
+    <File>ArtDefs/FallbackLeaders.artdef</File>
+    <File>ArtDefs/Improvements.artdef</File>
+    <File>ArtDefs/Overlay.artdef</File>
+    <File>ArtDefs/StrategicView.artdef</File>
+    <File>ArtDefs/Units.artdef</File>
+    <File>CIVILIZATION_NW_HANJ.dep</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Buildings.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Civilizations.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Colors.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Config.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Distrcits.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Expansion1.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Expansion2.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Icons.xml</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Improvement.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Leaders.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Modifier.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_SecretSocieties_MODE.sql</File>
+    <File>Data/CIVILIZATION_NW_HANJ_Units.sql</File>
+    <File>Import/NwflowerMODCore.lua</File>
+    <File>Platforms/Windows/Audio/CIVILIZATION_NW_HANJ_Banks.ini</File>
+    <File>Platforms/Windows/BLPs/LeaderFallbacks.blp</File>
+    <File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Loyalty_Overlay_China</File>
+    <File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Loyalty_Pressure_China</File>
+    <File>Platforms/Windows/BLPs/strategicview/strategicview_uilenses.blp</File>
+    <File>Platforms/Windows/BLPs/UILensAssets.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Icons.blp</File>
+    <File>Platforms/Windows/BLPs/UI/PrideMoments.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Shell_Loading.blp</File>
+    <File>Platforms/Windows/BLPs/UI_LeaderScenes.blp</File>
+    <File>Script/CIVILIZATION_NW_HANJ_Script.lua</File>
+    <File>Text/CIVILIZATION_NW_HANJ_PackageText.xml</File>
+    <File>Text/CIVILIZATION_NW_HANJ_Text.xml</File>
+    <File>UI/UIScript.lua</File>
+    <File>UI/UIScript.xml</File>
+  </Files>
+</Mod>

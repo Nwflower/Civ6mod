@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<IconDefinitions>
+		<Row Name="ICON_UNIT_SCHOLAR"						Atlas="ICON_ATLAS_EXPANSION_2_UNITS" Index="16"/>
+		<Row Name="ICON_UNIT_SCHOLAR_PORTRAIT"					Atlas="ICON_ATLAS_EXPANSION_2_UNIT_PORTRAITS" Index="16"/>
+	</IconDefinitions>
+</GameInfo>

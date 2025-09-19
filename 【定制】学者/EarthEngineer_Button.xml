@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SCHOLAR_Button -->
+<Context>
+	<Grid ID="SCHOLARButtonGrid" Anchor="R,B" Size="auto,41" AutoSizePadding="6,0" Texture="SelectionPanel_ActionGroupSlot" ToolTip="LOC_UNIT_ACTION_GETBOOST_NAME" SliceCorner="5,19" SliceSize="1,1" SliceTextureSize="12,41" ConsumeMouse="1" Alpha="1" Hide="true">
+		<Button ID="SCHOLARButton" Anchor="C,B" Size="44,53" Texture="UnitPanel_ActionButton">
+			<Image ID="SCHOLARButtonIcon" Anchor="C,C" Offset="0,-2" Size="38,38" Icon="ICON_UNIT_SCHOLAR"/>
+		</Button>
+	</Grid>
+</Context>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: Liuche_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/9 21:08:06 -->
+<GameData>
+	<IconTextureAtlases>
+		<Row Filename="NwLiuche32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_NW_LIUCHE"/>
+		<Row Filename="NwLiuche45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_NW_LIUCHE"/>
+		<Row Filename="NwLiuche48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_NW_LIUCHE"/>
+		<Row Filename="NwLiuche50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_NW_LIUCHE"/>
+		<Row Filename="NwLiuche55" IconsPerColumn="1" IconsPerRow="1" IconSize="55" Name="ICON_ATLAS_NW_LIUCHE"/>
+		<Row Filename="NwLiuche64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_NW_LIUCHE"/>
+		<Row Filename="NwLiuche80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_NW_LIUCHE"/>
+		<Row Filename="NwLiuche256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_NW_LIUCHE"/>
+	</IconTextureAtlases>
+
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_LEADER_NW_LIUCHE_ALT" IconSize="32" Filename="NwLiucheAlt32"/>
+        <Row Name="ATLAS_ICON_LEADER_NW_LIUCHE_ALT" IconSize="45" Filename="NwLiucheAlt45"/>
+        <Row Name="ATLAS_ICON_LEADER_NW_LIUCHE_ALT" IconSize="48" Filename="NwLiucheAlt48"/>
+        <Row Name="ATLAS_ICON_LEADER_NW_LIUCHE_ALT" IconSize="50" Filename="NwLiucheAlt50"/>
+        <Row Name="ATLAS_ICON_LEADER_NW_LIUCHE_ALT" IconSize="55" Filename="NwLiucheAlt55"/>
+        <Row Name="ATLAS_ICON_LEADER_NW_LIUCHE_ALT" IconSize="64" Filename="NwLiucheAlt64"/>
+        <Row Name="ATLAS_ICON_LEADER_NW_LIUCHE_ALT" IconSize="80" Filename="NwLiucheAlt80"/>
+        <Row Name="ATLAS_ICON_LEADER_NW_LIUCHE_ALT" IconSize="256" Filename="NwLiucheAlt256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_LEADER_NW_LIUCHE_ALT" Atlas="ATLAS_ICON_LEADER_NW_LIUCHE_ALT" Index="0"/>
+    </IconDefinitions>
+	
+	<IconDefinitions>
+		<Row Name="ICON_LEADER_NW_LIUCHE" Atlas="ICON_ATLAS_NW_LIUCHE" Index="0"/>
+	</IconDefinitions>
+
+    <IconAliases>
+		<Row Name="ICON_CIVILIZATION_CIV_NW_HAN" OtherName="ICON_CIVILIZATION_CHINA"/>
+        <Row Name="ICON_UNIT_CAR_CALAVEY" OtherName="ICON_UNIT_BATTERING_RAM"/>
+        <Row Name="ICON_BUILDING_YAN_MARKET" OtherName="ICON_BUILDING_MARKET"/>
+    </IconAliases>
+</GameData>

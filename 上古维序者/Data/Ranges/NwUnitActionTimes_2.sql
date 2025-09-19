@@ -1,0 +1,1 @@
+UPDATE Units_MODE SET ActionCharges = 2 WHERE UnitType = 'UNIT_EARTH_ENGINEER';

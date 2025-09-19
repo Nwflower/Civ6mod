@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: CIVILIZATION_ASIS_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/13 11:37:52 -->
+<GameData>
+	<IconTextureAtlases>
+		<Row Filename="NWBNB32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_NWBNB"/>
+		<Row Filename="NWBNB45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_NWBNB"/>
+		<Row Filename="NWBNB48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_NWBNB"/>
+		<Row Filename="NWBNB50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_NWBNB"/>
+		<Row Filename="NWBNB55" IconsPerColumn="1" IconsPerRow="1" IconSize="55" Name="ICON_ATLAS_NWBNB"/>
+		<Row Filename="NWBNB64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_NWBNB"/>
+		<Row Filename="NWBNB80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_NWBNB"/>
+		<Row Filename="NWBNB256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_NWBNB"/>
+	</IconTextureAtlases>
+	
+	<IconDefinitions>
+		<Row Name="ICON_CIVILIZATION_NW_ASIS" Atlas="ICON_ATLAS_CIVILIZATIONS" Index="19"/>
+		<Row Name="ICON_LEADER_NWBNB" Atlas="ICON_ATLAS_NWBNB" Index="0"/>
+	</IconDefinitions>
+
+    <IconAliases>
+        <Row Name="ICON_UNIT_NIULI" OtherName="ICON_UNIT_TREBUCHET"/>
+        <Row Name="ICON_DISTRICT_JEER" OtherName="ICON_DISTRICT_AQUEDUCT"/>
+    </IconAliases>
+</GameData>

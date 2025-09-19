@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<!--大将军-->
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_1_NAME" Language="zh_Hans_CN">
+			<Text>卫青</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_2_NAME" Language="zh_Hans_CN">
+			<Text>霍去病</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_1_NAME" Language="zh_Hans_CN">
+			<Text>贝利撒留</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_2_NAME" Language="zh_Hans_CN">
+			<Text>岳飞</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1_NAME" Language="zh_Hans_CN">
+			<Text>戚继光</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_2_NAME" Language="zh_Hans_CN">
+			<Text>李自成</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1_NAME" Language="zh_Hans_CN">
+			<Text>老毛奇</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_2_NAME" Language="zh_Hans_CN">
+			<Text>罗伯特・李</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1_NAME" Language="zh_Hans_CN">
+			<Text>卡特利特·马歇尔</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2_NAME" Language="zh_Hans_CN">
+			<Text>托马斯・布莱梅</Text>
+		</Replace>
+
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_1" Language="zh_Hans_CN">
+			<Text>创建1个拥有+2 [Icon_Movement] 移动力的陆军近战单位。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_2" Language="zh_Hans_CN">
+			<Text>赠予军事陆军单位1次强化等级。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_1" Language="zh_Hans_CN">
+			<Text>创建1个拥有+1 [Icon_Movement] 移动力的轻骑兵单位。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_2" Language="zh_Hans_CN">
+			<Text>创建1个拥有+2 [Icon_Movement] 移动力的抗骑兵单位。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1" Language="zh_Hans_CN">
+			<Text>立即创建拥有1次升级的火枪手单位，每回合提供1点 [Icon_RESOURCE_NITER] 硝石。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_2" Language="zh_Hans_CN">
+			<Text>把一个军事陆地单位变成军团。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1" Language="zh_Hans_CN">
+			<Text>所有陆地单位+30%支援加成。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_2" Language="zh_Hans_CN">
+			<Text>为骑兵单位+10% [ICON_Production] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1" Language="zh_Hans_CN">
+			<Text>立即创建拥有1次升级的大炮单位，每回合提供1点 [Icon_RESOURCE_OIL] 石油。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2" Language="zh_Hans_CN">
+			<Text>所有陆地单位+1 [ICON_Strength] 战斗力。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1_DESC" Language="zh_Hans_CN">
+			<Text>+30%支援加成。（老毛奇隐退效果）</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_INDIVIDUAL_NW_GENERAL_MODERN_2_DESC" Language="zh_Hans_CN">
+			<Text>+{1_Num} [ICON_Strength] 战斗力来自隐退的伟人（托马斯・布莱梅）。</Text>
+		</Replace>
+
+		<!--大工程师-->
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_CLASSICAL_1_NAME" Language="zh_Hans_CN">
+			<Text>李冰</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_CLASSICAL_2_NAME" Language="zh_Hans_CN">
+			<Text>维特鲁威</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_MEDIEVAL_1_NAME" Language="zh_Hans_CN">
+			<Text>宇文恺</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_MEDIEVAL_2_NAME" Language="zh_Hans_CN">
+			<Text>苏颂</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_RENAISSANCE_1_NAME" Language="zh_Hans_CN">
+			<Text>蒯祥</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_RENAISSANCE_2_NAME" Language="zh_Hans_CN">
+			<Text>约瑟夫·帕克斯顿</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_INDUSTRIAL_1_NAME" Language="zh_Hans_CN">
+			<Text>詹天佑</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_INDUSTRIAL_2_NAME" Language="zh_Hans_CN">
+			<Text>迈克尔·法拉第</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_MODERN_1_NAME" Language="zh_Hans_CN">
+			<Text>茅以升</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_MODERN_2_NAME" Language="zh_Hans_CN">
+			<Text>托马斯·爱迪生</Text>
+		</Replace>
+
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_CLASSICAL_1" Language="zh_Hans_CN">
+			<Text>为城市提供 [ICON_PRODUCTION] 5点生产力（联机速度下），如果城市正在修建水利区域（水渠、运河或堤坝）则可以立即完成。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_CLASSICAL_2" Language="zh_Hans_CN">
+			<Text>赠予1个免费的建造者单位，该城市建造奇观时+10% [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_MEDIEVAL_1" Language="zh_Hans_CN">
+			<Text>立即建造一个工作坊，该城市建造区域时+15% [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_MEDIEVAL_2" Language="zh_Hans_CN">
+			<Text>立即建造一个水磨，该城市+5% [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_RENAISSANCE_1" Language="zh_Hans_CN">
+			<Text>立即推进当前在建奇观25%的建造进度，文艺复兴及之前的奇观翻倍。此城所有世界奇观+2 [ICON_CULTURE] 文化值。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_RENAISSANCE_2" Language="zh_Hans_CN">
+			<Text>此城和所有相邻奇观的市中心+1 [ICON_Amenities] 宜居度。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_INDUSTRIAL_1" Language="zh_Hans_CN">
+			<Text>在非首都市中心激活时，建造一条目标城市到首都的铁路。所有工业区+1 [ICON_PRODUCTION] 生产力相邻加成。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_INDUSTRIAL_2" Language="zh_Hans_CN">
+			<Text>为所有城市提供15回合的清洁 [ICON_POWER] 电力供给。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_MODERN_1" Language="zh_Hans_CN">
+			<Text>为奇观提供225点 [ICON_PRODUCTION] 生产力（联机速度下），若为水上奇观则立即完成。所有单位无视河流的移动力减益。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_MODERN_2" Language="zh_Hans_CN">
+			<Text>拥有充足 [ICON_POWER] 电力供给的城市 +15% 项目 [ICON_PRODUCTION] 生产力，为1项工业时代及之后的随机科技启动尤里卡时刻。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_ABILITY_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_ENGINEER_MODERN_1_NAME" Language="zh_Hans_CN">
+			<Text>无视河流的移动力减益。（茅以升）</Text>
+		</Replace>
+
+
+		<!--大商人-->
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_CLASSICAL_1_NAME" Language="zh_Hans_CN">
+			<Text>吕不韦</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_CLASSICAL_2_NAME" Language="zh_Hans_CN">
+			<Text>子贡</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_MEDIEVAL_1_NAME" Language="zh_Hans_CN">
+			<Text>裴明礼</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_MEDIEVAL_2_NAME" Language="zh_Hans_CN">
+			<Text>王玄策</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_RENAISSANCE_1_NAME" Language="zh_Hans_CN">
+			<Text>科西莫・梅第奇</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_RENAISSANCE_2_NAME" Language="zh_Hans_CN">
+			<Text>沈万三</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_INDUSTRIAL_1_NAME" Language="zh_Hans_CN">
+			<Text>安德鲁・卡内基</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_INDUSTRIAL_2_NAME" Language="zh_Hans_CN">
+			<Text>顾维钧</Text>
+		</Replace>
+
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_CLASSICAL_1" Language="zh_Hans_CN">
+			<Text>立即建造一个市场，市场+1 [ICON_GOLD] 金币。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_CLASSICAL_2" Language="zh_Hans_CN">
+			<Text>所有贸易路线+1 [ICON_GOLD] 金币。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_MEDIEVAL_1" Language="zh_Hans_CN">
+			<Text>+1 [ICON_TradeRoute] 贸易路线容量，+1 [ICON_ENVOY] 使者。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_MEDIEVAL_2" Language="zh_Hans_CN">
+			<Text>己方领土内或靠近己方领土的商人单位免遭掠夺。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_RENAISSANCE_1" Language="zh_Hans_CN">
+			<Text>在选定的奢侈品单元格上激活，赠予一份该奢侈品给您的首都。该奢侈品将重复提供宜居度。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_RENAISSANCE_2" Language="zh_Hans_CN">
+			<Text>从现在起，每回合将获得等同于国库2%的 [ICON_GOLD] 金币。（上限1000）</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_INDUSTRIAL_1" Language="zh_Hans_CN">
+			<Text>+1 [ICON_TradeRoute] 贸易路线容量。改良后的 [ICON_RESOURCE_IRON] 铁资源+3 [ICON_GOLD] 金币。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_MERCHANT_INDUSTRIAL_2" Language="zh_Hans_CN">
+			<Text>在城邦领土内激活。为玩家提供该城邦的宗主国能力。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_ABILITY_NW_TMPG_TR_PLUNDER_IMMUNITY_NAME" Language="zh_Hans_CN">
+			<Text>处于己方领土内或靠近己方领土时免遭掠夺（来自伟人王玄策）。</Text>
+		</Replace>
+
+		<!--大科学家-->
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_CLASSICAL_1_NAME" Language="zh_Hans_CN">
+			<Text>刘徽</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_CLASSICAL_2_NAME" Language="zh_Hans_CN">
+			<Text>祖冲之</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_MEDIEVAL_1_NAME" Language="zh_Hans_CN">
+			<Text>贾思勰</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_MEDIEVAL_2_NAME" Language="zh_Hans_CN">
+			<Text>花拉子米</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_RENAISSANCE_1_NAME" Language="zh_Hans_CN">
+			<Text>李时珍</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_RENAISSANCE_2_NAME" Language="zh_Hans_CN">
+			<Text>开普勒</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_INDUSTRIAL_1_NAME" Language="zh_Hans_CN">
+			<Text>萨弗里</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_INDUSTRIAL_2_NAME" Language="zh_Hans_CN">
+			<Text>莫尔斯</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_MODERN_1_NAME" Language="zh_Hans_CN">
+			<Text>居里夫人</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_MODERN_2_NAME" Language="zh_Hans_CN">
+			<Text>贝尔</Text>
+		</Replace>
+
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_CLASSICAL_1" Language="zh_Hans_CN">
+			<Text>在指定位置创作《九章算术》（ [ICON_GreatWork_Writing] 著作，提供 4 [ICON_Science] 科技值、4 [ICON_Tourism] 旅游业绩）</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_CLASSICAL_2" Language="zh_Hans_CN">
+			<Text>为机械和1个随机中世纪科技启动 [ICON_TechBoosted] 尤里卡时刻。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_MEDIEVAL_1" Language="zh_Hans_CN">
+			<Text> [ICON_TechBoosted] 尤里卡提供额外2%进度。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_MEDIEVAL_2" Language="zh_Hans_CN">
+			<Text>在学院上激活。该学院的 [ICON_Science] 科技值相邻加成也提供 [ICON_Production] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_RENAISSANCE_1" Language="zh_Hans_CN">
+			<Text>为卫生设备启动 [ICON_TechBoosted] 尤里卡时刻，获得1个医疗兵。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_RENAISSANCE_2" Language="zh_Hans_CN">
+			<Text>为所有文艺复兴时期的科技启动 [ICON_TechBoosted] 尤里卡时刻。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_INDUSTRIAL_1" Language="zh_Hans_CN">
+			<Text>为工业化启动 [ICON_TechBoosted] 尤里卡时刻，若已有 [ICON_TechBoosted] 尤里卡则解锁工业化科技。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_INDUSTRIAL_2" Language="zh_Hans_CN">
+			<Text>获得当前回合产出的等额 [ICON_Science] 科技值。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_MODERN_1" Language="zh_Hans_CN">
+			<Text>忽视普通科技要求，显示 [ICON_RESOURCE_URANIUM] 铀。所有战略资源改良设施每回合额外产出1个对应资源。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_SCIENTIST_MODERN_2" Language="zh_Hans_CN">
+			<Text>为无线电启动 [ICON_TechBoosted] 尤里卡时刻。若已有 [ICON_TechBoosted] 尤里卡则解锁无线电科技。</Text>
+		</Replace>
+
+
+		<Replace Tag="LOC_GREATWORK_NW_SCIENTIST_CLASSICAL_1_NAME" Language="zh_Hans_CN">
+			<Text>《九章算术》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_SCIENTIST_CLASSICAL_1_QUOTE" Language="zh_Hans_CN">
+			<Text>昔在庖牺氏始画八卦，以通神明之德，以类万物之情，作九九之术，以合六爻之变。</Text>
+		</Replace>
+
+		<!--大作家-->
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_CLASSICAL_1_NAME" Language="zh_Hans_CN">
+			<Text>宋玉</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_CLASSICAL_2_NAME" Language="zh_Hans_CN">
+			<Text>司马相如</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_CLASSICAL_3_NAME" Language="zh_Hans_CN">
+			<Text>班固</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_CLASSICAL_4_NAME" Language="zh_Hans_CN">
+			<Text>谢灵运</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_MEDIEVAL_1_NAME" Language="zh_Hans_CN">
+			<Text>杜甫</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_MEDIEVAL_2_NAME" Language="zh_Hans_CN">
+			<Text>白居易</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_MEDIEVAL_3_NAME" Language="zh_Hans_CN">
+			<Text>辛弃疾</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_MEDIEVAL_4_NAME" Language="zh_Hans_CN">
+			<Text>苏轼</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_RENAISSANCE_1_NAME" Language="zh_Hans_CN">
+			<Text>罗贯中</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_RENAISSANCE_2_NAME" Language="zh_Hans_CN">
+			<Text>施耐庵</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_RENAISSANCE_3_NAME" Language="zh_Hans_CN">
+			<Text>吴承恩</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_RENAISSANCE_4_NAME" Language="zh_Hans_CN">
+			<Text>曹雪芹</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_INDUSTRIAL_1_NAME" Language="zh_Hans_CN">
+			<Text>梁启超</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_INDUSTRIAL_2_NAME" Language="zh_Hans_CN">
+			<Text>雨果</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_INDUSTRIAL_3_NAME" Language="zh_Hans_CN">
+			<Text>托尔斯泰</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_MODERN_1_NAME" Language="zh_Hans_CN">
+			<Text>海明威</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_MODERN_2_NAME" Language="zh_Hans_CN">
+			<Text>鲁迅</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_MODERN_3_NAME" Language="zh_Hans_CN">
+			<Text>茅盾</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_ATOMIC_1_NAME" Language="zh_Hans_CN">
+			<Text>老舍</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_ATOMIC_2_NAME" Language="zh_Hans_CN">
+			<Text>沈从文</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_INFORMATION_1_NAME" Language="zh_Hans_CN">
+			<Text>刘慈欣</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_INFORMATION_2_NAME" Language="zh_Hans_CN">
+			<Text>莫言</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_WRITER_INFORMATION_3_NAME" Language="zh_Hans_CN">
+			<Text>江南</Text>
+		</Replace>
+
+		<!--巨作-->
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_11_NAME" Language="zh_Hans_CN">
+			<Text>《九辩》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_11_QUOTE" Language="zh_Hans_CN">
+			<Text>悲哉秋之为气也！萧瑟兮草木摇落而变衰。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_12_NAME" Language="zh_Hans_CN">
+			<Text>《高唐赋》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_12_QUOTE" Language="zh_Hans_CN">
+			<Text>旦为朝云，暮为行雨，朝朝暮暮，阳台之下。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_21_NAME" Language="zh_Hans_CN">
+			<Text>《子虚赋》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_21_QUOTE" Language="zh_Hans_CN">
+			<Text>吞若云梦者八九于其胸中，曾不蒂芥。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_22_NAME" Language="zh_Hans_CN">
+			<Text>《上林赋》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_22_QUOTE" Language="zh_Hans_CN">
+			<Text>荡荡乎八川分流，相背而异态。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_31_NAME" Language="zh_Hans_CN">
+			<Text>《汉书》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_31_QUOTE" Language="zh_Hans_CN">
+			<Text>水至清则无鱼，人至察则无徒。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_32_NAME" Language="zh_Hans_CN">
+			<Text>《两都赋》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_32_QUOTE" Language="zh_Hans_CN">
+			<Text>左据函谷，右界褒斜，表以太华，缀以终南。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_41_NAME" Language="zh_Hans_CN">
+			<Text>《山居赋》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_41_QUOTE" Language="zh_Hans_CN">
+			<Text>石横水分，林密蹊绝，抚琴动操，万壑皆响。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_42_NAME" Language="zh_Hans_CN">
+			<Text>《登池上楼》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_CLASSICAL_42_QUOTE" Language="zh_Hans_CN">
+			<Text>池塘生春草，园柳变鸣禽。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_11_NAME" Language="zh_Hans_CN">
+			<Text>《三吏三别》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_11_QUOTE" Language="zh_Hans_CN">
+			<Text>眼枯即见骨，天地终无情。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_12_NAME" Language="zh_Hans_CN">
+			<Text>《秋兴八首》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_12_QUOTE" Language="zh_Hans_CN">
+			<Text>丛菊两开他日泪，孤舟一系故园心。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_21_NAME" Language="zh_Hans_CN">
+			<Text>《长恨歌》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_21_QUOTE" Language="zh_Hans_CN">
+			<Text>天长地久有时尽，此恨绵绵无绝期。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_22_NAME" Language="zh_Hans_CN">
+			<Text>《琵琶行》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_22_QUOTE" Language="zh_Hans_CN">
+			<Text>同是天涯沦落人，相逢何必曾相识。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_31_NAME" Language="zh_Hans_CN">
+			<Text>《青玉案·元夕》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_31_QUOTE" Language="zh_Hans_CN">
+			<Text>蓦然回首，那人却在，灯火阑珊处。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_32_NAME" Language="zh_Hans_CN">
+			<Text>《永遇乐·京口北固亭怀古》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_32_QUOTE" Language="zh_Hans_CN">
+			<Text>想当年，金戈铁马，气吞万里如虎。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_41_NAME" Language="zh_Hans_CN">
+			<Text>《赤壁赋》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_41_QUOTE" Language="zh_Hans_CN">
+			<Text>寄蜉蝣于天地，渺沧海之一粟。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_42_NAME" Language="zh_Hans_CN">
+			<Text>《赤壁怀古》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MEDIEVAL_42_QUOTE" Language="zh_Hans_CN">
+			<Text>大江东去，浪淘尽，千古风流人物。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_RENAISSANCE_11_NAME" Language="zh_Hans_CN">
+			<Text>《三国演义》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_RENAISSANCE_11_QUOTE" Language="zh_Hans_CN">
+			<Text>天下大势，分久必合，合久必分。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_RENAISSANCE_21_NAME" Language="zh_Hans_CN">
+			<Text>《水浒传》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_RENAISSANCE_21_QUOTE" Language="zh_Hans_CN">
+			<Text>替天行道，保境安民。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_RENAISSANCE_31_NAME" Language="zh_Hans_CN">
+			<Text>《西游记》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_RENAISSANCE_31_QUOTE" Language="zh_Hans_CN">
+			<Text>心生种种魔生，心灭种种魔灭。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_RENAISSANCE_41_NAME" Language="zh_Hans_CN">
+			<Text>《红楼梦》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_RENAISSANCE_41_QUOTE" Language="zh_Hans_CN">
+			<Text>满纸荒唐言，一把辛酸泪。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_11_NAME" Language="zh_Hans_CN">
+			<Text>《少年中国说》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_11_QUOTE" Language="zh_Hans_CN">
+			<Text>少年强则国强，少年独立则国独立。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_12_NAME" Language="zh_Hans_CN">
+			<Text>《饮冰室合集》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_12_QUOTE" Language="zh_Hans_CN">
+			<Text>献身甘作万矢的，著论求为百世师。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_21_NAME" Language="zh_Hans_CN">
+			<Text>《悲惨世界》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_21_QUOTE" Language="zh_Hans_CN">
+			<Text>海洋虽阔，不抵苍穹无垠；苍穹虽广，难及人心渊深。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_22_NAME" Language="zh_Hans_CN">
+			<Text>《巴黎圣母院》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_22_QUOTE" Language="zh_Hans_CN">
+			<Text>时间盲目，人类愚昧。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_31_NAME" Language="zh_Hans_CN">
+			<Text>《战争与和平》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_31_QUOTE" Language="zh_Hans_CN">
+			<Text>每个人都会有缺陷，就像被上帝咬过的苹果。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_32_NAME" Language="zh_Hans_CN">
+			<Text>《安娜·卡列尼娜》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INDUSTRIAL_32_QUOTE" Language="zh_Hans_CN">
+			<Text>幸福的家庭都是相似的，不幸的家庭各有各的不幸。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_11_NAME" Language="zh_Hans_CN">
+			<Text>《老人与海》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_11_QUOTE" Language="zh_Hans_CN">
+			<Text>人可以被毁灭，但不能被打败。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_12_NAME" Language="zh_Hans_CN">
+			<Text>《太阳照常升起》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_12_QUOTE" Language="zh_Hans_CN">
+			<Text>这世界很美好，值得我们去奋斗。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_21_NAME" Language="zh_Hans_CN">
+			<Text>《呐喊》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_21_QUOTE" Language="zh_Hans_CN">
+			<Text>希望是在于将来，决不能以我之必无的证明，来折服了他之所谓可有。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_22_NAME" Language="zh_Hans_CN">
+			<Text>《彷徨》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_22_QUOTE" Language="zh_Hans_CN">
+			<Text>绝望之为虚妄，正与希望相同。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_31_NAME" Language="zh_Hans_CN">
+			<Text>《蚀》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_31_QUOTE" Language="zh_Hans_CN">
+			<Text>幻灭的悲哀，向善的焦灼，颓废的冲动。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_32_NAME" Language="zh_Hans_CN">
+			<Text>《子夜》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_MODERN_32_QUOTE" Language="zh_Hans_CN">
+			<Text>天亮之前有一段时间是非常暗的，星也没有，月亮也没有。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_ATOMIC_11_NAME" Language="zh_Hans_CN">
+			<Text>《骆驼祥子》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_ATOMIC_11_QUOTE" Language="zh_Hans_CN">
+			<Text>他以为一直努力拉车，就能买上自己的洋车。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_ATOMIC_12_NAME" Language="zh_Hans_CN">
+			<Text>《四世同堂》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_ATOMIC_12_QUOTE" Language="zh_Hans_CN">
+			<Text>亡国奴的滋味，比任何苦痛都更苦痛。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_ATOMIC_21_NAME" Language="zh_Hans_CN">
+			<Text>《边城》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_ATOMIC_21_QUOTE" Language="zh_Hans_CN">
+			<Text>这个人也许永远不回来了，也许明天回来。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_ATOMIC_22_NAME" Language="zh_Hans_CN">
+			<Text>《长河》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_ATOMIC_22_QUOTE" Language="zh_Hans_CN">
+			<Text>美丽总是愁人的。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_11_NAME" Language="zh_Hans_CN">
+			<Text>《三体》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_11_QUOTE" Language="zh_Hans_CN">
+			<Text>给岁月以文明，而不是给文明以岁月。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_12_NAME" Language="zh_Hans_CN">
+			<Text>《流浪地球》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_12_QUOTE" Language="zh_Hans_CN">
+			<Text>道路千万条，安全第一条。行车不规范，亲人两行泪。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_21_NAME" Language="zh_Hans_CN">
+			<Text>《红高粱》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_21_QUOTE" Language="zh_Hans_CN">
+			<Text>忘不掉的过去和留不住的现在。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_22_NAME" Language="zh_Hans_CN">
+			<Text>《生死疲劳》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_22_QUOTE" Language="zh_Hans_CN">
+			<Text>生死疲劳，从贪欲起；少欲无为，身心自在。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_31_NAME" Language="zh_Hans_CN">
+			<Text>《龙族》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_31_QUOTE" Language="zh_Hans_CN">
+			<Text>有些爱稍纵即逝，却铭心刻骨。它在命运里烧成灰烬，却在记忆里拔节生根。</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_32_NAME" Language="zh_Hans_CN">
+			<Text>《九州缥缈录》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_WRITER_INFORMATION_32_QUOTE" Language="zh_Hans_CN">
+			<Text>铁甲依然在！</Text>
+		</Replace>
+
+
+		<!--大音乐家-->
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MUSICIAN_CLASSICAL_1_NAME" Language="zh_Hans_CN">
+			<Text>俞伯牙</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MUSICIAN_MEDIEVAL_1_NAME" Language="zh_Hans_CN">
+			<Text>李隆基</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MUSICIAN_MEDIEVAL_2_NAME" Language="zh_Hans_CN">
+			<Text>关汉卿</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MUSICIAN_RENAISSANCE_1_NAME" Language="zh_Hans_CN">
+			<Text>汤应曾</Text>
+		</Replace>
+		<Replace Tag="LOC_GREAT_PERSON_INDIVIDUAL_NW_MUSICIAN_RENAISSANCE_2_NAME" Language="zh_Hans_CN">
+			<Text>托马斯·路易斯</Text>
+		</Replace>
+
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_CLASSICAL_11_NAME" Language="zh_Hans_CN">
+			<Text>《高山》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_CLASSICAL_12_NAME" Language="zh_Hans_CN">
+			<Text>《流水》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_MEDIEVAL_11_NAME" Language="zh_Hans_CN">
+			<Text>《霓裳羽衣曲》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_MEDIEVAL_21_NAME" Language="zh_Hans_CN">
+			<Text>《窦娥冤》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_RENAISSANCE_11_NAME" Language="zh_Hans_CN">
+			<Text>《十面埋伏》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_RENAISSANCE_12_NAME" Language="zh_Hans_CN">
+			<Text>《洞庭秋思》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_RENAISSANCE_21_NAME" Language="zh_Hans_CN">
+			<Text>《王国多么荣耀》</Text>
+		</Replace>
+		<Replace Tag="LOC_GREATWORK_NW_MUSICIAN_RENAISSANCE_22_NAME" Language="zh_Hans_CN">
+			<Text>《悼亡仪式》</Text>
+		</Replace>
+
+		<!-- Config -->
+		<Replace Tag="LOC_NW_TPMG_LESS_GP_SETTING_NAME" Language="zh_Hans_CN">
+			<Text>[COLOR:ResCultureLabelCS]伟人补充包[ENDCOLOR] 群车大将军配给</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_TPMG_LESS_GP_SETTING_DESC" Language="zh_Hans_CN">
+			<Text>优化了新增大将军的分配。古典额外2个、中世纪额外1个、工业额外2个，现代额外1个。而非现在的每个时代2个。</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_TPMG_CONFIG_CHEAPER_GP_NAME" Language="zh_Hans_CN">
+			<Text>[COLOR:ResCultureLabelCS]伟人补充包[ENDCOLOR] 实验性玩法：更便宜的伟人</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_TPMG_CONFIG_CHEAPER_GP_DESC" Language="zh_Hans_CN">
+			<Text>调整了后期伟人的价格。联机速度下，招募伟人的基准花费调整为30（古典）、60（中世纪）、90（文艺复兴）、180（工业时代）、270（现代）、420（原子能）、600（信息）。但是跨时代的招募惩罚仍然存在。</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_TPMG_COMPETITION_MODE_NAME" Language="zh_Hans_CN">
+			<Text>[COLOR:ResCultureLabelCS]伟人补充包[ENDCOLOR] 炼金杯：伟人数量修正</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_TPMG_COMPETITION_MODE_DESC" Language="zh_Hans_CN">
+			<Text>只添加一个中世纪大将军。</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_TPMG_COMPETITION_MODE_CHEAP_NAME" Language="zh_Hans_CN">
+			<Text>[COLOR:ResCultureLabelCS]伟人补充包[ENDCOLOR] 炼金杯可选：伟人价格修正</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_TPMG_COMPETITION_MODE_CHEAP_DESC" Language="zh_Hans_CN">
+			<Text>联机速度下，所有文艺复兴伟人的基准招募花费调整为90（提前两个时代的招募费用约为235）。</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_TPMG_LESS_WRITER_NAME" Language="zh_Hans_CN">
+			<Text>[COLOR:ResCultureLabelCS]伟人补充包[ENDCOLOR] 大作家拓展</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_TPMG_LESS_WRITER_DESC" Language="zh_Hans_CN">
+			<Text>添加双倍大作家。</Text>
+		</Replace>
+	</LocalizedText>
+</GameData>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<Replace Tag="LOC_MORE_BELIEF_GOD_EXPANDING_CONFIG" Language="zh_Hans_CN">
+			<Text>设置开疆之神数量</Text>
+		</Replace>	
+		<Replace Tag="LOC_MORE_BELIEF_GOD_EXPANDING_1_NAME" Language="zh_Hans_CN">
+			<Text>2个(额外1个)</Text>
+		</Replace>
+		<Replace Tag="LOC_MORE_BELIEF_GOD_EXPANDING_3_NAME" Language="zh_Hans_CN">
+			<Text>4个(额外3个)</Text>
+		</Replace>
+		<Replace Tag="LOC_MORE_BELIEF_GOD_EXPANDING_5_NAME" Language="zh_Hans_CN">
+			<Text>6个(额外5个)</Text>
+		</Replace>
+		<Replace Tag="LOC_MORE_BELIEF_GOD_EXPANDING_7_NAME" Language="zh_Hans_CN">
+			<Text>8个(额外7个)</Text>
+		</Replace>
+		<Replace Tag="LOC_MORE_BELIEF_GOD_EXPANDING_9_NAME" Language="zh_Hans_CN">
+			<Text>10个(额外9个)</Text>
+		</Replace>
+		<Replace Tag="LOC_MORE_BELIEF_GOD_EXPANDING_11_NAME" Language="zh_Hans_CN">
+			<Text>12个(额外11个)</Text>
+		</Replace>
+		<Replace Tag="LOC_MORE_BELIEF_GOD_EXPANDING_23_NAME" Language="zh_Hans_CN">
+			<Text>24个(额外23个)</Text>
+		</Replace>
+	</LocalizedText>
+</GameData>

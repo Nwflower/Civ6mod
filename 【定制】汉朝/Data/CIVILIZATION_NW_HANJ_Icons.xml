@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: CIVILIZATION_NW_HANJ_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/15 18:21:35 -->
+<GameData>
+	<IconTextureAtlases>
+		<Row Filename="NwLiuxun32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_NW_LIUXUN"/>
+		<Row Filename="NwLiuxun45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_NW_LIUXUN"/>
+		<Row Filename="NwLiuxun48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_NW_LIUXUN"/>
+		<Row Filename="NwLiuxun50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_NW_LIUXUN"/>
+		<Row Filename="NwLiuxun55" IconsPerColumn="1" IconsPerRow="1" IconSize="55" Name="ICON_ATLAS_NW_LIUXUN"/>
+		<Row Filename="NwLiuxun64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_NW_LIUXUN"/>
+		<Row Filename="NwLiuxun80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_NW_LIUXUN"/>
+		<Row Filename="NwLiuxun256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_NW_LIUXUN"/>
+		<Row Filename="NwJetLiuche32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_NW_JET_LIUCHE"/>
+		<Row Filename="NwJetLiuche45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_NW_JET_LIUCHE"/>
+		<Row Filename="NwJetLiuche48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_NW_JET_LIUCHE"/>
+		<Row Filename="NwJetLiuche50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_NW_JET_LIUCHE"/>
+		<Row Filename="NwJetLiuche55" IconsPerColumn="1" IconsPerRow="1" IconSize="55" Name="ICON_ATLAS_NW_JET_LIUCHE"/>
+		<Row Filename="NwJetLiuche64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_NW_JET_LIUCHE"/>
+		<Row Filename="NwJetLiuche80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_NW_JET_LIUCHE"/>
+		<Row Filename="NwJetLiuche256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_NW_JET_LIUCHE"/>
+	</IconTextureAtlases>
+	
+	<IconDefinitions>
+		<Row Name="ICON_LEADER_NW_LIUXUN" Atlas="ICON_ATLAS_NW_LIUXUN" Index="0"/>
+		<Row Name="ICON_LEADER_NW_JET_LIUCHE" Atlas="ICON_ATLAS_NW_JET_LIUCHE" Index="0"/>
+	</IconDefinitions>
+
+
+    <IconAliases>
+        <Row Name="ICON_CIVILIZATION_CIV_HANJ" OtherName="ICON_CIVILIZATION_CHINA"/>
+    </IconAliases>
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_BUILDING_TAICANG" IconSize="32" Filename="ICON_BUILDING_TAICANG_32"/>
+        <Row Name="ATLAS_ICON_BUILDING_TAICANG" IconSize="38" Filename="ICON_BUILDING_TAICANG_38"/>
+        <Row Name="ATLAS_ICON_BUILDING_TAICANG" IconSize="50" Filename="ICON_BUILDING_TAICANG_50"/>
+        <Row Name="ATLAS_ICON_BUILDING_TAICANG" IconSize="80" Filename="ICON_BUILDING_TAICANG_80"/>
+        <Row Name="ATLAS_ICON_BUILDING_TAICANG" IconSize="128" Filename="ICON_BUILDING_TAICANG_128"/>
+        <Row Name="ATLAS_ICON_BUILDING_TAICANG" IconSize="256" Filename="ICON_BUILDING_TAICANG_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_BUILDING_TAICANG" Atlas="ATLAS_ICON_BUILDING_TAICANG" Index="0"/>
+    </IconDefinitions>
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI" IconSize="22" Filename="ICON_UNIT_NW_BIAOQI_22"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI" IconSize="32" Filename="ICON_UNIT_NW_BIAOQI_32"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI" IconSize="38" Filename="ICON_UNIT_NW_BIAOQI_38"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI" IconSize="50" Filename="ICON_UNIT_NW_BIAOQI_50"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI" IconSize="80" Filename="ICON_UNIT_NW_BIAOQI_80"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI" IconSize="256" Filename="ICON_UNIT_NW_BIAOQI_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_UNIT_NW_BIAOQI" Atlas="ATLAS_ICON_UNIT_NW_BIAOQI" Index="0"/>
+    </IconDefinitions>
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI_PORTRAIT" IconSize="38" Filename="ICON_UNIT_NW_BIAOQI_PORTRAIT_38"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI_PORTRAIT" IconSize="50" Filename="ICON_UNIT_NW_BIAOQI_PORTRAIT_50"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI_PORTRAIT" IconSize="70" Filename="ICON_UNIT_NW_BIAOQI_PORTRAIT_70"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI_PORTRAIT" IconSize="95" Filename="ICON_UNIT_NW_BIAOQI_PORTRAIT_95"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI_PORTRAIT" IconSize="200" Filename="ICON_UNIT_NW_BIAOQI_PORTRAIT_200"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_BIAOQI_PORTRAIT" IconSize="256" Filename="ICON_UNIT_NW_BIAOQI_PORTRAIT_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_UNIT_NW_BIAOQI_PORTRAIT" Atlas="ATLAS_ICON_UNIT_NW_BIAOQI_PORTRAIT" Index="0"/>
+    </IconDefinitions>
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN" IconSize="22" Filename="ICON_UNIT_NW_YULIN_22"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN" IconSize="32" Filename="ICON_UNIT_NW_YULIN_32"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN" IconSize="38" Filename="ICON_UNIT_NW_YULIN_38"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN" IconSize="50" Filename="ICON_UNIT_NW_YULIN_50"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN" IconSize="80" Filename="ICON_UNIT_NW_YULIN_80"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN" IconSize="256" Filename="ICON_UNIT_NW_YULIN_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_UNIT_NW_YULIN" Atlas="ATLAS_ICON_UNIT_NW_YULIN" Index="0"/>
+    </IconDefinitions>
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN_PORTRAIT" IconSize="38" Filename="ICON_UNIT_NW_YULIN_PORTRAIT_38"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN_PORTRAIT" IconSize="50" Filename="ICON_UNIT_NW_YULIN_PORTRAIT_50"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN_PORTRAIT" IconSize="70" Filename="ICON_UNIT_NW_YULIN_PORTRAIT_70"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN_PORTRAIT" IconSize="95" Filename="ICON_UNIT_NW_YULIN_PORTRAIT_95"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN_PORTRAIT" IconSize="200" Filename="ICON_UNIT_NW_YULIN_PORTRAIT_200"/>
+        <Row Name="ATLAS_ICON_UNIT_NW_YULIN_PORTRAIT" IconSize="256" Filename="ICON_UNIT_NW_YULIN_PORTRAIT_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_UNIT_NW_YULIN_PORTRAIT" Atlas="ATLAS_ICON_UNIT_NW_YULIN_PORTRAIT" Index="0"/>
+    </IconDefinitions>
+</GameData>

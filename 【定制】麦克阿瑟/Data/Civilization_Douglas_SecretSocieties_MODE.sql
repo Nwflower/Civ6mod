@@ -1,0 +1,15 @@
+--	FILE: Civilization_Douglas_SecretSocieties_MODE.sql
+--  VERSION: 1
+--  Author: Nwflower
+--  Spicial Thanks: Uni
+--	Copyright (c) 2025.
+--	All rights reserved.
+--  DateCreated: 2025/9/14 10:32:02
+--======================================================================
+--  作者： 千川白浪
+--  特别鸣谢： 优妮
+--======================================================================
+
+-- INSERT INTO District_Adjacencies(DistrictType,YieldChangeId)VALUES
+-- ('DISTRICT_AMERICAN_CAMP','YieldChangeId1'),
+-- ('DISTRICT_AMERICAN_CAMP','YieldChangeId2');

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: Civilization_NWEAST_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/12 11:48:27 -->
+<GameData>
+	<LocalizedText>
+		<!--Civ-->
+		<Replace Tag="LOC_CIVILIZATION_NWEAST_NAME" Language="zh_Hans_CN">
+			<Text>东大</Text>
+		</Replace>
+		<Replace Tag="LOC_CIVILIZATION_NWEAST_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>东方大国</Text>
+		</Replace>
+		<Replace Tag="LOC_CIVILIZATION_NWEAST_ADJECTIVE" Language="zh_Hans_CN">
+			<Text>东大的</Text>
+		</Replace>
+
+
+		<!--Leader-->
+		<Replace Tag="LOC_LEADER_PLA_NAME" Language="zh_Hans_CN">
+			<Text>PLA</Text>
+		</Replace>
+		<Replace Tag="LOC_LOADING_INFO_LEADER_PLA" Language="zh_Hans_CN" Text="">
+		</Replace>
+
+		<!--TRAIT-->
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND_NAME" Language="zh_Hans_CN">
+			<Text>超级基建</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>建造区域、建筑和奇观时+50%[ICON_Production]生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND2_NAME" Language="zh_Hans_CN">
+			<Text>劳动者</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND2_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>建造奇观时，可消耗建造者次数来加速奇观原始建造进程的25%。建造者会获得1个额外次数。生产建造者时额外获得一个建造者。</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND3_NAME" Language="zh_Hans_CN">
+			<Text>人口爆发</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND3_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>城市发展速率+50%。每个公民提供+1 [ICON_FOOD] 食物、+1 [ICON_PRODUCTION] 生产力、+1 [ICON_SCIENCE] 科技值、+1 [ICON_Culture] 文化值和+1 [ICON_Gold] 金币。</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND4_NAME" Language="zh_Hans_CN">
+			<Text>母亲河</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND4_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>研究完解锁堤坝的科技后，泛滥平原+3 [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND5_NAME" Language="zh_Hans_CN">
+			<Text>蓝星陆军</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND5_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>新生产的陆地军事单位组成军队，并获得一个额外的相同单位。消灭敌方单位后回复50生命值。所有陆地军事单位+20 [ICON_Strength] 战斗力+2 [ICON_Movement] 移动力，远程单位+1射程。</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND6_NAME" Language="zh_Hans_CN">
+			<Text>长城</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_PLA_CULTUREEXPAND6_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>军事单位位于长城单元格时+5 [ICON_Strength] 战斗力。仅对人类玩家生效。</Text>
+		</Replace>
+		
+		<Replace Tag="LOC_TRAIT_LEADER_CULTUREEXPAND5_COMBAT_STRENGTH" Language="zh_Hans_CN">
+			<Text>+{1_Num} 来自蓝星陆军</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_CULTUREEXPAND6_ADJUST_COMBAT_STRENGTH" Language="zh_Hans_CN">
+			<Text>+{1_Num} 来自长城</Text>
+		</Replace>
+
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_NWEAST_SUPERBUILD_NAME" Language="zh_Hans_CN">
+			<Text>文化传承</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_NWEAST_SUPERBUILD_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>奇观+4 [ICON_Culture] 文化值。城市获得一个额外的市中心建筑（远古时代是纪念碑）。</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_NWEAST_SUPERBUILD2_NAME" Language="zh_Hans_CN">
+			<Text>开疆拓土</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_NWEAST_SUPERBUILD2_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>城市边界扩张速率+20%。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_CITY_NAME_BEIJINGSHI" Language="zh_Hans_CN">
+			<Text>北京市</Text>
+		</Replace>
+
+
+
+		<!--ITEM-->
+		<Replace Tag="LOC_DISTRICT_TIANCEFU_NAME" Language="zh_Hans_CN">
+			<Text>天策府</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_TIANCEFU_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>东方大国特色区域，取代市政广场。新建立的城市拥有3个额外的[ICON_Citizen]初始人口。</Text>
+		</Replace>
+
+	</LocalizedText>
+</GameData>

@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="af59f1c0-ce49-62b9-efe8-3604ae8b44b1" version="1">
+  <Properties>
+    <Name>Team PVP : 更多的开疆之神</Name>
+    <Description>有BUG请反馈QQ1679659，搜不到可在炼金群717919363搜到我</Description>
+    <Created>1747745376</Created>
+    <Teaser>允许在游戏配置中设置更多的开疆之神，需要号码菌的前置MOD</Teaser>
+    <Authors>千川白浪</Authors>
+    <SpecialThanks>号码菌</SpecialThanks>
+    <CompatibleVersions>1.2,2.0</CompatibleVersions>
+  </Properties>
+  <ActionCriteria>
+    <Criteria id="GlobalSetting_CONFIG_NW_BGE_1">
+      <ConfigurationValueMatches>
+        <ConfigurationId>CONFIG_NW_BGE</ConfigurationId>
+        <Group>Game</Group>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+    <Criteria id="GlobalSetting_CONFIG_NW_BGE_2">
+      <ConfigurationValueMatches>
+        <ConfigurationId>CONFIG_NW_BGE</ConfigurationId>
+        <Group>Game</Group>
+        <Value>2</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+    <Criteria id="GlobalSetting_CONFIG_NW_BGE_3">
+      <ConfigurationValueMatches>
+        <ConfigurationId>CONFIG_NW_BGE</ConfigurationId>
+        <Group>Game</Group>
+        <Value>3</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+    <Criteria id="GlobalSetting_CONFIG_NW_BGE_4">
+      <ConfigurationValueMatches>
+        <ConfigurationId>CONFIG_NW_BGE</ConfigurationId>
+        <Group>Game</Group>
+        <Value>4</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+    <Criteria id="GlobalSetting_CONFIG_NW_BGE_5">
+      <ConfigurationValueMatches>
+        <ConfigurationId>CONFIG_NW_BGE</ConfigurationId>
+        <Group>Game</Group>
+        <Value>5</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+    <Criteria id="GlobalSetting_CONFIG_NW_BGE_6">
+      <ConfigurationValueMatches>
+        <ConfigurationId>CONFIG_NW_BGE</ConfigurationId>
+        <Group>Game</Group>
+        <Value>6</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+    <Criteria id="GlobalSetting_CONFIG_NW_BGE_7">
+      <ConfigurationValueMatches>
+        <ConfigurationId>CONFIG_NW_BGE</ConfigurationId>
+        <Group>Game</Group>
+        <Value>7</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+  </ActionCriteria>
+  <FrontEndActions>
+    <UpdateDatabase id="NewAction">
+      <File>More_Belief_God_Expanding.xml</File>
+    </UpdateDatabase>
+    <UpdateText id="NewAction">
+      <File>More_Belief_God_Expanding_Text.xml</File>
+    </UpdateText>
+  </FrontEndActions>
+  <InGameActions>
+    <UpdateDatabase id="GlobalSetting_CONFIG_NW_BGE_1">
+      <Properties>
+        <LoadOrder>1</LoadOrder>
+      </Properties>
+      <Criteria>GlobalSetting_CONFIG_NW_BGE_1</Criteria>
+      <File>Database/More_Belief_God_Expanding_Database_1.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="GlobalSetting_CONFIG_NW_BGE_2">
+      <Properties>
+        <LoadOrder>1</LoadOrder>
+      </Properties>
+      <Criteria>GlobalSetting_CONFIG_NW_BGE_2</Criteria>
+      <File>Database/More_Belief_God_Expanding_Database_2.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="GlobalSetting_CONFIG_NW_BGE_3">
+      <Properties>
+        <LoadOrder>1</LoadOrder>
+      </Properties>
+      <Criteria>GlobalSetting_CONFIG_NW_BGE_3</Criteria>
+      <File>Database/More_Belief_God_Expanding_Database_3.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="GlobalSetting_CONFIG_NW_BGE_4">
+      <Properties>
+        <LoadOrder>1</LoadOrder>
+      </Properties>
+      <Criteria>GlobalSetting_CONFIG_NW_BGE_4</Criteria>
+      <File>Database/More_Belief_God_Expanding_Database_4.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="GlobalSetting_CONFIG_NW_BGE_5">
+      <Properties>
+        <LoadOrder>1</LoadOrder>
+      </Properties>
+      <Criteria>GlobalSetting_CONFIG_NW_BGE_5</Criteria>
+      <File>Database/More_Belief_God_Expanding_Database_5.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="GlobalSetting_CONFIG_NW_BGE_6">
+      <Properties>
+        <LoadOrder>1</LoadOrder>
+      </Properties>
+      <Criteria>GlobalSetting_CONFIG_NW_BGE_6</Criteria>
+      <File>Database/More_Belief_God_Expanding_Database_6.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="GlobalSetting_CONFIG_NW_BGE_7">
+      <Properties>
+        <LoadOrder>1</LoadOrder>
+      </Properties>
+      <Criteria>GlobalSetting_CONFIG_NW_BGE_7</Criteria>
+      <File>Database/More_Belief_God_Expanding_Database_7.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="More_Belief_God_Expanding_Database">
+      <Properties>
+        <LoadOrder>2</LoadOrder>
+      </Properties>
+      <File>More_Belief_God_Expanding_Database.sql</File>
+    </UpdateDatabase>
+    <UpdateIcons id="More_Belief_God_Expanding_ICON">
+      <Properties>
+        <LoadOrder>2</LoadOrder>
+      </Properties>
+      <File>More_Belief_God_Expanding_Icons.sql</File>
+    </UpdateIcons>
+    <UpdateText id="More_Belief_God_Expanding_Text">
+      <Properties>
+        <LoadOrder>2</LoadOrder>
+      </Properties>
+      <File>More_Belief_God_Expanding_Text.xml</File>
+    </UpdateText>
+  </InGameActions>
+  <Files>
+    <File>Database/More_Belief_God_Expanding_Database_1.sql</File>
+    <File>Database/More_Belief_God_Expanding_Database_2.sql</File>
+    <File>Database/More_Belief_God_Expanding_Database_3.sql</File>
+    <File>Database/More_Belief_God_Expanding_Database_4.sql</File>
+    <File>Database/More_Belief_God_Expanding_Database_5.sql</File>
+    <File>Database/More_Belief_God_Expanding_Database_6.sql</File>
+    <File>Database/More_Belief_God_Expanding_Database_7.sql</File>
+    <File>More_Belief_God_Expanding.xml</File>
+    <File>More_Belief_God_Expanding_Database.sql</File>
+    <File>More_Belief_God_Expanding_Icons.sql</File>
+    <File>More_Belief_God_Expanding_Text.xml</File>
+  </Files>
+</Mod>

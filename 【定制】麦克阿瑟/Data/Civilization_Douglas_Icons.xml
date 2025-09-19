@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: Civilization_Douglas_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/14 10:32:02 -->
+<GameData>
+	<IconTextureAtlases>
+		<Row Filename="LeaderDouglas32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_LEADER_DOUGLAS"/>
+		<Row Filename="LeaderDouglas45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_LEADER_DOUGLAS"/>
+		<Row Filename="LeaderDouglas48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_LEADER_DOUGLAS"/>
+		<Row Filename="LeaderDouglas50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_LEADER_DOUGLAS"/>
+		<Row Filename="LeaderDouglas55" IconsPerColumn="1" IconsPerRow="1" IconSize="55" Name="ICON_ATLAS_LEADER_DOUGLAS"/>
+		<Row Filename="LeaderDouglas64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_LEADER_DOUGLAS"/>
+		<Row Filename="LeaderDouglas80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_LEADER_DOUGLAS"/>
+		<Row Filename="LeaderDouglas256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_LEADER_DOUGLAS"/>
+	</IconTextureAtlases>
+	
+	<IconDefinitions>
+		<Row Name="ICON_LEADER_LEADER_DOUGLAS" Atlas="ICON_ATLAS_LEADER_DOUGLAS" Index="0"/>
+	</IconDefinitions>
+
+
+    <IconAliases>
+        <Row Name="ICON_UNIT_NIMIZI_HANGMU" OtherName="ICON_UNIT_AIRCRAFT_CARRIER"/>
+        <Row Name="ICON_DISTRICT_AMERICAN_CAMP" OtherName="ICON_DISTRICT_HARBOR"/>
+		<Row Name="ICON_CIVILIZATION_CIV_DOUGLAS" OtherName="ICON_CIVILIZATION_AMERICA"/>
+    </IconAliases>
+</GameData>

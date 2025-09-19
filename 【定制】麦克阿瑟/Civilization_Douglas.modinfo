@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="904398f0-edcc-4757-8588-6822d7832eee" version="1">
+  <Properties>
+    <Name>LOC_CIVILIZATION_DOUGLAS_MOD_TITLE</Name>
+    <Description>LOC_CIVILIZATION_DOUGLAS_MOD_DESCRIPTION</Description>
+    <Created>1757823797</Created>
+    <Teaser>LOC_CIVILIZATION_DOUGLAS_MOD_TEASER</Teaser>
+    <Authors>LOC_CIVILIZATION_DOUGLAS_MOD_AUTHORS</Authors>
+    <CompatibleVersions>2.0</CompatibleVersions>
+  </Properties>
+  <References>
+    <Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall" />
+    <Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion: Gathering Storm" />
+  </References>
+  <ActionCriteria>
+    <Criteria id="Civilization_Douglas">
+      <LeaderPlayable>Players:StandardPlayers::LEADER_LEADER_DOUGLAS,StandardPlayers::LEADER_LEADER_DOUGLAS,Players:Expansion1_Players::LEADER_LEADER_DOUGLAS,Players:Expansion2_Players::LEADER_LEADER_DOUGLAS</LeaderPlayable>
+      <RuleSetInUse>RULESET_STANDARD,RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="Civilization_Douglas_Expansion1">
+      <LeaderPlayable>Players:Expansion1_Players::LEADER_LEADER_DOUGLAS</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_1</RuleSetInUse>
+    </Criteria>
+    <Criteria id="Civilization_Douglas_Expansion2">
+      <LeaderPlayable>Players:Expansion2_Players::LEADER_LEADER_DOUGLAS</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="SecretSocieties">
+      <ConfigurationValueMatches>
+        <Group>Game</Group>
+        <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+  </ActionCriteria>
+  <FrontEndActions>
+    <UpdateDatabase id="Civilization_DouglasSettings">
+      <File>Data/Civilization_Douglas_Config.sql</File>
+    </UpdateDatabase>
+    <UpdateArt id="Civilization_DouglasSettingsArt">
+      <File>Civilization_Douglas.dep</File>
+    </UpdateArt>
+    <UpdateColors id="Civilization_DouglasColors">
+      <File>Data/Civilization_Douglas_Colors.sql</File>
+    </UpdateColors>
+    <UpdateText id="Civilization_DouglasSettingsText">
+      <File>Text/Civilization_Douglas_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="Civilization_DouglasSettingsIcons">
+      <File>Data/Civilization_Douglas_Icons.xml</File>
+    </UpdateIcons>
+  </FrontEndActions>
+  <InGameActions>
+    <ImportFiles id="Civilization_Douglas_ImportFiles">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas</Criteria>
+      <File>Import/NwflowerMODCore.lua</File>
+    </ImportFiles>
+    <UpdateArt id="Civilization_DouglasArt">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas</Criteria>
+      <File>Civilization_Douglas.dep</File>
+    </UpdateArt>
+    <UpdateDatabase id="Civilization_DouglasGameplay">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas</Criteria>
+      <File>Data/Civilization_Douglas_Buildings.sql</File>
+      <File>Data/Civilization_Douglas_Civilizations.sql</File>
+      <File>Data/Civilization_Douglas_Distrcits.sql</File>
+      <File>Data/Civilization_Douglas_Improvement.sql</File>
+      <File>Data/Civilization_Douglas_Leaders.sql</File>
+      <File>Data/Civilization_Douglas_Modifier.sql</File>
+      <File>Data/Civilization_Douglas_Units.sql</File>
+    </UpdateDatabase>
+    <UpdateColors id="Civilization_DouglasColors">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas</Criteria>
+      <File>Data/Civilization_Douglas_Colors.sql</File>
+    </UpdateColors>
+    <UpdateDatabase id="Civilization_DouglasGameplay_XP1">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas_Expansion1</Criteria>
+      <File>Data/Civilization_Douglas_Expansion1.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="Civilization_DouglasGameplay_XP2">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas_Expansion2</Criteria>
+      <File>Data/Civilization_Douglas_Expansion2.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="Civilization_Douglas_SecretSocieties_MODE">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>SecretSocieties</Criteria>
+      <File>Data/Civilization_Douglas_SecretSocieties_MODE.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="Civilization_Douglas_Text">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas</Criteria>
+      <File>Text/Civilization_Douglas_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="Civilization_Douglas_Icons">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas</Criteria>
+      <File>Data/Civilization_Douglas_Icons.xml</File>
+    </UpdateIcons>
+    <UpdateLogitechARX id="Civilization_Douglas_ARX">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas</Criteria>
+    </UpdateLogitechARX>
+    <UpdateAudio id="Civilization_Douglas_Audio">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas</Criteria>
+      <File>Platforms/Windows/Audio/Civilization_Douglas_Banks.ini</File>
+    </UpdateAudio>
+    <AddGameplayScripts id="Civilization_Douglas_AddGameplayScripts">
+      <Properties>
+        <LoadOrder>36796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_Douglas</Criteria>
+      <File>Script/Civilization_Douglas_Script.lua</File>
+    </AddGameplayScripts>
+  </InGameActions>
+  <LocalizedText>
+    <File>Text/Civilization_Douglas_PackageText.xml</File>
+  </LocalizedText>
+  <Files>
+    <File>ArtDefs/Buildings.artdef</File>
+    <File>ArtDefs/Civilizations.artdef</File>
+    <File>ArtDefs/Cultures.artdef</File>
+    <File>ArtDefs/Districts.artdef</File>
+    <File>ArtDefs/FallbackLeaders.artdef</File>
+    <File>ArtDefs/Improvements.artdef</File>
+    <File>ArtDefs/Overlay.artdef</File>
+    <File>ArtDefs/StrategicView.artdef</File>
+    <File>ArtDefs/Units.artdef</File>
+    <File>Civilization_Douglas.dep</File>
+    <File>Data/Civilization_Douglas_Buildings.sql</File>
+    <File>Data/Civilization_Douglas_Civilizations.sql</File>
+    <File>Data/Civilization_Douglas_Colors.sql</File>
+    <File>Data/Civilization_Douglas_Config.sql</File>
+    <File>Data/Civilization_Douglas_Distrcits.sql</File>
+    <File>Data/Civilization_Douglas_Expansion1.sql</File>
+    <File>Data/Civilization_Douglas_Expansion2.sql</File>
+    <File>Data/Civilization_Douglas_Icons.xml</File>
+    <File>Data/Civilization_Douglas_Improvement.sql</File>
+    <File>Data/Civilization_Douglas_Leaders.sql</File>
+    <File>Data/Civilization_Douglas_Modifier.sql</File>
+    <File>Data/Civilization_Douglas_SecretSocieties_MODE.sql</File>
+    <File>Data/Civilization_Douglas_Units.sql</File>
+    <File>Import/NwflowerMODCore.lua</File>
+    <File>Platforms/Windows/Audio/Civilization_Douglas_Banks.ini</File>
+    <File>Platforms/Windows/BLPs/LeaderFallbacks.blp</File>
+    <File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Loyalty_Overlay_America</File>
+    <File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Loyalty_Pressure_America</File>
+    <File>Platforms/Windows/BLPs/strategicview/strategicview_uilenses.blp</File>
+    <File>Platforms/Windows/BLPs/UILensAssets.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Icons.blp</File>
+    <File>Platforms/Windows/BLPs/UI/PrideMoments.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Shell_Loading.blp</File>
+    <File>Platforms/Windows/BLPs/UI_LeaderScenes.blp</File>
+    <File>Script/Civilization_Douglas_Script.lua</File>
+    <File>Text/Civilization_Douglas_PackageText.xml</File>
+    <File>Text/Civilization_Douglas_Text.xml</File>
+  </Files>
+</Mod>

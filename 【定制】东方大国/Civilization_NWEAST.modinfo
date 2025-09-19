@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="417c67e0-ca16-4389-b922-fa885e3e415c" version="1">
+  <Properties>
+    <Name>LOC_CIVILIZATION_NWEAST_MOD_TITLE</Name>
+    <Description>LOC_CIVILIZATION_NWEAST_MOD_DESCRIPTION</Description>
+    <Created>1757737153</Created>
+    <Teaser>LOC_CIVILIZATION_NWEAST_MOD_TEASER</Teaser>
+    <Authors>LOC_CIVILIZATION_NWEAST_MOD_AUTHORS</Authors>
+    <CompatibleVersions>2.0</CompatibleVersions>
+  </Properties>
+  <References>
+    <Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall" />
+    <Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion: Gathering Storm" />
+  </References>
+  <ActionCriteria>
+    <Criteria id="Civilization_NWEAST">
+      <LeaderPlayable>Players:StandardPlayers::LEADER_PLA,StandardPlayers::LEADER_PLA,Players:Expansion1_Players::LEADER_PLA,Players:Expansion2_Players::LEADER_PLA</LeaderPlayable>
+      <RuleSetInUse>RULESET_STANDARD,RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="Civilization_NWEAST_Expansion1">
+      <LeaderPlayable>Players:Expansion1_Players::LEADER_PLA</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_1</RuleSetInUse>
+    </Criteria>
+    <Criteria id="Civilization_NWEAST_Expansion2">
+      <LeaderPlayable>Players:Expansion2_Players::LEADER_PLA</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="SecretSocieties">
+      <ConfigurationValueMatches>
+        <Group>Game</Group>
+        <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+  </ActionCriteria>
+  <FrontEndActions>
+    <UpdateDatabase id="Civilization_NWEASTSettings">
+      <File>Data/Civilization_NWEAST_Config.sql</File>
+    </UpdateDatabase>
+    <UpdateArt id="Civilization_NWEASTSettingsArt">
+      <File>Civilization_NWEAST.dep</File>
+    </UpdateArt>
+    <UpdateColors id="Civilization_NWEASTColors">
+      <File>Data/Civilization_NWEAST_Colors.sql</File>
+    </UpdateColors>
+    <UpdateText id="Civilization_NWEASTSettingsText">
+      <File>Text/Civilization_NWEAST_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="Civilization_NWEASTSettingsIcons">
+      <File>Data/Civilization_NWEAST_Icons.xml</File>
+    </UpdateIcons>
+  </FrontEndActions>
+  <InGameActions>
+    <ImportFiles id="Civilization_NWEAST_ImportFiles">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST</Criteria>
+      <File>Import/NwflowerMODCore.lua</File>
+    </ImportFiles>
+    <UpdateArt id="Civilization_NWEASTArt">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST</Criteria>
+      <File>Civilization_NWEAST.dep</File>
+    </UpdateArt>
+    <UpdateDatabase id="Civilization_NWEASTGameplay">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST</Criteria>
+      <File>Data/Civilization_NWEAST_Buildings.sql</File>
+      <File>Data/Civilization_NWEAST_Civilizations.sql</File>
+      <File>Data/Civilization_NWEAST_Distrcits.sql</File>
+      <File>Data/Civilization_NWEAST_Improvement.sql</File>
+      <File>Data/Civilization_NWEAST_Leaders.sql</File>
+      <File>Data/Civilization_NWEAST_Modifier.sql</File>
+      <File>Data/Civilization_NWEAST_Units.sql</File>
+    </UpdateDatabase>
+    <UpdateColors id="Civilization_NWEASTColors">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST</Criteria>
+      <File>Data/Civilization_NWEAST_Colors.sql</File>
+    </UpdateColors>
+    <UpdateDatabase id="Civilization_NWEASTGameplay_XP1">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST_Expansion1</Criteria>
+      <File>Data/Civilization_NWEAST_Expansion1.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="Civilization_NWEASTGameplay_XP2">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST_Expansion2</Criteria>
+      <File>Data/Civilization_NWEAST_Expansion2.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="Civilization_NWEAST_SecretSocieties_MODE">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>SecretSocieties</Criteria>
+      <File>Data/Civilization_NWEAST_SecretSocieties_MODE.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="Civilization_NWEAST_Text">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST</Criteria>
+      <File>Text/Civilization_NWEAST_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="Civilization_NWEAST_Icons">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST</Criteria>
+      <File>Data/Civilization_NWEAST_Icons.xml</File>
+    </UpdateIcons>
+    <UpdateLogitechARX id="Civilization_NWEAST_ARX">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST</Criteria>
+    </UpdateLogitechARX>
+    <UpdateAudio id="Civilization_NWEAST_Audio">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST</Criteria>
+      <File>Platforms/Windows/Audio/Civilization_NWEAST_Banks.ini</File>
+    </UpdateAudio>
+    <AddGameplayScripts id="Civilization_NWEAST_AddGameplayScripts">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Civilization_NWEAST</Criteria>
+      <File>Script/Civilization_NWEAST_Script.lua</File>
+    </AddGameplayScripts>
+  </InGameActions>
+  <LocalizedText>
+    <File>Text/Civilization_NWEAST_PackageText.xml</File>
+  </LocalizedText>
+  <Files>
+    <File>ArtDefs/Buildings.artdef</File>
+    <File>ArtDefs/Civilizations.artdef</File>
+    <File>ArtDefs/Cultures.artdef</File>
+    <File>ArtDefs/Districts.artdef</File>
+    <File>ArtDefs/FallbackLeaders.artdef</File>
+    <File>ArtDefs/Improvements.artdef</File>
+    <File>ArtDefs/Overlay.artdef</File>
+    <File>ArtDefs/StrategicView.artdef</File>
+    <File>ArtDefs/Units.artdef</File>
+    <File>Civilization_NWEAST.dep</File>
+    <File>Data/Civilization_NWEAST_Buildings.sql</File>
+    <File>Data/Civilization_NWEAST_Civilizations.sql</File>
+    <File>Data/Civilization_NWEAST_Colors.sql</File>
+    <File>Data/Civilization_NWEAST_Config.sql</File>
+    <File>Data/Civilization_NWEAST_Distrcits.sql</File>
+    <File>Data/Civilization_NWEAST_Expansion1.sql</File>
+    <File>Data/Civilization_NWEAST_Expansion2.sql</File>
+    <File>Data/Civilization_NWEAST_Icons.xml</File>
+    <File>Data/Civilization_NWEAST_Improvement.sql</File>
+    <File>Data/Civilization_NWEAST_Leaders.sql</File>
+    <File>Data/Civilization_NWEAST_Modifier.sql</File>
+    <File>Data/Civilization_NWEAST_SecretSocieties_MODE.sql</File>
+    <File>Data/Civilization_NWEAST_Units.sql</File>
+    <File>Import/NwflowerMODCore.lua</File>
+    <File>Platforms/Windows/Audio/Civilization_NWEAST_Banks.ini</File>
+    <File>Platforms/Windows/BLPs/LeaderFallbacks.blp</File>
+    <File>Platforms/Windows/BLPs/strategicview/strategicview_uilenses.blp</File>
+    <File>Platforms/Windows/BLPs/UILensAssets.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Icons.blp</File>
+    <File>Platforms/Windows/BLPs/UI/PrideMoments.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Shell_Loading.blp</File>
+    <File>Platforms/Windows/BLPs/UI_LeaderScenes.blp</File>
+    <File>Script/Civilization_NWEAST_Script.lua</File>
+    <File>Text/Civilization_NWEAST_PackageText.xml</File>
+    <File>Text/Civilization_NWEAST_Text.xml</File>
+  </Files>
+</Mod>

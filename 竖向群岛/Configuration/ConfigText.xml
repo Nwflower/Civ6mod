@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+  <LocalizedText>
+    <Replace Tag="LOC_MAP_TPT_VERTICAL_ARCHIPELAGO" Language="zh_Hans_CN">
+      <Text>[COLOR:ResGoldLabelCS]Team PVP 竖向群岛[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="BBS_RIDGE_RF_NAME" language="zh_Hans_CN">
+		<Text>标准山脉(推荐)</Text>
+	</Replace>
+	<Replace Tag="BBS_RIDGE_RF_DESC" language="zh_Hans_CN">
+		<Text>标准山脉(推荐)</Text>
+	</Replace>
+	<Replace Tag="BBS_RIDGE_VLESS_NAME" language="zh_Hans_CN">
+		<Text>更多山脉</Text>
+	</Replace>
+	<Replace Tag="BBS_RIDGE_VLESS_DESC" language="zh_Hans_CN">
+		<Text>更多山脉</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MORE_NAME" Language="zh_Hans_CN">
+		<Text>标准战略(推荐)</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MORE_DESC" Language="zh_Hans_CN">
+		<Text>标准战略(推荐)</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MUCHMORE_NAME" Language="zh_Hans_CN">
+		<Text>更多战略</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MUCHMORE_DESC" Language="zh_Hans_CN">
+		<Text>更多战略</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_NORMAL_NAME" Language="zh_Hans_CN">
+		<Text>较少战略</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_NORMAL_DESC" Language="zh_Hans_CN">
+		<Text>较少战略</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NORMAL_NAME" language="zh_Hans_CN">
+		<Text>随机出生地(推荐)</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NORMAL_DESC" language="zh_Hans_CN">
+		<Text>玩家随机出生在各个地点</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_EW_NAME" language="zh_Hans_CN">
+		<Text>东西出生点</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_EW_DESC" language="zh_Hans_CN">
+		<Text>出生点分为东边和西边，同一队的玩家更容易出生在同一边。</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NS_NAME" language="zh_Hans_CN">
+		<Text>南北出生点</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NS_DESC" language="zh_Hans_CN">
+		<Text>出生点分为南边和北边，同一队的玩家更容易出生在同一边。</Text>
+	</Replace>
+	<Replace Tag="LOC_GAME_BBS_RIDGE_NAME" language="zh_Hans_CN">
+		<Text>山脉</Text>
+	</Replace>
+	<Replace Tag="LOC_GAME_BBS_SRESOURCES_NAME" Language="zh_Hans_CN">
+		<Text>战略资源</Text>
+	</Replace>
+	<Replace Tag="LOC_BBS_Team_Spawn_NAME" language="zh_Hans_CN">
+		<Text>出生地</Text>
+	</Replace>
+    <Replace Tag="LOC_MAP_ROUTE_LEVEL_NAME" Language="zh_Hans_CN">
+		<Text>道路等级</Text>
+    </Replace>
+    <Replace Tag="LOC_MAP_ROUTE_LEVEL_DESCRIPTION" Language="zh_Hans_CN">
+		<Text>自动生成的道路等级</Text>
+    </Replace>
+    <Replace Tag="LOC_MAP_ROUTE_RAILROAD_NAME" Language="zh_Hans_CN">
+		<Text>铁路</Text>
+    </Replace>
+    <Replace Tag="LOC_ROUTE_NOT_ROAD_NAME" Language="zh_Hans_CN">
+		<Text>无道路</Text>
+    </Replace>
+	<Replace Tag="LOC_MAPSIZE_DUEL_NAME" Language="zh_Hans_CN">
+		<Text>决斗(推荐2人)</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_FOURE_NAME" Language="zh_Hans_CN">
+		<Text>微小(推荐4人)</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_TINY_NAME" Language="zh_Hans_CN">
+		<Text>极小(推荐6人)</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_SMALL_NAME" Language="zh_Hans_CN">
+		<Text>较小(推荐8人)</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_STANDARD_NAME" Language="zh_Hans_CN">
+		<Text>标准(推荐10人)</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_LARGE_NAME" Language="zh_Hans_CN">
+		<Text>较大(推荐12人)</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_HUGE_NAME" Language="zh_Hans_CN">
+		<Text>极大(推荐14人)</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_HUGE_16_NAME" Language="zh_Hans_CN">
+		<Text>巨大(推荐16人)</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_HUGE_18_NAME" Language="zh_Hans_CN">
+		<Text>最大(推荐18人)</Text>
+	</Replace>
+    <Replace Tag="LOC_MAPSIZE_DUEL_DESCRIPTION" Language="zh_Hans_CN">
+		<Text>供2名玩家混战使用的决斗地图。</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_FOURE_DESCRIPTION" Language="zh_Hans_CN">
+		<Text>供4名玩家混战使用的小型地图。</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_TINY_DESCRIPTION" Language="zh_Hans_CN">
+		<Text>供6名玩家混战使用的小型地图。</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_SMALL_DESCRIPTION" Language="zh_Hans_CN">
+		<Text>供8名玩家混战使用的中型地图。</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_STANDARD_DESCRIPTION" Language="zh_Hans_CN">
+		<Text>供10名玩家混战使用的中型地图。</Text>
+    </Replace>
+	<Replace Tag="LOC_MAPSIZE_LARGE_DESCRIPTION" Language="zh_Hans_CN">
+		<Text>供12名玩家混战使用的大型地图。</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_HUGE_DESCRIPTION" Language="zh_Hans_CN">
+		<Text>供14名玩家混战使用的大型地图。</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_HUGE_16_DESCRIPTION" Language="zh_Hans_CN">
+		<Text>供16名玩家混战使用的大型地图。</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_HUGE_18_DESCRIPTION" Language="zh_Hans_CN">
+		<Text>供18名玩家混战使用的大型地图。</Text>
+    </Replace>
+    <Replace Tag="LOC_MAP_WIDTH_NAME" Language="zh_Hans_CN">
+		<Text>地图宽度调整</Text>
+    </Replace>
+    <Replace Tag="LOC_MAP_WIDTH_DESC" Language="zh_Hans_CN">
+		<Text>地图越窄，玩家距离更近。</Text>
+    </Replace>
+
+
+    <Replace Tag="LOC_MAP_TPT_VERTICAL_ARCHIPELAGO" Language="en_US">
+      <Text>[COLOR:ResGoldLabelCS]Vertical Archipelago[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="BBS_RIDGE_RF_NAME" language="en_US">
+		<Text>Classic</Text>
+	</Replace>
+	<Replace Tag="BBS_RIDGE_RF_DESC" language="en_US">
+		<Text>Standard quantity</Text>
+	</Replace>
+	<Replace Tag="BBS_RIDGE_VLESS_NAME" language="en_US">
+		<Text>Abundant</Text>
+	</Replace>
+	<Replace Tag="BBS_RIDGE_VLESS_DESC" language="en_US">
+		<Text>More mountains</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MORE_NAME" Language="en_US">
+		<Text>Abundant</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MORE_DESC" Language="en_US">
+		<Text>Abundant</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MUCHMORE_NAME" Language="en_US">
+		<Text>Epic</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MUCHMORE_DESC" Language="en_US">
+		<Text>Epic</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_NORMAL_NAME" Language="en_US">
+		<Text>Standard</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_NORMAL_DESC" Language="en_US">
+		<Text>Standard</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NORMAL_NAME" language="en_US">
+		<Text>Standard</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NORMAL_DESC" language="en_US">
+		<Text>Original Firaxis settings: players are randomly placed</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_EW_NAME" language="en_US">
+		<Text>East vs. West</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_EW_DESC" language="en_US">
+		<Text>Players of the same team are much more likely to spawn East or West.</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NS_NAME" language="en_US">
+		<Text>North vs. South</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NS_DESC" language="en_US">
+		<Text>Players of the same team are much more likely to spawn North or South.</Text>
+	</Replace>
+	<Replace Tag="LOC_GAME_BBS_RIDGE_NAME" language="en_US">
+		<Text>Ridges Definition</Text>
+	</Replace>
+	<Replace Tag="LOC_GAME_BBS_SRESOURCES_NAME" Language="en_US">
+		<Text>Strategic Resources</Text>
+	</Replace>
+	<Replace Tag="LOC_BBS_Team_Spawn_NAME" language="en_US">
+		<Text>Teamers Start Position</Text>
+	</Replace>
+    <Replace Tag="LOC_MAP_ROUTE_LEVEL_NAME" Language="en_US">
+		<Text>Road Level</Text>
+    </Replace>
+    <Replace Tag="LOC_MAP_ROUTE_LEVEL_DESCRIPTION" Language="en_US">
+		<Text>The level of roads that the map is automatically generated</Text>
+    </Replace>
+    <Replace Tag="LOC_MAP_ROUTE_RAILROAD_NAME" Language="en_US">
+		<Text>Railroad</Text>
+    </Replace>
+    <Replace Tag="LOC_ROUTE_NOT_ROAD_NAME" Language="en_US">
+		<Text>No Roads</Text>
+    </Replace>
+	<Replace Tag="LOC_MAPSIZE_DUEL_NAME" Language="en_US">
+		<Text>2 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_FOURE_NAME" Language="en_US">
+		<Text>4 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_TINY_NAME" Language="en_US">
+		<Text>6 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_SMALL_NAME" Language="en_US">
+		<Text>8 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_STANDARD_NAME" Language="en_US">
+		<Text>10 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_LARGE_NAME" Language="en_US">
+		<Text>12 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_HUGE_NAME" Language="en_US">
+		<Text>14 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_HUGE_16_NAME" Language="en_US">
+		<Text>16 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_HUGE_18_NAME" Language="en_US">
+		<Text>18 Players</Text>
+	</Replace>
+    <Replace Tag="LOC_MAPSIZE_DUEL_DESCRIPTION" Language="en_US">
+		<Text>2 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_FOURE_DESCRIPTION" Language="en_US">
+		<Text>4 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_TINY_DESCRIPTION" Language="en_US">
+		<Text>6 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_SMALL_DESCRIPTION" Language="en_US">
+		<Text>8 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_STANDARD_DESCRIPTION" Language="en_US">
+		<Text>10 player-sized maps</Text>
+    </Replace>
+	<Replace Tag="LOC_MAPSIZE_LARGE_DESCRIPTION" Language="en_US">
+		<Text>12 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_HUGE_DESCRIPTION" Language="en_US">
+		<Text>14 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_HUGE_16_DESCRIPTION" Language="en_US">
+		<Text>16 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_HUGE_18_DESCRIPTION" Language="en_US">
+		<Text>18 player-sized maps</Text>
+    </Replace>
+
+
+
+    <Replace Tag="LOC_MAP_TPT_VERTICAL_ARCHIPELAGO" Language="en">
+      <Text>[COLOR:ResGoldLabelCS]Vertical Archipelago[ENDCOLOR]</Text>
+    </Replace>
+	<Replace Tag="BBS_RIDGE_RF_NAME" language="en">
+		<Text>Classic</Text>
+	</Replace>
+	<Replace Tag="BBS_RIDGE_RF_DESC" language="en">
+		<Text>Standard quantity</Text>
+	</Replace>
+	<Replace Tag="BBS_RIDGE_VLESS_NAME" language="en">
+		<Text>Abundant</Text>
+	</Replace>
+	<Replace Tag="BBS_RIDGE_VLESS_DESC" language="en">
+		<Text>More mountains</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MORE_NAME" Language="en">
+		<Text>Abundant</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MORE_DESC" Language="en">
+		<Text>Abundant</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MUCHMORE_NAME" Language="en">
+		<Text>Epic</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_MUCHMORE_DESC" Language="en">
+		<Text>Epic</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_NORMAL_NAME" Language="en">
+		<Text>Standard</Text>
+	</Replace>
+	<Replace Tag="BBS_SRESOURCES_NORMAL_DESC" Language="en">
+		<Text>Standard</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NORMAL_NAME" language="en">
+		<Text>Standard</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NORMAL_DESC" language="en">
+		<Text>Original Firaxis settings: players are randomly placed</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_EW_NAME" language="en">
+		<Text>East vs. West</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_EW_DESC" language="en">
+		<Text>Players of the same team are much more likely to spawn East or West.</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NS_NAME" language="en">
+		<Text>North vs. South</Text>
+	</Replace>
+	<Replace Tag="BBS_Team_Spawn_NS_DESC" language="en">
+		<Text>Players of the same team are much more likely to spawn North or South.</Text>
+	</Replace>
+	<Replace Tag="LOC_GAME_BBS_RIDGE_NAME" language="en">
+		<Text>Ridges Definition</Text>
+	</Replace>
+	<Replace Tag="LOC_GAME_BBS_SRESOURCES_NAME" Language="en">
+		<Text>Strategic Resources</Text>
+	</Replace>
+	<Replace Tag="LOC_BBS_Team_Spawn_NAME" language="en">
+		<Text>Teamers Start Position</Text>
+	</Replace>
+    <Replace Tag="LOC_MAP_ROUTE_LEVEL_NAME" Language="en">
+		<Text>Road Level</Text>
+    </Replace>
+    <Replace Tag="LOC_MAP_ROUTE_LEVEL_DESCRIPTION" Language="en">
+		<Text>The level of roads that the map is automatically generated</Text>
+    </Replace>
+    <Replace Tag="LOC_MAP_ROUTE_RAILROAD_NAME" Language="en">
+		<Text>Railroad</Text>
+    </Replace>
+    <Replace Tag="LOC_ROUTE_NOT_ROAD_NAME" Language="en">
+		<Text>No Roads</Text>
+    </Replace>
+	<Replace Tag="LOC_MAPSIZE_DUEL_NAME" Language="en">
+		<Text>2 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_FOURE_NAME" Language="en">
+		<Text>4 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_TINY_NAME" Language="en">
+		<Text>6 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_SMALL_NAME" Language="en">
+		<Text>8 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_STANDARD_NAME" Language="en">
+		<Text>10 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_LARGE_NAME" Language="en">
+		<Text>12 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_HUGE_NAME" Language="en">
+		<Text>14 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_HUGE_16_NAME" Language="en">
+		<Text>16 Players</Text>
+	</Replace>
+	<Replace Tag="LOC_MAPSIZE_HUGE_18_NAME" Language="en">
+		<Text>18 Players</Text>
+	</Replace>
+    <Replace Tag="LOC_MAPSIZE_DUEL_DESCRIPTION" Language="en">
+		<Text>2 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_FOURE_DESCRIPTION" Language="en">
+		<Text>4 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_TINY_DESCRIPTION" Language="en">
+		<Text>6 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_SMALL_DESCRIPTION" Language="en">
+		<Text>8 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_STANDARD_DESCRIPTION" Language="en">
+		<Text>10 player-sized maps</Text>
+    </Replace>
+	<Replace Tag="LOC_MAPSIZE_LARGE_DESCRIPTION" Language="en">
+		<Text>12 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_HUGE_DESCRIPTION" Language="en">
+		<Text>14 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_HUGE_16_DESCRIPTION" Language="en">
+		<Text>16 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAPSIZE_HUGE_18_DESCRIPTION" Language="en">
+		<Text>18 player-sized maps</Text>
+    </Replace>
+    <Replace Tag="LOC_MAP_WIDTH_NAME" Language="en">
+		<Text>Map Width Adjustment</Text>
+    </Replace>
+    <Replace Tag="LOC_MAP_WIDTH_DESC" Language="en">
+		<Text>The narrower the map, the closer the player gets.</Text>
+    </Replace>
+  </LocalizedText>
+</GameData>

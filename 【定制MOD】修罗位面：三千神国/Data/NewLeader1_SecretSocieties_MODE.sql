@@ -1,0 +1,15 @@
+--	FILE: NewLeader1_SecretSocieties_MODE.sql
+--  VERSION: 1
+--  Author: Nwflower
+--  Spicial Thanks: Uni
+--	Copyright (c) 2025.
+--	All rights reserved.
+--  DateCreated: 2025/9/2 15:46:23
+--======================================================================
+--  作者： 千川白浪
+--  特别鸣谢： 优妮
+--======================================================================
+
+-- INSERT INTO District_Adjacencies(DistrictType,YieldChangeId)VALUES
+-- ('DISTRICT_XULINGTA','YieldChangeId1'),
+-- ('DISTRICT_XULINGTA','YieldChangeId2');

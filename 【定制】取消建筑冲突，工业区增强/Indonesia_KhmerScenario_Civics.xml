@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Ed Beach (Firaxis Games) -->
+<GameInfo>
+	<Types>
+		<Row Type="POLICY_URBAN_PLANNING_FAITH" Kind="KIND_POLICY"/>
+		<Row Type="POLICY_CARAVANSARIES_FAITH" Kind="KIND_POLICY"/>
+		<Row Type="POLICY_NOBLE_PATH" Kind="KIND_POLICY"/>
+		<Row Type="POLICY_DEVOTION_FAITH" Kind="KIND_POLICY"/>
+		<Row Type="POLICY_MERITOCRACY_FAITH" Kind="KIND_POLICY"/>
+		<Row Type="POLICY_TRADE_CONFEDERATION_FAITH" Kind="KIND_POLICY"/>
+	</Types>
+	<Policies>
+		<!-- Start Era-->
+		<Row PolicyType="POLICY_URBAN_PLANNING_FAITH" Name="LOC_POLICY_URBAN_PLANNING_NAME" Description="LOC_POLICY_SCENARIO_URBAN_PLANNING_DESCRIPTION" PrereqCivic="CIVIC_CODE_OF_LAWS" GovernmentSlotType="SLOT_WILDCARD"/>
+		<Row PolicyType="POLICY_CARAVANSARIES_FAITH" Name="LOC_POLICY_CARAVANSARIES_NAME" Description="LOC_POLICY_SCENARIO_CARAVANSARIES_DESCRIPTION" PrereqCivic="CIVIC_CODE_OF_LAWS" GovernmentSlotType="SLOT_WILDCARD"/>
+
+		<!-- Medieval Era-->
+		<Row PolicyType="POLICY_NOBLE_PATH" Name="LOC_POLICY_SCENARIO_NOBLE_PATH_NAME" Description="LOC_POLICY_SCENARIO_NOBLE_PATH_DESCRIPTION" PrereqCivic="CIVIC_MYSTICISM" GovernmentSlotType="SLOT_WILDCARD"/>
+		<Row PolicyType="POLICY_DEVOTION_FAITH" Name="LOC_POLICY_SCENARIO_DEVOTION_NAME" Description="LOC_POLICY_SCENARIO_DEVOTION_DESCRIPTION" PrereqCivic="CIVIC_MYSTICISM" GovernmentSlotType="SLOT_WILDCARD"/>
+
+		<!-- Renaissance Era-->
+		<Row PolicyType="POLICY_MERITOCRACY_FAITH" Name="LOC_POLICY_MERITOCRACY_NAME" Description="LOC_POLICY_SCENARIO_MERITOCRACY_DESCRIPTION" PrereqCivic="CIVIC_THEOLOGY" GovernmentSlotType="SLOT_WILDCARD"/>
+		<Row PolicyType="POLICY_TRADE_CONFEDERATION_FAITH" Name="LOC_POLICY_TRADE_CONFEDERATION_NAME" Description="LOC_POLICY_SCENARIO_TRADE_CONFEDERATION_DESCRIPTION" PrereqCivic="CIVIC_THEOLOGY" GovernmentSlotType="SLOT_WILDCARD"/>
+	</Policies>
+	<ObsoletePolicies>
+		<Row PolicyType="POLICY_URBAN_PLANNING_FAITH" ObsoletePolicy="POLICY_MERITOCRACY_FAITH"/>
+		<Row PolicyType="POLICY_CARAVANSARIES_FAITH" ObsoletePolicy="POLICY_TRADE_CONFEDERATION_FAITH"/>
+		<Row PolicyType="POLICY_NOBLE_PATH" ObsoletePolicy="POLICY_TRADE_CONFEDERATION_FAITH"/>
+	</ObsoletePolicies>
+	<Modifiers>
+		<!-- Policies-->
+		<Row>
+			<ModifierId>URBAN_PLANNING_ALLCITYFAITH</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE</ModifierType>
+		</Row>
+		<Row>
+			<ModifierId>NOBLEPATH_DOMESTICTRADEFAITH</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_YIELD_FOR_DOMESTIC</ModifierType>
+		</Row>
+		<Row>
+			<ModifierId>CARAVANSARIES_INTERNATIONALTRADEFAITH</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_YIELD_FOR_INTERNATIONAL</ModifierType>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_MISSIONARYPRODUCTION</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_UNITS_ADJUST_UNIT_PRODUCTION</ModifierType>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_PRIESTPRODUCTION</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_UNITS_ADJUST_UNIT_PRODUCTION</ModifierType>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_MONKPRODUCTION</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_UNITS_ADJUST_UNIT_PRODUCTION</ModifierType>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_GURUPRODUCTION</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_UNITS_ADJUST_UNIT_PRODUCTION</ModifierType>
+		</Row>
+		<Row>
+			<ModifierId>MERITOCRACY_DISTRICTFAITH</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_PER_DISTRICT</ModifierType>
+		</Row>
+		<Row>
+			<ModifierId>TRADECONFEDERATION_TRADEROUTEFAITH</ModifierId>
+			<ModifierType>MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_YIELD</ModifierType>
+		</Row>
+	</Modifiers>
+	<ModifierArguments>
+		<!-- Policies-->
+		<Row>
+			<ModifierId>URBAN_PLANNING_ALLCITYFAITH</ModifierId>
+			<Name>YieldType</Name>
+			<Value>YIELD_FAITH</Value>
+		</Row>
+		<Row>
+			<ModifierId>URBAN_PLANNING_ALLCITYFAITH</ModifierId>
+			<Name>Amount</Name>
+			<Value>1</Value>
+		</Row>
+		<Row>
+			<ModifierId>NOBLEPATH_DOMESTICTRADEFAITH</ModifierId>
+			<Name>YieldType</Name>
+			<Value>YIELD_FAITH</Value>
+		</Row>
+		<Row>
+			<ModifierId>NOBLEPATH_DOMESTICTRADEFAITH</ModifierId>
+			<Name>Amount</Name>
+			<Value>1</Value>
+		</Row>
+		<Row>
+			<ModifierId>CARAVANSARIES_INTERNATIONALTRADEFAITH</ModifierId>
+			<Name>YieldType</Name>
+			<Value>YIELD_FAITH</Value>
+		</Row>
+		<Row>
+			<ModifierId>CARAVANSARIES_INTERNATIONALTRADEFAITH</ModifierId>
+			<Name>Amount</Name>
+			<Value>1</Value>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_MISSIONARYPRODUCTION</ModifierId>
+			<Name>UnitType</Name>
+			<Value>UNIT_MISSIONARY</Value>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_MISSIONARYPRODUCTION</ModifierId>
+			<Name>Amount</Name>
+			<Value>25</Value>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_PRIESTPRODUCTION</ModifierId>
+			<Name>UnitType</Name>
+			<Value>UNIT_PRIEST</Value>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_PRIESTPRODUCTION</ModifierId>
+			<Name>Amount</Name>
+			<Value>25</Value>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_MONKPRODUCTION</ModifierId>
+			<Name>UnitType</Name>
+			<Value>UNIT_MONK</Value>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_MONKPRODUCTION</ModifierId>
+			<Name>Amount</Name>
+			<Value>25</Value>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_GURUPRODUCTION</ModifierId>
+			<Name>UnitType</Name>
+			<Value>UNIT_GURU</Value>
+		</Row>
+		<Row>
+			<ModifierId>DEVOTION_GURUPRODUCTION</ModifierId>
+			<Name>Amount</Name>
+			<Value>25</Value>
+		</Row>
+		<Row>
+			<ModifierId>MERITOCRACY_DISTRICTFAITH</ModifierId>
+			<Name>YieldType</Name>
+			<Value>YIELD_FAITH</Value>
+		</Row>
+		<Row>
+			<ModifierId>MERITOCRACY_DISTRICTFAITH</ModifierId>
+			<Name>Amount</Name>
+			<Value>1</Value>
+		</Row>
+		<Row>
+			<ModifierId>TRADECONFEDERATION_TRADEROUTEFAITH</ModifierId>
+			<Name>YieldType</Name>
+			<Value>YIELD_FAITH</Value>
+		</Row>
+		<Row>
+			<ModifierId>TRADECONFEDERATION_TRADEROUTEFAITH</ModifierId>
+			<Name>Amount</Name>
+			<Value>3</Value>
+		</Row>
+	</ModifierArguments>
+	<PolicyModifiers>
+		<Row>
+			<PolicyType>POLICY_URBAN_PLANNING_FAITH</PolicyType>
+			<ModifierId>URBAN_PLANNING_ALLCITYFAITH</ModifierId>
+		</Row>
+		<Row>
+			<PolicyType>POLICY_NOBLE_PATH</PolicyType>
+			<ModifierId>NOBLEPATH_DOMESTICTRADEFAITH</ModifierId>
+		</Row>
+		<Row>
+			<PolicyType>POLICY_CARAVANSARIES_FAITH</PolicyType>
+			<ModifierId>CARAVANSARIES_INTERNATIONALTRADEFAITH</ModifierId>
+		</Row>
+		<Row>
+			<PolicyType>POLICY_DEVOTION_FAITH</PolicyType>
+			<ModifierId>DEVOTION_MISSIONARYPRODUCTION</ModifierId>
+		</Row>
+		<Row>
+			<PolicyType>POLICY_DEVOTION_FAITH</PolicyType>
+			<ModifierId>DEVOTION_PRIESTPRODUCTION</ModifierId>
+		</Row>
+		<Row>
+			<PolicyType>POLICY_DEVOTION_FAITH</PolicyType>
+			<ModifierId>DEVOTION_MONKPRODUCTION</ModifierId>
+		</Row>
+		<Row>
+			<PolicyType>POLICY_DEVOTION_FAITH</PolicyType>
+			<ModifierId>DEVOTION_GURUPRODUCTION</ModifierId>
+		</Row>
+		<Row>
+			<PolicyType>POLICY_MERITOCRACY_FAITH</PolicyType>
+			<ModifierId>MERITOCRACY_DISTRICTFAITH</ModifierId>
+		</Row>
+		<Row>
+			<PolicyType>POLICY_TRADE_CONFEDERATION_FAITH</PolicyType>
+			<ModifierId>TRADECONFEDERATION_TRADEROUTEFAITH</ModifierId>
+		</Row>
+	</PolicyModifiers>
+</GameInfo>

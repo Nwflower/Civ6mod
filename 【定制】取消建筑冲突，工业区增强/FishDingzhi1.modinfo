@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="1076C1D9-B7BD-A991-293A-DF5338899FF9" version="1.1">
+  <Properties>
+    <Name>取消建筑冲突，工业区增强</Name>
+    <Description>取消建筑冲突，工业区增强</Description>
+    <Authors>千川白浪</Authors>
+    <CompatibleVersions>2.0</CompatibleVersions>
+  </Properties>
+  <FrontEndActions>
+    <UpdateText id="TextEthiopiaMOD">
+       <Properties>
+        <LoadOrder>1000</LoadOrder>
+       </Properties>
+      <File>FishDingzhi1_text.sql</File>
+    </UpdateText>
+  </FrontEndActions>
+  <InGameActions>
+    <UpdateDatabase id="GamePlayEthiopia">
+      <Properties>
+        <LoadOrder>1000</LoadOrder>
+      </Properties>
+      <File>FishDingzhi1.sql</File>
+      <File>DA/Byzantium_Gaul_DramaticAges_MODE.xml</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="GamePlayEthiopia">
+      <Properties>
+        <LoadOrder>1001</LoadOrder>
+      </Properties>
+      <File>DA/Byzantium_Gaul_DramaticAges_Expansion1_MODE.xml</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="GamePlayEthiopia">
+      <Properties>
+        <LoadOrder>1002</LoadOrder>
+      </Properties>
+      <File>DA/Byzantium_Gaul_DramaticAges_Expansion2_MODE.xml</File>
+      <!-- <File>Indonesia_KhmerScenario_Civics.xml</File> -->
+    </UpdateDatabase>
+    <UpdateText id="TextEthiopia">
+       <Properties>
+        <LoadOrder>1000</LoadOrder>
+       </Properties>
+      <File>FishDingzhi1_text.sql</File>
+      <File>DA/Byzantium_Gaul_Civilopedia_Text_MODE.xml</File>
+      <File>DA/Byzantium_Gaul_DramaticAges_AdvisorText_MODE.xml</File>
+      <File>DA/Byzantium_Gaul_DramaticAges_Text_MODE.xml</File>
+    </UpdateText>
+    <UpdateIcons id="Icons">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <File>ICONs.xml</File>
+      <File>DA/Byzantium_Gaul_Icons_Notifications_MODE.xml</File>
+      <File>DA/Byzantium_Gaul_Icons_Policies_MODE.xml</File>
+    </UpdateIcons>
+    <AddGameplayScripts id="AddGameplayScripts">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <File>Script.lua</File>
+    </AddGameplayScripts>
+    <ReplaceUIScript id="ReplaceUIScript">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+        <LuaContext>GovernmentScreen</LuaContext>
+        <LuaReplace>GovernmentScreen_NWGA.lua</LuaReplace>
+      </Properties>
+    </ReplaceUIScript>
+  </InGameActions>
+  <Files>
+    <File>ICONs.xml</File>
+    <File>FishDingzhi1.sql</File>
+    <File>FishDingzhi1_text.sql</File>
+    <!-- <File>RealAllDisasters.xml</File> -->
+    <!-- <File>Byzantium_Gaul_DramaticAges_MODE.xml</File> -->
+    <File>Script.lua</File>
+    <File>GovernmentScreen_NWGA.lua</File>
+    <!-- <File>Indonesia_KhmerScenario_Civics.xml</File> -->
+
+    <File>DA/Byzantium_Gaul_Civilopedia_Text_MODE.xml</File>
+    <File>DA/Byzantium_Gaul_DramaticAges_AdvisorText_MODE.xml</File>
+    <File>DA/Byzantium_Gaul_DramaticAges_Expansion1_MODE.xml</File>
+    <File>DA/Byzantium_Gaul_DramaticAges_Expansion2_MODE.xml</File>
+    <File>DA/Byzantium_Gaul_DramaticAges_MODE.xml</File>
+    <File>DA/Byzantium_Gaul_DramaticAges_Text_MODE.xml</File>
+    <File>DA/Byzantium_Gaul_Icons_Notifications_MODE.xml</File>
+    <File>DA/Byzantium_Gaul_Icons_Policies_MODE.xml</File>
+  </Files>
+</Mod>

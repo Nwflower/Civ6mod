@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: NewLeader1_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/2 15:46:23 -->
+<GameData>
+	<LocalizedText>
+		<!--Civ-->
+		<Row Tag="LOC_CIVILIZATION_NW_XIULUOWEIMIAN_NAME" Language="zh_Hans_CN">
+			<Text>修罗</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_NW_XIULUOWEIMIAN_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>修罗帝国</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_NW_XIULUOWEIMIAN_ADJECTIVE" Language="zh_Hans_CN">
+			<Text>修罗的</Text>
+		</Row>
+
+
+		<!--Leader-->
+		<Row Tag="LOC_LEADER_NW_SANQIAN_NAME" Language="zh_Hans_CN">
+			<Text>lx</Text>
+		</Row>
+<!--		<Row Tag="LOC_LOADING_INFO_LEADER_NW_SANQIAN" Language="zh_Hans_CN">-->
+<!--			<Text>三千神国</Text>-->
+<!--		</Row>-->
+
+		<!--TRAIT-->
+		<Row Tag="LOC_TRAIT_LEADER_NW_SANQIAN_TRAIT_SANQIANSHENGUO_NAME" Language="zh_Hans_CN">
+			<Text>三千神国</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_LEADER_NW_SANQIAN_TRAIT_SANQIANSHENGUO_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>城市不会产生厌战情绪。外交能见度比遇到的文明高一级。每个人口+3 [ICON_FAITH] 信仰值。击杀单位获得5点 [ICON_GreatPerson] 大将军点数。</Text>
+		</Row>
+
+		<Row Tag="LOC_TRAIT_CIVILIZATION_NW_XIULUOWEIMIAN_TRAIT_XIULUO_NAME" Language="zh_Hans_CN">
+			<Text>修罗位面</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_CIVILIZATION_NW_XIULUOWEIMIAN_TRAIT_XIULUO_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>城市若处于首都的贸易范围内，则自动修建一条通往首都的路。所有城市初始获得贸易站。拥有充足电力供应时，建筑产出+4。</Text>
+		</Row>
+
+		<!--ITEM-->
+		<Row Tag="LOC_UNIT_ANYINQISHI_NAME" Language="zh_Hans_CN">
+			<Text>暗影骑士</Text>
+		</Row>
+		<Row Tag="LOC_UNIT_ANYINQISHI_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>特色远程骑兵单位。可利用自身的高 [ICON_Movement] 移动力护送平民和支援单位，无需战略资源。</Text>
+		</Row>
+		<Row Tag="LOC_DISTRICT_XULINGTA_NAME" Language="zh_Hans_CN">
+			<Text>虚灵塔</Text>
+		</Row>
+		<Row Tag="LOC_DISTRICT_XULINGTA_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>特色区域，替代工业区，解锁于帝国初期。拥有较高的相邻加成，不视为专业化区域。可以使用 [ICON_FAITH] 信仰值购买该区域内的建筑。</Text>
+		</Row>
+		<Row Tag="LOC_NW_DISTRICT_XULINGTA" Language="zh_Hans_CN">
+			<Text>+{1_Num} [ICON_PRODUCTION] 生产力来自自身。</Text>
+		</Row>
+		<Row Tag="LOC_NW_DISTRICT_XULINGTA2" Language="zh_Hans_CN">
+			<Text>+{1_Num} [ICON_CULTURE] 文化值来自自身。</Text>
+		</Row>
+	</LocalizedText>
+</GameData>

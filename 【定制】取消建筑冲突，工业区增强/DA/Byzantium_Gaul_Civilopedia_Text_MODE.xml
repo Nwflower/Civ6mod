@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<Replace Tag="LOC_POLICY_FREE_ENQUIRY_NAME" Language="zh_Hans_CN">
+		  <Text>自由探索</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_PRAETORIAN_GUARD_NAME" Language="zh_Hans_CN">
+		  <Text>罗马禁卫军</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_EXODUS_OF_THE_EVANGELISTS_NAME" Language="zh_Hans_CN">
+		  <Text>布道者的远行</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_MONUMENTALITY_NAME" Language="zh_Hans_CN">
+		  <Text>雄伟壮丽</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_REFORM_THE_COINAGE_NAME" Language="zh_Hans_CN">
+		  <Text>货币改革</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_CULTURE_INDUSTRY_NAME" Language="zh_Hans_CN">
+		  <Text>文化产业</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_HEARTBEAT_OF_STEAM_NAME" Language="zh_Hans_CN">
+		  <Text>滚滚蒸汽</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_TO_ARMS_NAME" Language="zh_Hans_CN">
+		  <Text>全民皆兵</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_WISH_YOU_WERE_HERE_NAME" Language="zh_Hans_CN">
+		  <Text>愿你在此</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_SKY_AND_STARS_NAME" Language="zh_Hans_CN">
+		  <Text>漫天繁星</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_MILITARY_INDUSTRIAL_COMPLEX_NAME" Language="zh_Hans_CN">
+		  <Text>军工复合体</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_MANDALA_STATE_NAME" Language="zh_Hans_CN">
+		  <Text>曼荼罗体系</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_SAKDINA_NAME" Language="zh_Hans_CN">
+		  <Text>食田制度</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_SOLIDARITY_NAME" Language="zh_Hans_CN">
+		  <Text>团结一致</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_POPULAR_FRONT_NAME" Language="zh_Hans_CN">
+		  <Text>人民阵线</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_DECENTRALIZATION_NAME" Language="zh_Hans_CN">
+		  <Text>去中心化</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_SOFT_TARGETS_NAME" Language="zh_Hans_CN">
+		  <Text>软目标</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_DESPOTIC_PATERNALISM_NAME" Language="zh_Hans_CN">
+		  <Text>家长作风</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_SAMODERZHAVIYE_NAME" Language="zh_Hans_CN">
+		  <Text>帝王专制</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_CONTENT_TITLE" Language="zh_Hans_CN">
+		  <Text>动荡时代</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_WELCOME_TITLE" Language="zh_Hans_CN">
+		  <Text>欢迎</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_WELCOME_PARA_1" Language="zh_Hans_CN">
+		  <Text>玩家可以在游戏设置中开启“动荡时代”模式。获得时代得分的规则已发生变化，鼓励玩家大动干戈，并保持科技和市政与时代同步。[ICON_GLORY_SUPER_GOLDEN_AGE] 英雄时代和着力点已被移除，第一个时代固定为 [ICON_GLORY_NORMAL_AGE] 普通时代，之后便只会出现 [ICON_GLORY_DARK_AGE] 黑暗时代或 [ICON_GLORY_GOLDEN_AGE] 黄金时代，二者也都更加强大。黑暗时代会让城市变为自由城市。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_ERASCORE_TITLE" Language="zh_Hans_CN">
+		  <Text>时代得分</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_ERASCORE_PARA_1" Language="zh_Hans_CN">
+		  <Text>玩家只会进入 [ICON_GLORY_DARK_AGE] 黑暗时代或 [ICON_GLORY_GOLDEN_AGE] 黄金时代。玩家在 [ICON_Capital] 首都之外每拥有一座城市，进入黄金时代的得分阈值便+3。另外，进入黄金时代后，得分阈值将+5，进入黑暗时代后则-10。这些阈值在游戏时代变化时计算且为固定（和此模式之外的规则一样），因此在时代之中阈值并不会发生变化。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_ERASCORE_PARA_2" Language="zh_Hans_CN">
+		  <Text>游戏时代变化时，玩家不再选择着力点，因此也不再从着力点效果获得时代得分。研究完当前或更新时代的科技或市政时，玩家将获得1点时代得分。在军事单位首次升级之后，每次升级能让玩家获得1点时代得分。玩家仍然能从历史时刻获得时代得分。虽然无法获得着力点加成，但玩家可以选择更灵活的特殊社会政策。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_GOLDENAGES_TITLE" Language="zh_Hans_CN">
+		  <Text>黄金时代</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_GOLDENAGES_PARA_1" Language="zh_Hans_CN">
+		  <Text>如果您在上个时代中获得的时代得分超过了 [ICON_GLORY_GOLDEN_AGE] 黄金时代所需的分数，那么在黄金时代中，多出的时代得分将使公民施加更多忠诚度压力。每多出1点时代得分，公民施加的忠诚度压力便提高5%。忠诚度压力提升达到50%后，仍能继续获得，但其效果会逐渐降低。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_GOLDENAGES_PARA_2" Language="zh_Hans_CN">
+		  <Text>黄金时代将带来强大的黄金政策，其可放入政体的通配符槽位中。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_DARKAGES_TITLE" Language="zh_Hans_CN">
+		  <Text>黑暗时代</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_DARKAGES_PARA_1" Language="zh_Hans_CN">
+		  <Text>[ICON_GLORY_DARK_AGE] 黑暗时代将带来黑暗政策，其可放入政体的通配符槽位中。这些政策极为强大，但存在负面效果。部分政策与普通政策相同，也有部分经过调整，另外也加入了全新的政策。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_DARKAGES_PARA_2" Language="zh_Hans_CN">
+		  <Text>坠入黑暗时代后会导致至少1座城市立即背叛。这些城市将变为自由城市。从附近友方城市获得最低忠诚度压力的城市风险最高，通常是帝国外围的城市。但您的 [ICON_Capital] 首都将安全无虞。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_FREECITIES_TITLE" Language="zh_Hans_CN">
+		  <Text>自由城市</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_CONCEPTS_PAGE_DRAMATICAGES_CHAPTER_FREECITIES_PARA_1" Language="zh_Hans_CN">
+		  <Text>黑暗时代中帝国出现自由城市的数量根据所选择的难度而定。另外，自由城市会对其他城市施加忠诚度压力（自由城市之间也同样如此），所以它们会更加顽固。[NEWLINE][ICON_BULLET]开拓者：真人玩家失去5%的城市，AI失去30%的城市。自由城市释放1倍忠诚度压力。[NEWLINE][ICON_BULLET]首领：真人玩家失去10%的城市，AI失去30%的城市。自由城市释放2倍忠诚度压力。[NEWLINE][ICON_BULLET]军阀：真人玩家失去15%的城市，AI失去25%的城市。自由城市释放2.5倍忠诚度压力。[NEWLINE][ICON_BULLET]王子：真人玩家失去20%的城市，AI失去20%的城市。自由城市释放3倍忠诚度压力。[NEWLINE][ICON_BULLET]国王：真人玩家失去25%的城市，AI失去15%的城市。自由城市释放3.5倍忠诚度压力。[NEWLINE][ICON_BULLET]君主：真人玩家失去30%的城市，AI失去15%的城市。自由城市释放4倍忠诚度压力。[NEWLINE][ICON_BULLET]不朽：真人玩家失去35%的城市，AI失去10%的城市。自由城市释放4.5倍忠诚度压力。[NEWLINE][ICON_BULLET]神：真人玩家失去40%的城市，AI失去10%的城市。自由城市释放5倍忠诚度压力。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGEGROUP_GOLDENAGE_POLICIES_NAME" Language="zh_Hans_CN">
+		  <Text>黄金时代政策</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_EXODUS_OF_THE_EVANGELISTS_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>主要宗教的传播始终离不开一点：就是门下信徒在世界范围内长途跋涉、传播信仰。基督教使徒在罗马帝国内外旅行，传播教义；佛教阿罗汉在印度及各地奔走，传播信仰；伊斯兰教则一路从南亚来到西班牙，并在军事、外交和经济上取得了一系列成功。 </Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_REFORM_THE_COINAGE_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>钱币只是符号，它的价值高于铸造所用的金属。还是说这种说法不成立？重新定义钱币价值足以创造或摧毁一个帝国。如果士兵领到的钱币只是金色的铅币，而非真正的黄金，想必他们将暴跳如雷。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_HEARTBEAT_OF_STEAM_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>工业革命永久改变了劳动、科技和工业之间的关系。时钟指示着工作时间，蒸汽磨坊的工作效率相当于数百人和牲畜，工人们越来越多地执行简单、重复、机械式的任务。科技比以往任何时候都更多地作为自身的目的而存在。 </Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_TO_ARMS_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>民族主义，这个“想象中的共同体”成为了工业时代最典型的特征，它要求我们想象与从未相遇、也永远不会相遇的人之间存在所谓的“亲属关系”，并把自己想象成他们历史的一部分。旗帜、条幅、赞歌和征兵海报，都在号召士兵为这个抽象的共同体而战、为它流血牺牲。且听那嘹亮的军号声！</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_FREE_ENQUIRY_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>哲学家米歇尔·福柯指出，知识就是力量，因此它是危险的。致力于自由探索的社会其实也在进行一场赌博。那么，人们能否接受开放式问题给出的答案呢？</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_MONUMENTALITY_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>之所以建立帝国首都（如圣彼得堡、伊斯坦布尔、北京和华盛顿特区），都是出于提醒到访者：与恢弘的国家历史相比较，个人显得渺小而短暂。在这里，雄伟壮丽不仅指建筑物本身，而是通过建筑规模来显示帝国宏大的精神状态。 </Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_WISH_YOU_WERE_HERE_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>如果把宗教朝圣者、掠夺者和商贸代表团都算入的话，旅游业一直都是社会组成的重要部分中。19世纪初，有组织的旅游业出现后，出国度假（以及向往家乡）的意义发生了翻天覆地的改变。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_SKY_AND_STARS_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>高地一直都是兵家必争之处。而随着20世纪航空航天业的发展，航空港、火箭发射台（火箭既能把人送上月球，也能把弹头投掷到敌方首都）也成为了战争中的首要占领目标。 </Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_MANDALA_STATE_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>在中世纪的南亚和东南亚，治国之道往往与如何管理中央文化的声望息息相关。在这里，斗争通常具有观赏性、而非暴力的形式在进行。能规划出最戏剧化且昂贵的武力秀场之人，便能够牢牢吸引住边境城市的目光。 </Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_PRAETORIAN_GUARD_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>在后来的西罗马帝国中，曾担任皇帝私人护卫的罗马禁卫军发展成了一支政治活跃的力量，积极投身到政治和社交生活的组织当中。 </Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_SAKDINA_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>“食田制度”是中世纪泰国封建制中人人相互承担义务的等级制度。地位较低的人可以求助于地位较高的人，而他们也有义务（在合理的范围内）给予帮助。这意味着社会的所有阶层都相互约束、相互承诺。 </Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_CULTURE_INDUSTRY_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>狄奥多·阿多诺对大众娱乐的批评是：它把艺术降格为大众的诉求，而不是表达的崇高追求。虽然阿多诺认为文化产业十分乏味，但它也的确让所有人更多地参与到了文化当中来。 </Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_POPULAR_FRONT_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>冷战期间，美苏双方都尝试在意识形态上拉拢盟友。东德和越南等国压力颇大，被迫进一步加深与苏联的结盟关系（与之对应的则是印尼和巴基斯坦与美国结盟），形成了一体投票的政治集团。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_MILITARY_INDUSTRIAL_COMPLEX_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>美国总统德怀特·艾森豪威尔用“军工复合体”一词来指代私营工业与军事之间的密切关系。这个概念也并非美国独有，它指的是重工业和军备竞赛之间的密切联系。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_SOLDARITY_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>在冷战期间，各国以各种方式向邻国施加意识形态压力。我们可以想到边境上铺天盖地的宣传广播、传单、秘密的意识形态散播，当然还有潮水般涌入东欧的华丽金属乐和牛仔裤。这些“软实力”的展示往往由最高层组织和推动，对柏林墙的倒塌和苏联的最终解体产生了巨大影响。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_SOFT_TARGETS_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>纪律严明、不会随意进行掠夺的军队是社会运转良好的重要标志。但在黑暗时代中，信条也可能会被背弃。在偏爱软目标（平民）、并将掠夺视为发财机会的军队里，士兵会更倾向于追逐容易抢夺的战利品，而非军事战略目标。这种行为会增加对城市和平民的破坏，同时降低战争的效力。</Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_SAMODERZHAVIYE_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>帝王专制是沙俄保守主义思想的重要支柱之一。而其他国家则根据帝王专制的哲学（沙皇永远正确），尝试将权力分散在顾问之间，或进行广泛统治。如果沙皇懒惰、无能、或不了解实际情况，这种制度的弊端便凸显无疑。 </Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_DESPOTIC_PATERNALISM_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>塔克·查洛恩提拉那在著作中提到，冷战时期的东南亚是特殊“家长作风”政策的发源地。这种政策将权力赋予当地重要的政治强人，同时限制独立的思想和行动。印尼的苏哈托或泰国的沙立便是典型范例。这种体系扼杀了自由探索，但专制家长主义者也能通过这种手段有效扼制反对意见。 </Text>
+		</Replace>
+		<Replace Tag="LOC_PEDIA_GOVERNMENTS_PAGE_POLICY_DECENTRALIZATION_CHAPTER_HISTORY_PARA_1" Language="zh_Hans_CN">
+		  <Text>面对社会崩溃（如黑暗时代），一些文明转向中央集权的严酷统治，而另一些文明则反其道而行之，让周边地区拥有更高自治权。随着拜占庭帝国的衰落，君士坦丁堡的人口便是通过这样的方式流向了小城镇和农村。通过这种方式，中央抓住了最后一根稻草，让人心不至于四散崩塌，在艰难岁月中多少也能起到一定作用。 </Text>
+		</Replace>
+		<Replace Tag="LOC_TUTORIAL_FIRST_TIME_DRAMATIC_AGES" Language="zh_Hans_CN">
+		  <Text>动荡时代开启后，每个时代都会更加波澜壮阔！除最初的时代外，文明进入的每个时代都将是黄金或黑暗时代，具体依时代得分而定。解锁当前或之后时代的科技和市政来获得时代得分。进入黄金时代后，多余的时代得分将转换为额外的忠诚度压力。如果邻国正陷入黑暗时代，这将会是一项重要因素。除此之外，您还可以在政体的通配符槽位中使用强大的政策；但千万注意，进入黑暗时代后部分城市会叛变！</Text>
+		</Replace>
+		<Replace Tag="LOC_TUTORIAL_DRAMATIC_AGES_FIRST_GOLDEN_AGE" Language="zh_Hans_CN">
+		  <Text>您进入了黄金时代！您现在可以在政体的通配符槽位中使用黄金政策。另外，上个时代多余的时代得分已经转换为提高的忠诚度压力——好好利用它！</Text>
+		</Replace>
+		<Replace Tag="LOC_TUTORIAL_DRAMATIC_AGES_FIRST_DARK_AGE" Language="zh_Hans_CN">
+		  <Text>您的文明进入了黑暗时代。您治下的一些城市已沦为自由城市，变成了敌人！但也无需惊慌，您现在可以选择黑暗政策，并借此扭转乾坤。</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>进入黄金时代后将额外获得一个通配符政策槽位，并能使用黑暗时代政策。建造防御性建筑时+50% [ICON_Production] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_COMMERATION_REPLACEMENT_MESSAGE" Language="zh_Hans_CN">
+		  <Text>出现新时代</Text>
+		</Replace>
+		<Replace Tag="LOC_NOTIFICATION_COMMERATION_REPLACEMENT_SUMMARY" Language="zh_Hans_CN">
+		  <Text>游戏进入新时代，忠诚度压力也发生了变化。您现在可以在槽位中放置黑暗时代或黄金时代政策。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_FREE_ENQUIRY_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>商业中心和港口区域的 [ICON_GOLD] 金币也提供 [ICON_Science] 科技值。学院区域提供等于其 [ICON_SCIENCE] 科技值加成的 [ICON_GOLD] 金币。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_PRAETORIAN_GUARD_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>受伤单位每回合回复的生命值+10。建造军营区域和建筑时+2 [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_EXODUS_OF_THE_EVANGELISTS_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>所有宗教单位+2 [ICON_Movement] 移动力。此外，新生产单位的使用次数+2。每回合产生的 [ICON_GreatProphet] 大预言家点数+4。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_MONUMENTALITY_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>所有建造者和开拓者+2 [ICON_Movement] 移动力。可以用 [ICON_Faith] 信仰值购买平民单位。用 [ICON_FAITH] 信仰值和 [ICON_GOLD] 黄金购买建造者的费用降低30%。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_REFORM_THE_COINAGE_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>您的商人无法被掠夺。外国城市中每拥有一个特色区域，国际 [ICON_TradeRoute] 贸易路线提供的 [ICON_Gold] 金币则+3。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_CULTURE_INDUSTRY_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>城市每拥有1处特色区域，则+1 [ICON_CULTURE] 文化值。建造非特色区域时+25% [ICON_PRODUCTION] 生产力。可使用 [ICON_Faith] 信仰值购买娱乐设施和水上乐园区域建筑。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_HEARTBEAT_OF_STEAM_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>建造工业时代之后的奇观时+10% [ICON_Production] 生产力。学院区域的 [ICON_SCIENCE] 科技值相邻加成也能提供 [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_TO_ARMS_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>所有单位获得的经验值+50%；生产军事单位时+15% [ICON_Production] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_WISH_YOU_WERE_HERE_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>所有国家公园提供的 [ICON_TOURISM] 旅游业绩+100%；世界奇观提供的 [ICON_TOURISM] 旅游业绩+50%。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_SKY_AND_STARS_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>建造宇航中心和航空港区域时+30% [ICON_PRODUCTION] 生产力。拥有宇航中心或航空港的城市+15% [ICON_SCIENCE] 科技值和 [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_MILITARY_INDUSTRIAL_COMPLEX_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>所有改良后的铝、石油和铀资源每回合额外产出2点。所有战斗单位+5 [ICON_Strength] 战斗力。若单位拥有远程攻击能力，则+1射程。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_MANDALA_STATE_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>每拥有1座奇观，则+4 [ICON_CULTURE] 文化值。城市中的每座奇观使9单元格内的外国城市每回合损失2点忠诚度。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_SAKDINA_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>项目进行时，每位公民将为其所在城市+0.5点忠诚度。项目完成时，该项目区域每拥有1座建筑，便额外+10% [ICON_GreatPerson] 伟人点数。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_SOLIDARITY_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>所有 [ICON_Governor] 总督额外释放2点外国忠诚度压力。所有拥有总督的城市+25% [ICON_GOLD] 金币、+25% [ICON_FAITH] 信仰值。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_POPULAR_FRONT_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>来自城邦宗主国和同盟等级的外交支持+100%。通往城邦的贸易路线的所有产出+4。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_MILITARY_INDUSTRIAL_COMPLEX_COMBAT_STRENGTH_NAME" Language="zh_Hans_CN">
+		  <Text>军工复合体</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_MILITARY_INDUSTRIAL_COMPLEX_COMBAT_STRENGTH_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>军工复合体政策+5 [ICON_Strength] 战斗力。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_MILITARY_INDUSTRIAL_COMPLEX_RANGE_NAME" Language="zh_Hans_CN">
+		  <Text>军工复合体</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_MILITARY_INDUSTRIAL_COMPLEX_RANGE_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>军工复合体政策+1射程。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_MONASTICISM_DA_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>拥有圣地的城市 [ICON_Science] 科技值+75%。[NEWLINE]减益：没有圣地的城市 [ICON_Culture] 文化值-25%。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_ELITE_FORCES_DA_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>所有单位的战斗经验值+100%。[NEWLINE]减益：每个战斗和间谍单位的维护费用+1 [ICON_Gold] 金币。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_INQUISITION_DA_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>消耗1次使徒使用次数开始宗教审讯。友方领土中的所有宗教单位+15 [ICON_Religion] 宗教战斗力。[NEWLINE]减益：所有城市的 [ICON_Science] 科技值-15%。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_ISOLATIONISM_DA_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>国内贸易路线提供+3 [ICON_Food] 食物、+3 [ICON_Production] 生产力、+3 [ICON_Gold] 金币。[NEWLINE]减益：无法生产或购买开拓者，也无法建立新城市。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_ROBBER_BARONS_DA_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>拥有银行或造船厂的城市+50% [ICON_Gold] 金币、+25% [ICON_Production] 生产力。[NEWLINE]减益：所有城市-2 [ICON_Amenities] 宜居度。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_COLLECTIVISM_DA_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>农场+1 [ICON_Production] 生产力。所有城市+2 [ICON_Housing] 住房。工业区提供等同于其相邻加成的 [ICON_FOOD] 食物。[NEWLINE]减益：伟人点数的获取速度减缓50%。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_DECENTRALIZATION_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>拥有6点或更少 [ICON_CITIZEN] 人口的城市每回合忠诚度+4。[NEWLINE]减益：[ICON_CITIZEN] 人口超过6点的城市-15% [ICON_Gold] 金币。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_SOFT_TARGETS_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>进攻城市和区域时+10 [ICON_Strength] 战斗力。[NEWLINE]减益：与单位作战时-3 [ICON_Strength] 战斗力。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE_NAME" Language="zh_Hans_CN">
+		  <Text>软目标</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>进攻城市时，“软目标政策”提供+10 [ICON_Strength] 战斗力。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS_NAME" Language="zh_Hans_CN">
+		  <Text>软目标</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>进攻区域时，“软目标政策”提供+10 [ICON_Strength] 战斗力。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_SOFT_TARGETS_ATTACKING_UNITS_NAME" Language="zh_Hans_CN">
+		  <Text>软目标</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_SOFT_TARGETS_ATTACKING_UNITS_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>与单位作战时，“软目标政策”提供-3 [ICON_Strength] 战斗力。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_DESPOTIC_PATERNALISM_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>拥有 [ICON_Governor] 总督的城市每回合忠诚度+4。[NEWLINE]减益：没有就职 [ICON_Governor] 总督的城市-15% [ICON_Science] 科技值、-15% [ICON_Culture] 文化值。</Text>
+		</Replace>
+		<Replace Tag="LOC_POLICY_SAMODERZHAVIYE_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>[ICON_CAPITAL] 首都+50% [ICON_PRODUCTION] 生产力。[NEWLINE]减益：所有 [ICON_Governor] 总督都会遭到陷害，且无法调职。</Text>
+		</Replace>
+		<Replace Tag="LOC_ERA_REVIEW_HAVE_GOLDEN_AGE_EFFECT_PARAM" Language="zh_Hans_CN">
+		  <Text>{LOC_ERA_TT_HAVE_GOLDEN_AGE_EFFECT_PARAM}[NEWLINE][NEWLINE][ICON_BULLET]可将黄金时代政策放入槽位，它将在时代中提供强大加成。</Text>
+		</Replace>
+		<Replace Tag="LOC_ERA_TT_HAVE_GOLDEN_AGE_EFFECT_PARAM" Language="zh_Hans_CN">
+		  <Text>您的文明在这个时代进入了 [ICON_GLORY_GOLDEN_AGE] 黄金时代！[NEWLINE][NEWLINE][ICON_BULLET]城市中的每个 [ICON_Citizen] 公民每回合施加{Amount}点忠诚度压力。此压力还会对9个单元格以内的其他城市产生影响，但每远离1个单元格，效果减弱10%。[NEWLINE][NEWLINE][ICON_BULLET]每解锁一项科技或市政将获得1点时代得分。[NEWLINE][NEWLINE][ICON_BULLET]军事单位首次升级后，每将1个单位升1级即可获得1点时代得分。</Text>
+		</Replace>
+		<Replace Tag="LOC_ERA_REVIEW_HAVE_DARK_AGE_EFFECT_PARAM" Language="zh_Hans_CN">
+		  <Text>{LOC_ERA_TT_HAVE_DARK_AGE_EFFECT_PARAM}[NEWLINE][NEWLINE][ICON_BULLET]可将黑暗时代政策放入槽位，它将在时代中提供强大加成。</Text>
+		</Replace>
+		<Replace Tag="LOC_ERA_TT_HAVE_DARK_AGE_EFFECT_PARAM" Language="zh_Hans_CN">
+		  <Text>您的文明在这个时代不幸坠入 [ICON_GLORY_DARK_AGE] 黑暗时代。[NEWLINE][NEWLINE][ICON_BULLET]城市中的每个 [ICON_Citizen] 公民每回合施加{Amount}点忠诚度压力。此压力还会对9个单元格以内的其他城市产生影响，但每远离1个单元格，效果减弱10%。[NEWLINE][NEWLINE][ICON_BULLET]您治下的部分城市可能已经叛变，并施加更高的忠诚度压力。千万当心：如果处理不当，还可能失去附近的城市！[NEWLINE][NEWLINE][ICON_BULLET]每解锁一项科技或市政将获得1点时代得分。[NEWLINE][NEWLINE][ICON_BULLET]军事单位首次升级后，每将1个单位升1级即可获得1点时代得分。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_MILITARY_INDUSTRIAL_COMPLEX_COMBAT_STRENGTH_PREVIEW_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>军工复合体政策+{1_Amount} [ICON_Strength] 战斗力。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_ABILITY_SOFT_TARGETS_DEFENDING_CITY_RANGE_COMPLEX_COMBAT_STRENGTH_PREVIEW_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>软目标政策+{1_Amount} [ICON_Strength] 战斗力。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_SOFT_TARGETS_ATTACKING_DISTRICTS_COMBAT_STRENGTH_PREVIEW_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>软目标政策+{1_Amount} [ICON_Strength] 战斗力。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_SOFT_TARGETS_ATTACKING_UNITS_COMBAT_STRENGTH_PREVIEW_DESCRIPTION" Language="zh_Hans_CN">
+		  <Text>软目标政策提供[COLOR_RED]{1_Amount}[ENDCOLOR][ICON_Strength] 战斗力。</Text>
+		</Replace>
+	</LocalizedText>
+</GameData>

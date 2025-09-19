@@ -1,0 +1,70 @@
+--  FILE: CIVILIZATION_LUNA_Modifier.sql
+--  VERSION: 1
+--  Author: Nwflower
+--  Spicial Thanks: Uni
+--  Copyright (c) 2025.
+--      All rights reserved.
+--  DateCreated: 2025/9/2 16:15:28
+
+--============================================================
+-- Lua Support
+--============================================================
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS', 'MODIFIER_TRAIT_LEADER_LUNA_TRAIT_HARBOR_PRODUCTION2');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_LUNA_TRAIT_HARBOR_PRODUCTION2', 'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_PRODUCTION', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_LUNA_TRAIT_HARBOR_PRODUCTION2', 'Amount', '65'),
+('MODIFIER_TRAIT_LEADER_LUNA_TRAIT_HARBOR_PRODUCTION2', 'DistrictType', 'DISTRICT_HARBOR');
+
+
+--
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_LUNA_TRAIT', 'MODIFIER_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_UNLOCK_IMM');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_UNLOCK_IMM', 'MODIFIER_PLAYER_GRANT_SPECIFIC_TECH_BOOST', 0, 0, 0, NULL, NULL);
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_UNLOCK_IMM', 'TechType', 'TECH_IRRIGATION');
+
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_LUNA_TRAIT', 'MODIFIER_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_PROM_2FAITH');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_PROM_2FAITH', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 0, 0, 0, NULL, 'REQSET_NW_PROMOTION');
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_PROM_2FAITH', 'Amount', '2'),
+('MODIFIER_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_PROM_2FAITH', 'YieldType', 'YIELD_FAITH');
+
+-- RequirementSets
+
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('REQSET_NW_PROMOTION', 'REQUIREMENTSET_TEST_ALL');
+
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('REQSET_NW_PROMOTION', 'REQ_NW_PROMOTION');
+
+-- Requirements
+
+INSERT INTO Requirements (RequirementId, RequirementType) VALUES
+('REQ_NW_PROMOTION', 'REQUIREMENT_PLOT_IMPROVEMENT_TYPE_MATCHES');
+
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+('REQ_NW_PROMOTION', 'ImprovementType', 'IMPROVEMENT_PLANTATION');
+
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_LUNA_TRAIT', 'MODIFIER_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_UNIT_FAITH_PURCHASE');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_UNIT_FAITH_PURCHASE', 'MODIFIER_PLAYER_CITIES_ENABLE_UNIT_FAITH_PURCHASE', 0, 0, 0, NULL, NULL);
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_UNIT_FAITH_PURCHASE', 'Tag', 'CLASS_TRADER');

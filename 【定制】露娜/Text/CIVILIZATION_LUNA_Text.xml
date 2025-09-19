@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: CIVILIZATION_LUNA_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/2 16:15:28 -->
+<GameData>
+	<LocalizedText>
+		<!--Civ-->
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_NAME" Language="zh_Hans_CN">
+			<Text>巽他</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>巽他帝国</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_ADJECTIVE" Language="zh_Hans_CN">
+			<Text>巽他的</Text>
+		</Row>
+
+
+		<!--Leader-->
+		<Row Tag="LOC_LEADER_NW_LUNA_NAME" Language="zh_Hans_CN">
+			<Text>露娜</Text>
+		</Row>
+		<Row Tag="LOC_LOADING_INFO_LEADER_NW_LUNA" Language="zh_Hans_CN">
+			<Text>露娜女王，千岛之后，黄金航路的明慧之光，你以星辰为罗盘，以海浪为阶梯，在香料与丝绸交织的群岛间建立起不朽的黄金帝国。智者露娜的目光既望向远方的商港与深洋，亦珍视臣民手中的稻谷与诗篇——你的智慧如季风般精准而慷慨，令巽他的名号响彻万邦。</Text>
+		</Row>
+
+		<!--TRAIT-->
+		<Row Tag="LOC_TRAIT_LEADER_NW_LUNA_LUNA_TRAIT_NAME" Language="zh_Hans_CN">
+			<Text>香料群岛女王</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_LEADER_NW_LUNA_LUNA_TRAIT_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>游戏开始时解锁“灌溉”尤里卡，种植园+2 [ICON_FAITH] 信仰。</Text>
+		</Row>
+
+		<Row Tag="LOC_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_NAME" Language="zh_Hans_CN">
+			<Text>贸易的国度</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_CIVILIZATION_CIV_ZUAN_SPICE_ISLANDS_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>建造港口建筑时+65% [ICON_PRODUCTION] 生产力。[ICON_FAITH] 信仰值可代替 [ICON_GOLD] 金币购买商人。</Text>
+		</Row>
+
+		<!--ITEM-->
+		<Row Tag="LOC_UNIT_LUNAR_BOAT_NAME" Language="zh_Hans_CN">
+			<Text>月亮船</Text>
+		</Row>
+		<Row Tag="LOC_UNIT_LUNAR_BOAT_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>巽他帝国文艺复兴时期特色海军单位，取代护卫舰。编队单位获得其全额移动力，晋升时获得一次额外升级。</Text>
+		</Row>
+		<Row Tag="LOC_ABILITY_UNIT_LUNAR_BOAT_NAME" Language="zh_Hans_CN">
+			<Text>编队单位获得其全额移动力。</Text>
+		</Row>
+		<Row Tag="LOC_DISTRICT_MOON_BAY_NAME" Language="zh_Hans_CN">
+			<Text>月亮湾</Text>
+		</Row>
+		<Row Tag="LOC_DISTRICT_MOON_BAY_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>巽他帝国特色区域，取代港口，建造费用更低。从此城出发的国际贸易路线+1 [ICON_CULTURE] 文化值，“重商主义”市政后+4 [ICON_GOLD] 金币。</Text>
+		</Row>
+		<Row Tag="LOC_DISTRICT_MOON_BAY_GOLD" Language="zh_Hans_CN">
+			<Text>+{1_Num} [ICON_GOLD] 金币来自相邻月亮湾。</Text>
+		</Row>
+
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_1" Language="zh_Hans_CN">
+			<Text>波哥大</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_2" Language="zh_Hans_CN">
+			<Text>波哥中</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_3" Language="zh_Hans_CN">
+			<Text>波哥小</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_4" Language="zh_Hans_CN">
+			<Text>波姐大</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_5" Language="zh_Hans_CN">
+			<Text>波姐中</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_6" Language="zh_Hans_CN">
+			<Text>波姐小</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_7" Language="zh_Hans_CN">
+			<Text>波妹大</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_8" Language="zh_Hans_CN">
+			<Text>波妹中</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_9" Language="zh_Hans_CN">
+			<Text>波妹小</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_10" Language="zh_Hans_CN">
+			<Text>波弟大</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_11" Language="zh_Hans_CN">
+			<Text>波弟中</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_ZUAN_CITY_NAME_12" Language="zh_Hans_CN">
+			<Text>波弟小</Text>
+		</Row>
+	</LocalizedText>
+</GameData>

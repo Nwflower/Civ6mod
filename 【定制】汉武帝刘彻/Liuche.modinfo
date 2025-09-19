@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="5c14e3be-c2e2-450a-b188-e42c3658bc92" version="1">
+  <Properties>
+    <Name>LOC_CIVILIZATION_NW_HAN_MOD_TITLE</Name>
+    <Description>LOC_CIVILIZATION_NW_HAN_MOD_DESCRIPTION</Description>
+    <Created>1757509426</Created>
+    <Teaser>LOC_CIVILIZATION_NW_HAN_MOD_TEASER</Teaser>
+    <Authors>LOC_CIVILIZATION_NW_HAN_MOD_AUTHORS</Authors>
+    <CompatibleVersions>2.0</CompatibleVersions>
+  </Properties>
+  <References>
+    <Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall" />
+    <Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion: Gathering Storm" />
+  </References>
+  <ActionCriteria>
+    <Criteria id="Liuche">
+      <LeaderPlayable>Players:StandardPlayers::LEADER_NW_LIUCHE,StandardPlayers::LEADER_NW_LIUCHE,Players:Expansion1_Players::LEADER_NW_LIUCHE,Players:Expansion2_Players::LEADER_NW_LIUCHE</LeaderPlayable>
+      <RuleSetInUse>RULESET_STANDARD,RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="Liuche_Expansion1">
+      <LeaderPlayable>Players:Expansion1_Players::LEADER_NW_LIUCHE</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_1</RuleSetInUse>
+    </Criteria>
+    <Criteria id="Liuche_Expansion2">
+      <LeaderPlayable>Players:Expansion2_Players::LEADER_NW_LIUCHE</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="SecretSocieties">
+      <ConfigurationValueMatches>
+        <Group>Game</Group>
+        <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+  </ActionCriteria>
+  <FrontEndActions>
+    <UpdateDatabase id="LiucheSettings">
+      <File>Data/Liuche_Config.sql</File>
+    </UpdateDatabase>
+    <UpdateArt id="LiucheSettingsArt">
+      <File>LOC_CIVILIZATION_NW_HAN_MOD_TITLE.dep</File>
+    </UpdateArt>
+    <UpdateColors id="LiucheColors">
+      <File>Data/Liuche_Colors.sql</File>
+    </UpdateColors>
+    <UpdateText id="LiucheSettingsText">
+      <File>Text/Liuche_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="LiucheSettingsIcons">
+      <File>Data/Liuche_Icons.xml</File>
+    </UpdateIcons>
+  </FrontEndActions>
+  <InGameActions>
+    <ImportFiles id="Liuche_ImportFiles">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche</Criteria>
+      <File>Import/NwflowerMODCore.lua</File>
+    </ImportFiles>
+    <UpdateArt id="LiucheArt">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche</Criteria>
+      <File>LOC_CIVILIZATION_NW_HAN_MOD_TITLE.dep</File>
+    </UpdateArt>
+    <UpdateDatabase id="LiucheGameplay">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche</Criteria>
+      <File>Data/Liuche_Buildings.sql</File>
+      <File>Data/Liuche_Civilizations.sql</File>
+      <File>Data/Liuche_Distrcits.sql</File>
+      <File>Data/Liuche_Improvement.sql</File>
+      <File>Data/Liuche_Leaders.sql</File>
+      <File>Data/Liuche_Modifier.sql</File>
+      <File>Data/Liuche_Units.sql</File>
+    </UpdateDatabase>
+    <UpdateColors id="LiucheColors">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche</Criteria>
+      <File>Data/Liuche_Colors.sql</File>
+    </UpdateColors>
+    <UpdateDatabase id="LiucheGameplay_XP1">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche_Expansion1</Criteria>
+      <File>Data/Liuche_Expansion1.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="LiucheGameplay_XP2">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche_Expansion2</Criteria>
+      <File>Data/Liuche_Expansion2.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="Liuche_SecretSocieties_MODE">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>SecretSocieties</Criteria>
+      <File>Data/Liuche_SecretSocieties_MODE.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="Liuche_Text">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche</Criteria>
+      <File>Text/Liuche_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="Liuche_Icons">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche</Criteria>
+      <File>Data/Liuche_Icons.xml</File>
+    </UpdateIcons>
+    <UpdateLogitechARX id="Liuche_ARX">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche</Criteria>
+    </UpdateLogitechARX>
+    <UpdateAudio id="Liuche_Audio">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche</Criteria>
+      <File>Platforms/Windows/Audio/Liuche_Banks.ini</File>
+    </UpdateAudio>
+    <AddGameplayScripts id="Liuche_AddGameplayScripts">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>Liuche</Criteria>
+      <File>Script/Liuche_Script.lua</File>
+    </AddGameplayScripts>
+  </InGameActions>
+  <LocalizedText>
+    <File>Text/Liuche_PackageText.xml</File>
+  </LocalizedText>
+  <Files>
+    <File>ArtDefs/Buildings.artdef</File>
+    <File>ArtDefs/Civilizations.artdef</File>
+    <File>ArtDefs/Cultures.artdef</File>
+    <File>ArtDefs/Districts.artdef</File>
+    <File>ArtDefs/FallbackLeaders.artdef</File>
+    <File>ArtDefs/Improvements.artdef</File>
+    <File>ArtDefs/Landmarks.artdef</File>
+    <File>ArtDefs/Overlay.artdef</File>
+    <File>ArtDefs/StrategicView.artdef</File>
+    <File>ArtDefs/Units.artdef</File>
+    <File>Data/Liuche_Buildings.sql</File>
+    <File>Data/Liuche_Civilizations.sql</File>
+    <File>Data/Liuche_Colors.sql</File>
+    <File>Data/Liuche_Config.sql</File>
+    <File>Data/Liuche_Distrcits.sql</File>
+    <File>Data/Liuche_Expansion1.sql</File>
+    <File>Data/Liuche_Expansion2.sql</File>
+    <File>Data/Liuche_Icons.xml</File>
+    <File>Data/Liuche_Improvement.sql</File>
+    <File>Data/Liuche_Leaders.sql</File>
+    <File>Data/Liuche_Modifier.sql</File>
+    <File>Data/Liuche_SecretSocieties_MODE.sql</File>
+    <File>Data/Liuche_Units.sql</File>
+    <File>Import/NwflowerMODCore.lua</File>
+    <File>LOC_CIVILIZATION_NW_HAN_MOD_TITLE.dep</File>
+    <File>Platforms/Windows/Audio/Liuche_Banks.ini</File>
+    <File>Platforms/Windows/BLPs/LeaderFallbacks.blp</File>
+    <File>Platforms/Windows/BLPs/strategicview/strategicview_uilenses.blp</File>
+    <File>Platforms/Windows/BLPs/UILensAssets.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Icons.blp</File>
+    <File>Platforms/Windows/BLPs/UI/PrideMoments.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Shell_Loading.blp</File>
+    <File>Platforms/Windows/BLPs/UI_LeaderScenes.blp</File>
+    <File>Script/Liuche_Script.lua</File>
+    <File>Text/Liuche_PackageText.xml</File>
+    <File>Text/Liuche_Text.xml</File>
+  </Files>
+</Mod>

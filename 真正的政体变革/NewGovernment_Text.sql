@@ -1,0 +1,65 @@
+INSERT OR
+REPLACE
+INTO LocalizedText(Tag, Language, Text)
+VALUES -- 0级政体
+       ('LOC_GOVERNMENT_BULUO_NAME', 'zh_Hans_CN',
+        '部落'),
+       ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_BULUO_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
+        '作为文明诞生前夜的初始政体形态，部落是介于 “游群” 与 “酋邦” 之间的分散性社会组织，以血缘联结为核心、平等主义为准则，尚未形成集中化权力机构。这种政体比酋邦的等级制、法老制的神权集权更早出现，是人类从零散生存群体向有组织文明过渡的关键起点，为后续复杂政体的演化提供了原始模板。'),
+       -- 1级政体
+       ('LOC_GOVERNMENT_PHARAOH_NAME', 'zh_Hans_CN',
+        '法老'),
+       ('LOC_GOVT_INHERENT_BONUS_PHARAOH', 'zh_Hans_CN',
+        '[ICON_CAPITAL]首都的所有产出+1。'),
+       ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_PHARAOH_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
+        '埃及君主政体漫长的延续由法老作为核心，其大概含义为“巨屋”。法老们在埃及拥有几乎至高无上的权利，但经过长达千年之后，他们的权利也开始衰退。埃及大祭司们开始和法老分庭抗礼。'),
+       ('LOC_GOVERNMENT_FENFENG_NAME', 'zh_Hans_CN',
+        '分封'),
+       ('LOC_GOVT_INHERENT_BONUS_FENFENG', 'zh_Hans_CN',
+        '购买单元格的费用降低20%。'),
+       ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_FENFENG_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
+        '作为古典时代与合议督政制、军护邦联制并行的核心政体，分封制以 “土地分封为纽带、层级效忠为核心”，构建了 “天子 - 诸侯 - 卿大夫 - 士” 的金字塔式统治架构。这一制度既解决了早期帝国对广阔疆域的治理难题，又通过血缘与契约的双重绑定，为文明的军事防御与文化传承提供了独特动力，是从部落联盟向中央集权过渡的关键政体形态。'),
+       -- 1级政体
+       ('LOC_GOVERNMENT_AUTOCRACY_NAME', 'zh_Hans_CN',
+        '独裁统治'),
+       ('LOC_GOVERNMENT_OLIGARCHY_NAME', 'zh_Hans_CN',
+        '寡头政治'),
+       ('LOC_GOVERNMENT_CLASSICAL_REPUBLIC_NAME', 'zh_Hans_CN',
+        '古典共和'),
+        -- 1.5级政体
+       ('LOC_GOVERNMENT_JUNXUANZHI_NAME', 'zh_Hans_CN',
+        '中央集权'),
+       ('LOC_GOVERNMENT_XINGSHENGFENQUAN_NAME', 'zh_Hans_CN',
+        '封臣强化'),
+       ('LOC_GOVERNMENT_GUIZUGONGHE_NAME', 'zh_Hans_CN',
+        '贵族共和'),
+        -- 2级政体
+       ('LOC_GOVERNMENT_THEOCRACY_NAME', 'zh_Hans_CN',
+        '神权共和'),
+       ('LOC_GOVERNMENT_MERCHANT_REPUBLIC_NAME', 'zh_Hans_CN',
+        '商人共和国'),
+       ('LOC_GOVERNMENT_MONARCHY_NAME', 'zh_Hans_CN',
+        '政教合一'),
+        -- 2.5级政体
+       ('LOC_GOVERNMENT_NW1_NAME', 'zh_Hans_CN',
+        '宗主集权殖民'),
+       ('LOC_GOVERNMENT_NW2_NAME', 'zh_Hans_CN',
+        '自由资本主义'),
+       ('LOC_GOVERNMENT_NW3_NAME', 'zh_Hans_CN',
+        '君主立宪'),
+       ('LOC_GOVERNMENT_NW4_NAME', 'zh_Hans_CN',
+        '垄断资本主义'),
+        -- 3级政体
+       ('LOC_GOVERNMENT_COMMUNISM_NAME', 'zh_Hans_CN',
+        '社会主义'),
+       ('LOC_GOVERNMENT_FASCISM_NAME', 'zh_Hans_CN',
+        '法西斯主义'),
+       ('LOC_GOVERNMENT_DEMOCRACY_NAME', 'zh_Hans_CN',
+        '代议制'),
+        -- 4级政体
+       ('LOC_GOVERNMENT_CORPORATE_LIBERTARIANISM_NAME', 'zh_Hans_CN',
+        '去中心化政府'),
+       ('LOC_GOVERNMENT_DIGITAL_DEMOCRACY_NAME', 'zh_Hans_CN',
+        '数字化民主'),
+       ('LOC_GOVERNMENT_SYNTHETIC_TECHNOCRACY_NAME', 'zh_Hans_CN',
+        '共产主义');

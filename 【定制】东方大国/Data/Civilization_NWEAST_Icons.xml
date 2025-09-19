@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: Civilization_NWEAST_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/12 11:48:27 -->
+<GameData>
+	<IconTextureAtlases>
+		<Row Filename="PLA32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_PLA"/>
+		<Row Filename="PLA45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_PLA"/>
+		<Row Filename="PLA48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_PLA"/>
+		<Row Filename="PLA50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_PLA"/>
+		<Row Filename="PLA55" IconsPerColumn="1" IconsPerRow="1" IconSize="55" Name="ICON_ATLAS_PLA"/>
+		<Row Filename="PLA64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_PLA"/>
+		<Row Filename="PLA80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_PLA"/>
+		<Row Filename="PLA256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_PLA"/>
+	</IconTextureAtlases>
+	
+	<IconDefinitions>
+		<Row Name="ICON_LEADER_PLA" Atlas="ICON_ATLAS_PLA" Index="0"/>
+	</IconDefinitions>
+
+
+    <IconAliases>
+        <Row Name="ICON_CIVILIZATION_NWEAST" OtherName="ICON_CIVILIZATION_CHINA"/>
+        <Row Name="ICON_DISTRICT_TIANCEFU" OtherName="ICON_DISTRICT_GOVERNMENT"/>
+    </IconAliases>
+</GameData>

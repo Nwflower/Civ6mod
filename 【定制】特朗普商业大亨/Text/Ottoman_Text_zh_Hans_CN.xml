@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+		<!--Leader-->=
+		<Replace Tag="LOC_LEADER_JFD_TRUMP_ALT_NAME" Language="zh_Hans_CN">
+			<Text>唐纳德·特朗普（商业大亨）</Text>
+		</Replace>
+
+		<Replace Tag="LOC_TRAIT_LEADER_JFD_AMERICAN_CONTRACT_ALT_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>初始额外获得25 [ICON_GOLD] 金币（联机速度下）。全球每个港口及其替代区域为特朗普+1 [ICON_GOLD] 金币。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_CIVILIZATION_NW_AMERICA_NAME" Language="zh_Hans_CN">
+			<Text>美利坚</Text>
+		</Replace>
+		<Replace Tag="LOC_CIVILIZATION_NW_AMERICA_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>美利坚合众国</Text>
+		</Replace>
+		<Replace Tag="LOC_CIVILIZATION_NW_AMERICA_ADJECTIVE" Language="zh_Hans_CN">
+			<Text>美利坚的</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_NW_AMERICA_FREEDOM_NAME" Language="zh_Hans_CN">
+			<Text>自由属于美利坚</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_NW_AMERICA_FREEDOM_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>与相同的敌人作战时，6个单元格内的单位与盟友共享经验值与掠夺收益。同时代海军近战单位和陆地近战单位可以相互转化。获得全球所有油井、海上石油钻机与航空港的视野。当游戏内有美利坚时，外交议程投票将在古典时代开启。</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_FREEDOM_HARBOR_NAME" Language="zh_Hans_CN">
+			<Text>联邦海军船坞</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_FREEDOM_HARBOR_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>美利坚特色区域，替代港口，建造费用更低。在任何情况下，+3 [ICON_GOLD] 金币相邻加成。</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_DISTRICT_FREEDOM_HARBOR_YIELD_GOLD" Language="zh_Hans_CN">
+			<Text>+{1_Num} [ICON_GOLD] 金币来自自身。</Text>
+		</Replace>
+		<Replace Tag="LOC_NW_DISTRICT_FREEDOM_HARBOR_YIELD_GOLD_TO_SHANGYE" Language="zh_Hans_CN">
+			<Text>+{1_Num} [ICON_GOLD] 金币来自联邦海军船坞。</Text>
+		</Replace>
+
+
+
+		<Replace Tag="LOC_UNIT_HANGMU_NAME" Language="zh_Hans_CN">
+			<Text>超级航空母舰</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_HANGMU_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>美利坚现代特色海军单位，取代航空母舰，解锁于现代航空。拥有2个飞机槽位。没有该单位时为生产该单位+100% [ICON_PRODUCTION] 生产力或-50%购买花费。</Text>
+		</Replace>
+
+
+		<!--UI-->
+		<Replace Tag="LOC_OTTOMAN_LAND_ACTION_TOOLTIP" Language="zh_Hans_CN">
+			<Text>扬帆起航[NEWLINE]在相邻单元格创建一个海军近战单位。</Text>
+		</Replace>
+		<Replace Tag="LOC_OTTOMAN_LAND_ACTION_BAN_TOOLTIP" Language="zh_Hans_CN">
+			<Text>{LOC_OTTOMAN_LAND_ACTION_TOOLTIP}[NEWLINE][COLOR_RED]没有合适的登舰点。[ENDCOLOR]</Text>
+		</Replace>
+		<Replace Tag="LOC_OTTOMAN_SEA_ACTION_TOOLTIP" Language="zh_Hans_CN">
+			<Text>旱地行舟[NEWLINE]在相邻单元格创建一个陆地近战单位。</Text>
+		</Replace>
+		<Replace Tag="LOC_OTTOMAN_SEA_ACTION_BAN_TOOLTIP" Language="zh_Hans_CN">
+			<Text>{LOC_OTTOMAN_SEA_ACTION_TOOLTIP}[NEWLINE][COLOR_RED]没有合适的登陆点。[ENDCOLOR]</Text>
+		</Replace>
+	</LocalizedText>
+</GameData>

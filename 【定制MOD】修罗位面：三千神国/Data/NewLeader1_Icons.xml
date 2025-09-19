@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: NewLeader1_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/2 15:46:23 -->
+<GameData>
+	<IconTextureAtlases>
+
+		<Row Filename="NWSanqian32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_NW_SANQIAN"/>
+		<Row Filename="NWSanqian45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_NW_SANQIAN"/>
+		<Row Filename="NWSanqian48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_NW_SANQIAN"/>
+		<Row Filename="NWSanqian50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_NW_SANQIAN"/>
+		<Row Filename="NWSanqian55" IconsPerColumn="1" IconsPerRow="1" IconSize="55" Name="ICON_ATLAS_NW_SANQIAN"/>
+		<Row Filename="NWSanqian64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_NW_SANQIAN"/>
+		<Row Filename="NWSanqian80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_NW_SANQIAN"/>
+		<Row Filename="NWSanqian256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_NW_SANQIAN"/>
+	</IconTextureAtlases>
+	
+	<IconDefinitions>
+		<Row Name="ICON_LEADER_NW_SANQIAN" Atlas="ICON_ATLAS_NW_SANQIAN" Index="0"/>
+	</IconDefinitions>
+
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_UNIT_ANYINQISHI" IconSize="22" Filename="ICON_UNIT_ANYINQISHI_22"/>
+        <Row Name="ATLAS_ICON_UNIT_ANYINQISHI" IconSize="32" Filename="ICON_UNIT_ANYINQISHI_32"/>
+        <Row Name="ATLAS_ICON_UNIT_ANYINQISHI" IconSize="38" Filename="ICON_UNIT_ANYINQISHI_38"/>
+        <Row Name="ATLAS_ICON_UNIT_ANYINQISHI" IconSize="50" Filename="ICON_UNIT_ANYINQISHI_50"/>
+        <Row Name="ATLAS_ICON_UNIT_ANYINQISHI" IconSize="80" Filename="ICON_UNIT_ANYINQISHI_80"/>
+        <Row Name="ATLAS_ICON_UNIT_ANYINQISHI" IconSize="256" Filename="ICON_UNIT_ANYINQISHI_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_UNIT_ANYINQISHI" Atlas="ATLAS_ICON_UNIT_ANYINQISHI" Index="0"/>
+    </IconDefinitions>
+
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_LEADER_NW_SANQIAN_NEUTRAL" IconSize="512" Filename="LEADER_NW_SANQIAN_NEUTRAL"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="LEADER_NW_SANQIAN_NEUTRAL" Atlas="ATLAS_LEADER_NW_SANQIAN_NEUTRAL" Index="0"/>
+    </IconDefinitions>
+    <IconAliases>
+		<Row Name="ICON_CIVILIZATION_NW_XIULUOWEIMIAN" OtherName="ICON_CIVILIZATION_ROME"/>
+        <Row Name="ICON_DISTRICT_XULINGTA" OtherName="ICON_DISTRICT_INDUSTRIAL_ZONE"/>
+        <Row Name="ICON_UNIT_ANYINQISHI_PORTRAIT" OtherName="ICON_UNIT_MONGOLIAN_KESHIG_PORTRAIT"/>
+    </IconAliases>
+</GameData>

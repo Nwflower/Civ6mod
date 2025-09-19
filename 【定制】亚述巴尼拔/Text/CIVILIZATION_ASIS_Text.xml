@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: CIVILIZATION_ASIS_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/13 11:37:52 -->
+<GameData>
+	<LocalizedText>
+		<!--Civ-->
+		<Row Tag="LOC_CIVILIZATION_NW_ASIS_NAME" Language="zh_Hans_CN">
+			<Text>亚述</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_NW_ASIS_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>亚述帝国</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_NW_ASIS_ADJECTIVE" Language="zh_Hans_CN">
+			<Text>亚述的</Text>
+		</Row>
+
+
+		<!--Leader-->
+		<Row Tag="LOC_LEADER_NWBNB_NAME" Language="zh_Hans_CN">
+			<Text>亚述巴尼拔</Text>
+		</Row>
+		<Row Tag="LOC_LOADING_INFO_LEADER_NWBNB" Language="zh_Hans_CN">
+			<Text>伟大的王亚述巴尼拔，所有人提及您的名号都满是敬畏，却也由衷叹服您的智略与强权。您居于辉煌的尼尼微，让楔形文字在泥板上构筑成知识的殿堂，也让战车碾过从两河到埃及的疆土。史诗颂唱着您的军团如惊雷般撕裂敌阵，投石机轰碎每一座负隅的城郭——无论叛乱藏于何方，亚述的矛尖总会将其刺穿。继续统治您的帝国吧，英明的君主，愿您的图书馆永纳文明星火，愿您的敌辈永无勇气直视亚述的荣光。</Text>
+		</Row>
+
+		<!--TRAIT-->
+		<Row Tag="LOC_TRAIT_LEADER_NWBNB_NWASIS2_NAME" Language="zh_Hans_CN">
+			<Text>巴比伦的首次终结</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_LEADER_NWBNB_NWASIS2_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>攻城单位攻击陆地军事单位时不会受到减益。解锁“金属铸造”后，生产攻城单位时+30% [ICON_PRODUCTION] 生产力。解锁“钢铁”后，攻城单位+1 [ICON_Range] 射程。</Text>
+		</Row>
+
+		<Row Tag="LOC_MODIFIER_TRAIT_LEADER_NWASIS2_ANTI_SEEGE_DEBUFF" Language="zh_Hans_CN">
+			<Text>+{1_Num} 来自进攻陆地军事单位的减益补偿。</Text>
+		</Row>
+
+		<Row Tag="LOC_TRAIT_CIVILIZATION_NW_ASIS_NWASIS1_NAME" Language="zh_Hans_CN">
+			<Text>美索不达米亚路网</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_CIVILIZATION_NW_ASIS_NWASIS1_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>建立 [ICON_Capital] 首都后获得一个军事工程师。国境内的道路等级+1。若被征服的城市在您的 [ICON_Capital] 首都贸易范围之内，则自动建立一条到 [ICON_Capital] 首都的道路。</Text>
+		</Row>
+
+		<Row Tag="LOC_CITY_NAME_NWASIS" Language="zh_Hans_CN">
+			<Text>尼尼微</Text>
+		</Row>
+
+		<!--ITEM-->
+		<Row Tag="LOC_UNIT_NIULI_NAME" Language="zh_Hans_CN">
+			<Text>扭力投石机</Text>
+		</Row>
+		<Row Tag="LOC_UNIT_NIULI_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>亚述特色单位，替代投石机。与军事工程师位于同一单元格时，+3 [ICON_Strength] 战斗力。</Text>
+		</Row>
+
+		<Row Tag="LOC_DISTRICT_JEER_NAME" Language="zh_Hans_CN">
+			<Text>杰尔万渡槽</Text>
+		</Row>
+		<Row Tag="LOC_DISTRICT_JEER_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>亚述特色区域，替代水渠，解锁于灌溉，建造费用更低。为该城的农场改良设施+1[ICON_FOOD]食物、+1[ICON_Housing]住房。</Text>
+		</Row>
+
+		<Row Tag="LOC_ABILITY_UNIT_NIULI_NAME" Language="zh_Hans_CN">
+			<Text>与军事工程师位于同一单元格时，+3 [ICON_Strength] 战斗力。</Text>
+		</Row>
+		<Row Tag="LOC_MODIFIER_ABILITY_UNIT_NIULI_ADD_COMBAT" Language="zh_Hans_CN">
+			<Text>+{1_Num} 来自同一单元格的军事工程师。</Text>
+		</Row>
+	</LocalizedText>
+</GameData>

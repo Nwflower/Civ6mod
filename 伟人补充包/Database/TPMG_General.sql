@@ -1,0 +1,326 @@
+-- Team_PVP_More_GreatPeople
+-- Author: Nwflower
+-- DateCreated: 2025-6-12 14:19:14
+--------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS NW_GreatPersonClass
+(
+    GreatPersonIndividualType TEXT NOT NULL,
+    GreatPersonClassType      TEXT NOT NULL,
+    EraType                   TEXT NOT NULL,
+    GreatWorksNum             INTEGER DEFAULT 0,
+    PRIMARY KEY (GreatPersonIndividualType)
+);
+INSERT INTO NW_GreatPersonClass(GreatPersonIndividualType, GreatPersonClassType, EraType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_1', 'GREAT_PERSON_CLASS_GENERAL', 'ERA_CLASSICAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_2', 'GREAT_PERSON_CLASS_GENERAL', 'ERA_CLASSICAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_1', 'GREAT_PERSON_CLASS_GENERAL', 'ERA_MEDIEVAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_2', 'GREAT_PERSON_CLASS_GENERAL', 'ERA_MEDIEVAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1', 'GREAT_PERSON_CLASS_GENERAL', 'ERA_RENAISSANCE'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_2', 'GREAT_PERSON_CLASS_GENERAL', 'ERA_RENAISSANCE'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1', 'GREAT_PERSON_CLASS_GENERAL', 'ERA_INDUSTRIAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_2', 'GREAT_PERSON_CLASS_GENERAL', 'ERA_INDUSTRIAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1', 'GREAT_PERSON_CLASS_GENERAL', 'ERA_MODERN'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2', 'GREAT_PERSON_CLASS_GENERAL', 'ERA_MODERN');
+
+INSERT INTO Types (Type, Kind)
+SELECT GreatPersonIndividualType, 'KIND_GREAT_PERSON_INDIVIDUAL'
+FROM NW_GreatPersonClass WHERE GreatPersonClassType = 'GREAT_PERSON_CLASS_GENERAL';
+
+
+-- ======================================================
+-- 大将军
+-- ======================================================
+
+
+INSERT INTO GreatPersonIndividuals(GreatPersonIndividualType, Name, GreatPersonClassType, EraType, Gender,
+                                   ActionCharges, ActionNameTextOverride, ActionEffectTextOverride, ActionRequiresOwnedTile, AreaHighlightRadius,
+                                   ActionEffectTileHighlighting)
+SELECT GreatPersonIndividualType,
+       'LOC_' || GreatPersonIndividualType || '_NAME',
+       GreatPersonClassType,
+       EraType,
+       'M',
+       1,
+       'LOC_GREATPERSON_ACTION_NAME_RETIRE',
+       'LOC_MODIFIER_'|| GreatPersonIndividualType,
+       0,
+       2,
+       0
+FROM NW_GreatPersonClass
+WHERE GreatPersonClassType = 'GREAT_PERSON_CLASS_GENERAL';
+
+
+INSERT INTO GreatPersonIndividualBirthModifiers(GreatPersonIndividualType, ModifierId)
+SELECT GreatPersonIndividualType,
+       'GREATPERSON_COMBAT_STRENGTH_AOE_' || REPLACE(EraType, 'ERA_', '') || '_LAND'
+FROM NW_GreatPersonClass
+WHERE GreatPersonClassType = 'GREAT_PERSON_CLASS_GENERAL';
+
+INSERT INTO GreatPersonIndividualBirthModifiers(GreatPersonIndividualType, ModifierId)
+SELECT GreatPersonIndividualType,
+       'GREATPERSON_MOVEMENT_AOE_' || REPLACE(EraType, 'ERA_', '') || '_LAND'
+FROM NW_GreatPersonClass
+WHERE GreatPersonClassType = 'GREAT_PERSON_CLASS_GENERAL';
+
+INSERT INTO Modifiers (ModifierId, ModifierType)
+VALUES ('NW_GREAT_PERSON_CLASS_GENERAL_BUFF_MOVEMENT_1', 'MODIFIER_PLAYER_UNIT_ADJUST_MOVEMENT'),
+       ('NW_GREAT_PERSON_CLASS_GENERAL_BUFF_MOVEMENT_2', 'MODIFIER_PLAYER_UNIT_ADJUST_MOVEMENT');
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('NW_GREAT_PERSON_CLASS_GENERAL_BUFF_MOVEMENT_1', 'Amount', '1'),
+       ('NW_GREAT_PERSON_CLASS_GENERAL_BUFF_MOVEMENT_2', 'Amount', '2');
+
+
+-- 分条
+
+
+UPDATE GreatPersonIndividuals
+SET ActionRequiresNoMilitaryUnit = 1
+WHERE GreatPersonIndividualType IN
+      ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_1', 'GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_1',
+       'GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_2', 'GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1',
+       'GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1');
+
+-- 1
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_1', 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_1',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_UNIT_GREATPERSON');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_1',
+        'MODIFIER_PLAYER_GRANT_UNIT_OF_ABILITY_WITH_MODIFIER', 1, 1,
+        0,
+        NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_1', 'UnitPromotionClassType', 'PROMOTION_CLASS_MELEE'),
+       ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_1', 'ModifierId',
+        'NW_GREAT_PERSON_CLASS_GENERAL_BUFF_MOVEMENT_2');
+
+
+-- 2
+UPDATE GreatPersonIndividuals
+SET ActionRequiresMilitaryUnitDomain = 'DOMAIN_LAND'
+WHERE GreatPersonIndividualType = 'GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_2';
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_2', 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_2',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_UNIT_DOMAIN_MILITARY_IN_TILE');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_2', 'MODIFIER_PLAYER_UNIT_ADJUST_GRANT_EXPERIENCE', 1, 1,
+        0,
+        NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_CLASSICAL_2', 'Amount', '-1');
+
+-- 3
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_1', 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_1',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_UNIT_GREATPERSON');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_1', 'MODIFIER_PLAYER_GRANT_UNIT_OF_ABILITY_WITH_MODIFIER',
+        1, 1,
+        0,
+        NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_1', 'UnitPromotionClassType',
+        'PROMOTION_CLASS_LIGHT_CAVALRY'),
+       ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_1', 'ModifierId',
+        'NW_GREAT_PERSON_CLASS_GENERAL_BUFF_MOVEMENT_1');
+
+-- 4
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_2', 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_2',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_UNIT_GREATPERSON');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_2', 'MODIFIER_PLAYER_GRANT_UNIT_OF_ABILITY_WITH_MODIFIER',
+        1, 1,
+        0,
+        NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_2', 'UnitPromotionClassType',
+        'PROMOTION_CLASS_ANTI_CAVALRY'),
+       ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MEDIEVAL_2', 'ModifierId',
+        'NW_GREAT_PERSON_CLASS_GENERAL_BUFF_MOVEMENT_2');
+
+-- 5
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1', 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_UNIT_GREATPERSON');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1', 'MODIFIER_PLAYER_UNIT_GRANT_UNIT_WITH_EXPERIENCE',
+        1, 1, 0,
+        NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1', 'Experience', '-1'),
+       ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1', 'UnitType', 'UNIT_MUSKETMAN'),
+       ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1', 'UniqueOverride', '1');
+
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1',
+        'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1_2',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_UNIT_GREATPERSON');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1_2',
+        'MODIFIER_PLAYER_ADJUST_FREE_RESOURCE_EXTRACTION', 1, 1,
+        0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1_2', 'ResourceType', 'RESOURCE_NITER'),
+       ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_1_2', 'Amount', '1');
+
+-- 6
+UPDATE GreatPersonIndividuals
+SET ActionRequiresMilitaryUnitDomain    = 'DOMAIN_LAND',
+    ActionRequiresUnitMilitaryFormation = 'STANDARD_MILITARY_FORMATION'
+WHERE GreatPersonIndividualType = 'GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_2';
+
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_2', 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_2',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_UNIT_DOMAIN_MILITARY_IN_TILE');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_2', 'MODIFIER_PLAYER_UNIT_ADJUST_MILITARY_FORMATION',
+        1, 1, 0, NULL, NULL);
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_RENAISSANCE_2', 'MilitaryFormationType',
+        'CORPS_MILITARY_FORMATION');
+
+
+-- 7
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1', 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_PLAYER');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1', 'MODIFIER_PLAYER_UNITS_GRANT_ABILITY', 0, 0, 0,
+        NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1', 'AbilityType',
+        'ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1');
+
+
+INSERT INTO Types(Type, Kind)
+VALUES ('ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1', 'KIND_ABILITY');
+INSERT INTO TypeTags(Type, Tag)
+VALUES ('ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1', 'CLASS_ALL_COMBAT_UNITS');
+INSERT INTO UnitAbilities(UnitAbilityType, Inactive, Name, Description)
+VALUES ('ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1', 1, 'LOC_ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1_DESC',
+        'LOC_ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1_DESC');
+INSERT INTO UnitAbilityModifiers(UnitAbilityType, ModifierId)
+VALUES ('ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1',
+        'MODIFIER_ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1_SUPPORT_BONUS');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1_SUPPORT_BONUS',
+        'MODIFIER_PLAYER_UNIT_ADJUST_SUPPORT_BONUS_MODIFIER', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_ABILITY_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_1_SUPPORT_BONUS', 'Percent', '30');
+
+
+-- 8
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId)
+SELECT 'GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_2',
+       'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_2_' || u.PromotionClassType || '_' || e.EraType
+FROM Eras e
+         JOIN UnitPromotionClasses u
+WHERE u.PromotionClassType IN ('PROMOTION_CLASS_LIGHT_CAVALRY', 'PROMOTION_CLASS_HEAVY_CAVALRY');
+
+INSERT INTO Modifiers (ModifierId, ModifierType)
+SELECT 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_2_' || u.PromotionClassType || '_' || e.EraType,
+       'MODIFIER_PLAYER_CITIES_ADJUST_UNIT_TAG_ERA_PRODUCTION'
+FROM Eras e
+         JOIN UnitPromotionClasses u
+WHERE u.PromotionClassType IN ('PROMOTION_CLASS_LIGHT_CAVALRY', 'PROMOTION_CLASS_HEAVY_CAVALRY');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+SELECT 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_2_' || u.PromotionClassType || '_' || e.EraType,
+       'Amount',
+       10
+FROM Eras e
+         JOIN UnitPromotionClasses u
+WHERE u.PromotionClassType IN ('PROMOTION_CLASS_LIGHT_CAVALRY', 'PROMOTION_CLASS_HEAVY_CAVALRY')
+UNION
+SELECT 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_2_' || u.PromotionClassType || '_' || e.EraType,
+       'EraType',
+       e.EraType
+FROM Eras e
+         JOIN UnitPromotionClasses u
+WHERE u.PromotionClassType IN ('PROMOTION_CLASS_LIGHT_CAVALRY', 'PROMOTION_CLASS_HEAVY_CAVALRY')
+UNION
+SELECT 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_INDUSTRIAL_2_' || u.PromotionClassType || '_' || e.EraType,
+       'UnitPromotionClass',
+       u.PromotionClassType
+FROM Eras e
+         JOIN UnitPromotionClasses u
+WHERE u.PromotionClassType IN ('PROMOTION_CLASS_LIGHT_CAVALRY', 'PROMOTION_CLASS_HEAVY_CAVALRY');
+
+-- 9
+UPDATE GreatPersonIndividuals
+SET ActionRequiresNoMilitaryUnit = 1
+WHERE GreatPersonIndividualType = 'GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1';
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1', 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1_1',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_UNIT_GREATPERSON');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1_1', 'MODIFIER_PLAYER_UNIT_GRANT_UNIT_WITH_EXPERIENCE', 1,
+        1, 0,
+        NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1_1', 'Experience', '-1'),
+       ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1_1', 'UnitType', 'UNIT_ARTILLERY'),
+       ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1_1', 'UniqueOverride', '1');
+
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1', 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1_2',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_UNIT_GREATPERSON');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1_2', 'MODIFIER_PLAYER_ADJUST_FREE_RESOURCE_EXTRACTION', 1,
+        1,
+        0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1_2', 'ResourceType', 'RESOURCE_OIL'),
+       ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_1_2', 'Amount', '1');
+
+-- 10
+INSERT INTO GreatPersonIndividualActionModifiers (GreatPersonIndividualType, ModifierId, AttachmentTargetType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2', 'MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2',
+        'GREAT_PERSON_ACTION_ATTACHMENT_TARGET_PLAYER');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2', 'MODIFIER_PLAYER_UNITS_GRANT_ABILITY', 0, 0, 0, NULL,
+        NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2', 'AbilityType',
+        'ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2');
+
+INSERT INTO Types(Type, Kind)
+VALUES ('ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2', 'KIND_ABILITY');
+INSERT INTO TypeTags(Type, Tag)
+VALUES ('ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2', 'CLASS_ALL_COMBAT_UNITS');
+INSERT INTO UnitAbilities(UnitAbilityType, Inactive, Name, Description)
+VALUES ('ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2', 1,
+        'LOC_ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2_DESC',
+        'LOC_ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2_DESC');
+INSERT INTO UnitAbilityModifiers(UnitAbilityType, ModifierId)
+VALUES ('ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2',
+        'MODIFIER_ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2_ADD_COMBAT');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2_ADD_COMBAT',
+        'MODIFIER_UNIT_ADJUST_COMBAT_STRENGTH', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2_ADD_COMBAT', 'Amount', '1');
+
+INSERT INTO ModifierStrings (ModifierId, Context, Text)
+VALUES ('MODIFIER_ABILITY_GREAT_PERSON_INDIVIDUAL_NW_GENERAL_MODERN_2_ADD_COMBAT', 'Preview',
+        'LOC_ABILITY_INDIVIDUAL_NW_GENERAL_MODERN_2_DESC');
+
+

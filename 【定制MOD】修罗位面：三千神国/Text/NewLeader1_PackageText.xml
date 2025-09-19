@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: NewLeader1_PackageText.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/2 15:46:23 -->
+<GameData>
+    <LocalizedText>
+        <Row Tag="LOC_Fish11_MOD_TITLE" Language="en_US">
+            <Text>Fish11 By Nwflower</Text>
+        </Row>
+        <Row Tag="LOC_Fish11_MOD_TEASER" Language="en_US">
+            <Text>Add XXX</Text>
+        </Row>
+        <Row Tag="LOC_Fish11_MOD_DESCRIPTION" Language="en_US">
+            <Text>Add XXX</Text>
+        </Row>
+        <Row Tag="LOC_Fish11_MOD_AUTHORS" Language="en_US">
+            <Text>[COLOR:DiplomaticLabelCS]Nwflower[ENDCOLOR]</Text>
+        </Row>
+
+        <Row Tag="LOC_Fish11_MOD_TITLE" Language="zh_Hans_CN">
+            <Text>【定制MOD】修罗位面：三千神国</Text>
+        </Row>
+        <Row Tag="LOC_Fish11_MOD_TEASER" Language="zh_Hans_CN">
+            <Text>添加了修罗位面：三千神国</Text>
+        </Row>
+        <Row Tag="LOC_Fish11_MOD_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>包含1个新文明和领袖。</Text>
+        </Row>
+        <Row Tag="LOC_Fish11_MOD_AUTHORS" Language="zh_Hans_CN">
+            <Text>[COLOR:DiplomaticLabelCS]千川白浪[ENDCOLOR]</Text>
+        </Row>
+    </LocalizedText>
+</GameData>

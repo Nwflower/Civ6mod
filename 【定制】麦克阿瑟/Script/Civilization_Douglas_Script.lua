@@ -1,0 +1,28 @@
+----  FILE: Civilization_Douglas_Script.lua
+----  VERSION: 1
+----  Author: Nwflower
+----  Spicial Thanks: Uni
+----  Copyright (c) 2025.
+----      All rights reserved.
+----  DateCreated: 2025/9/14 10:32:02
+--
+--include('NwflowerMODCore')
+--
+---- ===========================================================================
+--
+--function onCombat(pCombatResult)
+--	local attacker = pCombatResult[CombatResultParameters.ATTACKER]
+--	local attInfo = attacker[CombatResultParameters.ID]
+--	local attUnit = UnitManager.GetUnit(attInfo.player, attInfo.id)
+--	if attUnit and attUnit:GetAbilityCount('ABILITY_NW_001_2') == 1 and (not attUnit:IsDelayedDeath()) then
+--		attUnit:ChangeDamage(-5);
+--	end
+--end
+--
+--function initialize()
+--    Events.Combat.Add(onCombat)
+--end
+--
+--Events.LoadScreenClose.Add(initialize);
+--include('Civilization_Douglas_Script_',true);
+--print('Civilization_Douglas_Script Loaded Success.')

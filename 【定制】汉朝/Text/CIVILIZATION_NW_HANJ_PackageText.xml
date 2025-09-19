@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: CIVILIZATION_NW_HANJ_PackageText.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/15 18:21:35 -->
+<GameData>
+    <LocalizedText>
+        <Row Tag="LOC_CIVILIZATION_NW_HANJ_MOD_TITLE" Language="zh_Hans_CN">
+            <Text>Team PVP 领袖 汉朝</Text>
+        </Row>
+        <Row Tag="LOC_CIVILIZATION_NW_HANJ_MOD_TEASER" Language="zh_Hans_CN">
+            <Text>添加了汉武帝和汉宣帝</Text>
+        </Row>
+        <Row Tag="LOC_CIVILIZATION_NW_HANJ_MOD_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>包含1个新文明和2个新领袖。</Text>
+        </Row>
+        <Row Tag="LOC_CIVILIZATION_NW_HANJ_MOD_AUTHORS" Language="zh_Hans_CN">
+            <Text>[COLOR:DiplomaticLabelCS]千川白浪[ENDCOLOR]</Text>
+        </Row>
+    </LocalizedText>
+</GameData>

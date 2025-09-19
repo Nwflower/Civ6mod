@@ -1,0 +1,115 @@
+------------------------------------------------------------------------------
+--	FILE: TPMG_WRITER.sql
+--  VERSION: 1
+--	PURPOSE: Team PVP More Great WRITER
+------------------------------------------------------------------------------
+--	Copyright (c) 2025 Nwflower.
+--	All rights reserved.
+------------------------------------------------------------------------------
+
+-- TPMG Files Support
+
+CREATE TABLE IF NOT EXISTS NW_GreatPersonClass
+(
+    GreatPersonIndividualType TEXT NOT NULL,
+    GreatPersonClassType      TEXT NOT NULL,
+    EraType                   TEXT NOT NULL,
+    GreatWorksNum             INTEGER DEFAULT 0,
+    PRIMARY KEY (GreatPersonIndividualType)
+);
+INSERT INTO NW_GreatPersonClass(GreatPersonIndividualType, GreatPersonClassType, EraType)
+VALUES ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_CLASSICAL_1', 'GREAT_PERSON_CLASS_WRITER', 'ERA_CLASSICAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_CLASSICAL_2', 'GREAT_PERSON_CLASS_WRITER', 'ERA_CLASSICAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_CLASSICAL_3', 'GREAT_PERSON_CLASS_WRITER', 'ERA_CLASSICAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_CLASSICAL_4', 'GREAT_PERSON_CLASS_WRITER', 'ERA_CLASSICAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_MEDIEVAL_1', 'GREAT_PERSON_CLASS_WRITER', 'ERA_MEDIEVAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_MEDIEVAL_2', 'GREAT_PERSON_CLASS_WRITER', 'ERA_MEDIEVAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_MEDIEVAL_3', 'GREAT_PERSON_CLASS_WRITER', 'ERA_MEDIEVAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_MEDIEVAL_4', 'GREAT_PERSON_CLASS_WRITER', 'ERA_MEDIEVAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_RENAISSANCE_1', 'GREAT_PERSON_CLASS_WRITER', 'ERA_RENAISSANCE'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_RENAISSANCE_2', 'GREAT_PERSON_CLASS_WRITER', 'ERA_RENAISSANCE'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_RENAISSANCE_3', 'GREAT_PERSON_CLASS_WRITER', 'ERA_RENAISSANCE'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_RENAISSANCE_4', 'GREAT_PERSON_CLASS_WRITER', 'ERA_RENAISSANCE'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_INDUSTRIAL_1', 'GREAT_PERSON_CLASS_WRITER', 'ERA_INDUSTRIAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_INDUSTRIAL_2', 'GREAT_PERSON_CLASS_WRITER', 'ERA_INDUSTRIAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_INDUSTRIAL_3', 'GREAT_PERSON_CLASS_WRITER', 'ERA_INDUSTRIAL'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_MODERN_1', 'GREAT_PERSON_CLASS_WRITER', 'ERA_MODERN'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_MODERN_2', 'GREAT_PERSON_CLASS_WRITER', 'ERA_MODERN'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_MODERN_3', 'GREAT_PERSON_CLASS_WRITER', 'ERA_MODERN'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_ATOMIC_1', 'GREAT_PERSON_CLASS_WRITER', 'ERA_ATOMIC'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_ATOMIC_2', 'GREAT_PERSON_CLASS_WRITER', 'ERA_ATOMIC'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_INFORMATION_1', 'GREAT_PERSON_CLASS_WRITER', 'ERA_INFORMATION'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_INFORMATION_2', 'GREAT_PERSON_CLASS_WRITER', 'ERA_INFORMATION'),
+       ('GREAT_PERSON_INDIVIDUAL_NW_WRITER_INFORMATION_3', 'GREAT_PERSON_CLASS_WRITER', 'ERA_INFORMATION');
+
+INSERT INTO Types (Type, Kind)
+SELECT GreatPersonIndividualType, 'KIND_GREAT_PERSON_INDIVIDUAL'
+FROM NW_GreatPersonClass
+WHERE GreatPersonClassType = 'GREAT_PERSON_CLASS_WRITER';
+
+-- 标记伟人著作量
+UPDATE NW_GreatPersonClass
+SET GreatWorksNum = 2
+WHERE GreatPersonClassType = 'GREAT_PERSON_CLASS_WRITER'
+  AND EraType IS NOT 'ERA_RENAISSANCE';
+UPDATE NW_GreatPersonClass
+SET GreatWorksNum = 1
+WHERE GreatPersonClassType = 'GREAT_PERSON_CLASS_WRITER'
+  AND EraType IS 'ERA_RENAISSANCE';
+
+-- ======================================================
+-- 大作家
+-- ======================================================
+
+INSERT INTO GreatPersonIndividuals(GreatPersonIndividualType, Name, GreatPersonClassType, EraType, Gender,
+                                   ActionCharges, ActionRequiresOwnedTile,
+                                   ActionEffectTileHighlighting)
+SELECT GreatPersonIndividualType,
+       'LOC_' || GreatPersonIndividualType || '_NAME',
+       GreatPersonClassType,
+       EraType,
+       'M',
+       0,
+       1,
+       1
+FROM NW_GreatPersonClass
+WHERE GreatPersonClassType = 'GREAT_PERSON_CLASS_WRITER';
+
+-- 创建临时数字表（使用正确的WITH RECURSIVE语法）
+CREATE TEMP TABLE IF NOT EXISTS Numbers AS
+WITH RECURSIVE Numbers(n) AS (SELECT 1
+                              UNION ALL
+                              SELECT n + 1
+                              FROM Numbers
+                              WHERE n < (SELECT MAX(GreatWorksNum) FROM NW_GreatPersonClass WHERE GreatWorksNum > 0))
+SELECT n
+FROM Numbers;
+
+-- 批量插入巨作
+CREATE TEMP TABLE NW_TEMP_TABLE_CLASSWORKS AS
+SELECT gpc.GreatPersonIndividualType, gpc.GreatWorksNum, n.n AS WorkIndex
+FROM NW_GreatPersonClass gpc
+         JOIN Numbers n ON n.n <= gpc.GreatWorksNum
+WHERE gpc.GreatWorksNum > 0 AND gpc.GreatPersonClassType = 'GREAT_PERSON_CLASS_WRITER';
+
+INSERT INTO Types (Type, Kind)
+SELECT 'GREATWORK_' || REPLACE(GreatPersonIndividualType, 'GREAT_PERSON_INDIVIDUAL_', '') || WorkIndex, 'KIND_GREATWORK'
+FROM NW_TEMP_TABLE_CLASSWORKS;
+
+INSERT INTO GreatWorks (GreatWorkType, GreatWorkObjectType, GreatPersonIndividualType, Name, Quote, Tourism, Audio)
+SELECT 'GREATWORK_' || REPLACE(GreatPersonIndividualType, 'GREAT_PERSON_INDIVIDUAL_', '') || WorkIndex,
+       'GREATWORKOBJECT_WRITING',
+       GreatPersonIndividualType,
+       'LOC_GREATWORK_' || REPLACE(GreatPersonIndividualType, 'GREAT_PERSON_INDIVIDUAL_', '') || WorkIndex || '_NAME',
+       'LOC_GREATWORK_' || REPLACE(GreatPersonIndividualType, 'GREAT_PERSON_INDIVIDUAL_', '') || WorkIndex || '_QUOTE',
+       (4 + GreatWorksNum - 1) / GreatWorksNum,
+       ''
+FROM NW_TEMP_TABLE_CLASSWORKS;
+
+INSERT INTO GreatWork_YieldChanges (GreatWorkType, YieldType, YieldChange)
+SELECT 'GREATWORK_' || REPLACE(GreatPersonIndividualType, 'GREAT_PERSON_INDIVIDUAL_', '') || WorkIndex,
+       'YIELD_CULTURE',
+       (4 + GreatWorksNum - 1) / GreatWorksNum
+FROM NW_TEMP_TABLE_CLASSWORKS;
+
+DROP TABLE NW_TEMP_TABLE_CLASSWORKS;

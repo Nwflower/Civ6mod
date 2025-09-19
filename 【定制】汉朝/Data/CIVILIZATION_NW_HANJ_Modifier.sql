@@ -1,0 +1,285 @@
+--  FILE: CIVILIZATION_NW_HANJ_Modifier.sql
+--  VERSION: 1
+--  Author: Nwflower
+--  Spicial Thanks: Uni
+--  Copyright (c) 2025.
+--      All rights reserved.
+--  DateCreated: 2025/9/15 18:21:35
+
+--============================================================
+-- Lua Support
+--============================================================
+CREATE TABLE IF NOT EXISTS Nwflower_MOD_Traits
+(
+    TraitType TEXT NOT NULL,
+    PRIMARY KEY (TraitType),
+    FOREIGN KEY (TraitType) REFERENCES Traits (TraitType) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT OR IGNORE INTO Nwflower_MOD_Traits(TraitType)
+VALUES ('TRAIT_CIVILIZATION_CIV_HANJ_NW003'),
+       ('TRAIT_LEADER_NW004'),
+       ('TRAIT_LEADER_NW005');
+
+INSERT OR IGNORE INTO TraitModifiers(TraitType, ModifierId)
+SELECT TraitType,
+       'MODFEAT_TRAIT_PROPERTY_' || TraitType
+FROM Nwflower_MOD_Traits;
+
+INSERT OR IGNORE INTO Modifiers(ModifierId, ModifierType)
+SELECT 'MODFEAT_TRAIT_PROPERTY_' || TraitType,
+       'MODIFIER_PLAYER_ADJUST_PROPERTY'
+FROM Nwflower_MOD_Traits;
+
+INSERT OR IGNORE INTO ModifierArguments(ModifierId, Name, Value)
+SELECT 'MODFEAT_TRAIT_PROPERTY_' || TraitType,
+       'Key',
+       'PROPERTY_' || TraitType
+FROM Nwflower_MOD_Traits
+UNION
+SELECT 'MODFEAT_TRAIT_PROPERTY_' || TraitType,
+       'Amount',
+       1
+FROM Nwflower_MOD_Traits;
+
+-- =======================================================
+-- 刘洵
+-- =======================================================
+-- 解锁“政治哲学”后，每拥有一个军事政策槽位，所有城市+1 [ICON_PRODUCTION] 生产力；每拥有一个经济政策槽位，所有城市+2 [ICON_GOLD] 金币。
+-- 稍微写法脏一点应该没关系
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE', 0, 0,
+        0, 'REQS_TRAIT_LEADER_NW004_AND_ZZZZ', NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY', 'Amount', 1),
+       ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY', 'YieldType', 'YIELD_PRODUCTION');
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
+VALUES ('REQS_TRAIT_LEADER_NW004_AND_ZZZZ', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+VALUES ('REQS_TRAIT_LEADER_NW004_AND_ZZZZ', 'REQ_PLAYER_HAS_TRAIT_LEADER_NW004'),
+       ('REQS_TRAIT_LEADER_NW004_AND_ZZZZ', 'REQ_NW_LC_CIVIC_POLITICAL_PHILOSOPHY');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType)
+VALUES ('REQ_PLAYER_HAS_TRAIT_LEADER_NW004', 'REQUIREMENT_PLAYER_LEADER_TYPE_MATCHES'),
+       ('REQ_NW_LC_CIVIC_POLITICAL_PHILOSOPHY', 'REQUIREMENT_PLAYER_HAS_CIVIC');
+INSERT INTO RequirementArguments (RequirementId, Name, Value)
+VALUES ('REQ_PLAYER_HAS_TRAIT_LEADER_NW004', 'LeaderType', 'LEADER_NW_LIUXUN'),
+       ('REQ_NW_LC_CIVIC_POLITICAL_PHILOSOPHY', 'CivicType', 'CIVIC_POLITICAL_PHILOSOPHY');
+
+-- 军事政策卡加生产力
+INSERT OR IGNORE INTO PolicyModifiers(PolicyType, ModifierId)
+SELECT PolicyType,
+       'MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY'
+FROM Policies
+WHERE GovernmentSlotType = 'SLOT_MILITARY';
+
+-- 经济卡加金币
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_GOLD_FROM_POLICY', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE', 0, 0, 0,
+        'REQS_TRAIT_LEADER_NW004_AND_ZZZZ', NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_GOLD_FROM_POLICY', 'Amount', 2),
+       ('MODIFIER_TRAIT_LEADER_NW004_GOLD_FROM_POLICY', 'YieldType', 'YIELD_GOLD');
+
+INSERT OR IGNORE INTO PolicyModifiers(PolicyType, ModifierId)
+SELECT PolicyType,
+       'MODIFIER_TRAIT_LEADER_NW004_GOLD_FROM_POLICY'
+FROM Policies
+WHERE GovernmentSlotType = 'SLOT_ECONOMIC';
+
+-- BUG修复：给一个反向的效果，避免干扰政策卡收益显示
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE', 0, 0,
+        0, 'REQS_TRAIT_LEADER_NW004_AND_ZZZZ_DEBUFF', NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF', 'Amount', -1),
+       ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF', 'YieldType', 'YIELD_PRODUCTION');
+
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_GOLD_FROM_POLICY_DEBUFF', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE', 0, 0, 0,
+        'REQS_TRAIT_LEADER_NW004_AND_ZZZZ_DEBUFF', NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_GOLD_FROM_POLICY_DEBUFF', 'Amount', -2),
+       ('MODIFIER_TRAIT_LEADER_NW004_GOLD_FROM_POLICY_DEBUFF', 'YieldType', 'YIELD_GOLD');
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
+VALUES ('REQS_TRAIT_LEADER_NW004_AND_ZZZZ_DEBUFF', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+VALUES ('REQS_TRAIT_LEADER_NW004_AND_ZZZZ_DEBUFF', 'REQ_PLAYER_HAS_TRAIT_LEADER_NW004_DEBUFF'),
+       ('REQS_TRAIT_LEADER_NW004_AND_ZZZZ_DEBUFF', 'REQ_NW_LC_CIVIC_POLITICAL_PHILOSOPHY');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType)
+VALUES ('REQ_PLAYER_HAS_TRAIT_LEADER_NW004_DEBUFF', 'REQUIREMENT_PLAYER_LEADER_TYPE_MATCHES');
+INSERT INTO RequirementArguments (RequirementId, Name, Value)
+VALUES ('REQ_PLAYER_HAS_TRAIT_LEADER_NW004_DEBUFF', 'LeaderType', 'LEADER_NW_LIUXUN_DEBUFF');
+
+
+INSERT OR IGNORE INTO PolicyModifiers(PolicyType, ModifierId)
+SELECT PolicyType,
+       'MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF'
+FROM Policies
+WHERE GovernmentSlotType = 'SLOT_MILITARY';
+INSERT OR IGNORE INTO PolicyModifiers(PolicyType, ModifierId)
+SELECT PolicyType,
+       'MODIFIER_TRAIT_LEADER_NW004_GOLD_FROM_POLICY_DEBUFF'
+FROM Policies
+WHERE GovernmentSlotType = 'SLOT_ECONOMIC';
+
+-- =======================================================
+-- 刘彻
+-- =======================================================
+-- 骑兵单位+2视野。
+INSERT INTO Types
+    (Type, Kind)
+VALUES ('ABILITY_NW_JET_LIUCHE_JET', 'KIND_ABILITY');
+
+INSERT INTO TypeTags
+    (Type, Tag)
+VALUES ('ABILITY_NW_JET_LIUCHE_JET', 'CLASS_HEAVY_CAVALRY'),
+       ('ABILITY_NW_JET_LIUCHE_JET', 'CLASS_LIGHT_CAVALRY'),
+       ('ABILITY_NW_JET_LIUCHE_JET', 'CLASS_RANGED_CAVALRY');
+
+INSERT INTO UnitAbilities
+    (UnitAbilityType, Name, Inactive, Description)
+VALUES ('ABILITY_NW_JET_LIUCHE_JET', 'LOC_TRAIT_LEADER_NW_JET_LIUCHE_NW005_NAME', 1,
+        'LOC_ABILITY_NW_JET_LIUCHE_JET_DESCRIPTION');
+
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_NW005', 'MODFEAT_NW_JET_LIUCHE_JET_GRANT_ABILITY');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODFEAT_NW_JET_LIUCHE_JET_GRANT_ABILITY', 'MODIFIER_PLAYER_UNITS_GRANT_ABILITY', 0, 1, 0, NULL, NULL);
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODFEAT_NW_JET_LIUCHE_JET_GRANT_ABILITY', 'AbilityType', 'ABILITY_NW_JET_LIUCHE_JET');
+
+INSERT INTO UnitAbilityModifiers (UnitAbilityType, ModifierId)
+VALUES ('ABILITY_NW_JET_LIUCHE_JET', 'MODFEAT_NW_JET_LIUCHE_JET_SIGHT');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODFEAT_NW_JET_LIUCHE_JET_SIGHT', 'MODIFIER_PLAYER_UNIT_ADJUST_SIGHT', 0, 0, 0, NULL, NULL);
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODFEAT_NW_JET_LIUCHE_JET_SIGHT', 'Amount', 2);
+
+-- 单位在敌方单元格内开始回合时，+1 [ICON_MOVEMENT] 移动力。
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_NW005', 'FUTURE_VICTORY_DOMINATION_ENEMY_TERRITORY_MOVEMENT');
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_NW005', 'MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD', 'MODIFIER_PLAYER_ADJUST_PLOT_YIELD', 0, 0, 0, NULL, 'REQS_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD', 'Amount', '1,1'),
+('MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD', 'YieldType', 'YIELD_FOOD,YIELD_PRODUCTION');
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('REQS_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('REQS_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD', 'REQ_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD1'),
+('REQS_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD', 'REQ_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD2'),
+('REQS_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD', 'REQ_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD3');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType) VALUES
+('REQ_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD1', 'REQUIREMENT_CITY_HAS_BUILDING'),
+('REQ_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD2', 'REQUIREMENT_PLOT_RESOURCE_VISIBLE'),
+('REQ_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD3', 'REQUIREMENT_PLOT_RESOURCE_CLASS_TYPE_MATCHES');
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+('REQ_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD1', 'BuildingType', 'BUILDING_TAICANG'),
+('REQ_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD3', 'ResourceClassType', 'RESOURCECLASS_STRATEGIC');
+
+-- =======================================================
+-- 汉
+-- =======================================================
+-- 区域不会获得相邻加成。拥有对应区域的城市，每位公民产出0.5对应产出。
+INSERT INTO ExcludedAdjacencies(TraitType, YieldChangeId)
+SELECT DISTINCT 'TRAIT_CIVILIZATION_CIV_HANJ_NW003',
+                YieldChangeId
+FROM District_Adjacencies;
+
+-- 圣学剧商工港
+CREATE TEMPORARY TABLE IF NOT EXISTS NW_HANJ_YIELD_TO_DISTRICT
+(
+    DistrictType TEXT,
+    YieldType    TEXT,
+    PRIMARY KEY (DistrictType)
+);
+INSERT OR IGNORE INTO NW_HANJ_YIELD_TO_DISTRICT
+VALUES ('DISTRICT_CAMPUS', 'YIELD_SCIENCE'),
+       ('DISTRICT_HOLY_SITE', 'YIELD_FAITH'),
+       ('DISTRICT_COMMERCIAL_HUB', 'YIELD_GOLD'),
+       ('DISTRICT_HARBOR', 'YIELD_GOLD'),
+       ('DISTRICT_THEATER', 'YIELD_CULTURE'),
+       ('DISTRICT_INDUSTRIAL_ZONE', 'YIELD_PRODUCTION');
+
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+SELECT 'TRAIT_CIVILIZATION_CIV_HANJ_NW003',
+       'MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003' || DistrictType
+FROM NW_HANJ_YIELD_TO_DISTRICT;
+INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId)
+SELECT 'MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003' || DistrictType,
+       'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_PER_POPULATION',
+       'REQS_PLAYER_NW_LC_CITY_HAS' || DistrictType
+FROM NW_HANJ_YIELD_TO_DISTRICT;
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+SELECT 'MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003' || DistrictType,
+       'Amount',
+       0.5
+FROM NW_HANJ_YIELD_TO_DISTRICT
+UNION
+SELECT 'MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003' || DistrictType,
+       'YieldType',
+       YieldType
+FROM NW_HANJ_YIELD_TO_DISTRICT;
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
+SELECT 'REQS_PLAYER_NW_LC_CITY_HAS' || DistrictType,
+       'REQUIREMENTSET_TEST_ALL'
+FROM NW_HANJ_YIELD_TO_DISTRICT;
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+SELECT 'REQS_PLAYER_NW_LC_CITY_HAS' || DistrictType,
+       'REQ_PLAYER_NW_LC_CITY_HAS' || DistrictType
+FROM NW_HANJ_YIELD_TO_DISTRICT;
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType)
+SELECT 'REQ_PLAYER_NW_LC_CITY_HAS' || DistrictType,
+       'REQUIREMENT_CITY_HAS_DISTRICT'
+FROM NW_HANJ_YIELD_TO_DISTRICT;
+INSERT INTO RequirementArguments (RequirementId, Name, Value)
+SELECT 'REQ_PLAYER_NW_LC_CITY_HAS' || DistrictType,
+       'DistrictType',
+       DistrictType
+FROM NW_HANJ_YIELD_TO_DISTRICT;
+
+
+-- 燃煤发电厂+5锤子
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_CIV_HANJ_NW003', 'MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003_COAL_PRODUCTION');
+INSERT INTO Modifiers (ModifierId, ModifierType) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003_COAL_PRODUCTION', 'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_YIELD_CHANGE');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003_COAL_PRODUCTION', 'Amount', '5'),
+('MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003_COAL_PRODUCTION', 'BuildingType', 'BUILDING_COAL_POWER_PLANT'),
+('MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003_COAL_PRODUCTION', 'YieldType', 'YIELD_PRODUCTION');
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_CIV_HANJ_NW003', 'MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003_CHUANCHANG_PRODUCTION');
+INSERT INTO Modifiers (ModifierId, ModifierType) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003_CHUANCHANG_PRODUCTION', 'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_YIELD_CHANGE');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003_CHUANCHANG_PRODUCTION', 'Amount', '5'),
+('MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003_CHUANCHANG_PRODUCTION', 'BuildingType', 'BUILDING_SHIPYARD'),
+('MODIFIER_TRAIT_CIVILIZATION_CIV_HANJ_NW003_CHUANCHANG_PRODUCTION', 'YieldType', 'YIELD_PRODUCTION');
+

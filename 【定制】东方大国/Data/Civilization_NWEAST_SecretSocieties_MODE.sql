@@ -1,0 +1,15 @@
+--	FILE: Civilization_NWEAST_SecretSocieties_MODE.sql
+--  VERSION: 1
+--  Author: Nwflower
+--  Spicial Thanks: Uni
+--	Copyright (c) 2025.
+--	All rights reserved.
+--  DateCreated: 2025/9/12 11:48:27
+--======================================================================
+--  作者： 千川白浪
+--  特别鸣谢： 优妮
+--======================================================================
+
+-- INSERT INTO District_Adjacencies(DistrictType,YieldChangeId)VALUES
+-- ('DISTRICT_TIANCEFU','YieldChangeId1'),
+-- ('DISTRICT_TIANCEFU','YieldChangeId2');

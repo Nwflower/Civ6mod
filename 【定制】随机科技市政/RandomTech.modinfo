@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="d2a7e909-410b-4999-4a44-61f3652896a1" version="1">
+  <Properties>
+    <Name>[COLOR:Civ6Yellow]随机科技市政[ENDCOLOR]</Name>
+    <Description>随机科技市政</Description>
+    <Created>1745481858</Created>
+    <Teaser>随机科技市政</Teaser>
+    <Authors>千川白浪</Authors>
+    <CompatibleVersions>1.2,2.0</CompatibleVersions>
+  </Properties>
+  <ActionCriteria>
+    <Criteria id="NW_RT_SEED_11">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_1</ConfigurationId>
+        <Group>Game</Group>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_12">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_1</ConfigurationId>
+        <Group>Game</Group>
+        <Value>2</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_13">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_1</ConfigurationId>
+        <Group>Game</Group>
+        <Value>3</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_14">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_1</ConfigurationId>
+        <Group>Game</Group>
+        <Value>4</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_15">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_1</ConfigurationId>
+        <Group>Game</Group>
+        <Value>5</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_21">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_2</ConfigurationId>
+        <Group>Game</Group>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_22">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_2</ConfigurationId>
+        <Group>Game</Group>
+        <Value>2</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_23">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_2</ConfigurationId>
+        <Group>Game</Group>
+        <Value>3</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_24">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_2</ConfigurationId>
+        <Group>Game</Group>
+        <Value>4</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_25">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_2</ConfigurationId>
+        <Group>Game</Group>
+        <Value>5</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_31">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_3</ConfigurationId>
+        <Group>Game</Group>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_32">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_3</ConfigurationId>
+        <Group>Game</Group>
+        <Value>2</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_33">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_3</ConfigurationId>
+        <Group>Game</Group>
+        <Value>3</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_34">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_3</ConfigurationId>
+        <Group>Game</Group>
+        <Value>4</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_35">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_3</ConfigurationId>
+        <Group>Game</Group>
+        <Value>5</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_41">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_4</ConfigurationId>
+        <Group>Game</Group>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_42">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_4</ConfigurationId>
+        <Group>Game</Group>
+        <Value>2</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_43">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_4</ConfigurationId>
+        <Group>Game</Group>
+        <Value>3</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_44">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_4</ConfigurationId>
+        <Group>Game</Group>
+        <Value>4</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_45">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_4</ConfigurationId>
+        <Group>Game</Group>
+        <Value>5</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_51">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_5</ConfigurationId>
+        <Group>Game</Group>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_52">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_5</ConfigurationId>
+        <Group>Game</Group>
+        <Value>2</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_53">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_5</ConfigurationId>
+        <Group>Game</Group>
+        <Value>3</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_54">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_5</ConfigurationId>
+        <Group>Game</Group>
+        <Value>4</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+    <Criteria id="NW_RT_SEED_55">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_5</ConfigurationId>
+        <Group>Game</Group>
+        <Value>5</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+    <Criteria id="RandomTech">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_NYR</ConfigurationId>
+        <Group>Game</Group>
+        <Value>0</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+    <Criteria id="RandomTech_YMD">
+      <ConfigurationValueMatches>
+        <ConfigurationId>NW_RT_SEED_NYR</ConfigurationId>
+        <Group>Game</Group>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+
+  </ActionCriteria>
+  <FrontEndActions>
+    <UpdateText id="RandomTech_Text">
+      <File>RandomTech_Text.sql</File>
+    </UpdateText>
+    <UpdateDatabase id="RandomTech_FE">
+      <File>RandomTech_FE.sql</File>
+    </UpdateDatabase>
+  </FrontEndActions>
+  <InGameActions>
+    <UpdateText id="RandomTech_Text">
+      <File>RandomTech_Text.sql</File>
+    </UpdateText>
+    <UpdateDatabase id="RandomTech">
+      <Properties>
+        <LoadOrder>19999</LoadOrder>
+      </Properties>
+      <Criteria>RandomTech</Criteria>
+      <File>RandomTech.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="RandomTech_YMD">
+      <Properties>
+        <LoadOrder>19999</LoadOrder>
+      </Properties>
+      <Criteria>RandomTech_YMD</Criteria>
+      <File>RandomTech_YMD.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_11">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_11</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_11.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_12">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_12</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_12.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_13">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_13</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_13.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_14">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_14</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_14.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_15">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_15</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_15.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_21">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_21</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_21.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_22">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_22</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_22.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_23">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_23</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_23.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_24">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_24</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_24.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_25">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_25</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_25.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_31">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_31</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_31.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_32">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_32</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_32.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_33">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_33</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_33.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_34">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_34</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_34.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_35">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_35</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_35.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_41">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_41</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_41.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_42">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_42</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_42.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_43">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_43</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_43.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_44">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_44</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_44.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_45">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_45</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_45.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_51">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_51</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_51.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_52">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_52</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_52.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_53">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_53</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_53.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_54">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_54</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_54.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NW_RT_SEED_55">
+      <Properties>
+        <LoadOrder>1999</LoadOrder>
+      </Properties>
+      <Criteria>NW_RT_SEED_55</Criteria>
+      <File>NW_RT_SEED/NW_RT_SEED_55.sql</File>
+    </UpdateDatabase>
+  </InGameActions>
+  <Files>
+    <File>RandomTech.sql</File>
+    <File>RandomTech_YMD.sql</File>
+    <File>RandomTech_FE.sql</File>
+    <File>RandomTech_Text.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_11.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_12.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_13.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_14.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_15.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_21.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_22.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_23.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_24.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_25.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_31.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_32.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_33.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_34.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_35.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_41.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_42.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_43.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_44.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_45.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_51.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_52.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_53.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_54.sql</File>
+    <File>NW_RT_SEED/NW_RT_SEED_55.sql</File>
+  </Files>
+</Mod>

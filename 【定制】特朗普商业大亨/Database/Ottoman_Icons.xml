@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<GameData>
+    <IconAliases>
+        <Row Name="ICON_CIVILIZATION_NW_AMERICA" OtherName="ICON_CIVILIZATION_AMERICA"/>
+        <Row Name="ICON_DISTRICT_FREEDOM_HARBOR" OtherName="ICON_DISTRICT_HARBOR"/>
+        <Row Name="ICON_UNIT_HANGMU" OtherName="ICON_UNIT_AIRCRAFT_CARRIER"/>
+        <Row Name="ICON_UNIT_HANGMU_PORTRAIT" OtherName="ICON_UNIT_AIRCRAFT_CARRIER_PORTRAIT"/>
+    </IconAliases>
+</GameData>

@@ -1,0 +1,1 @@
+INSERT INTO GlobalParameters VALUES ('NW_RT_SEED_2',2);

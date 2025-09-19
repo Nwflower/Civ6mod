@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: Civilization_Douglas_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/14 10:32:02 -->
+<GameData>
+	<LocalizedText>
+		<!--Civ-->
+		<Row Tag="LOC_CIVILIZATION_CIV_DOUGLAS_NAME" Language="zh_Hans_CN">
+			<Text>驻外美军</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_DOUGLAS_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>驻外美军</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_CIV_DOUGLAS_ADJECTIVE" Language="zh_Hans_CN">
+			<Text>驻外美军的</Text>
+		</Row>
+
+
+		<!--Leader-->
+		<Row Tag="LOC_LEADER_LEADER_DOUGLAS_NAME" Language="zh_Hans_CN">
+			<Text>麦克阿瑟</Text>
+		</Row>
+		<Row Tag="LOC_LOADING_INFO_LEADER_LEADER_DOUGLAS" Language="zh_Hans_CN">
+			<Text>哪里有石油，哪里就有驻外美军。而您，驻日美军最高司令，道格拉斯·麦克阿瑟，更是驻外美军的旗帜性领袖。您在太平洋战场中屡败屡战，在竞选总统事业上毫无成就，唯有仁川登陆是您一生中少有的高光时刻。五星评论家麦克阿瑟给出了这样的评价：还是五星天皇这一职业更加适合这个军事家。</Text>
+		</Row>
+
+		<!--TRAIT-->
+		<Row Tag="LOC_TRAIT_LEADER_LEADER_DOUGLAS_NW002_NAME" Language="zh_Hans_CN">
+			<Text>仁川登陆</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_LEADER_LEADER_DOUGLAS_NW002_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>与海军单位相邻的近战攻击单位不会受到两栖作战登陆攻击减益。拥有驻军的非己方建立的城市每回合额外提供20点忠诚度。</Text>
+		</Row>
+		<Row Tag="LOC_ABILITY_NW_001_3_NAME" Language="zh_Hans_CN">
+			<Text>使相邻的近战攻击单位不会受到两栖作战登陆攻击减益。</Text>
+		</Row>
+		<Row Tag="LOC_ABILITY_NW_001_1_NAME" Language="zh_Hans_CN">
+			<Text>不会受到两栖作战登陆攻击减益。</Text>
+		</Row>
+		<Row Tag="LOC_MODIFIER_ABILITY_NW_001_1" Language="zh_Hans_CN">
+			<Text>+{1_Num} 来自两栖作战登陆攻击减益补偿。</Text>
+		</Row>
+
+
+
+		<Row Tag="LOC_TRAIT_CIVILIZATION_CIV_DOUGLAS_NW001_NAME" Language="zh_Hans_CN">
+			<Text>石油猎人</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_CIVILIZATION_CIV_DOUGLAS_NW001_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>解锁“法典”市政后，显示石油资源。石油资源额外+1 [ICON_SCIENCE] 科技值。位于海军统帅范围内的所有军事单位进攻时额外+2 [ICON_Strength] 战斗力，并在每回合结束时（甚至是在移动或攻击后），自动恢复生命值。</Text>
+		</Row>
+
+		<Row Tag="LOC_ABILITY_NW_001_5_NAME" Language="zh_Hans_CN">
+			<Text>使范围内的所有军事单位进攻时额外+2 [ICON_Strength] 战斗力，并在每回合结束时（甚至是在移动或攻击后），自动恢复生命值。</Text>
+		</Row>
+		<Row Tag="LOC_ABILITY_NW_001_2_NAME" Language="zh_Hans_CN">
+			<Text>进攻时额外+2 [ICON_Strength] 战斗力，并在每回合结束时（甚至是在移动或攻击后），自动恢复生命值。</Text>
+		</Row>
+		<Row Tag="LOC_MODIFIER_ABILITY_NW_001_2" Language="zh_Hans_CN">
+			<Text>+{1_Num} 来自附近的海军统帅。</Text>
+		</Row>
+
+
+
+		<!--ITEM-->
+		<Row Tag="LOC_UNIT_NIMIZI_HANGMU_NAME" Language="zh_Hans_CN">
+			<Text>尼米兹级航母</Text>
+		</Row>
+		<Row Tag="LOC_UNIT_NIMIZI_HANGMU_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>驻外美军特色航空母舰单位，解锁于无线电。拥有更高的基础攻击力和飞机容量。</Text>
+		</Row>
+
+		<Row Tag="LOC_DISTRICT_AMERICAN_CAMP_NAME" Language="zh_Hans_CN">
+			<Text>美军基地</Text>
+		</Row>
+		<Row Tag="LOC_DISTRICT_AMERICAN_CAMP_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>驻外美军特色区域，取代港口，建造费用更低。城市新生产的所有海军单位-1维护费。生产航空母舰时+50% [ICON_Production] 生产力，新生产的航空母舰+2 [ICON_MOVEMENT] 移动力。</Text>
+		</Row>
+		<Row Tag="LOC_NW_DISTRICT_AMERICAN_CAMP_YIELD_GOLD" Language="zh_Hans_CN">
+			<Text>+{1_Num} 来自相邻的美军基地单元格。</Text>
+		</Row>
+
+
+
+		<Row Tag="LOC_ABILITY_NW_001_4_NAME" Language="zh_Hans_CN">
+			<Text>-1维护费。航空母舰+2 [ICON_MOVEMENT] 移动力。</Text>
+		</Row>
+
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_1" Language="zh_Hans_CN" Text="关岛"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_2" Language="zh_Hans_CN" Text="安德森"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_3" Language="zh_Hans_CN" Text="天宁岛"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_4" Language="zh_Hans_CN" Text="冲绳"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_5" Language="zh_Hans_CN" Text="嘉手纳"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_6" Language="zh_Hans_CN" Text="普天间"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_7" Language="zh_Hans_CN" Text="克拉克"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_8" Language="zh_Hans_CN" Text="苏比克"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_9" Language="zh_Hans_CN" Text="纳巴桑"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_10" Language="zh_Hans_CN" Text="瓦努阿图"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_11" Language="zh_Hans_CN" Text="圣灵岛"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_12" Language="zh_Hans_CN" Text="瓜达尔卡纳尔"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_13" Language="zh_Hans_CN" Text="贝里琉"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_14" Language="zh_Hans_CN" Text="帕劳"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_15" Language="zh_Hans_CN" Text="拉肯希思"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_16" Language="zh_Hans_CN" Text="米尔登霍尔"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_17" Language="zh_Hans_CN" Text="拉姆施泰因"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_18" Language="zh_Hans_CN" Text="阿尔及尔"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_19" Language="zh_Hans_CN" Text="卡萨布兰卡"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_20" Language="zh_Hans_CN" Text="达兰"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_21" Language="zh_Hans_CN" Text="布里斯班"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_22" Language="zh_Hans_CN" Text="科姆斯利"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DOUGLAS_23" Language="zh_Hans_CN" Text="密支那"/>
+
+	</LocalizedText>
+</GameData>

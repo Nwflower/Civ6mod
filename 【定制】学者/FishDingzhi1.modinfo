@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="1076C1D9-B7BD-A991-293A-DF5338899FFA" version="2">
+  <Properties>
+    <Name>学者</Name>
+    <Description>学者</Description>
+    <Authors>千川白浪</Authors>
+    <CompatibleVersions>2.0</CompatibleVersions>
+  </Properties>
+  <FrontEndActions>
+    <UpdateText id="TextEthiopiaMOD">
+       <Properties>
+        <LoadOrder>1000</LoadOrder>
+       </Properties>
+      <File>FishDingzhi1_text.sql</File>
+    </UpdateText>
+  </FrontEndActions>
+  <InGameActions>
+    <UpdateDatabase id="GamePlayEthiopia">
+      <Properties>
+        <LoadOrder>1000</LoadOrder>
+      </Properties>
+      <File>FishDingzhi1.sql</File>
+      <File>RealAllDisasters.xml</File>
+    </UpdateDatabase>
+    <UpdateText id="TextEthiopia">
+       <Properties>
+        <LoadOrder>1000</LoadOrder>
+       </Properties>
+      <File>FishDingzhi1_text.sql</File>
+    </UpdateText>
+    <UpdateIcons id="Icons">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <File>ICONs.xml</File>
+    </UpdateIcons>
+    <AddGameplayScripts id="SecretSociety_OldRule_AddGameplayScripts">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <File>Script.lua</File>
+    </AddGameplayScripts>
+    <AddUserInterfaces id="SecretSociety_OldRule_AddUI">
+      <Properties>
+        <Context>InGame</Context>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <File>EarthEngineer_Button.xml</File>
+    </AddUserInterfaces>
+  </InGameActions>
+  <Files>
+    <File>ICONs.xml</File>
+    <File>FishDingzhi1.sql</File>
+    <File>FishDingzhi1_text.sql</File>
+    <File>RealAllDisasters.xml</File>
+    <File>EarthEngineer_Button.xml</File>
+    <File>EarthEngineer_Button.lua</File>
+      <File>Script.lua</File>
+  </Files>
+</Mod>

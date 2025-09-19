@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+	<Parameters>
+		<Row ParameterId="NW_BGE_CONFIG" 	Name="LOC_MORE_BELIEF_GOD_EXPANDING_CONFIG" 	Domain="NW_BGE_NUMBER_CONFIG" 	DefaultValue="7" 	ConfigurationGroup="Game" ConfigurationId="CONFIG_NW_BGE" 	GroupId="AdvancedOptions" 	ChangeableAfterGameStart="0" 	SortIndex="1000" />
+	</Parameters>
+	
+	<DomainValues>
+		<Row Domain="NW_BGE_NUMBER_CONFIG" Value="1" Name="LOC_MORE_BELIEF_GOD_EXPANDING_1_NAME" Description="" SortIndex="1"/>
+		<Row Domain="NW_BGE_NUMBER_CONFIG" Value="2" Name="LOC_MORE_BELIEF_GOD_EXPANDING_3_NAME" Description="" SortIndex="2"/>
+		<Row Domain="NW_BGE_NUMBER_CONFIG" Value="3" Name="LOC_MORE_BELIEF_GOD_EXPANDING_5_NAME" Description="" SortIndex="3"/>
+		<Row Domain="NW_BGE_NUMBER_CONFIG" Value="4" Name="LOC_MORE_BELIEF_GOD_EXPANDING_7_NAME" Description="" SortIndex="4"/>
+		<Row Domain="NW_BGE_NUMBER_CONFIG" Value="5" Name="LOC_MORE_BELIEF_GOD_EXPANDING_9_NAME" Description="" SortIndex="5"/>
+		<Row Domain="NW_BGE_NUMBER_CONFIG" Value="6" Name="LOC_MORE_BELIEF_GOD_EXPANDING_11_NAME" Description="" SortIndex="6"/>
+		<Row Domain="NW_BGE_NUMBER_CONFIG" Value="7" Name="LOC_MORE_BELIEF_GOD_EXPANDING_23_NAME" Description="" SortIndex="7"/>
+	</DomainValues>	
+</GameInfo>

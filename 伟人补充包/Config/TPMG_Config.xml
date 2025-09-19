@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Chinese_CELEBRATION_Config -->
+<!-- Author: NWflower -->
+<!-- DateCreated: 2025-6-5 15:59:52 -->
+<GameInfo>
+    <Parameters>
+        <Row ParameterId="NW_TPMG_LESS_WRITER" Name="LOC_NW_TPMG_LESS_WRITER_NAME"
+             Description="LOC_NW_TPMG_LESS_WRITER_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game"
+             ConfigurationId="NW_TPMG_LESS_WRITER" GroupId="AdvancedOptions" ChangeableAfterGameStart="0"
+             SortIndex="1680"/>
+        <Row ParameterId="NW_TPMG_LESS_GP_SETTING" Name="LOC_NW_TPMG_LESS_GP_SETTING_NAME"
+             Description="LOC_NW_TPMG_LESS_GP_SETTING_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game"
+             ConfigurationId="NW_TPMG_LESS_GP_SETTING" GroupId="AdvancedOptions" ChangeableAfterGameStart="0"
+             SortIndex="1681"/>
+        <Row ParameterId="NW_TPMG_CONFIG_CHEAPER_GP" Name="LOC_NW_TPMG_CONFIG_CHEAPER_GP_NAME"
+             Description="LOC_NW_TPMG_CONFIG_CHEAPER_GP_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game"
+             ConfigurationId="NW_TPMG_CONFIG_CHEAPER_GP" GroupId="AdvancedOptions" ChangeableAfterGameStart="0"
+             SortIndex="1682"/>
+        <Row ParameterId="NW_TPMG_COMPETITION_MODE" Name="LOC_NW_TPMG_COMPETITION_MODE_NAME"
+             Description="LOC_NW_TPMG_COMPETITION_MODE_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game"
+             ConfigurationId="NW_TPMG_COMPETITION_MODE" GroupId="AdvancedOptions" ChangeableAfterGameStart="0"
+             SortIndex="1683"/>
+        <Row ParameterId="NW_TPMG_COMPETITION_MODE_CHEAP" Name="LOC_NW_TPMG_COMPETITION_MODE_CHEAP_NAME"
+             Description="LOC_NW_TPMG_COMPETITION_MODE_CHEAP_DESC" Domain="bool" DefaultValue="0" ConfigurationGroup="Game"
+             ConfigurationId="NW_TPMG_COMPETITION_MODE_CHEAP" GroupId="AdvancedOptions" ChangeableAfterGameStart="0"
+             SortIndex="1684"/>
+    </Parameters>
+</GameInfo>

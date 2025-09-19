@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ottoman_TransferButton -->
+<!-- Author: Nwflower -->
+<!-- DateCreated: 2025-6-11 17:08:53 -->
+<Context>
+	<Grid ID="OttomanTransferButtonActionGrid" Anchor="R,B" Size="auto,41" AutoSizePadding="6,0" Texture="SelectionPanel_ActionGroupSlot" SliceCorner="5,19" SliceSize="1,1" SliceTextureSize="12,41" ConsumeMouse="1" Hidden="1">
+		<Button ID="OttomanTransferButtonActionButton" Anchor="C,B" Size="44,53" Texture="UnitPanel_ActionButton">
+			<Image ID="OttomanTransferButtonActionIcon"		Anchor="C,C" Offset="0,-2" Size="38,38"  Icon="ICON_UNIT_OTTOMAN_BARBARY_CORSAIR"/>
+		</Button>
+	</Grid>
+</Context>
