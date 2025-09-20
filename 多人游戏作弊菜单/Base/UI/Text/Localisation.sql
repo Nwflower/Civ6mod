@@ -1,0 +1,50 @@
+--------------------------------------------------------------------------------------------------------------------------
+-- LocalisedText
+--------------------------------------------------------------------------------------------------------------------------
+INSERT OR REPLACE INTO LocalizedText
+		(Tag, 								Language,	Text)
+VALUES
+		
+-- Chinese (simplified)---------------------------------------------------------------------------------------------------------------
+		('LOC_CHEAT_MENU_CheatResourcesLux',  		'en_US',		'获得2个所有奢侈资源'),
+		('LOC_CHEAT_MENU_CheatResourcesStr',  		'en_US',		'获得2个所有战略资源'),
+		('LOC_CHEAT_MENU_CheatResourcesBonus',  	'en_US',		'获得2个所有加成资源'),
+		('LOC_CHEAT_MENU_AllTECH_TOOLTIP',  		'en_US',		'完成所有 [ICON_Science]'),
+		('LOC_CHEAT_MENU_AllCIVIC_TOOLTIP',  		'en_US',		'完成所有 [ICON_Culture]'),
+		('LOC_CHEAT_MENU_HEADER',  					'en_US',		'多人游戏作弊菜单'),
+		('LOC_CHEAT_MENU_ABOUT',  					'zh_Hans_CN',	'多人游戏作弊菜单'),
+		('LOC_CHEAT_MENU_FREECITY',  				'en_US',		'变为自由城市'),
+		('LOC_CHEAT_EXPAND_MAX',  					'zh_Hans_CN',	'折叠'),
+		('LOC_CHEAT_COLLAPSE_MAX',  				'zh_Hans_CN',	'展开'),
+		('LOC_CHEAT_MENU_ChangeResources',  		'zh_Hans_CN',	'加+10所有战略资源'),
+		('LOC_FORM_ARMY',  							'zh_Hans_CN',	'所选单位升级为军队'),
+		('LOC_FORM_CORPS',  						'zh_Hans_CN',	'所选单位升级为军团'),
+		('LOC_CHEAT_MENU_DIPLOMATIC_FAVOR', 		'zh_Hans_CN',	'加+100外交支持'),
+		('LOC_CHEAT_TOGGLE_MENU',					'zh_Hans_CN',	'切换作弊面板'),
+		('LOC_CHEAT_ICON',							'zh_Hans_CN',	'麻雀作弊菜单'),
+		('LOC_CHEAT_MENU_GOVPOINTS',				'zh_Hans_CN',	'加+1总督头衔'),
+		('LOC_CHEAT_MENU_GOLD',						'zh_Hans_CN',	'加+10000金币'),
+		('LOC_CHEAT_MENU_PRODUCTION',				'zh_Hans_CN',	'所选城市完成当前建筑'),
+		('LOC_CHEAT_MENU_SCIENCE',					'zh_Hans_CN',	'完成当前科技研究'),
+		('LOC_CHEAT_MENU_CULTURE',					'zh_Hans_CN',	'完成当前市政研究'),
+		('LOC_CHEAT_MENU_FAITH',					'zh_Hans_CN',	'加+20000信仰'),
+		('LOC_CHEAT_MENU_CITYHEAL',  				'zh_Hans_CN',	'恢复所选城市生命值及城防'),
+		('LOC_CHEAT_MENU_ENVOY',					'zh_Hans_CN',	'加+5使者'),
+		('LOC_CHEAT_MENU_ERA',						'zh_Hans_CN',	'加+10时代得分'),
+		('LOC_CHEAT_MENU_ERAMINUS',  				'zh_Hans_CN',	'减-10时代得分'),
+		('LOC_CHEAT_MENU_MOVE',						'zh_Hans_CN',	'所选单位加+5移动力'),
+		('LOC_CHEAT_MENU_XP',						'zh_Hans_CN',	'所选单位升1级'),
+		('LOC_CHEAT_MENU_HEAL',						'zh_Hans_CN',	'治愈所选单位'),
+		('LOC_CHEAT_MENU_MOVES',					'zh_Hans_CN',	'所选单位恢复行动+攻击'),
+		('LOC_CHEAT_MENU_DUPLICATE',				'zh_Hans_CN',	'复制所选的单位（不适用于伟人和宗教单位）'),
+		('LOC_CHEAT_MENU_POP',						'zh_Hans_CN',	'所选城市加+1人口'),
+		('LOC_CHEAT_MENU_LOYALTY',					'zh_Hans_CN',	'所选城市加满忠诚度 '),
+		('LOC_CHEAT_MENU_DESTROY',					'zh_Hans_CN',	'销毁选定城市'),
+		('LOC_CHEAT_MENU_AllTECH',					'zh_Hans_CN',	'完成所有科技研究'),
+		('LOC_CHEAT_MENU_AllCIVIC',					'zh_Hans_CN',	'完成所有市政研究'),
+		('LOC_CHEAT_MENU_OBVS',						'zh_Hans_CN',	'切换地图观察模式'),
+		('LOC_DESTROY_CITY_HEADER',					'zh_Hans_CN',	'摧毁城市？'),
+		('LOC_DESTROY_CITY_DISTRICTS_LABEL',		'zh_Hans_CN',	'地区：'),
+		('LOC_RAZE_CITY_EXPLANATION',				'zh_Hans_CN',	'摧毁所选城市'),
+		('LOC_KEEP_CITY_EXPLANATION',				'zh_Hans_CN',	'暂时将这座城市留在你的帝国。'),
+		('LOC_DESTROY_CITY_LIBERATE_EXPLANATION',	'zh_Hans_CN',	'解放一个城市将把它归还给他们之前的一个所有者,	可能会把这个文明带回游戏中。');
