@@ -12,4 +12,7 @@ VALUES -- 文德
         '埃塞俄比亚特色中世纪轻骑兵单位。替代追猎者，战斗力更强。在丘陵中移动时无 [ICON_Movement] 移动力减益。'),
        --格鲁吉亚
        ('LOC_TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_DESCRIPTION', 'zh_Hans_CN',
-        '在黄金或英雄时代初期设置着力点时，除原有加成外还将获得提高时代得分的普通时代加成。建造防御性建筑时+50[ICON_Production] 生产力。若解锁防御战术市政，每个城市赠送一个市中心建筑。');
+        '在黄金或英雄时代初期设置着力点时，除原有加成外还将获得提高时代得分的普通时代加成。建造防御性建筑时+50[ICON_Production] 生产力。若解锁防御战术市政，每个城市赠送一个市中心建筑。'),
+       -- 阿拉伯
+       ('LOC_TRAIT_CIVILIZATION_LAST_PROPHET_DESCRIPTION', 'zh_Hans_CN',
+        '圣城训练的宗教单位具有一次额外的传教次数。如果阿拉伯的宗教传播到外国城市，则+1 [ICON_TRADEROUTE] 贸易路线容量。连接到阿拉伯圣城的 [ICON_TRADEROUTE] 国际贸易路线为起源城市+2 [ICON_GOLD] 金币，为阿拉伯+2 [ICON_FAITH] 信仰值。当倒数第二个 [ICON_GreatProphet] 预言家被招募后（如果您尚未获得 [ICON_GreatProphet] 大预言家），自动获得最后一个大预言家。每座信奉阿拉伯宗教的外国城市+1 [ICON_Science] 科技值。');
