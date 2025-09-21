@@ -1,4 +1,32 @@
--- 文德
+
+--============================================================
+-- Lua Support
+--============================================================
+CREATE TABLE IF NOT EXISTS Nwflower_MOD_Traits(
+TraitType TEXT NOT NULL,
+PRIMARY KEY (TraitType),
+FOREIGN KEY (TraitType) REFERENCES Traits (TraitType) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT OR IGNORE INTO Nwflower_MOD_Traits(TraitType) SELECT
+TraitType FROM Traits;
+
+INSERT OR IGNORE INTO TraitModifiers(TraitType,ModifierId)SELECT
+TraitType,				'MODFEAT_TRAIT_PROPERTY_'||TraitType
+FROM Nwflower_MOD_Traits;
+
+INSERT OR IGNORE INTO Modifiers(ModifierId,ModifierType)SELECT
+'MODFEAT_TRAIT_PROPERTY_'||TraitType,			'MODIFIER_PLAYER_ADJUST_PROPERTY'
+FROM Nwflower_MOD_Traits;
+
+INSERT OR IGNORE INTO ModifierArguments(ModifierId,Name,Value)SELECT
+'MODFEAT_TRAIT_PROPERTY_'||TraitType,			'Key',	'PROPERTY_'||TraitType
+FROM Nwflower_MOD_Traits UNION SELECT
+'MODFEAT_TRAIT_PROPERTY_'||TraitType,			'Amount',						1
+FROM Nwflower_MOD_Traits;
+
+-- =============================================================
+-- 文德 德国 路德维希二世
 -- 市中心和每个专业化区域为该城的奇观+4% [ICON_PRODUCTION] 生产力。最多16%。
 INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
 ('TRAIT_LEADER_LUDWIG', 'MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION'),
@@ -36,7 +64,8 @@ INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
 ('REQ_NW_DIS2', 'Amount', 2),
 ('REQ_NW_DIS3', 'Amount', 3);
 
--- 埃塞
+-- =============================================================
+-- 埃塞俄比亚
 -- 单位在丘陵上时+1视野，军事单位额外+3 [ICON_STRENGTH] 战斗力，平民单位+1 [ICON_MOVEMENT] 移动力。
 
 INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
@@ -78,24 +107,6 @@ INSERT INTO Requirements (RequirementId, RequirementType) VALUES
 INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
 ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT2', 'Tag', 'CLASS_LANDCIVILIAN');
 
--- 格鲁吉亚
-UPDATE Buildings SET PrereqTech='TECH_MINING' WHERE BuildingType='BUILDING_TSIKHE';
-INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-('TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS', 'MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
-('MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT', 'MODIFIER_PLAYER_CITIES_GRANT_CHEAPEST_BUILDING_IN_CITY', 0, 0, 0, 'REQS_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS', NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT', 'Amount', '1');
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
-('REQS_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
-('REQS_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS', 'REQ_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType) VALUES
-('REQ_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS', 'REQUIREMENT_PLAYER_HAS_CIVIC');
-INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
-('REQ_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS', 'CivicType', 'CIVIC_DEFENSIVE_TACTICS');
 
 -- 科摩罗扩散
 UPDATE Units SET BaseSightRange = 2 WHERE UnitType = 'UNIT_ETHIOPIAN_OROMO_CAVALRY';
@@ -117,3 +128,73 @@ INSERT INTO Requirements (RequirementId, RequirementType) VALUES
 ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'REQUIREMENT_UNIT_PROMOTION_CLASS_MATCHES');
 INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
 ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'UnitPromotionClass', 'PROMOTION_CLASS_LIGHT_CAVALRY');
+
+-- =============================================================
+-- 格鲁吉亚
+UPDATE Buildings SET PrereqTech='TECH_MINING' WHERE BuildingType='BUILDING_TSIKHE';
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS', 'MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT', 'MODIFIER_PLAYER_CITIES_GRANT_CHEAPEST_BUILDING_IN_CITY', 0, 0, 0, 'REQS_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS', NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT', 'Amount', '1');
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('REQS_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('REQS_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS', 'REQ_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType) VALUES
+('REQ_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS', 'REQUIREMENT_PLAYER_HAS_CIVIC');
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+('REQ_NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS', 'CivicType', 'CIVIC_DEFENSIVE_TACTICS');
+
+
+-- =============================================================
+-- 阿拉伯
+INSERT INTO Types(Type, Kind)
+VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'KIND_BUILDING');
+INSERT INTO Buildings(BuildingType, Name, Cost, InternalOnly, MustPurchase)
+VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'LOC_BUILDING_NW_ALBERT_HOLY_CITY_NAME', 1, 1, 1);
+
+
+-- 圣城训练的宗教单位具有一次额外的传教次数。
+INSERT INTO BuildingModifiers (BuildingType, ModifierId) VALUES
+('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_RELIGIOUS_SPREADS');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_RELIGIOUS_SPREADS', 'MODIFIER_SINGLE_CITY_RELIGIOUS_SPREADS', 0, 1, 0, NULL, 'MOSQUE_RELIGIOUS_UNIT');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_RELIGIOUS_SPREADS', 'Amount', '1');
+
+-- 如果阿拉伯的宗教传播到外国城市，则+1 [ICON_TRADEROUTE] 贸易路线容量。
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY', 'MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_CAPACITY', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY', 'Amount', '1');
+
+
+-- 连接到阿拉伯圣城的 [ICON_TRADEROUTE] 国际贸易路线为起源城市+2 [ICON_GOLD] 金币，为阿拉伯+2 [ICON_FAITH] 信仰值。
+INSERT INTO BuildingModifiers (BuildingType, ModifierId) VALUES
+('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS', 'MODIFIER_SINGLE_CITY_ADJUST_TRADE_ROUTE_YIELD_TO_OTHERS', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS', 'Amount', '2'),
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS', 'Domestic', '0'),
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS', 'YieldType', 'YIELD_GOLD');
+
+INSERT INTO BuildingModifiers (BuildingType, ModifierId) VALUES
+('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'MODIFIER_SINGLE_CITY_ADJUST_TRADE_ROUTE_YIELD_FROM_OTHERS', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'Amount', '2'),
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'Domestic', '0'),
+('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'YieldType', 'YIELD_FAITH');
+
+-- =============================================================
+-- 斯基泰
+DELETE FROM Improvement_BonusYieldChanges WHERE YieldType = 'YIELD_GOLD' AND ImprovementType = 'IMPROVEMENT_KURGAN';
+-- =============================================================
+-- 巴比伦
+UPDATE ModifierArguments SET Value = 14 WHERE ModifierId = 'TRAIT_EUREKA_INCREASE';
