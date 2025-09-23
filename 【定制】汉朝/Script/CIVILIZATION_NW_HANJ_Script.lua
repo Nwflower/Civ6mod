@@ -31,7 +31,6 @@ function onCombat(pCombatResult)
             attUnit:ChangeDamage(- defDamage)
         end
     end
-
 end
 
 function Nw_LC_GetDamage(iPlayer, Params)
@@ -40,7 +39,7 @@ function Nw_LC_GetDamage(iPlayer, Params)
 end
 
 function initialize()
-    Events.Combat.Add(onCombat)
+    --Events.Combat.Add(onCombat)
 	GameEvents.Nw_LC_GetDamage.Add(Nw_LC_GetDamage)
 end
 

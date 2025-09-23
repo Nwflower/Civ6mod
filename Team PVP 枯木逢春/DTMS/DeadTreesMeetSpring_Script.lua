@@ -28,9 +28,11 @@ end
 function Nw_DTMS_PLAYER_ATTACH(iPlayerID, params)
 	local pPlayer = Players[params.iPlayer];
 	if not pPlayer then return end
-	pPlayer:AttachModifierByID(params.ModifierID);
 	local ePro = pPlayer:GetProperty('MODIFIER_ATTACHED_'..params.ModifierID) or 0
-	pPlayer:SetProperty('MODIFIER_ATTACHED_'..params.ModifierID, ePro + 1);
+	if ePro == 0 then
+		pPlayer:SetProperty('MODIFIER_ATTACHED_'..params.ModifierID, ePro + 1);
+		pPlayer:AttachModifierByID(params.ModifierID);
+	end
 end
 -- 文件初始化
 function Initialize()

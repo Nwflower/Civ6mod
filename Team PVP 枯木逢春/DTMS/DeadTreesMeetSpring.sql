@@ -166,7 +166,9 @@ INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, Ow
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
 ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_RELIGIOUS_SPREADS', 'Amount', '1');
 
--- 如果阿拉伯的宗教传播到外国城市，则+1 [ICON_TRADEROUTE] 贸易路线容量。
+-- +1 [ICON_TRADEROUTE] 贸易路线容量。
+INSERT INTO BuildingModifiers (BuildingType, ModifierId) VALUES
+('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY');
 INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
 ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY', 'MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_CAPACITY', 0, 0, 0, NULL, NULL);
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
@@ -193,8 +195,5 @@ INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
 ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'YieldType', 'YIELD_FAITH');
 
 -- =============================================================
--- 斯基泰
-DELETE FROM Improvement_BonusYieldChanges WHERE YieldType = 'YIELD_GOLD' AND ImprovementType = 'IMPROVEMENT_KURGAN';
--- =============================================================
--- 巴比伦
-UPDATE ModifierArguments SET Value = 14 WHERE ModifierId = 'TRAIT_EUREKA_INCREASE';
+-- 文美
+

@@ -37,39 +37,12 @@ function AlbertCreateReligion(iPlayer, iUnit, iGPClass, iIndividual)
     end
 end
 
--- 阿拉伯传教
-function onCityReligionChanged(playerID,cityID,eVisibility, city)
-    if playerID ~= m_iCurrentPlayerID then return end
-	-- 本城是否有主流宗教
-	local pCity = CityManager.GetCity(playerID, cityID);
-	local pCityReligionID = pCity:GetReligion():GetMajorityReligion();
-	if pCityReligionID == nil then return end
-
-	-- 寻找宗教创建者
-	local religions = Game.GetReligion():GetReligions();
-	local ModifierID = 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY';
-	for i, religion in ipairs(religions) do
-		if IPlayerHasTrait(religion.Founder,"TRAIT_CIVILIZATION_LAST_PROPHET") and pCityReligionID == religion.Religion then
-			local pPlayer = Players[religion.Founder];
-			local ePro  = pPlayer:GetProperty('MODIFIER_ATTACHED_'..ModifierID) or 0
-			if ePro == 0 then
-				UI.RequestPlayerOperation(pPlayer, PlayerOperations.EXECUTE_SCRIPT, {
-					OnStart = "Nw_DTMS_PLAYER_ATTACH",
-					iPlayer = religion.Founder,
-					ModifierID = ModifierID
-				});
-			end
-		end
-	end
-end
-
 -- ===========================================================================
 
 -- ===========================================================================
 -- 文件初始化
 function Initialize()
 	Events.UnitGreatPersonActivated.Add(AlbertCreateReligion)
-    Events.CityReligionChanged.Add( onCityReligionChanged );
 	print('DTMS UIScript Loaded Succeed.');
 end
 Events.LoadGameViewStateDone.Add(Initialize);
