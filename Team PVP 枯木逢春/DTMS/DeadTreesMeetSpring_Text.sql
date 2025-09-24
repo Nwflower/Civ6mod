@@ -21,4 +21,21 @@ VALUES -- 文德
 
        -- 文美
        ('LOC_TRAIT_LEADER_ANTIQUES_AND_PARKS_DESCRIPTION', 'zh_Hans_CN',
-        '首次建成保护区和保护区建筑时，[ICON_CAPITAL] 首都获得一个免费的自然学家。拥有国家公园的城市单元格+1魅力值。惊艳的单元格+1 [ICON_SCIENCE] 科技值，未改良则额外+1 [ICON_PRODUCTION] 生产力。');
+        '首次建成保护区和保护区建筑时，[ICON_CAPITAL] 首都获得一个免费的自然学家。拥有国家公园的城市单元格+1魅力值。神秘主义市政后，惊艳的单元格+1 [ICON_SCIENCE] 科技值，未改良则额外+1 [ICON_PRODUCTION] 生产力。'),
+
+       -- 武美
+       ('LOC_TRAIT_LEADER_ROOSEVELT_COROLLARY_ROUGH_RIDER_DESCRIPTION', 'zh_Hans_CN',
+        '[ICON_CAPITAL] 首都所在大陆上的单位从每个市政广场及其建筑获得+1 [ICON_Strength] 战斗力；[ICON_CAPITAL] 首都所在大陆以外的单位从每个外交区及其建筑获得+1 [ICON_Strength] 战斗力。如与城邦之间存在 [ICON_TradeRoute] 贸易路线，派往此处的1位 [ICON_Envoy] 使者将视为2位。解锁“膛线”科技后获得特色单位“莽骑兵”。解锁“人文主义”后，额外获得一个通配符槽位。'),
+
+       ('LOC_PROMOTION_COMBAT_HOME_CONTINENT_DESCRIPTION', 'zh_Hans_CN',
+        '+{Property} 来着罗斯福推论（同大陆）。'),
+       ('LOC_ROOSEVELT_COMBAT_BONUS_FOREIGN_CONTINENT', 'zh_Hans_CN',
+        '+{Property} 来着罗斯福推论（异大陆）。'),
+       ('LOC_ABILITY_ROOSEVELT_COMBAT_BONUS_HOME_CONTINENT_DESCRIPTION', 'zh_Hans_CN',
+        '[ICON_CAPITAL] 首都所在大陆上的单位从每个市政广场及其建筑获得+1 [ICON_Strength] 战斗力；[ICON_CAPITAL] 首都所在大陆以外的单位从每个外交区及其建筑获得+1 [ICON_Strength] 战斗力。'),
+       -- 苏格兰
+       ('LOC_TRAIT_CIVILIZATION_SCOTTISH_ENLIGHTENMENT_DESCRIPTION', 'zh_Hans_CN',
+        '每3位 [ICON_CITIZEN] 公民消耗1 [ICON_AMENITIES] 宜居度，而非通常的2位。快乐的城市+5% [ICON_SCIENCE] 科技值和 [ICON_PRODUCTION] 生产力，每个工业区+1 [ICON_GreatEngineer] 大工程师点数。欣喜若狂的城市，上述加成翻倍。'),
+       -- 埃莉诺
+       ('LOC_TRAIT_LEADER_ELEANOR_LOYALTY_DESCRIPTION', 'zh_Hans_CN',
+        '城市中每个巨作可使9个单元格内的外国城市每回合减少3点忠诚度。巨作+3 [ICON_Science] 科技值。城市因失去忠诚度而离开另一文明后，如其每回合对埃莉诺的忠诚度最高，则会跳过成为自由城市阶段直接加入埃莉诺的文明。埃莉诺的宫殿额外获得一个任意槽位。埃莉诺在建造剧院建筑、区域时+25% [ICON_PRODUCTION] 生产力。若解锁“戏剧与诗歌”市政，则获得一名免费的 [ICON_GreatWriter] 大作家。');
