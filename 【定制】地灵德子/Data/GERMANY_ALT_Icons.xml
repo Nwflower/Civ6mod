@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: GERMANY_ALT_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/23 9:28:58 -->
+<GameData>
+	<IconDefinitions>
+		<Row Name="ICON_BELIEF_KONGBAI" Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="30"/>
+		<Row Name="ICON_BELIEF_KONGBAI2" Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="30"/>
+		<Row Name="ICON_BELIEF_KONGBAI3" Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="30"/>
+		<Row Name="ICON_BELIEF_KONGBAI4" Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="30"/>
+		<Row Name="ICON_BELIEF_KONGBAI5" Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="30"/>
+		<Row Name="ICON_BELIEF_KONGBAI6" Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="30"/>
+	</IconDefinitions>
+    <IconAliases>
+        <Row Name="ICON_LEADER_BARBAROSSA_ALT" OtherName="ICON_LEADER_BARBAROSSA"/>
+        <Row Name="ICON_LEADER_BARBAROSSA_ALT_BACKGROUND" OtherName="ICON_LEADER_BARBAROSSA_BACKGROUND"/>
+    </IconAliases>
+</GameData>

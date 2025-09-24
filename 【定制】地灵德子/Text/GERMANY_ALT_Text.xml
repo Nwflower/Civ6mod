@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: GERMANY_ALT_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/23 9:28:58 -->
+<GameData>
+	<LocalizedText>
+		<!--Leader-->
+		<Row Tag="LOC_LEADER_BARBAROSSA_ALT_NAME" Language="zh_Hans_CN">
+			<Text>弗雷德里克（地灵）</Text>
+		</Row>
+		<Row Tag="LOC_LOADING_INFO_LEADER_BARBAROSSA_ALT" Language="zh_Hans_CN">
+			<Text>{LOC_LOADING_INFO_LEADER_BARBAROSSA}</Text>
+		</Row>
+
+		<!--TRAIT-->
+		<Row Tag="LOC_TRAIT_LEADER_BARBAROSSA_ALT_HOLY_ROMAN_EMPEROR_ALT_NAME" Language="zh_Hans_CN">
+			<Text>神圣罗马皇帝（地灵）</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_LEADER_BARBAROSSA_ALT_HOLY_ROMAN_EMPEROR_ALT_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>额外的军事政策槽位。攻击城邦时，+7 [ICON_Strength] 战斗力。无法选择万神殿。对外贸易市政后获得地灵契约万神殿的效果。</Text>
+		</Row>
+
+		<Replace Tag="LOC_BELIEF_KONGBAI_NAME" Language="zh_Hans_CN">
+			<Text>白板之神</Text>
+		</Replace>
+		<Replace Tag="LOC_BELIEF_KONGBAI_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>没有任何效果。</Text>
+		</Replace>
+	</LocalizedText>
+</GameData>

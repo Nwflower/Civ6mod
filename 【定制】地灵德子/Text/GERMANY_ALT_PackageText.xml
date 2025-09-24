@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: GERMANY_ALT_PackageText.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/23 9:28:58 -->
+<GameData>
+    <LocalizedText>
+        <Row Tag="LOC_GERMANY_ALT_MOD_TITLE" Language="en_US">
+            <Text>GERMANY_ALT By Nwflower</Text>
+        </Row>
+        <Row Tag="LOC_GERMANY_ALT_MOD_TEASER" Language="en_US">
+            <Text>Add XXX</Text>
+        </Row>
+        <Row Tag="LOC_GERMANY_ALT_MOD_DESCRIPTION" Language="en_US">
+            <Text>Add XXX</Text>
+        </Row>
+        <Row Tag="LOC_GERMANY_ALT_MOD_AUTHORS" Language="en_US">
+            <Text>[COLOR:DiplomaticLabelCS]Nwflower[ENDCOLOR]</Text>
+        </Row>
+
+        <Row Tag="LOC_GERMANY_ALT_MOD_TITLE" Language="zh_Hans_CN">
+            <Text>Team PVP 领袖 地灵德子</Text>
+        </Row>
+        <Row Tag="LOC_GERMANY_ALT_MOD_TEASER" Language="zh_Hans_CN">
+            <Text>添加了地灵德子</Text>
+        </Row>
+        <Row Tag="LOC_GERMANY_ALT_MOD_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>包含1个新文明和领袖。</Text>
+        </Row>
+        <Row Tag="LOC_GERMANY_ALT_MOD_AUTHORS" Language="zh_Hans_CN">
+            <Text>[COLOR:DiplomaticLabelCS]千川白浪[ENDCOLOR]</Text>
+        </Row>
+    </LocalizedText>
+</GameData>
