@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: CIVILIZATION_GUMOON_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/24 19:28:22 -->
+<GameData>
+	<IconTextureAtlases>
+		<Row Filename="CivDAAIM256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM128" IconsPerColumn="1" IconsPerRow="1" IconSize="128" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM44" IconsPerColumn="1" IconsPerRow="1" IconSize="44" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM36" IconsPerColumn="1" IconsPerRow="1" IconSize="36" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM30" IconsPerColumn="1" IconsPerRow="1" IconSize="30" Name="ICON_ATLAS_CIV_DAAIM"/>
+		<Row Filename="CivDAAIM22" IconsPerColumn="1" IconsPerRow="1" IconSize="22" Name="ICON_ATLAS_CIV_DAAIM"/>
+
+		<Row Filename="LeaderGUMOON32" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_LEADER_GUMOON"/>
+		<Row Filename="LeaderGUMOON45" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_LEADER_GUMOON"/>
+		<Row Filename="LeaderGUMOON48" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_LEADER_GUMOON"/>
+		<Row Filename="LeaderGUMOON50" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_LEADER_GUMOON"/>
+		<Row Filename="LeaderGUMOON55" IconsPerColumn="1" IconsPerRow="1" IconSize="55" Name="ICON_ATLAS_LEADER_GUMOON"/>
+		<Row Filename="LeaderGUMOON64" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_LEADER_GUMOON"/>
+		<Row Filename="LeaderGUMOON80" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_LEADER_GUMOON"/>
+		<Row Filename="LeaderGUMOON256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_LEADER_GUMOON"/>
+	</IconTextureAtlases>
+	
+	<IconDefinitions>
+		<Row Name="ICON_CIVILIZATION_CIV_DAAIM" Atlas="ICON_ATLAS_CIV_DAAIM" Index="0"/>
+		<Row Name="ICON_LEADER_LEADER_GUMOON" Atlas="ICON_ATLAS_LEADER_GUMOON" Index="0"/>
+	</IconDefinitions>
+
+    <IconTextureAtlases>
+        <Row Name="ICON_ATLAS_GOVERNORS_GUMOON" IconSize="32" IconsPerRow="1" IconsPerColumn="1"
+             Filename="XP1_Banner_MeterFillGUMOON2.dds"/>
+        <Row Name="ICON_ATLAS_GOVERNORS_GUMOON" IconSize="64" IconsPerRow="1" IconsPerColumn="1"
+             Filename="XP1_Governors_BackgroundGUMOON64.dds"/>
+        <Row Name="ICON_ATLAS_GOVERNORS_GUMOON_FILL" IconSize="32" IconsPerRow="8" IconsPerColumn="2"
+             Filename="XP1_Banner_MeterFillGUMOON.dds"/>
+        <Row Name="ICON_ATLAS_GOVERNORS_GUMOON_SLOT" IconSize="32" IconsPerRow="8" IconsPerColumn="2"
+             Filename="XP1_Banner_MeterSlotGUMOON.dds"/>
+        <Row Name="ICON_ATLAS_GOVERNORS_GUMOON_PROMOTIONS" IconSize="24" IconsPerRow="8" IconsPerColumn="1"
+             Filename="XP2_GovernorPromotionsGUMOON24.dds"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_GOVERNOR_GUMOON" Atlas="ICON_ATLAS_GOVERNORS_GUMOON" Index="0"/>
+        <Row Name="ICON_GOVERNOR_GUMOON_FILL" Atlas="ICON_ATLAS_GOVERNORS_GUMOON_FILL" Index="0"/>
+        <Row Name="ICON_GOVERNOR_GUMOON_SLOT" Atlas="ICON_ATLAS_GOVERNORS_GUMOON_SLOT" Index="0"/>
+        <Row Name="ICON_GOVERNOR_GUMOON_PROMOTION" Atlas="ICON_ATLAS_GOVERNORS_GUMOON_PROMOTIONS" Index="0"/>
+    </IconDefinitions>
+    <IconAliases>
+        <Row Name="GOVERNOR_GUMOON_SLOT" OtherName="ICON_GOVERNOR_GUMOON_SLOT"/>
+        <Row Name="GOVERNOR_GUMOON_FILL" OtherName="ICON_GOVERNOR_GUMOON_FILL"/>
+    </IconAliases>
+
+    <IconAliases>
+        <Row Name="ICON_UNIT_NW_250924" OtherName="ICON_UNIT_BUILDER"/>
+        <Row Name="ICON_UNIT_NW_250924_PORTRAIT" OtherName="ICON_UNIT_BUILDER_PORTRAIT"/>
+        <Row Name="ICON_DISTRICT_NW_250924" OtherName="ICON_DISTRICT_INDUSTRIAL_ZONE"/>
+        <Row Name="ICON_BUILDING_NW_250924" OtherName="ICON_BUILDING_MONUMENT"/>
+        <Row Name="ICON_BUILDING_NW_250925" OtherName="ICON_BUILDING_WORKSHOP"/>
+        <Row Name="ICON_BUILDING_NW_250926" OtherName="ICON_BUILDING_FACTORY"/>
+    </IconAliases>
+	<IconDefinitions>
+		<Row Name="ICON_IMPROVEMENT_SSO_RANDOM_RESOURCE" Atlas="ICON_ATLAS_BABYLON_UNIT_ACTIONS" Index="8"/>
+	</IconDefinitions>
+</GameData>

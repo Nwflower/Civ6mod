@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: CIVILIZATION_GUMOON_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/24 19:28:22 -->
+<GameData>
+	<LocalizedText>
+		<!--Civ-->
+		<Replace Tag="LOC_CIVILIZATION_CIV_DAAIM_NAME" Language="zh_Hans_CN">
+			<Text>天地一家大爱盟</Text>
+		</Replace>
+		<Replace Tag="LOC_CIVILIZATION_CIV_DAAIM_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>天地一家大爱盟</Text>
+		</Replace>
+		<Replace Tag="LOC_CIVILIZATION_CIV_DAAIM_ADJECTIVE" Language="zh_Hans_CN">
+			<Text>大爱盟的</Text>
+		</Replace>
+
+
+		<!--Leader-->
+		<Replace Tag="LOC_LEADER_LEADER_GUMOON_NAME" Language="zh_Hans_CN">
+			<Text>古月方源</Text>
+		</Replace>
+		<Replace Tag="LOC_LOADING_INFO_LEADER_LEADER_GUMOON" Language="zh_Hans_CN">
+			<Text>早岁已知世事艰，仍许飞鸿荡云间。[NEWLINE] 一路寒风身如絮，命海沉浮客独行。[NEWLINE]千磨万击心铸铁，殚精竭虑铸一剑。[NEWLINE]今朝剑指叠云处，炼蛊炼人还炼天！</Text>
+		</Replace>
+
+		<!--TRAIT-->
+		<Replace Tag="LOC_TRAIT_LEADER_LEADER_GUMOON_ZHIZUN_NAME" Language="zh_Hans_CN">
+			<Text>炼道尊者</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_LEADER_GUMOON_ZHIZUN_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>改良设施+2 [ICON_PRODUCTION] 生产力、+1 [ICON_GOLD] 金币。奢侈品+1 [ICON_PRODUCTION] 生产力、+1 [ICON_GOLD] 金币，相邻的改良设施+1 [ICON_PRODUCTION] 生产力、+1 [ICON_GOLD] 金币。每拥有一种不同资源提升1% [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_CIV_DAAIM_ZUNZHE_NAME" Language="zh_Hans_CN">
+			<Text>至尊仙窍</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_CIVILIZATION_CIV_DAAIM_ZUNZHE_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>获取单元格速度加快50%。四元方悔血炼池使建造区域和奇观时+25% [ICON_PRODUCTION] 生产力；每有一座奇观和自然奇观为首都+2 [ICON_PRODUCTION] 生产力、+2 [ICON_SCIENCE] 科技值。</Text>
+		</Replace>
+
+		<!--ITEM-->
+		<Replace Tag="LOC_UNIT_NW_250924_NAME" Language="zh_Hans_CN">
+			<Text>异族蛊仙</Text>
+		</Replace>
+		<Replace Tag="LOC_UNIT_NW_250924_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>天地一家大爱盟特色单位，代替建造者。可以在无主空白单元格上创造资源。</Text>
+		</Replace>
+		<Replace Tag="LOC_ABILITY_NW_250924" Language="zh_Hans_CN">
+			<Text>可以在无主空白单元格上创造资源。</Text>
+		</Replace>
+		<Row Tag="LOC_NW_SSO_RESOURCE_DISABLED" Language="zh_Hans_CN">
+			<Text>该单元格暂无可生成的资源，已返还次数</Text>
+		</Row>
+		<Row Tag="LOC_UNIT_ACTION_CREATE_RANDOM_RESOURCE_NAME" Language="zh_Hans_CN">
+			<Text>生成随机资源。</Text>
+		</Row>
+
+		<Replace Tag="LOC_BUILDING_NW_250924_NAME" Language="zh_Hans_CN">
+			<Text>送生庙</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_NW_250924_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>天地一家大爱盟特色建筑，代替纪念碑。忠诚度已满时，每回合+1文化值。人口增长速度+10%。</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_NW_250924_NAME" Language="zh_Hans_CN">
+			<Text>漂流炼巢</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_NW_250924_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>天地一家大爱盟特色区域，替代工业区。从改良设施、奇观、自然奇观、湖泊和河流获得标准相邻加成，从漂流炼巢获得大量相邻加成。</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_NW_250925_NAME" Language="zh_Hans_CN">
+			<Text>毛民洞窟</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_NW_250925_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>天地一家大爱盟特色建筑，代替工作坊。本城漂流炼巢的相邻加成也提供 [ICON_SCIENCE] 科技值。</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_NW_250926_NAME" Language="zh_Hans_CN">
+			<Text>炼海仙阵</Text>
+		</Replace>
+		<Replace Tag="LOC_BUILDING_NW_250926_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>天地一家大爱盟特色建筑，代替工厂。为本城的改良设施额外提供2 [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+
+		<Replace Tag="LOC_DISTRICT_NW_250924_production_DESCRIPTION1" Language="zh_Hans_CN">
+			<Text>+{1_Num}[ICON_PRODUCTION]来自相邻的</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_NW_250924_production_DESCRIPTION2" Language="zh_Hans_CN">
+			<Text>单元格。</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_NW_250924_production_DESCRIPTION3" Language="zh_Hans_CN">
+			<Text>河流。</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_NW_250924_production_DESCRIPTION4" Language="zh_Hans_CN">
+			<Text>奇观。</Text>
+		</Replace>
+		<Replace Tag="LOC_DISTRICT_NW_250924_production_DESCRIPTION5" Language="zh_Hans_CN">
+			<Text>自然奇观。</Text>
+		</Replace>
+
+		<!--GOVERNOR-->
+		<Replace Tag="LOC_GOVERNOR_GUMOON_NAME" Language="zh_Hans_CN">
+			<Text>分身</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_1_NAME" Language="zh_Hans_CN">
+			<Text>何春秋</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_2_NAME" Language="zh_Hans_CN">
+			<Text>房睇长</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_3_NAME" Language="zh_Hans_CN">
+			<Text>李小白</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_4_NAME" Language="zh_Hans_CN">
+			<Text>吴帅</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_5_NAME" Language="zh_Hans_CN">
+			<Text>战渡部和气海老祖</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_6_NAME" Language="zh_Hans_CN">
+			<Text>梦求真</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_1_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>已改良的战略资源每回合额外提供2份，以及提供2点 [ICON_SCIENCE] 科技值。</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_2_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>每人口提供2点 [ICON_SCIENCE] 科技值，外交能见等级加2。</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_3_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>每份巨作额外产出4点 [ICON_CULTURE] 文化值。</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_4_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>近战单位可以使蛮族归顺。</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_5_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>近战单位+7 [ICON_Strength] 战斗力，无视地形带来的移动力减益，攻击城墙时造成全额伤害。</Text>
+		</Replace>
+		<Replace Tag="LOC_GUMOON_PROMOTION_6_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>进行项目时+30% [ICON_PRODUCTION] 生产力。</Text>
+		</Replace>
+		<Replace Tag="LOC_MODIFIER_ABILITY_MODIFIER_GOVERNOR_PROMOTION_GUMOON_5_ST" Language="zh_Hans_CN">
+			<Text>+{Num} [ICON_Strength] 来自战渡部和气海老祖。</Text>
+		</Replace>
+
+
+		<!--Agenda-->
+		<Replace Tag="LOC_AGENDA_NW_250924_NAME" Language="zh_Hans_CN">
+			<Text>古月方源</Text>
+		</Replace>
+		<Replace Tag="LOC_AGENDA_NW_250924_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>喜欢和自己贸易的文明，讨厌奇观和自然奇观多的文明。</Text>
+		</Replace>
+
+		<!--Just keep in mind that agenda needs modifier descriptions-->
+		<Replace Tag="LOC_DIPLO_MODIFIER_DESCRIPTION_AGENDA" Language="zh_Hans_CN">
+			<Text>喜欢和自己贸易的文明，讨厌奇观和自然奇观多的文明。</Text>
+		</Replace>
+
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_1" Language="zh_Hans_CN" Text="至尊仙窍"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_2" Language="zh_Hans_CN" Text="星罗城"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_3" Language="zh_Hans_CN" Text="龙宫"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_4" Language="zh_Hans_CN" Text="肝命殿"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_5" Language="zh_Hans_CN" Text="墨人城"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_6" Language="zh_Hans_CN" Text="圣鹰城"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_7" Language="zh_Hans_CN" Text="山崖城"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_8" Language="zh_Hans_CN" Text="铁丝城"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_9" Language="zh_Hans_CN" Text="尸地城"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_10" Language="zh_Hans_CN" Text="凌云城"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_11" Language="zh_Hans_CN" Text="寒霜屋"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_12" Language="zh_Hans_CN" Text="金钢堡"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_13" Language="zh_Hans_CN" Text="龙魄阴宅"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_14" Language="zh_Hans_CN" Text="红江亭"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_15" Language="zh_Hans_CN" Text="赤霄坛"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_16" Language="zh_Hans_CN" Text="艳红宫"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_17" Language="zh_Hans_CN" Text="三圣山"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_18" Language="zh_Hans_CN" Text="继仙山"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_19" Language="zh_Hans_CN" Text="青冥谷"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_20" Language="zh_Hans_CN" Text="神针谷"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_21" Language="zh_Hans_CN" Text="血芝林"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_22" Language="zh_Hans_CN" Text="镜柳林"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_23" Language="zh_Hans_CN" Text="骨葬场"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_24" Language="zh_Hans_CN" Text="星屑大陆"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_25" Language="zh_Hans_CN" Text="云盖大陆"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_26" Language="zh_Hans_CN" Text="灵泉森林"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_27" Language="zh_Hans_CN" Text="滚瀑跳崖"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_28" Language="zh_Hans_CN" Text="寒蛟深潭"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_29" Language="zh_Hans_CN" Text="针林雪原"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_30" Language="zh_Hans_CN" Text="水蜘蛛海"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_31" Language="zh_Hans_CN" Text="龙鳞海域"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_32" Language="zh_Hans_CN" Text="武遗海域"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_33" Language="zh_Hans_CN" Text="天晶蓄养池"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_34" Language="zh_Hans_CN" Text="玄黄地池"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_35" Language="zh_Hans_CN" Text="小中洲"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_36" Language="zh_Hans_CN" Text="小南疆"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_37" Language="zh_Hans_CN" Text="小东海"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_38" Language="zh_Hans_CN" Text="小北原"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_39" Language="zh_Hans_CN" Text="小西漠"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_40" Language="zh_Hans_CN" Text="小白天"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_41" Language="zh_Hans_CN" Text="小黑天"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_42" Language="zh_Hans_CN" Text="小赤天"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_43" Language="zh_Hans_CN" Text="小橙天"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_44" Language="zh_Hans_CN" Text="小黄天"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_45" Language="zh_Hans_CN" Text="小绿天"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_46" Language="zh_Hans_CN" Text="小蓝天"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_47" Language="zh_Hans_CN" Text="小青天"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_48" Language="zh_Hans_CN" Text="小紫天"/>
+
+		<Row Tag="LOC_DIPLO_FIRST_MEET_LEADER_LEADER_GUMOON_ANY" Language="zh_Hans_CN" Text="我古月方源乃是大爱仙尊！创建天地一家大爱盟，只为造福世间，五域和谐！"/>
+		<Row Tag="LOC_DIPLO_DENOUNCE_FROM_AI_LEADER_LEADER_GUMOON_ANY" Language="zh_Hans_CN" Text="天下英雄，犹如过江之卿。（谴责你）"/>
+		<Row Tag="LOC_DIPLO_DEFEAT_FROM_AI_LEADER_LEADER_GUMOON_ANY" Language="zh_Hans_CN" Text="不过是些许风霜罢了。"/>
+
+
+
+	</LocalizedText>
+</GameData>

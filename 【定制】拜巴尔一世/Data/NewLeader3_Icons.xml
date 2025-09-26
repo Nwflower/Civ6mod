@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: NewLeader3_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/22 21:48:22 -->
+<GameData>
+	<IconTextureAtlases>
+		<Row Filename="CivNw0003256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw0003128" IconsPerColumn="1" IconsPerRow="1" IconSize="128" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw000380" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw000364" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw000350" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw000348" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw000345" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw000344" IconsPerColumn="1" IconsPerRow="1" IconSize="44" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw000336" IconsPerColumn="1" IconsPerRow="1" IconSize="36" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw000332" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw000330" IconsPerColumn="1" IconsPerRow="1" IconSize="30" Name="ICON_ATLAS_CIV_NW_0003"/>
+		<Row Filename="CivNw000322" IconsPerColumn="1" IconsPerRow="1" IconSize="22" Name="ICON_ATLAS_CIV_NW_0003"/>
+
+		<Row Filename="Nw000532" IconsPerColumn="1" IconsPerRow="1" IconSize="32" Name="ICON_ATLAS_NW_0004"/>
+		<Row Filename="Nw000545" IconsPerColumn="1" IconsPerRow="1" IconSize="45" Name="ICON_ATLAS_NW_0004"/>
+		<Row Filename="Nw000548" IconsPerColumn="1" IconsPerRow="1" IconSize="48" Name="ICON_ATLAS_NW_0004"/>
+		<Row Filename="Nw000550" IconsPerColumn="1" IconsPerRow="1" IconSize="50" Name="ICON_ATLAS_NW_0004"/>
+		<Row Filename="Nw000555" IconsPerColumn="1" IconsPerRow="1" IconSize="55" Name="ICON_ATLAS_NW_0004"/>
+		<Row Filename="Nw000564" IconsPerColumn="1" IconsPerRow="1" IconSize="64" Name="ICON_ATLAS_NW_0004"/>
+		<Row Filename="Nw000580" IconsPerColumn="1" IconsPerRow="1" IconSize="80" Name="ICON_ATLAS_NW_0004"/>
+		<Row Filename="Nw0005256" IconsPerColumn="1" IconsPerRow="1" IconSize="256" Name="ICON_ATLAS_NW_0004"/>
+	</IconTextureAtlases>
+	
+	<IconDefinitions>
+		<Row Name="ICON_CIVILIZATION_CIV_NW_0003" Atlas="ICON_ATLAS_CIV_NW_0003" Index="0"/>
+		<Row Name="ICON_LEADER_NW_0004" Atlas="ICON_ATLAS_NW_0004" Index="0"/>
+	</IconDefinitions>
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_DISTRICT_NW009_256" IconSize="22" Filename="ICON_DISTRICT_NW009_22"/>
+        <Row Name="ATLAS_ICON_DISTRICT_NW009_256" IconSize="32" Filename="ICON_DISTRICT_NW009_32"/>
+        <Row Name="ATLAS_ICON_DISTRICT_NW009_256" IconSize="38" Filename="ICON_DISTRICT_NW009_38"/>
+        <Row Name="ATLAS_ICON_DISTRICT_NW009_256" IconSize="50" Filename="ICON_DISTRICT_NW009_50"/>
+        <Row Name="ATLAS_ICON_DISTRICT_NW009_256" IconSize="80" Filename="ICON_DISTRICT_NW009_80"/>
+        <Row Name="ATLAS_ICON_DISTRICT_NW009_256" IconSize="128" Filename="ICON_DISTRICT_NW009_128"/>
+        <Row Name="ATLAS_ICON_DISTRICT_NW009_256" IconSize="256" Filename="ICON_DISTRICT_NW009_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_DISTRICT_NW009" Atlas="ATLAS_ICON_DISTRICT_NW009_256" Index="0"/>
+    </IconDefinitions>
+
+    <IconAliases>
+        <Row Name="ICON_IMPROVEMENT_NW010" OtherName="ICON_IMPROVEMENT_MISSION"/>
+    </IconAliases>
+
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_UNIT_NW011" IconSize="22" Filename="ICON_UNIT_NW011_22"/>
+        <Row Name="ATLAS_ICON_UNIT_NW011" IconSize="32" Filename="ICON_UNIT_NW011_32"/>
+        <Row Name="ATLAS_ICON_UNIT_NW011" IconSize="38" Filename="ICON_UNIT_NW011_38"/>
+        <Row Name="ATLAS_ICON_UNIT_NW011" IconSize="50" Filename="ICON_UNIT_NW011_50"/>
+        <Row Name="ATLAS_ICON_UNIT_NW011" IconSize="80" Filename="ICON_UNIT_NW011_80"/>
+        <Row Name="ATLAS_ICON_UNIT_NW011" IconSize="256" Filename="ICON_UNIT_NW011_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_UNIT_NW011" Atlas="ATLAS_ICON_UNIT_NW011" Index="0"/>
+    </IconDefinitions>
+</GameData>

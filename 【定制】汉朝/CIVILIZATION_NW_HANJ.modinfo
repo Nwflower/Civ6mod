@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Mod id="82dc00aa-a401-4399-bb64-5972ace10c7c" version="2">
+<Mod id="82dc00aa-a401-4399-bb64-5972ace10c7b" version="2">
   <Properties>
     <Name>LOC_CIVILIZATION_NW_HANJ_MOD_TITLE</Name>
     <Description>LOC_CIVILIZATION_NW_HANJ_MOD_DESCRIPTION</Description>
-    <Created>1758163384</Created>
+    <Created>1758610340</Created>
     <Teaser>LOC_CIVILIZATION_NW_HANJ_MOD_TEASER</Teaser>
     <Authors>LOC_CIVILIZATION_NW_HANJ_MOD_AUTHORS</Authors>
     <CompatibleVersions>2.0</CompatibleVersions>

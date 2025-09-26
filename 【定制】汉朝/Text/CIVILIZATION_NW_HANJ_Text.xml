@@ -58,7 +58,7 @@
 			<Text>民数者，庶事之所自出也</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_CIVILIZATION_CIV_HANJ_NW003_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>区域不会获得相邻加成。拥有对应区域的城市，每位公民产出0.5对应产出。[NEWLINE][NEWLINE]从区域相邻加成获得额外产出的建筑，额外获得5点 [ICON_PRODUCTION] 生产力。</Text>
+			<Text>区域不会获得相邻加成。拥有对应区域的城市，每位公民产出0.5对应产出。[NEWLINE][NEWLINE]燃煤发电厂和造船厂额外获得5点 [ICON_PRODUCTION] 生产力。</Text>
 		</Replace>
 
 		<!--ITEM-->
@@ -66,10 +66,7 @@
 			<Text>羽林孤儿</Text>
 		</Replace>
 		<Replace Tag="LOC_UNIT_NW_YULIN_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>大汉特色单位，替代骑士。不与友方单位相邻时，+5 [ICON_Strength] 战斗力。</Text>
-		</Replace>
-		<Replace Tag="LOC_MODIFIER_UNIT_NW_YULIN_ADJUST_COMBAT_STRENGTH" Language="zh_Hans_CN">
-			<Text>+{1_Num} [ICON_Strength] 战斗力来自不与友方单位相邻。</Text>
+			<Text>大汉特色单位，替代骑士。支援加成+50%。</Text>
 		</Replace>
 
 		<Replace Tag="LOC_UNIT_NW_BIAOQI_NAME" Language="zh_Hans_CN">

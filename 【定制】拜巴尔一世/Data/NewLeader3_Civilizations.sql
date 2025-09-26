@@ -1,0 +1,47 @@
+--	FILE: NewLeader3_Civilizations.sql
+--  VERSION: 1
+--  Author: Nwflower
+--  Spicial Thanks: Uni
+--	Copyright (c) 2025.
+--	All rights reserved.
+--  DateCreated: 2025/9/22 21:48:22
+--------------------------------------------------------------------------------
+--  作者： 千川白浪
+--  特别鸣谢： 优妮
+------------------------------------------------------------------------------
+INSERT INTO Types(Type, Kind)
+VALUES ('CIVILIZATION_CIV_NW_0003', 'KIND_CIVILIZATION'),
+       ('TRAIT_CIVILIZATION_CIV_NW_0003_NW007', 'KIND_TRAIT'),
+       ('TRAIT_IMPROVEMENT_NW010', 'KIND_TRAIT'),
+       ('TRAIT_DISTRICT_NW009', 'KIND_TRAIT');
+
+INSERT INTO Civilizations(CivilizationType, Name, Description, Adjective, RandomCityNameDepth,StartingCivilizationLevelType, Ethnicity)
+VALUES ('CIVILIZATION_CIV_NW_0003', 'LOC_CIVILIZATION_CIV_NW_0003_NAME', 'LOC_CIVILIZATION_CIV_NW_0003_DESCRIPTION',
+        'LOC_CIVILIZATION_CIV_NW_0003_ADJECTIVE', 10, 'CIVILIZATION_LEVEL_FULL_CIV', 'ETHNICITY_MEDIT');
+
+INSERT INTO CivilizationLeaders (CivilizationType, LeaderType, CapitalName)
+VALUES ('CIVILIZATION_CIV_NW_0003', 'LEADER_NW_0004', 'LOC_CITY_NAME_NW0006');
+
+INSERT INTO CivilizationInfo(CivilizationType, Header, Caption, SortIndex)
+VALUES ('CIVILIZATION_CIV_NW_0003', 'LOC_CIVINFO_LOCATION', 'LOC_CIVINFO_CIV_NW_0003_LOCATION', 10),
+       ('CIVILIZATION_CIV_NW_0003', 'LOC_CIVINFO_SIZE', 'LOC_CIVINFO_CIV_NW_0003_SIZE', 20),
+       ('CIVILIZATION_CIV_NW_0003', 'LOC_CIVINFO_POPULATION', 'LOC_CIVINFO_CIV_NW_0003_POPULATION', 30),
+       ('CIVILIZATION_CIV_NW_0003', 'LOC_CIVINFO_CAPITAL', 'LOC_CIVINFO_CIV_NW_0003_CAPITAL', 40);
+
+INSERT INTO Traits (TraitType, Name, Description)
+VALUES ('TRAIT_CIVILIZATION_CIV_NW_0003_NW007', 'LOC_TRAIT_CIVILIZATION_CIV_NW_0003_NW007_NAME',
+        'LOC_TRAIT_CIVILIZATION_CIV_NW_0003_NW007_DESCRIPTION');
+
+
+INSERT INTO Traits (TraitType)
+VALUES ('TRAIT_IMPROVEMENT_NW010'),
+       ('TRAIT_DISTRICT_NW009');
+
+INSERT INTO CivilizationTraits (TraitType, CivilizationType)
+VALUES ('TRAIT_CIVILIZATION_CIV_NW_0003_NW007', 'CIVILIZATION_CIV_NW_0003'),
+       ('TRAIT_IMPROVEMENT_NW010', 'CIVILIZATION_CIV_NW_0003'),
+       ('TRAIT_DISTRICT_NW009', 'CIVILIZATION_CIV_NW_0003');
+
+INSERT INTO CityNames(CivilizationType, CityName)
+SELECT 'CIVILIZATION_CIV_NW_0003', CityName
+FROM CityNames WHERE CivilizationType = 'CIVILIZATION_BYZANTIUM';

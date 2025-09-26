@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: CIVILIZATION_GUMOON_PackageText.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/24 19:28:22 -->
+<GameData>
+    <LocalizedText>
+        <Row Tag="LOC_CIVILIZATION_GUMOON_MOD_TITLE" Language="zh_Hans_CN">
+            <Text>【定制】古月方源领袖包</Text>
+        </Row>
+        <Row Tag="LOC_CIVILIZATION_GUMOON_MOD_TEASER" Language="zh_Hans_CN">
+            <Text>添加了古月方源</Text>
+        </Row>
+        <Row Tag="LOC_CIVILIZATION_GUMOON_MOD_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>包含1个新文明和领袖。</Text>
+        </Row>
+        <Row Tag="LOC_CIVILIZATION_GUMOON_MOD_AUTHORS" Language="zh_Hans_CN">
+            <Text>[COLOR:DiplomaticLabelCS]千川白浪[ENDCOLOR]</Text>
+        </Row>
+    </LocalizedText>
+</GameData>

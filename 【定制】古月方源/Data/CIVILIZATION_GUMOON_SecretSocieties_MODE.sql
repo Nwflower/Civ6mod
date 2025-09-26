@@ -1,0 +1,15 @@
+--	FILE: CIVILIZATION_GUMOON_SecretSocieties_MODE.sql
+--  VERSION: 1
+--  Author: Nwflower
+--  Spicial Thanks: Uni
+--	Copyright (c) 2025.
+--	All rights reserved.
+--  DateCreated: 2025/9/24 19:28:22
+--======================================================================
+--  作者： 千川白浪
+--  特别鸣谢： 优妮
+--======================================================================
+
+-- INSERT INTO District_Adjacencies(DistrictType,YieldChangeId)VALUES
+-- ('DISTRICT_NW_250924','YieldChangeId1'),
+-- ('DISTRICT_NW_250924','YieldChangeId2');
