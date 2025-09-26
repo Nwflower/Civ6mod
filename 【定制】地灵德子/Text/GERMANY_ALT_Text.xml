@@ -21,7 +21,7 @@
 			<Text>神圣罗马皇帝（地灵）</Text>
 		</Row>
 		<Row Tag="LOC_TRAIT_LEADER_BARBAROSSA_ALT_HOLY_ROMAN_EMPEROR_ALT_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>额外的军事政策槽位。攻击城邦时，+7 [ICON_Strength] 战斗力。无法选择万神殿。对外贸易市政后获得地灵契约万神殿的效果。</Text>
+			<Text>额外的军事政策槽位。攻击城邦时，+7 [ICON_Strength] 战斗力。无法指定万神殿，选择万神殿时获得地灵契约万神殿的效果。[NEWLINE][NEWLINE]地灵契约[NEWLINE]购买单元格费用降低40%，拥有 “印刷术” 后提升至55%。城市每拥有1处特色区域，则+1 [ICON_GOLD] 金币。</Text>
 		</Row>
 
 		<Replace Tag="LOC_BELIEF_KONGBAI_NAME" Language="zh_Hans_CN">

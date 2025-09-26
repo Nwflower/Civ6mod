@@ -21,7 +21,7 @@ VALUES -- 文德
 
        -- 文美
        ('LOC_TRAIT_LEADER_ANTIQUES_AND_PARKS_DESCRIPTION', 'zh_Hans_CN',
-        '首次建成保护区时，[ICON_CAPITAL] 首都获得一个免费的自然学家。拥有国家公园的城市单元格+1魅力值。神秘主义市政后，惊艳的单元格+1 [ICON_SCIENCE] 科技值，未改良则额外+1 [ICON_PRODUCTION] 生产力。雨林不会降低相邻单元格的魅力值。'),
+        '首次建成保护区时，[ICON_CAPITAL] 首都获得一个免费的自然学家。拥有国家公园的城市单元格+1魅力值。神秘主义市政后，惊艳的单元格+1 [ICON_SCIENCE] 科技值，相邻保护区的惊艳未改良单元格+1 [ICON_PRODUCTION] 生产力。雨林不会降低相邻单元格的魅力值。'),
 
        -- 武美
        ('LOC_TRAIT_LEADER_ROOSEVELT_COROLLARY_ROUGH_RIDER_DESCRIPTION', 'zh_Hans_CN',
@@ -43,6 +43,6 @@ VALUES -- 文德
         '巨作+3 [ICON_Science] 科技值，并对9个单元格内的外国城市施加3点忠诚度压力。因忠诚度而叛乱的城市，如其每回合对埃莉诺的忠诚度最高，则会直接加入埃莉诺的文明。埃莉诺的宫殿额外获得一个任意槽位。埃莉诺在建造剧院建筑、区域时+25% [ICON_PRODUCTION] 生产力。若解锁“戏剧与诗歌”市政，则获得一名免费的 [ICON_GreatWriter] 大作家。招募伟人时随机获得两项 [ICON_CivicBoosted] 鼓舞。'),
        --金法
        ('LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION', 'zh_Hans_CN',
-        '拥有写作和法典后解锁剧院广场。剧院广场从奢侈品获得大量相邻加成。可在拥有剧院广场区域的任意城市中开展“宫廷盛会”项目。建造剧院广场建筑时+50% [ICON_PRODUCTION] 生产力。'),
+        '拥有写作和法典后解锁剧院广场。剧院广场从奢侈品获得大量相邻加成。可在拥有剧院广场区域的任意城市中开展“宫廷盛会”项目。建造剧院广场及其建筑时+45% [ICON_PRODUCTION] 生产力。'),
        ('LOC_TRAIT_LEADER_MAGNIFICENCES_THEATER', 'zh_Hans_CN',
         '+{1_Num} [ICON_CULTURE]文化值来自相邻的奢侈品单元格。');

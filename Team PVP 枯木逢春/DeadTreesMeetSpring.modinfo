@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 正式版 -->
-<Mod id="00000000-0000-0000-0000-167965900002" version="112">
+<Mod id="00000000-0000-0000-0000-167965900002" version="114">
   <Properties>
-    <Name>Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.12</Name>
+    <Name>Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.14</Name>
     <Description>
 [NEWLINE]全新DLC[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR]是对魔女MOD的完善补充。
 
-[NEWLINE][NEWLINE][icon_You]Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.12
+[NEWLINE][NEWLINE][icon_You]Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.14
 [NEWLINE][NEWLINE][icon_You]领袖加强
 [NEWLINE]------------------
 [NEWLINE]1.文德：文德每个包括市中心的专业区域+4%奇观加速，上限16%
 [NEWLINE]2.埃塞：轻骑兵线都继承奥罗莫，所有轻骑兵都为4点视野；平民单位在丘陵+1移速上限与视野
 [NEWLINE]3.格鲁吉亚：采矿解锁特色城墙，并且防御战术赠送最便宜的市中心建筑，效果同图拉真但是解锁更晚。
 [NEWLINE]4.阿拉伯：圣城+1贸易路线容量，且刷新的传教单位+1次数。连接到阿拉伯圣城的贸易路线为对方+2金币，为阿拉伯+2信仰
-[NEWLINE]5.文美：首次建成保护区时，获得一个免费的自然学家。拥有国家公园的城市单元格+1魅力值。惊艳的单元格+1科技值，未改良则额外+1生产力。
+[NEWLINE]5.文美：首次建成保护区时，获得一个免费的自然学家。拥有国家公园的城市单元格+1魅力值。惊艳的单元格+1科技值，未改良且相邻保护区则额外+1生产力。
 [NEWLINE]6.武美：每个市政广场及其建筑为与首都同大陆的单位+1战斗力。每个外交区及其建筑为与首都异大陆的单位+1战斗力。通商双倍使者。
 [NEWLINE]7.苏格兰：每3位公民消耗1宜居度，而非通常的2位。快乐的城市+5%科技值和生产力。欣喜若狂的城市，上述加成翻倍。
 [NEWLINE]8.埃莉诺（英国）：巨作均+3科技值。戏剧与诗歌后获得一个大作家。
