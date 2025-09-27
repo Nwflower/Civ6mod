@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 正式版 -->
-<Mod id="00000000-0000-0000-0000-167965900002" version="114">
+<Mod id="00000000-0000-0000-0000-167965900002" version="117">
   <Properties>
-    <Name>Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.14</Name>
+    <Name>Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.18</Name>
     <Description>
 [NEWLINE]全新DLC[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR]是对魔女MOD的完善补充。
 
-[NEWLINE][NEWLINE][icon_You]Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.14
+[NEWLINE][NEWLINE][icon_You]Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.18
 [NEWLINE][NEWLINE][icon_You]领袖加强
 [NEWLINE]------------------
 [NEWLINE]1.文德：文德每个包括市中心的专业区域+4%奇观加速，上限16%
@@ -19,7 +19,7 @@
 [NEWLINE]8.埃莉诺（英国）：巨作均+3科技值。戏剧与诗歌后获得一个大作家。
 [NEWLINE]9.埃莉诺（法国）：巨作均+3科技值。戏剧与诗歌后获得一个大作家。城堡+1金币改为伟人+2鼓舞。
 [NEWLINE]10.金法：写作后解锁剧院广场。
-枯木逢春平衡组将会在激烈讨论后，保持初衷，继续带来更多的优秀平衡，游玩请创意工坊订阅枯木逢春mod~
+枯木逢春平衡组将会在激烈讨论后，保持初衷，继续带来更多的优秀平衡，游玩请创意工坊订阅枯木逢春mod
 </Description>
     <Created>1757737153</Created>
     <Teaser>Team PVP Balanced mod 枯木逢春</Teaser>

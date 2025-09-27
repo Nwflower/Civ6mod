@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="38453a03-ca10-469a-982f-afefbb6ed2d3" version="1">
+  <Properties>
+    <Name>Team PVP 红隼领袖包</Name>
+    <Description>Team PVP 红隼领袖包</Description>
+    <Created>1758887864</Created>
+    <Teaser>Team PVP 红隼领袖包</Teaser>
+    <Authors>[COLOR:DiplomaticLabelCS]千川白浪[ENDCOLOR]</Authors>
+    <CompatibleVersions>2.0</CompatibleVersions>
+  </Properties>
+  <References>
+    <Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall" />
+    <Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion: Gathering Storm" />
+  </References>
+  <ActionCriteria>
+    <Criteria id="NewLeader3">
+      <LeaderPlayable>Players:StandardPlayers::LEADER_NW_0004,StandardPlayers::LEADER_NW_0004,Players:Expansion1_Players::LEADER_NW_0004,Players:Expansion2_Players::LEADER_NW_0004</LeaderPlayable>
+      <RuleSetInUse>RULESET_STANDARD,RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="NewLeader3_Expansion1">
+      <LeaderPlayable>Players:Expansion1_Players::LEADER_NW_0004</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_1</RuleSetInUse>
+    </Criteria>
+    <Criteria id="NewLeader3_Expansion2">
+      <LeaderPlayable>Players:Expansion2_Players::LEADER_NW_0004</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="SecretSocieties">
+      <ConfigurationValueMatches>
+        <Group>Game</Group>
+        <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+  </ActionCriteria>
+  <FrontEndActions>
+    <UpdateDatabase id="NewLeader3Settings">
+      <File>BarBer/Data/NewLeader3_Config.sql</File>
+    </UpdateDatabase>
+    <UpdateArt id="NewLeader3SettingsArt">
+      <File>BarBer/NewLeader3.dep</File>
+    </UpdateArt>
+    <UpdateColors id="NewLeader3Colors">
+      <File>BarBer/Data/NewLeader3_Colors.sql</File>
+    </UpdateColors>
+    <UpdateText id="NewLeader3SettingsText">
+      <File>BarBer/Text/NewLeader3_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="NewLeader3SettingsIcons">
+      <File>BarBer/Data/NewLeader3_Icons.xml</File>
+    </UpdateIcons>
+
+
+    <UpdateDatabase id="UpdateDatabase">
+      <File>Iran/Siqi_Leaders_0007_Configs.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="UpdateText">
+      <File>Iran/Text/Siqi_Leaders_0007_BaseText.sql</File>
+    </UpdateText>
+    <UpdateIcons id="UpdateIcons">
+      <File>Iran/Siqi_Leaders_0007_Icons.xml</File>
+    </UpdateIcons>
+    <UpdateColors id="UpdateColors">
+      <File>Iran/Siqi_Leaders_0007_Colors.sql</File>
+    </UpdateColors>
+    <UpdateArt id="UpdateArt">
+      <File>Iran/Siqi_Leaders_0007.dep</File>
+    </UpdateArt>
+  </FrontEndActions>
+  <InGameActions>
+    <ImportFiles id="NewLeader3_ImportFiles">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3</Criteria>
+      <File>BarBer/Import/NwflowerMODCore.lua</File>
+    </ImportFiles>
+    <UpdateArt id="NewLeader3Art">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3</Criteria>
+      <File>BarBer/NewLeader3.dep</File>
+    </UpdateArt>
+    <UpdateDatabase id="NewLeader3Gameplay">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3</Criteria>
+      <File>BarBer/Data/NewLeader3_Buildings.sql</File>
+      <File>BarBer/Data/NewLeader3_Civilizations.sql</File>
+      <File>BarBer/Data/NewLeader3_Distrcits.sql</File>
+      <File>BarBer/Data/NewLeader3_Improvement.sql</File>
+      <File>BarBer/Data/NewLeader3_Leaders.sql</File>
+      <File>BarBer/Data/NewLeader3_Modifier.sql</File>
+      <File>BarBer/Data/NewLeader3_Units.sql</File>
+    </UpdateDatabase>
+    <UpdateColors id="NewLeader3Colors">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3</Criteria>
+      <File>BarBer/Data/NewLeader3_Colors.sql</File>
+    </UpdateColors>
+    <UpdateDatabase id="NewLeader3Gameplay_XP1">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3_Expansion1</Criteria>
+      <File>BarBer/Data/NewLeader3_Expansion1.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NewLeader3Gameplay_XP2">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3_Expansion2</Criteria>
+      <File>BarBer/Data/NewLeader3_Expansion2.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="NewLeader3_SecretSocieties_MODE">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>SecretSocieties</Criteria>
+      <File>BarBer/Data/NewLeader3_SecretSocieties_MODE.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="NewLeader3_Text">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3</Criteria>
+      <File>BarBer/Text/NewLeader3_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="NewLeader3_Icons">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3</Criteria>
+      <File>BarBer/Data/NewLeader3_Icons.xml</File>
+    </UpdateIcons>
+    <UpdateLogitechARX id="NewLeader3_ARX">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3</Criteria>
+    </UpdateLogitechARX>
+    <UpdateAudio id="NewLeader3_Audio">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3</Criteria>
+      <File>BarBer/Platforms/Windows/Audio/NewLeader3_Banks.ini</File>
+    </UpdateAudio>
+    <AddGameplayScripts id="NewLeader3_AddGameplayScripts">
+      <Properties>
+        <LoadOrder>1679659</LoadOrder>
+      </Properties>
+      <Criteria>NewLeader3</Criteria>
+      <File>BarBer/Script/NewLeader3_Script.lua</File>
+    </AddGameplayScripts>
+
+
+    <UpdateColors id="UpdateColors">
+      <File>Iran/Siqi_Leaders_0007_Colors.sql</File>
+    </UpdateColors>
+    <UpdateText id="UpdateText">
+      <File>Iran/Text/Siqi_Leaders_0007_BaseText.sql</File>
+      <File>Iran/Text/Siqi_Leaders_0007_OtherText.sql</File>
+    </UpdateText>
+    <UpdateIcons id="UpdateIcons">
+      <File>Iran/Siqi_Leaders_0007_Icons.xml</File>
+    </UpdateIcons>
+    <UpdateArt id="UpdateArt">
+      <File>Iran/Siqi_Leaders_0007.dep</File>
+    </UpdateArt>
+    <UpdateDatabase id="UpdateDatabase">
+      <Properties>
+        <LoadOrder>50001</LoadOrder>
+      </Properties>
+      <File>Iran/Siqi_Leaders_0007_Leaders.sql</File>
+      <File>Iran/Siqi_Leaders_0007_Civilizations.sql</File>
+      <File>Iran/Siqi_Leaders_0007_Units.sql</File>
+      <File>Iran/Siqi_Leaders_0007_Districts.sql</File>
+      <File>Iran/Siqi_Leaders_0007_Modifiers.sql</File>
+    </UpdateDatabase>
+    <AddGameplayScripts id="AddGameplayScripts">
+      <File>Iran/Siqi_Leaders_0007_Data.lua</File>
+    </AddGameplayScripts>
+  </InGameActions>
+  <Files>
+    <File>BarBer/ArtDefs/Buildings.artdef</File>
+    <File>BarBer/ArtDefs/Civilizations.artdef</File>
+    <File>BarBer/ArtDefs/Cultures.artdef</File>
+    <File>BarBer/ArtDefs/Districts.artdef</File>
+    <File>BarBer/ArtDefs/FallbackLeaders.artdef</File>
+    <File>BarBer/ArtDefs/Improvements.artdef</File>
+    <File>BarBer/ArtDefs/Overlay.artdef</File>
+    <File>BarBer/ArtDefs/StrategicView.artdef</File>
+    <File>BarBer/ArtDefs/Units.artdef</File>
+    <File>BarBer/Data/NewLeader3_Buildings.sql</File>
+    <File>BarBer/Data/NewLeader3_Civilizations.sql</File>
+    <File>BarBer/Data/NewLeader3_Colors.sql</File>
+    <File>BarBer/Data/NewLeader3_Config.sql</File>
+    <File>BarBer/Data/NewLeader3_Distrcits.sql</File>
+    <File>BarBer/Data/NewLeader3_Expansion1.sql</File>
+    <File>BarBer/Data/NewLeader3_Expansion2.sql</File>
+    <File>BarBer/Data/NewLeader3_Icons.xml</File>
+    <File>BarBer/Data/NewLeader3_Improvement.sql</File>
+    <File>BarBer/Data/NewLeader3_Leaders.sql</File>
+    <File>BarBer/Data/NewLeader3_Modifier.sql</File>
+    <File>BarBer/Data/NewLeader3_SecretSocieties_MODE.sql</File>
+    <File>BarBer/Data/NewLeader3_Units.sql</File>
+    <File>BarBer/Import/NwflowerMODCore.lua</File>
+    <File>BarBer/NewLeader3.dep</File>
+    <File>BarBer/Platforms/Windows/Audio/NewLeader3_Banks.ini</File>
+    <File>BarBer/Platforms/Windows/BLPs/LeaderFallbacks.blp</File>
+    <File>BarBer/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Loyalty_Overlay_CivNw0003</File>
+    <File>BarBer/Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Loyalty_Pressure_CivNw0003</File>
+    <File>BarBer/Platforms/Windows/BLPs/strategicview/strategicview_uilenses.blp</File>
+    <File>BarBer/Platforms/Windows/BLPs/UILensAssets.blp</File>
+    <File>BarBer/Platforms/Windows/BLPs/UI/Icons.blp</File>
+    <File>BarBer/Platforms/Windows/BLPs/UI/PrideMoments.blp</File>
+    <File>BarBer/Platforms/Windows/BLPs/UI/Shell_Loading.blp</File>
+    <File>BarBer/Platforms/Windows/BLPs/UI_LeaderScenes.blp</File>
+    <File>BarBer/Script/NewLeader3_Script.lua</File>
+    <File>BarBer/Text/NewLeader3_Text.xml</File>
+
+    
+    <File>Iran/ArtDefs/Civilizations.artdef</File>
+    <File>Iran/ArtDefs/Cultures.artdef</File>
+    <File>Iran/ArtDefs/Districts.artdef</File>
+    <File>Iran/ArtDefs/FallbackLeaders.artdef</File>
+    <File>Iran/ArtDefs/Units.artdef</File>
+    <File>Iran/Platforms/Windows/BLPs/LeaderFallbacks.blp</File>
+    <File>Iran/Platforms/Windows/BLPs/Siqi_Leaders_0007_dds.blp</File>
+    <File>Iran/Platforms/Windows/BLPs/UILensAssets.blp</File>
+    <File>Iran/Siqi_Leaders_0007.dep</File>
+    <File>Iran/Siqi_Leaders_0007_Civilizations.sql</File>
+    <File>Iran/Siqi_Leaders_0007_Colors.sql</File>
+    <File>Iran/Siqi_Leaders_0007_Configs.sql</File>
+    <File>Iran/Siqi_Leaders_0007_Data.lua</File>
+    <File>Iran/Siqi_Leaders_0007_Districts.sql</File>
+    <File>Iran/Siqi_Leaders_0007_Icons.xml</File>
+    <File>Iran/Siqi_Leaders_0007_Leaders.sql</File>
+    <File>Iran/Siqi_Leaders_0007_Modifiers.sql</File>
+    <File>Iran/Siqi_Leaders_0007_UI.lua</File>
+    <File>Iran/Siqi_Leaders_0007_UI.xml</File>
+    <File>Iran/Siqi_Leaders_0007_Units.sql</File>
+    <File>Iran/Text/Siqi_Leaders_0007_BaseText.sql</File>
+    <File>Iran/Text/Siqi_Leaders_0007_OtherText.sql</File>
+  </Files>
+</Mod>

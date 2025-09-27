@@ -1,0 +1,141 @@
+-- INSERT INTO LocalizedText (Language, Tag, Text) VALUES
+-- -- Civilization SIQI_C0007
+-- ('zh_Hans_CN', 'LOC_CIVINFO_SIQI_C0007_LOCATION',       ''),
+-- ('zh_Hans_CN', 'LOC_CIVINFO_SIQI_C0007_SIZE',       ''),
+-- ('zh_Hans_CN', 'LOC_CIVINFO_SIQI_C0007_POPULATION',       ''),
+-- ('zh_Hans_CN', 'LOC_CIVINFO_SIQI_C0007_CAPITAL',       ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_CIVILIZATIONS_PAGE_CIVILIZATION_SIQI_C0007_CHAPTER_HISTORY_PARA_1',       ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_CIVILIZATIONS_PAGE_CIVILIZATION_SIQI_C0007_CHAPTER_HISTORY_PARA_2',       ''),
+
+-- -- Leader SIQI_L0007
+-- ('zh_Hans_CN', 'LOC_PEDIA_LEADERS_PAGE_LEADER_SIQI_L0007_TITLE',        ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_LEADERS_PAGE_LEADER_SIQI_L0007_SUBTITLE',        ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_LEADERS_PAGE_LEADER_SIQI_L0007_CHAPTER_CAPSULE_BODY',        ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_LEADERS_PAGE_LEADER_SIQI_L0007_CHAPTER_DETAILED_BODY',        ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_LEADERS_PAGE_LEADER_SIQI_L0007_CHAPTER_HISTORY_PARA_1',        ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_LEADERS_PAGE_LEADER_SIQI_L0007_CHAPTER_HISTORY_PARA_2',        ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_LEADERS_PAGE_LEADER_SIQI_L0007_CHAPTER_HISTORY_PARA_3',        ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_LEADERS_PAGE_LEADER_SIQI_L0007_CHAPTER_HISTORY_PARA_4',        ''),
+
+
+
+-- -- Leader SIQI_L0007
+-- -- 领袖外交信息: 当你第一次遇到AI
+-- ('zh_Hans_CN', 'LOC_DIPLO_FIRST_MEET_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当你第一次遇到AI并且TA邀请你参观城市
+-- ('zh_Hans_CN', 'LOC_DIPLO_FIRST_MEET_VISIT_RECIPIENT_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当你第一次遇到AI并且你邀请TA参观城市
+-- ('zh_Hans_CN', 'LOC_DIPLO_FIRST_MEET_NEAR_INITIATOR_POSITIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当你第一次遇到AI并且TA请求分享首都位置
+-- ('zh_Hans_CN', 'LOC_DIPLO_FIRST_MEET_NO_MANS_INFO_EXCHANGE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 一般打招呼用
+-- ('zh_Hans_CN', 'LOC_DIPLO_GREETING_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 你接受AI的交易
+-- ('zh_Hans_CN', 'LOC_DIPLO_ACCEPT_MAKE_DEAL_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 你拒绝AI的交易
+-- ('zh_Hans_CN', 'LOC_DIPLO_REJECT_MAKE_DEAL_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI接受你的交易
+-- ('zh_Hans_CN', 'LOC_DIPLO_MAKE_DEAL_AI_ACCEPT_DEAL_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI拒绝你的交易
+-- ('zh_Hans_CN', 'LOC_DIPLO_MAKE_DEAL_AI_REFUSE_DEAL_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI同意你的索取
+-- ('zh_Hans_CN', 'LOC_DIPLO_AI_ACCEPT_DEMAND_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI拒绝你的索取
+-- ('zh_Hans_CN', 'LOC_DIPLO_AI_REFUSE_DEMAND_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当你同意AI的索取
+-- ('zh_Hans_CN', 'LOC_DIPLO_HUMAN_ACCEPT_DEMAND_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当你拒绝AI的索取
+-- ('zh_Hans_CN', 'LOC_DIPLO_HUMAN_REFUSE_DEMAND_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当AI同意你的代表团
+-- ('zh_Hans_CN', 'LOC_DIPLO_ACCEPT_DELEGATION_FROM_HUMAN_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当AI拒绝你的代表团
+-- ('zh_Hans_CN', 'LOC_DIPLO_REJECT_DELEGATION_FROM_HUMAN_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当AI派遣代表团的时候
+-- ('zh_Hans_CN', 'LOC_DIPLO_DELEGATION_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 你对AI宣布友谊获得允许的时候
+-- ('zh_Hans_CN', 'LOC_DIPLO_ACCEPT_DECLARE_FRIEND_FROM_HUMAN_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 你对AI宣布友谊被拒绝的时候
+-- ('zh_Hans_CN', 'LOC_DIPLO_REJECT_DECLARE_FRIEND_FROM_HUMAN_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当AI对你宣布友谊的时候
+-- ('zh_Hans_CN', 'LOC_DIPLO_DECLARE_FRIEND_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当你同意AI对你宣布友谊
+-- ('zh_Hans_CN', 'LOC_DIPLO_ACCEPT_DECLARE_FRIEND_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当你拒绝AI对你宣布友谊
+-- ('zh_Hans_CN', 'LOC_DIPLO_REJECT_DECLARE_FRIEND_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI希望延续同盟
+-- ('zh_Hans_CN', 'LOC_DIPLO_MAKE_ALLIANCE_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI希望你开放边界
+-- ('zh_Hans_CN', 'LOC_DIPLO_OPEN_BORDERS_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI同意对你开放边界
+-- ('zh_Hans_CN', 'LOC_DIPLO_ACCEPT_OPEN_BORDERS_FROM_HUMAN_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI拒绝对你开放边界
+-- ('zh_Hans_CN', 'LOC_DIPLO_REJECT_OPEN_BORDERS_FROM_HUMAN_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI说你军队靠近边界
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_TOO_MANY_TROOPS_NEAR_ME_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI不同意撤离军队
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_TOO_MANY_TROOPS_NEAR_ME_AI_RESPONSE_NEGATIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI同意撤离军队
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_TOO_MANY_TROOPS_NEAR_ME_AI_RESPONSE_POSITIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI说你的国土靠的太近了
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_DONT_SETTLE_NEAR_ME_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI同意远离你的领土
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_DONT_SETTLE_NEAR_ME_AI_RESPONSE_POSITIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI不同意远离你的领土
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_DONT_SETTLE_NEAR_ME_AI_RESPONSE_NEGATIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 你同意远离AI的领土
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_DONT_SETTLE_NEAR_ME_HUMAN_RESPONSE_POSITIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 你不同意远离AI的领土
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_DONT_SETTLE_NEAR_ME_HUMAN_RESPONSE_NEGATIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当你公开谴责AI
+-- ('zh_Hans_CN', 'LOC_DIPLO_DENOUNCE_FROM_HUMAN_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当AI公开谴责你
+-- ('zh_Hans_CN', 'LOC_DIPLO_DENOUNCE_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当你对这个AI宣战
+-- ('zh_Hans_CN', 'LOC_DIPLO_DECLARE_WAR_FROM_HUMAN_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当这个AI向你宣战
+-- ('zh_Hans_CN', 'LOC_DIPLO_DECLARE_WAR_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当AI被其他AI击败会说这些话
+-- ('zh_Hans_CN', 'LOC_DIPLO_DEFEAT_FROM_AI_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 当你击败AI他会说这些话
+-- ('zh_Hans_CN', 'LOC_DIPLO_DEFEAT_FROM_HUMAN_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI让你别派间谍
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_STOP_SPYING_ON_ME_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI同意不派间谍
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_STOP_SPYING_ON_ME_AI_RESPONSE_POSITIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI不同意不派间谍
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_STOP_SPYING_ON_ME_AI_RESPONSE_NEGATIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 你同意不派间谍
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_STOP_SPYING_ON_ME_HUMAN_RESPONSE_POSITIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 你不同意不派间谍
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_STOP_SPYING_ON_ME_HUMAN_RESPONSE_NEGATIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI让你别来传教
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_STOP_CONVERTING_MY_CITIES_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI同意不来传教
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_STOP_CONVERTING_MY_CITIES_AI_RESPONSE_POSITIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: AI不同意不来传教
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_STOP_CONVERTING_MY_CITIES_AI_RESPONSE_NEGATIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 你同意不来传教
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_STOP_CONVERTING_MY_CITIES_HUMAN_RESPONSE_POSITIVE_LEADER_SIQI_L0007_ANY',             ''),
+-- -- 领袖外交信息: 你不同意不来传教
+-- ('zh_Hans_CN', 'LOC_DIPLO_WARNING_STOP_CONVERTING_MY_CITIES_HUMAN_RESPONSE_NEGATIVE_LEADER_SIQI_L0007_ANY',             ''),
+
+
+
+-- -- Agendas
+-- -- Leader SIQI_L0007 Agendas
+-- ('zh_Hans_CN', 'LOC_TRAIT_AGENDA_LEADER_SIQI_L0007_NAME',         '{LOC_AGENDA_LEADER_SIQI_L0007_NAME}'),
+-- ('zh_Hans_CN', 'LOC_TRAIT_AGENDA_LEADER_SIQI_L0007_DESCRIPTION', '{LOC_AGENDA_LEADER_SIQI_L0007_DESCRIPTION}'),
+-- ('zh_Hans_CN', 'LOC_AGENDA_LEADER_SIQI_L0007_NAME',             ''),
+-- ('zh_Hans_CN', 'LOC_AGENDA_LEADER_SIQI_L0007_DESCRIPTION',        ''),
+
+
+
+-- -- Districts
+-- -- District D0007
+-- ('zh_Hans_CN', 'LOC_PEDIA_DISTRICTS_PAGE_DISTRICT_DISTRICT_SIQI_D0007_CHAPTER_HISTORY_PARA_1', ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_DISTRICTS_PAGE_DISTRICT_DISTRICT_SIQI_D0007_CHAPTER_HISTORY_PARA_2', ''),
+
+-- -- Units
+-- -- Unit U0007
+-- ('zh_Hans_CN', 'LOC_PEDIA_UNITS_PAGE_UNIT_UNIT_SIQI_U0007_CHAPTER_HISTORY_PARA_1', ''),
+-- ('zh_Hans_CN', 'LOC_PEDIA_UNITS_PAGE_UNIT_UNIT_SIQI_U0007_CHAPTER_HISTORY_PARA_2', '');

@@ -21,11 +21,13 @@ VALUES -- 文德
 
        -- 文美
        ('LOC_TRAIT_LEADER_ANTIQUES_AND_PARKS_DESCRIPTION', 'zh_Hans_CN',
-        '首次建成保护区时，[ICON_CAPITAL] 首都获得一个免费的自然学家。拥有国家公园的城市单元格+1魅力值。神秘主义市政后，惊艳的单元格+1 [ICON_SCIENCE] 科技值，相邻保护区的惊艳未改良单元格+1 [ICON_PRODUCTION] 生产力。雨林不会降低相邻单元格的魅力值。'),
+        '首次建成保护区时，[ICON_CAPITAL] 首都获得一个免费的自然学家。拥有国家公园的城市单元格+1魅力值。神秘主义市政后，惊艳单元格+1 [ICON_SCIENCE] 科技值，相邻保护区的未改良惊艳单元格+1 [ICON_PRODUCTION] 生产力。无视前置市政要求，可以在相邻保护区的单元格上栽种树林。'),
+       ('LOC_ABILITY_NW_CANNOT_PLANT_FOREST_BUT_ADJACENT_PRESERVE_DESCRIPTION', 'zh_Hans_CN',
+        '可以在相邻保护区的单元格上栽种树林。'),
 
        -- 武美
        ('LOC_TRAIT_LEADER_ROOSEVELT_COROLLARY_ROUGH_RIDER_DESCRIPTION', 'zh_Hans_CN',
-        '[ICON_CAPITAL] 首都所在大陆上的单位从每个市政广场及其建筑获得+1 [ICON_Strength] 战斗力；[ICON_CAPITAL] 首都所在大陆以外的单位从每个外交区及其建筑获得+1 [ICON_Strength] 战斗力。如与城邦之间存在 [ICON_TradeRoute] 贸易路线，派往此处的1位 [ICON_Envoy] 使者将视为2位。解锁“膛线”科技后获得特色单位“莽骑兵”。解锁“人文主义”后，额外获得一个通配符槽位。'),
+        '[ICON_CAPITAL] 首都所在大陆上的单位从市政广场及其建筑获得+1 [ICON_Strength] 战斗力；[ICON_CAPITAL] 首都所在大陆以外的单位从外交区及其建筑获得+1 [ICON_Strength] 战斗力。建成市政广场和外交区后，+1 [ICON_TradeRoute] 贸易路线容量。如与城邦之间存在 [ICON_TradeRoute] 贸易路线，派往此处的1位 [ICON_Envoy] 使者将视为2位。人文主义市政后，额外获得一个通配符槽位。膛线后获得特色单位“莽骑兵”。'),
 
        ('LOC_PROMOTION_COMBAT_HOME_CONTINENT_DESCRIPTION', 'zh_Hans_CN',
         '+{Property} 来着罗斯福推论（同大陆）。'),
@@ -38,9 +40,9 @@ VALUES -- 文德
         '每3位 [ICON_CITIZEN] 公民消耗1 [ICON_AMENITIES] 宜居度，而非通常的2位。快乐的城市+5% [ICON_SCIENCE] 科技值和 [ICON_PRODUCTION] 生产力。欣喜若狂的城市，上述加成翻倍。'),
        -- 埃莉诺
        ('LOC_TRAIT_LEADER_ELEANOR_LOYALTY_DESCRIPTION', 'zh_Hans_CN',
-        '巨作+3 [ICON_Science] 科技值，并对9个单元格内的外国城市施加3点忠诚度压力。因忠诚度而叛乱的城市，如其每回合对埃莉诺的忠诚度最高，则会直接加入埃莉诺的文明。埃莉诺的宫殿额外获得一个任意槽位。埃莉诺在建造剧院建筑、区域时+25% [ICON_PRODUCTION] 生产力。若解锁“戏剧与诗歌”市政，则获得一名免费的 [ICON_GreatWriter] 大作家。'),
+        '[ICON_GreatWork_Writing]著作、[ICON_GreatWork_Religious]宗教、[ICON_GreatWork_Portrait]肖像、[ICON_GreatWork_Landscape]风景、[ICON_GreatWork_Sculpture]雕塑和[ICON_GreatWork_Music]音乐+3 [ICON_Science] 科技值。巨作对9个单元格内的外国城市施加3点忠诚度压力。因埃莉诺的忠诚度压力而叛乱的城市将直接加入埃莉诺的文明。建造剧院广场建筑时+25% [ICON_PRODUCTION] 生产力。若解锁“戏剧与诗歌”市政，则获得一名免费的 [ICON_GreatWriter] 大作家。'),
        ('LOC_TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP_DESCRIPTION', 'zh_Hans_CN',
-        '巨作+3 [ICON_Science] 科技值，并对9个单元格内的外国城市施加3点忠诚度压力。因忠诚度而叛乱的城市，如其每回合对埃莉诺的忠诚度最高，则会直接加入埃莉诺的文明。埃莉诺的宫殿额外获得一个任意槽位。埃莉诺在建造剧院建筑、区域时+25% [ICON_PRODUCTION] 生产力。若解锁“戏剧与诗歌”市政，则获得一名免费的 [ICON_GreatWriter] 大作家。招募伟人时随机获得两项 [ICON_CivicBoosted] 鼓舞。'),
+        '[ICON_GreatWork_Writing]著作、[ICON_GreatWork_Religious]宗教、[ICON_GreatWork_Portrait]肖像、[ICON_GreatWork_Landscape]风景、[ICON_GreatWork_Sculpture]雕塑和[ICON_GreatWork_Music]音乐+3 [ICON_Science] 科技值。巨作对9个单元格内的外国城市施加3点忠诚度压力。因埃莉诺的忠诚度压力而叛乱的城市将直接加入埃莉诺的文明。建造剧院广场及其建筑时+25% [ICON_PRODUCTION] 生产力。若解锁“戏剧与诗歌”市政，则获得一名免费的 [ICON_GreatWriter] 大作家。招募伟人时随机获得两项 [ICON_CivicBoosted] 鼓舞。'),
        --金法
        ('LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION', 'zh_Hans_CN',
         '拥有写作和法典后解锁剧院广场。剧院广场从奢侈品获得大量相邻加成。可在拥有剧院广场区域的任意城市中开展“宫廷盛会”项目。建造剧院广场及其建筑时+45% [ICON_PRODUCTION] 生产力。'),

@@ -208,7 +208,7 @@ INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
 
 -- 梦求真：进行项目时提高百分之30生产力。
 INSERT INTO GovernorPromotionModifiers (GovernorPromotionType, ModifierId) VALUES
-('GOVERNOR_PROMOTION_GUMOON_4', 'MODIFIER_GOVERNOR_PROMOTION_GUMOON_4');
+('GOVERNOR_PROMOTION_GUMOON_6', 'MODIFIER_GOVERNOR_PROMOTION_GUMOON_4');
 INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
 ('MODIFIER_GOVERNOR_PROMOTION_GUMOON_4', 'MODIFIER_NW_PLAYER_CITIE_ADJUST_ALL_PROJECTS_PRODUCTION', 0, 0, 0, NULL, NULL);
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES

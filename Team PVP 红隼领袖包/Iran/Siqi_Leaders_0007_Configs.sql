@@ -1,0 +1,24 @@
+INSERT INTO Players (Domain, CivilizationType, CivilizationName, CivilizationIcon, CivilizationAbilityName, CivilizationAbilityDescription, CivilizationAbilityIcon, LeaderType, LeaderName, LeaderIcon, LeaderAbilityName, LeaderAbilityDescription, LeaderAbilityIcon, Portrait, PortraitBackground) VALUES
+
+--SIQI_C0007,
+
+   ('Players:Expansion2_Players',
+    'CIVILIZATION_SIQI_C0007',
+    'LOC_CIVILIZATION_SIQI_C0007_NAME',
+    'ICON_CIVILIZATION_SIQI_C0007',
+    'LOC_TRAIT_CIVILIZATION_SIQI_C0007_NAME',
+    'LOC_TRAIT_CIVILIZATION_SIQI_C0007_DESCRIPTION',
+    'ICON_CIVILIZATION_SIQI_C0007',
+    'LEADER_SIQI_L0007',
+    'LOC_LEADER_SIQI_L0007_NAME',
+    'ICON_LEADER_SIQI_L0007',
+    'LOC_TRAIT_LEADER_SIQI_L0007_NAME',
+    'LOC_TRAIT_LEADER_SIQI_L0007_DESCRIPTION',
+    'ICON_LEADER_SIQI_L0007',
+    'IMG_SIQI_L0007_Leaders_Portrait_Foreground.png',
+    'LEADER_SHAKA_BACKGROUND');
+
+INSERT INTO PlayerItems (Domain, CivilizationType, LeaderType, Type, Icon, Name, Description, SortIndex) VALUES
+('Players:Expansion2_Players', 'CIVILIZATION_SIQI_C0007', 'LEADER_SIQI_L0007', 'UNIT_SIQI_U0007', 'ICON_UNIT_SIQI_U0007',  'LOC_UNIT_SIQI_U0007_NAME',    'LOC_UNIT_SIQI_U0007_DESCRIPTION', 10),
+('Players:Expansion2_Players', 'CIVILIZATION_SIQI_C0007', 'LEADER_SIQI_L0007', 'DISTRICT_SIQI_D0007', 'ICON_DISTRICT_SIQI_D0007',  'LOC_DISTRICT_SIQI_D0007_NAME',    'LOC_DISTRICT_SIQI_D0007_DESCRIPTION', 20),
+('Players:Expansion2_Players', 'CIVILIZATION_SIQI_C0007', 'LEADER_SIQI_L0007', 'UNIT_SIQI_U0007_2', 'ICON_UNIT_SIQI_U0007_2',  'LOC_UNIT_SIQI_U0007_2_NAME',    'LOC_UNIT_SIQI_U0007_2_DESCRIPTION', 30);
