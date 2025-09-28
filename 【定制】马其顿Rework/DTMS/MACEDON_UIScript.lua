@@ -20,21 +20,39 @@ function __DEBUG(...)
 	end
 end
 
--- 阿拉伯发酵：圣城获得对应虚拟建筑
-function AlbertCreateReligion(iPlayer, iUnit, iGPClass, iIndividual)
-    if iPlayer ~= m_iCurrentPlayerID or not HasTrait_Property('TRAIT_CIVILIZATION_LAST_PROPHET', iPlayer) then return end
-    local pPlayer = Players[iPlayer]
-    local pUnit = UnitManager.GetUnit(iPlayer, iUnit)
-    if pUnit and iGPClass == GameInfo.GreatPersonClasses['GREAT_PERSON_CLASS_PROPHET'].Index then
-        local x, y = pUnit:GetX(), pUnit:GetY()
-        local pPlot = Map.GetPlot(x, y);
-		local pCity = Cities.GetPlotPurchaseCity(pPlot)
-        UI.RequestPlayerOperation(pPlayer, PlayerOperations.EXECUTE_SCRIPT, {
-            OnStart = "Nw_DTMS_CityGotBuilding",
-            iCity = pCity:GetID(),
-			iBuilding = GameInfo.Buildings['BUILDING_NW_ALBERT_HOLY_CITY'].Index
-        });
-    end
+function onPlayerTurnActivated(playerID, isFirst)
+	if (HasTrait_Property('TRAIT_LEADER_TO_WORLDS_END',playerID)) and isFirst then
+		local pPlayer = Players[playerID];
+		local iUnits = {}
+		local EqualTurn = Game.GetCurrentGameTurn() - 1
+		for i, unit in pPlayer:GetUnits():Members() do
+			if (unit ~= nil) then
+				local Turn = unit:GetProperty("DTMS_UNIT_HAS_MOVED") or 0;
+				if Turn ~= EqualTurn then
+					table.insert(iUnits,unit:GetID())
+				end
+			end
+    	end
+		if iUnits and #iUnits > 0 then
+			UI.RequestPlayerOperation(playerID, PlayerOperations.EXECUTE_SCRIPT, {
+				OnStart = "Nw_DTMS_MAQIDUN_Move",
+				iUnits = iUnits
+			});
+		end
+	end
+end
+
+
+function onUnitMoveComplete(playerID, unitID, iX, iY)
+	if (HasTrait_Property('TRAIT_LEADER_TO_WORLDS_END',playerID)) then
+		local pUnit = UnitManager.GetUnit(playerID, unitID);
+		if pUnit:GetMovesRemaining() == 0 then
+			UI.RequestPlayerOperation(playerID, PlayerOperations.EXECUTE_SCRIPT, {
+				OnStart = "Nw_DTMS_MAQIDUN_Moved",
+				iUnit = unitID
+			});
+		end
+	end
 end
 
 -- ===========================================================================
@@ -42,7 +60,8 @@ end
 -- ===========================================================================
 -- 文件初始化
 function Initialize()
-	Events.UnitGreatPersonActivated.Add(AlbertCreateReligion)
-	print('DTMS UIScript Loaded Succeed.');
+    Events.UnitMoveComplete.Add(onUnitMoveComplete);
+	Events.PlayerTurnActivated.Add(onPlayerTurnActivated);
+	print('DTMS MQD UIScript Loaded Succeed.');
 end
 Events.LoadGameViewStateDone.Add(Initialize);

@@ -16,28 +16,22 @@ end
 -- ===========================================================================
 
 -- ===========================================================================
--- 城市获得虚拟建筑
-function Nw_DTMS_CityGotBuilding(iPlayerID, params)
-	local pCity = CityManager.GetCity(iPlayerID, params.iCity)
-	if not pCity then return end
-	if not (pCity:GetBuildings():HasBuilding(params.iBuilding)) then
-		pCity:GetBuildQueue():CreateBuilding(params.iBuilding);
+-- 加移动力
+function Nw_DTMS_MAQIDUN_Move(iPlayerID, params)
+	for _,iUnit in ipairs(params.iUnits) do
+		local pUnit = UnitManager.GetUnit(iPlayerID, iUnit)
+		UnitManager.ChangeMovesRemaining(pUnit, 1)
 	end
 end
 -- 城市获得虚拟建筑
-function Nw_DTMS_PLAYER_ATTACH(iPlayerID, params)
-	local pPlayer = Players[params.iPlayer];
-	if not pPlayer then return end
-	local ePro = pPlayer:GetProperty('MODIFIER_ATTACHED_'..params.ModifierID) or 0
-	if ePro == 0 then
-		pPlayer:SetProperty('MODIFIER_ATTACHED_'..params.ModifierID, ePro + 1);
-		pPlayer:AttachModifierByID(params.ModifierID);
-	end
+function Nw_DTMS_MAQIDUN_Moved(iPlayerID, params)
+	local pUnit = UnitManager.GetUnit(iPlayerID, params.iUnit)
+	pUnit:SetProperty('DTMS_UNIT_HAS_MOVED',Game.GetCurrentGameTurn());
 end
 -- 文件初始化
 function Initialize()
-    GameEvents.Nw_DTMS_CityGotBuilding.Add(Nw_DTMS_CityGotBuilding);
-    GameEvents.Nw_DTMS_PLAYER_ATTACH.Add(Nw_DTMS_PLAYER_ATTACH);
-	print('DTMS Script Loaded Succeed.')
+    GameEvents.Nw_DTMS_MAQIDUN_Move.Add(Nw_DTMS_MAQIDUN_Move);
+    GameEvents.Nw_DTMS_MAQIDUN_Moved.Add(Nw_DTMS_MAQIDUN_Moved);
+	print('DTMS MQD Script Loaded Succeed.')
 end
 Events.LoadGameViewStateDone.Add(Initialize)
