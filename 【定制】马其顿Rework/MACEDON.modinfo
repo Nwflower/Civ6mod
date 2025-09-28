@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 正式版 -->
+<Mod id="00000000-0000-0000-9999-167965900001" version="117">
+  <Properties>
+    <Name>Team PVP [COLOR:ChatMessage_Team]马其顿：重置[ENDCOLOR]</Name>
+    <Description>Team PVP [COLOR:ChatMessage_Team]马其顿：重置[ENDCOLOR]</Description>
+    <Created>1757737153</Created>
+    <Teaser>Team PVP [COLOR:ChatMessage_Team]马其顿：重置[ENDCOLOR]</Teaser>
+    <Authors>[COLOR:DiplomaticLabelCS]千川白浪[ENDCOLOR]</Authors>
+    <SpecialThanks>Team PVP [COLOR:ChatMessage_Team]马其顿：重置[ENDCOLOR]</SpecialThanks>
+    <CompatibleVersions>1.2,2.0</CompatibleVersions>
+  </Properties>
+  <Dependencies>
+    <Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion: Gathering Storm" />
+    <Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall" />
+  </Dependencies>
+  <FrontEndActions>
+    <!-- DTMS -->
+    <UpdateDatabase id="MACEDON">
+      <Properties>
+        <LoadOrder>20005</LoadOrder>
+      </Properties>
+      <File>DTMS/MACEDON_FE.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="MACEDON">
+      <Properties>
+        <LoadOrder>20005</LoadOrder>
+      </Properties>
+      <File>DTMS/MACEDON_Text.sql</File>
+    </UpdateText>
+  </FrontEndActions>
+  <InGameActions>
+
+    <!-- DTMS -->
+    <UpdateDatabase id="MACEDON_Database">
+      <Properties>
+        <LoadOrder>20005</LoadOrder>
+      </Properties>
+      <File>DTMS/MACEDON.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="UpdateText">
+      <Properties>
+        <LoadOrder>3000005</LoadOrder>
+      </Properties>
+      <File>DTMS/MACEDON_Text.sql</File>
+    </UpdateText>
+    <AddGameplayScripts id="MACEDON">
+      <Properties>
+        <LoadOrder>500</LoadOrder>
+      </Properties>
+      <File>DTMS/MACEDON_Script.lua</File>
+    </AddGameplayScripts>
+    <AddUserInterfaces id="MACEDON">
+      <Properties>
+        <Context>InGame</Context>
+        <LoadOrder>500</LoadOrder>
+      </Properties>
+      <File>DTMS/MACEDON_UIScript.xml</File>
+    </AddUserInterfaces>
+  </InGameActions>
+  <Files>
+    <!-- DTMS -->
+    <File>DTMS/MACEDON.sql</File>
+    <File>DTMS/MACEDON_FE.sql</File>
+    <File>DTMS/MACEDON_Text.sql</File>
+    <File>DTMS/MACEDON_Script.lua</File>
+    <File>DTMS/MACEDON_UIScript.lua</File>
+    <File>DTMS/MACEDON_UIScript.xml</File>
+  </Files>
+</Mod>

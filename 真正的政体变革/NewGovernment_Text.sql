@@ -15,6 +15,7 @@ VALUES -- 0级政体
         '[ICON_CAPITAL]首都的所有产出+1。'),
        ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_PHARAOH_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
         '埃及君主政体漫长的延续由法老作为核心，其大概含义为“巨屋”。法老们在埃及拥有几乎至高无上的权利，但经过长达千年之后，他们的权利也开始衰退。埃及大祭司们开始和法老分庭抗礼。'),
+
        ('LOC_GOVERNMENT_FENFENG_NAME', 'zh_Hans_CN',
         '分封'),
        ('LOC_GOVT_INHERENT_BONUS_FENFENG', 'zh_Hans_CN',
@@ -29,9 +30,9 @@ VALUES -- 0级政体
         '中央集权'),
        --传承效果
        ('LOC_GOVT_INHERENT_BONUS_JUNXUANZHI', 'zh_Hans_CN',
-        '每有一座城市，[ICON_CAPITAL]首都的[ICON_GOLD]所有产出便+4%。'),
+        '每有一座城市，[ICON_CAPITAL]首都的所有产出便+10%。'),
        --固有效果
-       ('LOC_GOVT_INHERENT_BONUS_JUNXUANZHI', 'zh_Hans_CN',
+       ('LOC_GOVT_ACCUMULATE_BONUS_JUNXUANZHI', 'zh_Hans_CN',
         '拥有总督的城市+20忠诚度。'),
        --文明百科
        ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_JUNXUANZHI_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
@@ -44,8 +45,8 @@ VALUES -- 0级政体
        ('LOC_GOVT_INHERENT_BONUS_XINGSHENGFENQUAN', 'zh_Hans_CN',
         '拥有总督的城市，训练军事单位+20% [ICON_PRODUCTION] 生产力。'),
        --固有效果
-       ('LOC_GOVT_INHERENT_BONUS_XINGSHENGFENQUAN', 'zh_Hans_CN',
-        '拥有总督的城市，训练军事单位+20% [ICON_PRODUCTION] 生产力。'),
+       ('LOC_GOVT_ACCUMULATE_BONUS_XINGSHENGFENQUAN', 'zh_Hans_CN',
+        '[ICON_CAPITAL]首都每有一个区域，其他城市的所有产出便+3%。'),
        --文明百科
        ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_XINGSHENGFENQUAN_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
         '封臣强化与中世纪欧洲行政部门的兴起紧密相关。早期封臣关系松散，而行政部门的建立使得领主能通过规范封臣的效忠仪式、贡赋标准与军事义务，将附庸关系纳入系统管控。这一变革既巩固了领主的统治根基，又让封臣体系从 “私人约定” 升级为有序的政治制度，为后期官僚与附庸结合的治理模式奠定了基础。'),
@@ -55,10 +56,10 @@ VALUES -- 0级政体
         '贵族共和'),
        --传承效果
        ('LOC_GOVT_INHERENT_BONUS_GUIZUGONGHE', 'zh_Hans_CN',
-        '[ICON_CAPITAL]首都的所有产出+1。'),
+        '奇观+4 [ICON_GOLD] 金币。'),
        --固有效果
-       ('LOC_GOVT_INHERENT_BONUS_GUIZUGONGHE', 'zh_Hans_CN',
-        '[ICON_CAPITAL]首都的所有产出+1。'),
+       ('LOC_GOVT_ACCUMULATE_BONUS_GUIZUGONGHE', 'zh_Hans_CN',
+        '水运单位+2 [ICON_MOVEMENT] 移动力。'),
        --文明百科
        ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_GUIZUGONGHE_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
         '最早可见于古希腊斯巴达与罗马共和国早期，在公会兴起后进一步定型。贵族阶层联合或吸纳公会力量，以集体决策替代君主独断，共同执掌政权。它既规避了君主专制的弊端，又通过贵族寡头的联合统治维护了统治阶层利益，成为介于君主制与民主制之间的关键政治形态，为后世城邦与共和国的制度设计提供了重要参照。'),
@@ -80,24 +81,37 @@ VALUES -- 0级政体
        --============================================================================
        ('LOC_GOVERNMENT_NW1_NAME', 'zh_Hans_CN',
         '宗主集权殖民'),
+       --传承效果
+       ('LOC_GOVT_INHERENT_BONUS_NW1', 'zh_Hans_CN',
+        '新建立的城市+4初始人口。与[ICON_CAPITAL]首都不在同一大陆的城市，+15%所有产出但-5忠诚度。'),
+       --固有效果
+       ('LOC_GOVT_ACCUMULATE_BONUS_NW1', 'zh_Hans_CN',
+        '贸易路线+8 [ICON_GOLD] 金币、+1 [ICON_CULTURE] 文化值。'),
        ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_NW1_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
         '其典型形态最早出现于 16 世纪的西班牙殖民帝国，是地理大发现后宗主国对海外领地实施的集权统治模式。宗主国通过设立专门殖民机构（如西班牙印度事务委员会）、委派总督直接管辖，将殖民地的经济（资源掠夺、市场垄断）、政治与军事权力全面收归中央。这种政体以殖民地的利益为宗主国服务为核心，既为欧洲资本主义原始积累提供了关键支撑，也构建了近代全球殖民体系的基本框架，同时激化的殖民矛盾成为后续民族独立运动的重要诱因。'),
 
        ('LOC_GOVERNMENT_NW2_NAME', 'zh_Hans_CN',
         '自由资本主义'),
+       --传承效果
+       ('LOC_GOVT_INHERENT_BONUS_NW2', 'zh_Hans_CN',
+        '商业中心和港口的 [ICON_GOLD] 金币相邻加成也提供 [ICON_PRODUCTION] 生产力。'),
+       --固有效果
+       ('LOC_GOVT_ACCUMULATE_BONUS_NW2', 'zh_Hans_CN',
+        '每个回合开始时，获得等同于国库 [ICON_GOLD] 金币5%的利息。市场-1宜居度。'),
        ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_NW2_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
         '18 世纪工业革命后在英国率先成型，是资本主义发展初期的核心政治经济形态。该政体以亚当・斯密 “看不见的手” 理论为指导，主张政府减少对经济的干预，推行自由贸易、私有财产神圣不可侵犯与自由竞争原则。它打破了重商主义时代的国家垄断与贸易壁垒，极大激发了工业生产活力，推动了生产力的爆发式增长，成为资本主义从工场手工业阶段迈向机器大工业阶段的标志性政体，但其内生的贫富分化与周期性危机也催生了后续的社会变革与制度调整。'),
 
-    ('LOC_GOVERNMENT_NW3_NAME', 'zh_Hans_CN',
+       ('LOC_GOVERNMENT_NW3_NAME', 'zh_Hans_CN',
         '君主立宪'),
+       --传承效果
+       ('LOC_GOVT_INHERENT_BONUS_NW3', 'zh_Hans_CN',
+        '每个已研究的科技值+1 [ICON_CULTURE] 文化值。'),
+       --固有效果
+       ('LOC_GOVT_ACCUMULATE_BONUS_NW3', 'zh_Hans_CN',
+        '每个已研究的市政+1 [ICON_SCIENCE] 科技值。非您建立的城市-10%发展速率。'),
        ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_NW3_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
         '最早以稳定形态确立于 1689 年英国《权利法案》颁布后，是君主制与民主制妥协融合的产物。该政体保留君主作为国家象征（统而不治），将立法权、行政权等核心权力赋予议会与内阁等民选或法定机构，实现了 “王在法下” 的权力制衡。它既延续了传统王权的合法性象征，又为资产阶级参与政权提供了制度通道，成功化解了君主专制与社会变革的尖锐矛盾，成为近代以来诸多国家（如日本、瑞典）从封建制向现代民主制过渡的重要范式。'),
 
-    ('LOC_GOVERNMENT_NW4_NAME', 'zh_Hans_CN',
-        '垄断资本主义'),
-       ('LOC_PEDIA_GOVERNMENTS_PAGE_GOVERNMENT_NW4_CHAPTER_HISTORY_PARA_1', 'zh_Hans_CN',
-        '19 世纪末 20 世纪初在第二次工业革命推动下成型，以美国、德国为典型代表。随着生产与资本高度集中，托拉斯、卡特尔等垄断组织掌控国民经济命脉，并通过金钱政治渗透政权，使国家政策深度服务于垄断资本利益。该政体将资本主义的生产效率推向新高度，同时通过资本输出、殖民扩张缓解国内矛盾，但也因垄断导致的市场僵化、贫富差距扩大，以及垄断资本对战争的推动，成为两次世界大战爆发的重要经济政治根源，也催生了现代国家对经济的宏观调控机制。'),
-       -- 3级政体
        --============================================================================
        ('LOC_GOVERNMENT_COMMUNISM_NAME', 'zh_Hans_CN',
         '社会主义'),

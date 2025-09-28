@@ -9,7 +9,7 @@
 <GameData>
     <LocalizedText>
         <Row Tag="LOC_CIVILIZATION_NW_HANJ_MOD_TITLE" Language="zh_Hans_CN">
-            <Text>Team PVP 领袖 汉朝</Text>
+            <Text>Team PVP 领袖 汉朝 V1.1</Text>
         </Row>
         <Row Tag="LOC_CIVILIZATION_NW_HANJ_MOD_TEASER" Language="zh_Hans_CN">
             <Text>添加了汉武帝和汉宣帝</Text>

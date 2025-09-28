@@ -24,10 +24,12 @@ WHERE GovernmentType = 'GOVERNMENT_CHIEFDOM';
 INSERT INTO Governments_XP2(GovernmentType, Favor) SELECT
 'GOVERNMENT_BULUO',Favor
 FROM Governments_XP2 WHERE GovernmentType = 'GOVERNMENT_CHIEFDOM';
+
 -- 酋邦后移
-UPDATE Governments SET PrereqCivic = 'CIVIC_CODE_OF_LAWS' WHERE GovernmentType = 'GOVERNMENT_CHIEFDOM';
+UPDATE Governments SET PrereqCivic = 'CIVIC_CODE_OF_LAWS',BonusType = 'GOVERNMENTBONUS_ENVOYS' WHERE GovernmentType = 'GOVERNMENT_CHIEFDOM';
 UPDATE StartingGovernments SET Government = 'GOVERNMENT_BULUO' WHERE Government = 'GOVERNMENT_CHIEFDOM';
 UPDATE Governments_XP2 SET Favor = Favor + 1 WHERE GovernmentType = 'GOVERNMENT_CHIEFDOM';
+
 
 -- 神秘主义解锁法老：1军事1通配
 INSERT INTO Types(Type, Kind)
@@ -124,8 +126,8 @@ SELECT 'GOVERNMENT_JUNXUANZHI',
        'LOC_GOVERNMENT_JUNXUANZHI_NAME',
        'CIVIC_FEUDALISM',
        'LOC_GOVT_INHERENT_BONUS_JUNXUANZHI',
-       AccumulatedBonusShortDesc,
-       AccumulatedBonusDesc,
+       'LOC_GOVT_ACCUMULATE_BONUS_JUNXUANZHI',
+       'LOC_GOVT_ACCUMULATE_BONUS_JUNXUANZHI',
        OtherGovernmentIntolerance,
        InfluencePointsPerTurn + 1,
        InfluencePointsThreshold,
@@ -153,9 +155,9 @@ INSERT INTO Governments(GovernmentType, Name, PrereqCivic, InherentBonusDesc, Ac
 SELECT 'GOVERNMENT_XINGSHENGFENQUAN',
        'LOC_GOVERNMENT_XINGSHENGFENQUAN_NAME',
        'CIVIC_CIVIL_SERVICE',
-       'LOC_GOVT_INHERENT_BONUS_JUNXUANZHI',
-       AccumulatedBonusShortDesc,
-       AccumulatedBonusDesc,
+       'LOC_GOVT_INHERENT_BONUS_XINGSHENGFENQUAN',
+       'LOC_GOVT_ACCUMULATE_BONUS_XINGSHENGFENQUAN',
+       'LOC_GOVT_ACCUMULATE_BONUS_XINGSHENGFENQUAN',
        OtherGovernmentIntolerance,
        InfluencePointsPerTurn + 1,
        InfluencePointsThreshold,
@@ -184,8 +186,8 @@ SELECT 'GOVERNMENT_GUIZUGONGHE',
        'LOC_GOVERNMENT_GUIZUGONGHE_NAME',
        'CIVIC_GUILDS',
        'LOC_GOVT_INHERENT_BONUS_JUNXUANZHI',
-       AccumulatedBonusShortDesc,
-       AccumulatedBonusDesc,
+       'LOC_GOVT_ACCUMULATE_BONUS_GUIZUGONGHE',
+       'LOC_GOVT_ACCUMULATE_BONUS_GUIZUGONGHE',
        OtherGovernmentIntolerance,
        InfluencePointsPerTurn + 1,
        InfluencePointsThreshold,
@@ -214,9 +216,9 @@ INSERT INTO Governments(GovernmentType, Name, PrereqCivic, InherentBonusDesc, Ac
 SELECT 'GOVERNMENT_NW1',
        'LOC_GOVERNMENT_NW1_NAME',
        'CIVIC_COLONIALISM',
-       'LOC_GOVT_INHERENT_BONUS_JUNXUANZHI',
-       AccumulatedBonusShortDesc,
-       AccumulatedBonusDesc,
+       'LOC_GOVT_INHERENT_BONUS_NW1',
+       'LOC_GOVT_ACCUMULATE_BONUS_NW1',
+       'LOC_GOVT_ACCUMULATE_BONUS_NW1',
        OtherGovernmentIntolerance,
        InfluencePointsPerTurn + 1,
        InfluencePointsThreshold,
@@ -245,9 +247,9 @@ INSERT INTO Governments(GovernmentType, Name, PrereqCivic, InherentBonusDesc, Ac
 SELECT 'GOVERNMENT_NW2',
        'LOC_GOVERNMENT_NW2_NAME',
        'CIVIC_URBANIZATION',
-       'LOC_GOVT_INHERENT_BONUS_JUNXUANZHI',
-       AccumulatedBonusShortDesc,
-       AccumulatedBonusDesc,
+       'LOC_GOVT_INHERENT_BONUS_NW2',
+       'LOC_GOVT_ACCUMULATE_BONUS_NW2',
+       'LOC_GOVT_ACCUMULATE_BONUS_NW2',
        OtherGovernmentIntolerance,
        InfluencePointsPerTurn + 1,
        InfluencePointsThreshold,
@@ -276,9 +278,9 @@ INSERT INTO Governments(GovernmentType, Name, PrereqCivic, InherentBonusDesc, Ac
 SELECT 'GOVERNMENT_NW3',
        'LOC_GOVERNMENT_NW3_NAME',
        'CIVIC_NATIONALISM',
-       'LOC_GOVT_INHERENT_BONUS_JUNXUANZHI',
-       AccumulatedBonusShortDesc,
-       AccumulatedBonusDesc,
+       'LOC_GOVT_INHERENT_BONUS_NW3',
+       'LOC_GOVT_ACCUMULATE_BONUS_NW3',
+       'LOC_GOVT_ACCUMULATE_BONUS_NW3',
        OtherGovernmentIntolerance,
        InfluencePointsPerTurn + 1,
        InfluencePointsThreshold,
@@ -297,32 +299,3 @@ INSERT INTO Governments_XP2(GovernmentType, Favor) SELECT
 'GOVERNMENT_NW3',Favor
 FROM Governments_XP2 WHERE GovernmentType = 'GOVERNMENT_THEOCRACY';
 
-
-INSERT INTO Types(Type, Kind)
-VALUES ('GOVERNMENT_NW4', 'KIND_GOVERNMENT');
-INSERT INTO Governments(GovernmentType, Name, PrereqCivic, InherentBonusDesc, AccumulatedBonusShortDesc,
-                        AccumulatedBonusDesc, OtherGovernmentIntolerance, InfluencePointsPerTurn,
-                        InfluencePointsThreshold, InfluenceTokensPerThreshold, BonusType, PolicyToUnlock, Tier)
-SELECT 'GOVERNMENT_NW4',
-       'LOC_GOVERNMENT_NW4_NAME',
-       'CIVIC_CAPITALISM',
-       'LOC_GOVT_INHERENT_BONUS_JUNXUANZHI',
-       AccumulatedBonusShortDesc,
-       AccumulatedBonusDesc,
-       OtherGovernmentIntolerance,
-       InfluencePointsPerTurn + 1,
-       InfluencePointsThreshold,
-       InfluenceTokensPerThreshold,
-       BonusType,
-       PolicyToUnlock,
-       Tier
-FROM Governments
-WHERE GovernmentType = 'GOVERNMENT_THEOCRACY';
-INSERT INTO Government_SlotCounts(GovernmentType, GovernmentSlotType, NumSlots) VALUES
-('GOVERNMENT_NW4','SLOT_MILITARY',0),
-('GOVERNMENT_NW4','SLOT_ECONOMIC',7),
-('GOVERNMENT_NW4','SLOT_DIPLOMATIC',0),
-('GOVERNMENT_NW4','SLOT_WILDCARD',0);
-INSERT INTO Governments_XP2(GovernmentType, Favor) SELECT
-'GOVERNMENT_NW4',Favor
-FROM Governments_XP2 WHERE GovernmentType = 'GOVERNMENT_THEOCRACY';
