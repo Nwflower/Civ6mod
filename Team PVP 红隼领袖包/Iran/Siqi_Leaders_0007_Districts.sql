@@ -112,11 +112,13 @@ INSERT INTO District_Adjacencies (DistrictType, YieldChangeId) VALUES
 ('DISTRICT_SIQI_D0007', 'Base_Siqi_D0007_Faith'),
 ('DISTRICT_SIQI_D0007', 'Base_Siqi_D0007_Faith2'),
 ('DISTRICT_SIQI_D0007', 'Base_Siqi_D0007_Faith3'),
-('DISTRICT_SIQI_D0007', 'Base_Siqi_D0007_Culture');
+('DISTRICT_SIQI_D0007', 'Base_Siqi_D0007_Culture'),
+('DISTRICT_SIQI_D0007', 'Base_Siqi_D0007_Gold');
 
 INSERT INTO Adjacency_YieldChanges (ID, Description, YieldType, YieldChange, TilesRequired, AdjacentDistrict) VALUES
 ('Base_Siqi_D0007_Faith',    'LOC_SIQI_DISTRICT_SIQI_D0007_ADJACENCY_FAITH',    'YIELD_GOLD',    1, 1, 'DISTRICT_HOLY_SITE'),
-('Base_Siqi_D0007_Culture', 'LOC_SIQI_DISTRICT_SIQI_D0007_ADJACENCY_CULTURE', 'YIELD_CULTURE', 1, 1, 'DISTRICT_HOLY_SITE');
+('Base_Siqi_D0007_Culture', 'LOC_SIQI_DISTRICT_SIQI_D0007_ADJACENCY_CULTURE', 'YIELD_CULTURE', 1, 1, 'DISTRICT_HOLY_SITE'),
+('Base_Siqi_D0007_Gold', 'LOC_SIQI_DISTRICT_SIQI_D0007_ADJACENCY_GOLD', 'YIELD_GOLD', -1, 1, 'DISTRICT_CITY_CENTER');
 
 
 INSERT INTO Adjacency_YieldChanges (ID, Description, YieldType, YieldChange, TilesRequired, AdjacentDistrict,PrereqCivic) VALUES

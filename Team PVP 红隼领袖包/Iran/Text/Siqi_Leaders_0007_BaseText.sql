@@ -4,7 +4,7 @@ INSERT INTO LocalizedText (Language, Tag, Text) VALUES
 ('zh_Hans_CN', 'LOC_CIVILIZATION_SIQI_C0007_DESCRIPTION', '安息帝国'),
 ('zh_Hans_CN', 'LOC_CIVILIZATION_SIQI_C0007_ADJECTIVE', '安息的'),
 ('zh_Hans_CN', 'LOC_TRAIT_CIVILIZATION_SIQI_C0007_NAME', '神权共和国'),
-('zh_Hans_CN', 'LOC_TRAIT_CIVILIZATION_SIQI_C0007_DESCRIPTION', '矿山和渔场+1[ICON_Faith]信仰，建造寺庙后，获得随机[ICON_TechBoosted]尤里卡。可以使用[ICON_Faith]信仰购买特拉达帆船单位，并且购买的花费-20%。解锁神权政体后，改为25%。'),
+('zh_Hans_CN', 'LOC_TRAIT_CIVILIZATION_SIQI_C0007_DESCRIPTION', '矿山和渔场改良设施提供1[ICON_Faith]信仰值。建成寺庙后，随机获得一项[ICON_TechBoosted]尤里卡。'),
 
 
 -- Leaders
@@ -17,11 +17,12 @@ INSERT INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- Districts
 ('zh_Hans_CN', 'LOC_DISTRICT_SIQI_D0007_NAME', '阿巴斯港'),
-('zh_Hans_CN', 'LOC_DISTRICT_SIQI_D0007_DESCRIPTION', '取代港口的特色区域，造价为原来的60%，额外+1[ICON_GreatProphet]大预言家点数，从每个相邻的圣地获得+1[ICON_Gold]金币和+1[ICON_Culture]文化，神学和归正会后+1[ICON_Gold]金币。[NEWLINE]拥有阿巴斯港的城市建造圣地时+40%[ICON_Production]生产力，且圣地+1[ICON_Production]生产力。'),
+('zh_Hans_CN', 'LOC_DISTRICT_SIQI_D0007_DESCRIPTION', '取代港口的特色区域，造价为原来的60%，额外+1[ICON_GreatProphet]大预言家点数，从每个相邻的圣地获得+1[ICON_Gold]金币和+1[ICON_Culture]文化，神学和归正会后+1[ICON_Gold]金币。[NEWLINE]拥有阿巴斯港的城市建造圣地时+50%[ICON_Production]生产力，且圣地+1[ICON_Production]生产力。'),
 ('zh_Hans_CN', 'LOC_TRAIT_DISTRICT_SIQI_D0007_NAME', '{LOC_DISTRICT_SIQI_D0007_NAME}'),
 ('zh_Hans_CN', 'LOC_TRAIT_DISTRICT_SIQI_D0007_DESCRIPTION', '{LOC_DISTRICT_SIQI_D0007_DESCRIPTION}'),
 ('zh_Hans_CN', 'LOC_SIQI_DISTRICT_SIQI_D0007_ADJACENCY_FAITH', '+{1_num}[ICON_Gold]金币来自每个相邻的圣地。'),
 ('zh_Hans_CN', 'LOC_SIQI_DISTRICT_SIQI_D0007_ADJACENCY_CULTURE', '+{1_num}[ICON_Culture]文化来自每个相邻的圣地。'),
+('zh_Hans_CN', 'LOC_SIQI_DISTRICT_SIQI_D0007_ADJACENCY_GOLD', '{1_num}[ICON_Gold]金币来自相邻的市中心。'),
 -- Buildings
 -- 无建筑数据
 
@@ -33,7 +34,7 @@ INSERT INTO LocalizedText (Language, Tag, Text) VALUES
 ('zh_Hans_CN', 'LOC_TRAIT_UNIT_SIQI_U0007_DESCRIPTION', '{LOC_UNIT_SIQI_U0007_DESCRIPTION}'),
 
 ('zh_Hans_CN', 'LOC_UNIT_SIQI_U0007_2_NAME', '特拉达帆船'),
-('zh_Hans_CN', 'LOC_UNIT_SIQI_U0007_2_DESCRIPTION', '造价比原来低5%，-1[ICON_Strength]战斗力的特色轻快帆船单位，在战斗中死亡后自爆，对周围所有单位造成10点伤害。'),
+('zh_Hans_CN', 'LOC_UNIT_SIQI_U0007_2_DESCRIPTION', '安息帝国特色海军近战单位，替代轻快帆船，基础花费低5%，战斗力更低。在战斗中死亡后，相邻的所有单位受到10点自爆伤害。允许以10%的折扣使用[ICON_Faith]信仰值购买特拉达帆船，人文主义市政后，改为20%。'),
 ('zh_Hans_CN', 'LOC_TRAIT_UNIT_SIQI_U0007_2_NAME', '{LOC_UNIT_SIQI_U0007_2_NAME}'),
 ('zh_Hans_CN', 'LOC_TRAIT_UNIT_SIQI_U0007_2_DESCRIPTION', '{LOC_UNIT_SIQI_U0007_2_DESCRIPTION}'),
 

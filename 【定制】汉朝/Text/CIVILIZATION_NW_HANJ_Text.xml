@@ -38,7 +38,7 @@
 			<Text>霸王道杂之</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_NW_LIUXUN_NW004_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>“政治哲学”市政后，政体中的每个军事政策为所有城市+1 [ICON_PRODUCTION] 生产力；政体中的每个经济政策为所有城市+2 [ICON_GOLD] 金币。</Text>
+			<Text>“政治哲学”市政后，政体中的每个军事政策为所有城市+1 [ICON_PRODUCTION] 生产力、-1 [ICON_GOLD] 金币；政体中的每个经济政策为所有城市+2 [ICON_GOLD] 金币。所有区域和建筑需要1点额外的维护费。</Text>
 		</Replace>
 
 		<Replace Tag="LOC_TRAIT_LEADER_NW_JET_LIUCHE_NW005_NAME" Language="zh_Hans_CN">

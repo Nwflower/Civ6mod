@@ -54,6 +54,13 @@ VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY', 'MODIFIER_PLAYER_C
 INSERT INTO ModifierArguments (ModifierId, Name, Value)
 VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY', 'Amount', 1),
        ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY', 'YieldType', 'YIELD_PRODUCTION');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_GOLD_DEBUFF_ORIGIN', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE', 0, 0,
+        0, 'REQS_TRAIT_LEADER_NW004_AND_ZZZZ', NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_GOLD_DEBUFF_ORIGIN', 'Amount', -1),
+       ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_GOLD_DEBUFF_ORIGIN', 'YieldType', 'YIELD_GOLD');
 -- RequirementSets
 INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
 VALUES ('REQS_TRAIT_LEADER_NW004_AND_ZZZZ', 'REQUIREMENTSET_TEST_ALL');
@@ -73,6 +80,11 @@ INSERT OR IGNORE INTO PolicyModifiers(PolicyType, ModifierId)
 SELECT PolicyType,
        'MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY'
 FROM Policies
+WHERE GovernmentSlotType = 'SLOT_MILITARY'
+UNION
+SELECT PolicyType,
+       'MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_GOLD_DEBUFF_ORIGIN'
+FROM Policies
 WHERE GovernmentSlotType = 'SLOT_MILITARY';
 
 -- 经济卡加金币
@@ -90,6 +102,9 @@ SELECT PolicyType,
 FROM Policies
 WHERE GovernmentSlotType = 'SLOT_ECONOMIC';
 
+
+
+
 -- BUG修复：给一个反向的效果，避免干扰政策卡收益显示
 INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
                        SubjectRequirementSetId)
@@ -98,6 +113,14 @@ VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF', 'MODIFIER_P
 INSERT INTO ModifierArguments (ModifierId, Name, Value)
 VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF', 'Amount', -1),
        ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF', 'YieldType', 'YIELD_PRODUCTION');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF2', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_CHANGE', 0, 0,
+        0, 'REQS_TRAIT_LEADER_NW004_AND_ZZZZ_DEBUFF', NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF2', 'Amount', 1),
+       ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF2', 'YieldType', 'YIELD_PRODUCTION');
 
 
 INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
@@ -124,12 +147,17 @@ INSERT OR IGNORE INTO PolicyModifiers(PolicyType, ModifierId)
 SELECT PolicyType,
        'MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF'
 FROM Policies
+WHERE GovernmentSlotType = 'SLOT_MILITARY' UNION
+SELECT PolicyType,
+       'MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF2'
+FROM Policies
 WHERE GovernmentSlotType = 'SLOT_MILITARY';
 INSERT OR IGNORE INTO PolicyModifiers(PolicyType, ModifierId)
 SELECT PolicyType,
        'MODIFIER_TRAIT_LEADER_NW004_GOLD_FROM_POLICY_DEBUFF'
 FROM Policies
 WHERE GovernmentSlotType = 'SLOT_ECONOMIC';
+
 
 -- =======================================================
 -- 刘彻

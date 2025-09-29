@@ -77,13 +77,13 @@ SELECT 'UNIT_NW011',                 -- 类型
        'LOC_UNIT_NW011_NAME',        -- 名称
        BaseSightRange,                            --视野
        BaseMoves,                                 -- 移动力
-       51,                                    -- 近战力
+       50,                                    -- 近战力
        36,                              -- 远程力
-       2,                                     -- 射程
+       1,                                     -- 射程
        Bombard,                                   -- 轰炸力
        Domain,                                    -- 单位的海陆空类别。可用值：DOMAIN_LAND陆地单位，DOMAIN_SEA海上单位，DOMAIN_AIR空中单位。
        FormationClass,                            -- 单位的编队类别，指向UnitFormationClasses表的FormationClassType列。可用值：FORMATION_CLASS_CIVILIAN平民单位，FORMATION_CLASS_LAND_COMBAT陆地战斗单位，FORMATION_CLASS_NAVAL海上战斗单位，FORMATION_CLASS_SUPPORT支援单位，FORMATION_CLASS_AIR空中战斗单位。
-       Cost * 1.1,                                      -- 生产力
+       Cost * 1.05,                                      -- 生产力
        PopulationCost,                            -- 消耗人口
        FoundCity,                                 -- 能否创建城市
        FoundReligion,                             -- 能否创建宗教

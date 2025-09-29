@@ -22,7 +22,8 @@ INSERT INTO Improvements
  TraitType,
  Domain,
  AdjacentToLand,
- SameAdjacentValid)
+ SameAdjacentValid,
+ EnforceTerrain)
 VALUES ('IMPROVEMENT_NW010',
         'LOC_IMPROVEMENT_NW010_NAME',
         'TECH_ASTROLOGY',
@@ -35,7 +36,8 @@ VALUES ('IMPROVEMENT_NW010',
         'TRAIT_IMPROVEMENT_NW010',
         'DOMAIN_LAND',
         0,
-        0);
+        0,
+        1);
 
 INSERT INTO Improvement_YieldChanges(ImprovementType, YieldType, YieldChange)
 VALUES ('IMPROVEMENT_NW010', 'YIELD_FOOD', 1),
@@ -53,8 +55,8 @@ INSERT INTO Improvement_ValidTerrains(ImprovementType, TerrainType)
 SELECT 'IMPROVEMENT_NW010', TerrainType
 FROM Terrains;
 INSERT INTO Improvement_ValidFeatures(ImprovementType, FeatureType)
-SELECT 'IMPROVEMENT_NW010', FeatureType
-FROM Features WHERE NaturalWonder = 0;
+VALUES ('IMPROVEMENT_NW010', 'FEATURE_JUNGLE'),
+       ('IMPROVEMENT_NW010', 'FEATURE_FOREST');
 
 -- 地脉可改
 INSERT OR IGNORE INTO Improvement_ValidResources (ResourceType, ImprovementType) SELECT

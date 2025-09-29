@@ -21,7 +21,8 @@ function __DEBUG(...)
 end
 
 function onPlayerTurnActivated(playerID, isFirst)
-	if (HasTrait_Property('TRAIT_LEADER_TO_WORLDS_END',playerID)) and isFirst then
+	if playerID ~= m_iCurrentPlayerID then return end
+	if isFirst then
 		local pPlayer = Players[playerID];
 		local iUnits = {}
 		local EqualTurn = Game.GetCurrentGameTurn() - 1
@@ -44,14 +45,13 @@ end
 
 
 function onUnitMoveComplete(playerID, unitID, iX, iY)
-	if (HasTrait_Property('TRAIT_LEADER_TO_WORLDS_END',playerID)) then
-		local pUnit = UnitManager.GetUnit(playerID, unitID);
-		if pUnit:GetMovesRemaining() == 0 then
-			UI.RequestPlayerOperation(playerID, PlayerOperations.EXECUTE_SCRIPT, {
-				OnStart = "Nw_DTMS_MAQIDUN_Moved",
-				iUnit = unitID
-			});
-		end
+	if playerID ~= m_iCurrentPlayerID then return end
+	local pUnit = UnitManager.GetUnit(playerID, unitID);
+	if pUnit:GetMovesRemaining() == 0 then
+		UI.RequestPlayerOperation(playerID, PlayerOperations.EXECUTE_SCRIPT, {
+			OnStart = "Nw_DTMS_MAQIDUN_Moved",
+			iUnit = unitID
+		});
 	end
 end
 
@@ -60,8 +60,11 @@ end
 -- ===========================================================================
 -- 文件初始化
 function Initialize()
-    Events.UnitMoveComplete.Add(onUnitMoveComplete);
-	Events.PlayerTurnActivated.Add(onPlayerTurnActivated);
+	-- 为了减轻运算负担，如果本地是亚历山大，则运行函数
+	if (HasTrait_Property('TRAIT_LEADER_TO_WORLDS_END',m_iCurrentPlayerID)) then
+		Events.UnitMoveComplete.Add(onUnitMoveComplete);
+		Events.PlayerTurnActivated.Add(onPlayerTurnActivated);
+	end
 	print('DTMS MQD UIScript Loaded Succeed.');
 end
 Events.LoadGameViewStateDone.Add(Initialize);
