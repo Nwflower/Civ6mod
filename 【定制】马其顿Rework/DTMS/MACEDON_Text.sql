@@ -4,7 +4,7 @@ INTO LocalizedText
     (Tag, Language, Text)
 VALUES -- 直到世界尽头
        ('LOC_TRAIT_LEADER_TO_WORLDS_END_DESCRIPTION', 'zh_Hans_CN',
-        '城市不会产生厌战情绪。为军营建筑+40% [ICON_PRODUCTION] 生产力。移动力未耗尽的单位，在下个回合开始时，+1[ICON_MOVEMENT]移动力。'),
+        '城市产生的厌战情绪减少200%。为军营建筑+40% [ICON_PRODUCTION] 生产力。'),
        -- 希腊文化融合
        ('LOC_TRAIT_LEADER_HELLENISTIC_FUSION_DESCRIPTION', 'zh_Hans_CN',
         '区域+1 [ICON_FOOD] 食物，军营额外+1 [ICON_FOOD] 食物。拥有军营区域的城市建造区域及建筑时+10% [ICON_PRODUCTION] 生产力。政体内的一个军事卡槽变为通配符卡槽。'),
