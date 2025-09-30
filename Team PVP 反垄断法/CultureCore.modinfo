@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 正式版 -->
-<Mod id="00000000-0000-0000-0002-167965900001" version="101">
+<Mod id="00000000-0000-0000-0002-167965900001" version="102">
   <Properties>
-    <Name>Team PVP Balanced mod [COLOR:ResCultureLabelCS]反垄断法[ENDCOLOR] 1.00</Name>
+    <Name>Team PVP Balanced mod [COLOR:ResCultureLabelCS]反垄断法[ENDCOLOR] 1.1</Name>
     <Description>平衡了垄断与公司模式下，不合理的文化胜利加成。
 [NEWLINE][NEWLINE][icon_You]所有改动
 [NEWLINE]------------------
 [NEWLINE]1.垄断奢侈品不会获得任何旅游业绩加成
-[NEWLINE]2.垄断奢侈品不会获得任何金币补偿
-[NEWLINE]3.每解锁一个市政，+5%旅游业绩</Description>
+[NEWLINE]2.垄断奢侈品不会获得任何金币补偿</Description>
     <Created>1757737153</Created>
     <Teaser>Team PVP Balanced mod 反垄断法</Teaser>
     <Authors>[COLOR:DiplomaticLabelCS]千川白浪[ENDCOLOR]</Authors>

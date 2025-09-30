@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="d2a7e909-410b-4999-4555-61f3652896b0" version="1">
+  <Properties>
+    <Name>【定制】[COLOR:Civ6Yellow]可选混沌之子[ENDCOLOR]</Name>
+    <Description>可以选择混沌之子及其数量</Description>
+    <Created>1745481858</Created>
+    <Teaser>可以选择混沌之子及其数量</Teaser>
+    <Authors>千川白浪</Authors>
+    <CompatibleVersions>1.2,2.0</CompatibleVersions>
+  </Properties>
+  <Dependencies>
+    <Mod id="ca45c5b0-1f82-4323-9b2c-e1f57c409481" title="[COLOR_RED]CHA[ENDCOLOR][COLOR_Civ6Green]OS[ENDCOLOR] [COLOR_FLOAT_CULTURE]INVA[ENDCOLOR]SION" />
+  </Dependencies>
+  <FrontEndActions>
+    <UpdateDatabase id="Qab_FE">
+      <Properties>
+        <LoadOrder>5</LoadOrder>
+      </Properties>
+      <File>Qab_FE.sql</File>
+    </UpdateDatabase>
+  </FrontEndActions>
+  <InGameActions>
+    <ImportFiles id="NewAction">
+      <Properties>
+        <LoadOrder>500</LoadOrder>
+      </Properties>
+      <File>Qab_Nw.lua</File>
+    </ImportFiles>
+  </InGameActions>
+  <Files>
+    <File>Qab_Nw.lua</File>
+    <File>Qab_FE.sql</File>
+  </Files>
+</Mod>

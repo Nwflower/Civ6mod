@@ -21,9 +21,7 @@ INSERT INTO Improvements
  Icon,
  TraitType,
  Domain,
- AdjacentToLand,
- SameAdjacentValid,
- EnforceTerrain)
+ SameAdjacentValid)
 VALUES ('IMPROVEMENT_NW010',
         'LOC_IMPROVEMENT_NW010_NAME',
         'TECH_ASTROLOGY',
@@ -31,13 +29,11 @@ VALUES ('IMPROVEMENT_NW010',
         'LOC_IMPROVEMENT_NW010_DESCRIPTION',
         'PLUNDER_GOLD',
         37.5,
-        1,
+        0,
         'ICON_IMPROVEMENT_NW010',
         'TRAIT_IMPROVEMENT_NW010',
         'DOMAIN_LAND',
-        0,
-        0,
-        1);
+        0);
 
 INSERT INTO Improvement_YieldChanges(ImprovementType, YieldType, YieldChange)
 VALUES ('IMPROVEMENT_NW010', 'YIELD_FOOD', 1),
@@ -53,7 +49,7 @@ VALUES ('IMPROVEMENT_NW010', 'UNIT_BUILDER');
 
 INSERT INTO Improvement_ValidTerrains(ImprovementType, TerrainType)
 SELECT 'IMPROVEMENT_NW010', TerrainType
-FROM Terrains;
+FROM Improvement_ValidTerrains WHERE ImprovementType = 'IMPROVEMENT_MISSION';
 INSERT INTO Improvement_ValidFeatures(ImprovementType, FeatureType)
 VALUES ('IMPROVEMENT_NW010', 'FEATURE_JUNGLE'),
        ('IMPROVEMENT_NW010', 'FEATURE_FOREST');

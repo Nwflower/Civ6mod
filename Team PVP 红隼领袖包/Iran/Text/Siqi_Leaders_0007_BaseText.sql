@@ -17,7 +17,7 @@ INSERT INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- Districts
 ('zh_Hans_CN', 'LOC_DISTRICT_SIQI_D0007_NAME', '阿巴斯港'),
-('zh_Hans_CN', 'LOC_DISTRICT_SIQI_D0007_DESCRIPTION', '取代港口的特色区域，造价为原来的60%，额外+1[ICON_GreatProphet]大预言家点数，从每个相邻的圣地获得+1[ICON_Gold]金币和+1[ICON_Culture]文化，神学和归正会后+1[ICON_Gold]金币。[NEWLINE]拥有阿巴斯港的城市建造圣地时+50%[ICON_Production]生产力，且圣地+1[ICON_Production]生产力。'),
+('zh_Hans_CN', 'LOC_DISTRICT_SIQI_D0007_DESCRIPTION', '取代 “港口” 的特色区域，建造成本为原港口的 60%；相邻市中心从常规的+3[ICON_Gold]变为+2[ICON_Gold]；额外提供+1 [ICON_GreatProphet] 大预言家点数；每与1个圣地相邻，可获得+1 [ICON_Gold] 金币和+1 [ICON_Culture] 文化；完成“神学”后额外 + 1 相邻加成，完成“归正会”后再+1相邻加成。拥有阿巴斯港的城市，建造 “圣地” 时 [ICON_PRODUCTION] 生产力 + 50%；且圣地自身额外 + 1 [ICON_PRODUCTION] 生产力。'),
 ('zh_Hans_CN', 'LOC_TRAIT_DISTRICT_SIQI_D0007_NAME', '{LOC_DISTRICT_SIQI_D0007_NAME}'),
 ('zh_Hans_CN', 'LOC_TRAIT_DISTRICT_SIQI_D0007_DESCRIPTION', '{LOC_DISTRICT_SIQI_D0007_DESCRIPTION}'),
 ('zh_Hans_CN', 'LOC_SIQI_DISTRICT_SIQI_D0007_ADJACENCY_FAITH', '+{1_num}[ICON_Gold]金币来自每个相邻的圣地。'),
@@ -34,7 +34,7 @@ INSERT INTO LocalizedText (Language, Tag, Text) VALUES
 ('zh_Hans_CN', 'LOC_TRAIT_UNIT_SIQI_U0007_DESCRIPTION', '{LOC_UNIT_SIQI_U0007_DESCRIPTION}'),
 
 ('zh_Hans_CN', 'LOC_UNIT_SIQI_U0007_2_NAME', '特拉达帆船'),
-('zh_Hans_CN', 'LOC_UNIT_SIQI_U0007_2_DESCRIPTION', '安息帝国特色海军近战单位，替代轻快帆船，基础花费低5%，战斗力更低。在战斗中死亡后，相邻的所有单位受到10点自爆伤害。允许以10%的折扣使用[ICON_Faith]信仰值购买特拉达帆船，人文主义市政后，改为20%。'),
+('zh_Hans_CN', 'LOC_UNIT_SIQI_U0007_2_DESCRIPTION', '安息帝国的特色海军近战单位，替代“轻快帆船”，基础花费比“轻快帆船”低 5%，但战斗力更低。可以通过10%的[ICON_Faith]信仰折扣购买，完成神学后[ICON_Faith]信仰折扣提升至15%，完成 “人文主义” 市政后，[ICON_Faith]信仰折扣提升至 20%。在战斗中被摧毁后，相邻的所有单位会受到 10 点自爆伤害。'),
 ('zh_Hans_CN', 'LOC_TRAIT_UNIT_SIQI_U0007_2_NAME', '{LOC_UNIT_SIQI_U0007_2_NAME}'),
 ('zh_Hans_CN', 'LOC_TRAIT_UNIT_SIQI_U0007_2_DESCRIPTION', '{LOC_UNIT_SIQI_U0007_2_DESCRIPTION}'),
 
