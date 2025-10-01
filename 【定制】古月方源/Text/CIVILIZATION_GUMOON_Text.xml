@@ -53,12 +53,12 @@
 		<Replace Tag="LOC_ABILITY_NW_250924" Language="zh_Hans_CN">
 			<Text>可以在无主空白单元格上创造资源。</Text>
 		</Replace>
-		<Row Tag="LOC_NW_SSO_RESOURCE_DISABLED" Language="zh_Hans_CN">
+		<Replace Tag="LOC_NW_SSO_RESOURCE_DISABLED" Language="zh_Hans_CN">
 			<Text>该单元格暂无可生成的资源，已返还次数</Text>
-		</Row>
-		<Row Tag="LOC_UNIT_ACTION_CREATE_RANDOM_RESOURCE_NAME" Language="zh_Hans_CN">
+		</Replace>
+		<Replace Tag="LOC_UNIT_ACTION_CREATE_RANDOM_RESOURCE_NAME" Language="zh_Hans_CN">
 			<Text>生成随机资源。</Text>
-		</Row>
+		</Replace>
 
 		<Replace Tag="LOC_BUILDING_NW_250924_NAME" Language="zh_Hans_CN">
 			<Text>送生庙</Text>
@@ -208,9 +208,9 @@
 		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_47" Language="zh_Hans_CN" Text="小青天"/>
 		<InsertOrIgnore Tag="LOC_CITY_NAME_CIV_DAAIM_48" Language="zh_Hans_CN" Text="小紫天"/>
 
-		<Row Tag="LOC_DIPLO_FIRST_MEET_LEADER_LEADER_GUMOON_ANY" Language="zh_Hans_CN" Text="我古月方源乃是大爱仙尊！创建天地一家大爱盟，只为造福世间，五域和谐！"/>
-		<Row Tag="LOC_DIPLO_DENOUNCE_FROM_AI_LEADER_LEADER_GUMOON_ANY" Language="zh_Hans_CN" Text="天下英雄，犹如过江之卿。（谴责你）"/>
-		<Row Tag="LOC_DIPLO_DEFEAT_FROM_AI_LEADER_LEADER_GUMOON_ANY" Language="zh_Hans_CN" Text="不过是些许风霜罢了。"/>
+		<Replace Tag="LOC_DIPLO_FIRST_MEET_LEADER_LEADER_GUMOON_ANY" Language="zh_Hans_CN" Text="我古月方源乃是大爱仙尊！创建天地一家大爱盟，只为造福世间，五域和谐！"/>
+		<Replace Tag="LOC_DIPLO_DENOUNCE_FROM_AI_LEADER_LEADER_GUMOON_ANY" Language="zh_Hans_CN" Text="天下英雄，犹如过江之卿。（谴责你）"/>
+		<Replace Tag="LOC_DIPLO_DEFEAT_FROM_AI_LEADER_LEADER_GUMOON_ANY" Language="zh_Hans_CN" Text="不过是些许风霜罢了。"/>
 
 
 
