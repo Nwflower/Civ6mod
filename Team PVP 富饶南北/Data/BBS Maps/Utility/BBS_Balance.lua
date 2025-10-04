@@ -12,1106 +12,1117 @@ local bBiasFail = false;
 local world_age = 2
 --资源补贴计数
 local stonesCounts = 0;
-local addRiceCount=0;
-local addFoodSheepCount=0;
-local resourcesFishCount=0;
-local addJungleCount=0;
-local addForestCount=0;
-local addHuntCount=0;
-local addBananaCount=0;
+local addRiceCount = 0;
+local addFoodSheepCount = 0;
+local resourcesFishCount = 0;
+local addJungleCount = 0;
+local addForestCount = 0;
+local addHuntCount = 0;
+local addBananaCount = 0;
 
-local m_BBGId = "bdffd1bc-49e5-4dd6-81b2-aab1eb55563f";
-local m_BBGEnabled = false;
 --静态变量
 local functionResultFalse = "false";
 local functionResultSuccess = "success";
 local functionResultFail = "fail";
 local functionResultTrue = "true";
-local iBalancingOneDeviationNumber=0;
-local addBonusOneRingIsDeleteResource=false;
+local iBalancingOneDeviationNumber = 0;
+local addBonusOneRingIsDeleteResource = false;
 
 
 -- 提供冻土随机资源
 local TERRAIN_TUNDRA_RESOURCE = {}
 for row in GameInfo.Resource_ValidTerrains() do
-    if row.TerrainType == 'TERRAIN_TUNDRA' then
-        table.insert(TERRAIN_TUNDRA_RESOURCE,GameInfo.Resources[row.ResourceType].Index)
-        --print('TERRAIN_TUNDRA_RESOURCE',GameInfo.Resources[row.ResourceType].Index)
-    end
+	if row.TerrainType == 'TERRAIN_TUNDRA' then
+		table.insert(TERRAIN_TUNDRA_RESOURCE,GameInfo.Resources[row.ResourceType].Index)
+	--print('TERRAIN_TUNDRA_RESOURCE',GameInfo.Resources[row.ResourceType].Index)
+	end
 end
 local TERRAIN_TUNDRA_HILLS_RESOURCE = {}
 for row in GameInfo.Resource_ValidTerrains() do
-    if row.TerrainType == 'TERRAIN_TUNDRA_HILLS' then
-        table.insert(TERRAIN_TUNDRA_HILLS_RESOURCE,GameInfo.Resources[row.ResourceType].Index)
-        --print('TERRAIN_TUNDRA_HILLS_RESOURCE',GameInfo.Resources[row.ResourceType].Index)
-    end
+	if row.TerrainType == 'TERRAIN_TUNDRA_HILLS' then
+		table.insert(TERRAIN_TUNDRA_HILLS_RESOURCE,GameInfo.Resources[row.ResourceType].Index)
+	--print('TERRAIN_TUNDRA_HILLS_RESOURCE',GameInfo.Resources[row.ResourceType].Index)
+	end
 end
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
-function BBS_Script()
-    print ("Initialization", os.date("%c"))
-
-    local currentTurn = Game.GetCurrentGameTurn();
-    eContinents	= {};
-
-    -- =============================================================================
-    -- BBG Check
-    -- =============================================================================
-
-    m_BBGEnabled = true;
-
-
-
-
-    if currentTurn == GameConfiguration.GetStartTurn() then
-        print ("Init: Map Seed", MapConfiguration.GetValue("RANDOM_SEED"));
-        print ("Init: Game Seed", GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED"));
-        print ("Init: Number of Major Civs", PlayerManager.GetAliveMajorsCount());
-        print ("Init: Local Player Id", Game.GetLocalPlayer());
-        print ("Init: Number of City-States", PlayerManager.GetAliveMinorsCount());
-        local mapName = MapConfiguration.GetValue("MAP_SCRIPT")
-        print ("Init: Loading "..tostring(mapName).." script");
-        local startTemp = MapConfiguration.GetValue("temperature")
-        local mapSize = Map.GetMapSize();
-        local sea_level = MapConfiguration.GetValue("sea_level")
-        local rainfall = MapConfiguration.GetValue("rainfall");
-        world_age = MapConfiguration.GetValue("world_age");
-        local ridge = MapConfiguration.GetValue("BBSRidge");
-        print ("Init: Map Size: ", mapSize, "2 = Small, 5 = Huge");
-        local gridWidth, gridHeight = Map.GetGridSize();
-        print ("Init: gridWidth",gridWidth,"gridHeight",gridHeight)
-        print ("Init: Climate: ", startTemp, "1 = Hot, 2 = Standard, 3 = Cold");
-        local BBS_temp = false;
-        if (GameConfiguration.GetValue("BBStemp") ~= nil) then
-            if (GameConfiguration.GetValue("BBStemp") == true) then
-                BBS_temp = true;
-                print ("Init: BBS Temperature: On");
-            else
-                BBS_temp = false;
-                print ("Init: BBS Temperature: Off")
-            end
-        else
-            BBS_temp = false;
-            print ("Init: BBS Temperature: Off")
-        end
-        print ("Init: Rainfall: ", rainfall, "1 = Dry, 2 = Standard, 3 = Humid");
-        print ("Init: World Age: ", world_age, "1 = New, 2 = Standard 3 = Old");
-        print ("Init: Ridge: ", ridge, "1 = Standard 2 = Large Open 4 = Flat Earth");
-        print ("Init: Sea Level: ", sea_level, "1 = Low Sea Level, 2 = Standard, 3 = High Sea Level");
-        print("Init: Strategic Resources:",MapConfiguration.GetValue("BBSStratRes"))
-        local resourcesConfig = MapConfiguration.GetValue("resources");
-        print ("Init: Resources: ", resourcesConfig, "1 = Sparse, 2 = Standard, 3 = Abundant");
-        local startConfig = MapConfiguration.GetValue("start")
-        print ("Init: Spawntype: ", startConfig, "1 = Standard, 2 = Balanced, 3 = Legendary");
-
-        local iBalancingOne = 2;
-        local iBalancingTwo = 0;
-        local iBalancingThree = -1;
-        local force_remap = true;
-        local majList = {}
-        local tempEval = {}
-        local minFood = 5;
-        local avgFood = 0;
-        local maxFood = 0;
-        local minProd = 6;
-        local avgProd = 0;
-        local maxProd = 0;
-        local avgHill = 0;
-        local dispersion = 0.15; --override later
-        local dispersion_2 = 0.075;
-        local count = 0;
-        local debug_balancing = false
-
-        if (GameConfiguration.GetValue("DEBUG_BALANCING") ~= nil) then
-            if (GameConfiguration.GetValue("DEBUG_BALANCING") == true) then
-                debug_balancing = true
-            end
-        end
-        if (GameConfiguration.GetValue("AutoRemap") ~= nil) then
-            if (GameConfiguration.GetValue("AutoRemap") == true) then
-                force_remap = true;
-                print ("Init: Forced Remap: On");
-            else
-                force_remap = false;
-            end
-        else
-            force_remap = false;
-        end
-        -- iBalancing are the legacy sliders now set in place
-        if resourcesConfig ~= nil then
-            if (resourcesConfig == 1 or resourcesConfig == 2) then
-                iBalancingTwo = math.min (resourcesConfig - 2,0);
-                minFood = minFood + resourcesConfig;
-
-	            iBalancingOneDeviationNumber=resourcesConfig-2;--贫瘠\普通
-            elseif (resourcesConfig == 3) then
-                iBalancingTwo = 1;
-                minFood = minFood + 3;
-                minProd = minProd + 3;
-                iBalancingOneDeviationNumber=1;--富有
-            else
-                minFood = 9;
-                iBalancingOneDeviationNumber=0;--普通
-            end
-        end
-        print("iBalancingOneDeviationNumber:",iBalancingOneDeviationNumber);
-        if (startConfig == 3) then
-            iBalancingTwo = iBalancingTwo + 3;
-        end
-
-        if (Game:GetProperty("BBS_RESPAWN") ~= nil) then
-            if (Game:GetProperty("BBS_RESPAWN") == false) then
-                bBiasFail = true;
-            else
-                bBiasFail = false;
-            end
-        else
-            bBiasFail = true;
-        end
-
-        iBalancingThree = 1;
-        iBalancingFour = 0;
-
-        print ("D TURN STARTING: Initialisation:");
-        print ("Init: ", Game:GetProperty("BBS_INIT_COUNT")," time.")
-        print ("Init: Global Parameters: Natural Wonder Buffer:", GlobalParameters.START_DISTANCE_MAJOR_NATURAL_WONDER)
-        print ("Init: Global Parameters: City-State Buffer:", GlobalParameters.START_DISTANCE_MINOR_MAJOR_CIVILIZATION)
-        print ("Init: Global Parameters: Major Civs Buffer:", GlobalParameters.START_DISTANCE_MAJOR_CIVILIZATION - GlobalParameters.START_DISTANCE_RANGE_MAJOR)
-
-        -------------------------------------------------------------------------------------
-        -- Settings: Importing BBS Settings
-        -------------------------------------------------------------------------------------
-        if (iBalancingOne == 1) then
-            dispersion = 0.33;
-        elseif (iBalancingOne == 2) then
-            dispersion = 0.25;
-        elseif (iBalancingOne == 3) then
-            dispersion = 0.10;
-        end
-
-        dispersion = 0.15;
-
-        -------------------------------------------------------------------------------------
-        -- Settings: Importing Map Variables
-        -------------------------------------------------------------------------------------
-
-        -- Firaxis Defaults from SetDefaultAssignedStartingPlots.lua
-        local bTerraformingSpawn = true;
-
-        --Find Default Number
-        local MapSizeTypes = {};
-        for row in GameInfo.Maps() do
-            MapSizeTypes[row.RowId] = row.DefaultPlayers;
-        end
-        local sizekey = Map.GetMapSize() + 1;
-        local iDefaultNumberPlayers = MapSizeTypes[sizekey] or 8;
-        iDefaultNumberMajor = iDefaultNumberPlayers ;
-        iDefaultNumberMinor = math.floor(iDefaultNumberPlayers * 1.5);
-
-
-        -------------------------------------------------------------------------------------
-        -- Settings: Importing Player Variables
-        -------------------------------------------------------------------------------------
-        local iNumMinCivs = 0;
-        tempMajorList = PlayerManager.GetAliveMajorIDs();
-
-
-        -- Creating Player Table
-        local major_table = {}
-        local minor_table = {}
-        local major_count = 0
-        local minor_count = 0
-        for i = 0, 60 do
-            local tmp_civ = Players[i]
-            if Players[i] ~= nil then
-                if tmp_civ:IsMajor() == true and tmp_civ:IsAlive() == true then
-                    major_count = major_count + 1
-                    major_table[major_count] = i
-                end
-                if tmp_civ:IsMajor() == false and tmp_civ:IsAlive() == true then
-                    minor_count = minor_count + 1
-                    minor_table[minor_count] = i
-                end
-            end
-        end
-
-        Tundra_Resource_Pick()
-
-        -- Check for Minor placement failure
-
-        if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") ~= nil) then
-            -- BBS placement true
-            if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") > 0) then
-                __Debug("Minor failure module:",Game:GetProperty("BBS_MINOR_FAILING_TOTAL")," Minor Civs are failing.")
-                for j = 1, Game:GetProperty("BBS_MINOR_FAILING_TOTAL") do
-                    if (Game:GetProperty("BBS_MINOR_FAILING_ID_"..j) ~= nil) then
-                        local playerUnits;
-                        if (Players[Game:GetProperty("BBS_MINOR_FAILING_ID_"..j)] ~= nil) then
-                            if (Players[Game:GetProperty("BBS_MINOR_FAILING_ID_"..j)]:GetUnits() ~= nil) then
-                                playerUnits = Players[Game:GetProperty("BBS_MINOR_FAILING_ID_"..j)]:GetUnits();
-                                for k, unit in playerUnits:Members() do
-                                    playerUnits:Destroy(unit)
-                                end
-                                print("Minor failure module: Minor Player", Game:GetProperty("BBS_MINOR_FAILING_ID_"..j)," has been eliminated at AssignStart Stage")
-                            end
-                        end
-                    end
-                end
-            else
-                __Debug("Minor failure module: All Minor Civs have been placed.")
-            end
-        else
-            __Debug("Minor failure module: Firaxis placement only check if minimum distance are met")
-        end
-
-
-        -- Check Distances if Firaxis Placement Algo has been used
-        local bError_proximity = false;
-
-        if bBiasFail == true or bBiasFail == false then
-            for i = 1, major_count do
-                if (PlayerConfigurations[major_table[i]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[major_table[i]]:GetHandicapTypeID() ~= 2021024770 and PlayerConfigurations[major_table[i]]:GetLeaderTypeName() ~= "LEADER_KUPE") then
-                    local pStartPlot_i = Players[major_table[i]]:GetStartingPlot()
-                    for j = 1, major_count do
-                        if (PlayerConfigurations[major_table[j]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[major_table[j]]:GetHandicapTypeID() ~= 2021024770 and PlayerConfigurations[major_table[j]]:GetLeaderTypeName() ~= "LEADER_KUPE" and major_table[i] ~= major_table[j]) then
-                            local pStartPlot_j = Players[major_table[j]]:GetStartingPlot()
-                            local distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(),pStartPlot_j:GetIndex())
-                            __Debug("I:", i,"J:", j,"Distance:",distance)
-                            if (distance < 9 ) then
-                                print ("Init: Minimum CPL distance rule breached");
-                                if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") == nil) then
-                                    Game:SetProperty("BBS_MINOR_FAILING_TOTAL",0)
-                                end
-                                bError_proximity = true;
-                                Game:SetProperty("BBS_DISTANCE_ERROR","Two Players are only "..distance.." tiles away from each other and allowed to remap as per CPL rules.")
-                            end
-                        end
-                    end
-                    for j = 1, minor_count do
-                        if (Players[minor_table[j]]:IsAlive() == true) then
-                            local pStartPlot_j = Players[minor_table[j]]:GetStartingPlot()
-                            local distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(),pStartPlot_j:GetIndex())
-                            __Debug("I:", i,"J:", j,"Distance:",distance)
-                            if (distance < 6 ) or pStartPlot_i == pStartPlot_j then
-                                print ("Init: Minimum CPL distance rule breached");
-                                if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") == nil) then
-                                    Game:SetProperty("BBS_MINOR_FAILING_TOTAL",0)
-                                end
-                                -- Let's kill a CS to ensure the game is within CPL rules
-                                local playerUnits;
-                                playerUnits = Players[minor_table[j]]:GetUnits();
-                                for k, unit in playerUnits:Members() do
-                                    playerUnits:Destroy(unit)
-                                end
-                                print("Minor failure module: Firaxis Placement: Minor Player", minor_table[j]," has been eliminated (too close to major).",distance)
-                                Game:SetProperty("BBS_MINOR_FAILING_ID_"..minor_table[j],minor_table[j])
-                                Game:SetProperty("BBS_MINOR_FAILING_TOTAL",Game:GetProperty("BBS_MINOR_FAILING_TOTAL")+1)
-                            end
-                        end
-                    end
-                else
-                    if ( PlayerConfigurations[major_table[i]]:GetLeaderTypeName() == "LEADER_SPECTATOR" or PlayerConfigurations[major_table[i]]:GetHandicapTypeID() == 2021024770 ) then
-                        print ("Init: Spectator Player Id:", major_table[i]);
-                    else
-                        print ("Init: Maori Player Id:", major_table[i]);
-                    end
-                end
-            end
-            -- Minor Minor
-            local bmin = false
-            for i = 1, minor_count do
-                local pStartPlot_i = Players[minor_table[i]]:GetStartingPlot()
-                for j = 1, minor_count do
-                    local pStartPlot_j = Players[minor_table[j]]:GetStartingPlot()
-                    if (minor_table[i] ~= minor_table[j]) then
-                        if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") ~= nil) then
-                            bmin = false
-                            for k = 1, Game:GetProperty("BBS_MINOR_FAILING_TOTAL") do
-                                if Game:GetProperty("BBS_MINOR_FAILING_ID_"..k) == minor_table[i] or Game:GetProperty("BBS_MINOR_FAILING_ID_"..k) == minor_table[j] then
-                                    bmin = true
-                                end
-                            end
-                        end
-                        if bmin == false then
-                            local distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(),pStartPlot_j:GetIndex())
-                            __Debug("I:", minor_table[i],"J:", minor_table[j],"Distance:",distance)
-                            if (distance < 7 ) or pStartPlot_i == pStartPlot_j then
-                                if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") == nil) then
-                                    Game:SetProperty("BBS_MINOR_FAILING_TOTAL",0)
-                                end
-                                -- Let's kill a CS to avoid a CS settler roaming and breaking CPL rules
-                                local playerUnits;
-                                playerUnits = Players[minor_table[j]]:GetUnits();
-                                for k, unit in playerUnits:Members() do
-                                    playerUnits:Destroy(unit)
-                                end
-                                print("Minor failure module: Firaxis Placement: Minor Player", minor_table[j]," has been eliminated (too close to minor).",distance)
-                                Game:SetProperty("BBS_MINOR_FAILING_TOTAL",Game:GetProperty("BBS_MINOR_FAILING_TOTAL")+1)
-                                Game:SetProperty("BBS_MINOR_FAILING_ID_"..Game:GetProperty("BBS_MINOR_FAILING_TOTAL"),minor_table[j])
-                            end
-                        else
-                            bmin = false
-                        end
-                    end
-                end
-            end
-        end
-
-
-
-        -- Kills everyone and force remap if needed
-        tempMajorList = PlayerManager.GetAliveMajorIDs();
-
-
-
-        if (force_remap == true and bError_proximity == true) then
-            print ("Init: Defeat all players");
-            for i = 1, major_count do
-                local pPlayer = Players[major_table[i]]
-                local playerUnits;
-                local startPlot;
-                playerUnits = pPlayer:GetUnits()
-
-                for j, unit in playerUnits:Members() do
-                    playerUnits:Destroy(unit)
-                end
-            end
-            Game:SetProperty("BBS_DISTANCE_ERROR","Minimum distances between civilizations could not be met. You must remap as per CPL rules.");
-            print ("Init: Exit");
-            return
-        end
-
-
-        print ("Initialization - Completed", os.date("%c"))
-
-
-        --------------------------------------------------------------------------------------
-        -- Terrain Balancing - Init
-        --------------------------------------------------------------------------------------
-
-        for i = 1, major_count do
-            local sPlayerLeaderName = PlayerConfigurations[major_table[i]]:GetLeaderTypeName()
-            local sPlayerCivName = PlayerConfigurations[major_table[i]]:GetCivilizationTypeName()
-            local pPlayer = Players[major_table[i]]
-            local playerUnits;
-            local startPlot;
-            SpawnTurn = 1;
-            --startPlot = Map.GetPlot(unit:GetX(), unit:GetY());
-            startPlot = pPlayer:GetStartingPlot()
-            if (startPlot ~= nil) then
-                tempEval = EvaluateStartingLocation(startPlot)
-
-                ------------------------------------------------------------------------------------------------------------
-                -- Create the master major table assigning the data from the EvaluateStartingLocation function
-                --	Then majList[i] object is used for the rest of the code to store each players information for balancing
-                ------------------------------------------------------------------------------------------------------------
-                -- EvalType = {impassable,water,snow,desert, food_spawn_start, prod_spawn_start, culture_spawn_start, faith_spawn_start, impassable_start,water_start,snow_start,desert_start,impassable_inner,water_inner,snow_inner,desert_inner,impassable_outer,water_outer,snow_outer,desert_outer,flood,hill_start,hill_inner,best_tile,second_best_tile}
-                ----------------------------------------------------------------------------------------------
-                majList[i] = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
-                              impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust=tempEval[6],food_adjust=tempEval[5],
-                              best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
-                __Debug("Major Start X: ", majList[i].plotX, "Major Start Y: ", majList[i].plotY, "Player: ",major_table[i]," ",majList[i].leader, majList[i].civ);
-            end
-
-            --end
-            --end
-        end
-
-        --------------------------------------------------------------------------------------
-        -- Terraforming
-        --------------------------------------------------------------------------------------
-        if debug_balancing == false then
-            __Debug("Terraforming Starts")
-
-            -- Fix lack of freshwater
-
-            for i = 1, major_count do
-                -- Added Spectator mod handling if a major player isn't detected
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR" and majList[i].leader ~= "LEADER_LADY_SIX_SKY") then
-                        -- Check for freshwater
-                        local wplot = Map.GetPlot(majList[i].plotX,majList[i].plotY)
-                        if (wplot:IsCoastalLand() == false and wplot:IsWater() == false and  wplot:IsRiver() == false and wplot:IsFreshWater() == false) then
-                            -- Fix No Water
-                            print("Water Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ); -- put a print to catch the error in non debug mode
-                            Terraforming_Water(Map.GetPlot(majList[i].plotX,majList[i].plotY));
-                        elseif(TeamPVPIsDesertCiv(majList[i].civ) == false and wplot:IsRiver() == false) then
-                            print("TeamPVP Water Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ); -- put a print to catch the error in non debug mode
-                            --Terraforming_Water(Map.GetPlot(majList[i].plotX,majList[i].plotY));
-                        end
-                    end
-                end
-            end
-
-
-            -- Look at Floodplains and remove the excess in the starting circle to allow the balancing to work properly
-
-            for i = 1, major_count do
-                -- Added Spectator mod handling if a major player isn't detected
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                        -- Do not reduce floodplain for Egypt or Desert Civ with Desert Floodplains
-                        if ((majList[i].flood >= 100) and majList[i].civ ~= "CIVILIZATION_EGYPT" ) then
-                            -- Check for Floodplains Start
-                            print("TeamPVP Check for Floodplains Start:",majList[i].civ);
-                            __Debug("Floodplains Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
-                            Terraforming_Flood(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree);
-                        end
-
-                    end
-                end
-            end
-
-            -- Fix an error where Civ could spawn on a Luxury
-
-            for i = 1, major_count do
-                -- Added Spectator mod handling if a major player isn't detected
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                        local start_plot = Map.GetPlot(majList[i].plotX,majList[i].plotY);
-                        if (start_plot ~= nil) then
-                            if (start_plot:GetResourceCount() > 0) then
-                                ResourceBuilder.SetResourceType(start_plot, -1);
-                            end
-                            if (startConfig ~= 3) then
-                                __Debug("Luxury balancing: Check for Banned Luxury on Spawn");
-                                Terraforming_BanLux(start_plot);
-                            end
-                        end
-                    end
-                end
-            end
-
-            -- Check the style option selected by the player, default = 1
-
-            if (bTerraformingSpawn == true) then
-
-                -- Cycle through Civs to find the ones with odd starts
-
-                for i = 1, major_count do
-                    -- Added Spectator mod handling if a major player isn't detected
-                    if (majList[i] ~= nil) then
-                        if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                            --dimai
-                            __AddLeyLine(Map.GetPlot(majList[i].plotX,majList[i].plotY));
-                            -- Check for Tundra Starts
-                            Terraforming_Polar_Start(Map.GetPlot(majList[i].plotX,majList[i].plotY));
-                            print ("TeamPVP Terraforming_Polar_Start success");
-                            print("TeamPVP civilizationType:",majList[i].civ);
-                            if ( ( ( (majList[i].snow_start + majList[i].snow_inner + majList[i].snow_outer) > 12 or ( (majList[i].snow_start + majList[i].snow_inner + majList[i].snow_outer) > 6
-                                    and (majList[i].water_start + majList[i].water_inner + majList[i].water_outer) > 6 ) ) )
-                                    and IsTundraCiv(majList[i].civ) == false ) then
-                                print("TeamPVP Terraforming Polar Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
-                                if TeamPVPIsDesertCiv(majList[i].civ) == true then
-                                    Terraforming(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree,2);
-                                else
-                                    Terraforming(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree,0);
-                                end
-
-                            elseif( TeamPVPIsDesertCiv(majList[i].civ) == true) then -- Now forces to Terraform Mali to counterbalance the lower amount of deserts on the map
-                                print("TeamPVP Mali Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
-                                Terraforming(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree,2);
-                            elseif( IsTundraCiv(majList[i].civ) == true ) then
-                                print("TeamPVP Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
-                                Terraforming(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree,1);
-
-                            elseif( IsTundraCiv(majList[i].civ) == false and TeamPVPIsDesertCiv(majList[i].civ) == false and  ((majList[i].snow_start + majList[i].snow_inner + majList[i].snow_outer > 0) or (majList[i].desert_outer + majList[i].desert_inner + majList[i].desert_start > 0)) )then
-                                print("TeamPVP Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
-                                Terraforming(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree,0);
-                            end
-                        end
-                    end
-                end
-
-
-
-            else
-
-
-                __Debug("Terraforming: Terrain Update Not Required (Use Original Civ 6 Map)");
-            end
-
-            -- Fix improper reef and ice placement in coastal start
-            for i = 1, major_count do
-                -- Added Spectator mod handling if a major player isn't detected
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                        if (Map.GetPlot(majList[i].plotX,majList[i].plotY):IsCoastalLand() == true) then
-                            -- Check for Coastal Start
-                            __Debug("Coastal Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
-                            Terraforming_Coastal(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree, false)
-                        end
-                    end
-                end
-            end
-
-            -- Fix Natural Wonders mountains problem
-
-            for iPlotIndex = 0, Map.GetPlotCount()-1 do
-                local natPlot = Map.GetPlotByIndex(iPlotIndex)
-                if (natPlot ~= nil) then
-                    if (natPlot:IsNaturalWonder() == true and natPlot:GetFeatureType() ~= 29) then
-                        for i = 0, 5 do
-                            local adjacentPlot = GetAdjacentTiles(natPlot, i);
-                            if (adjacentPlot ~= nil) then
-                                if (adjacentPlot:IsImpassable() == true and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:IsNaturalWonder() == false) then
-                                    TerrainBuilder.SetTerrainType(adjacentPlot,adjacentPlot:GetTerrainType()-1);
-                                    if ( adjacentPlot:GetFeatureType() == g_FEATURE_VOLCANO) then
-                                        TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-
-            -- Fix extreme Mountains Start
-            for i = 1, major_count do
-                -- Added Spectator mod handling if a major player isn't detected
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770  and majList[i].leader ~= "LEADER_PACHACUTI"  ) then
-                        if ( ( (majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) >= 12) or ((majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) >= 8 and (majList[i].water_start + majList[i].water_inner + majList[i].water_outer) >= 4 ) ) then
-                            -- Check for Mountain Start
-                            __Debug("Mountain Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
-                            Terraforming_Mountain(Map.GetPlot(majList[i].plotX,majList[i].plotY),0)
-
-                        end
-                    end
-                    if((majList[i].leader == "LEADER_PACHACUTI" or majList[i].leader == "LEADER_T_ROOSEVELT") and  (majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) < 6)  then
-                        __Debug("Mountain Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
-                        Terraforming_Mountain(Map.GetPlot(majList[i].plotX,majList[i].plotY),3)
-                    end
-                end
-            end
-
-            -- Fix Walled in
-            for i = 1, major_count do
-                -- Added Spectator mod handling if a major player isn't detected
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                        if ( ( (majList[i].impassable_start + majList[i].water_start ) > 4) and majList[i].leader ~= "LEADER_PACHACUTI"  ) then
-                            -- Check for Walled-in
-                            __Debug("Walled-In Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
-                            Terraforming_Nuke_Mountain(Map.GetPlot(majList[i].plotX,majList[i].plotY))
-
-                        end
-                    end
-                end
-            end
-
-            -- Fix Trees missing / Plains
-            if string.lower(mapName) ~= "tilted_axis.lua" then
-                for iPlotIndex = 0, Map.GetPlotCount()-1, 1 do
-                    local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-                    local pPlot = Map.GetPlotByIndex(iPlotIndex)
-                    if (pPlot:GetY() > gridHeight/6 and pPlot:GetY() < gridHeight*4/9) or (pPlot:GetY() > 5*gridHeight/9 and pPlot:GetY() < gridHeight*5/6) then
-                        if rng < 0.5 then
-                            if pPlot:IsImpassable() == false and pPlot:IsWater() == false and pPlot:GetResourceType() == -1 and pPlot:GetFeatureType() == -1 and pPlot:GetTerrainType() ~= 7 and pPlot:GetTerrainType() ~= 6 and pPlot:GetTerrainType() ~= 7 and pPlot:GetTerrainType() ~= 12 and pPlot:GetTerrainType() ~= 13 then
-                                if rng < 0.15 or  (rng < 0.33 and pPlot:GetTerrainType() == 3) then
-                                    TerrainBuilder.SetFeatureType(pPlot,3)
-                                    if not pPlot:IsHills() then
-                                        TerrainBuilder.SetTerrainType(pPlot, pPlot:GetTerrainType() + 1)
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-
-
-            __Debug("Terraforming: Completed")
-            print ("Terraforming - Completed", os.date("%c"))
-
+function BBS_Script(args)
+	print ("地图平衡脚本启动。系统时间：", os.date("%c"))
+
+	local currentTurn = Game.GetCurrentGameTurn();
+	eContinents = {};
+
+	if currentTurn == GameConfiguration.GetStartTurn() then
+		print ("开始读取游戏配置")
+		print ("Init: Map Seed", MapConfiguration.GetValue("RANDOM_SEED"));
+		print ("Init: Game Seed", GameConfiguration.GetValue("GAME_SYNC_RANDOM_SEED"));
+		print ("Init: Number of Major Civs", PlayerManager.GetAliveMajorsCount());
+		print ("Init: Local Player Id", Game.GetLocalPlayer());
+		print ("Init: Number of City-States", PlayerManager.GetAliveMinorsCount());
+		local mapName = MapConfiguration.GetValue("MAP_SCRIPT")
+		print ("Init: Loading "..tostring(mapName).." script");
+		local startTemp = MapConfiguration.GetValue("temperature")
+		local mapSize = Map.GetMapSize();
+		local sea_level = MapConfiguration.GetValue("sea_level")
+		local rainfall = MapConfiguration.GetValue("rainfall");
+		world_age = MapConfiguration.GetValue("world_age");
+		local ridge = MapConfiguration.GetValue("BBSRidge");
+		print ("Init: Map Size: ", mapSize, "2 = Small, 5 = Huge");
+		local gridWidth, gridHeight = Map.GetGridSize();
+		print ("Init: gridWidth",gridWidth,"gridHeight",gridHeight)
+		print ("Init: Climate: ", startTemp, "1 = Hot, 2 = Standard, 3 = Cold");
+		local BBS_temp = false;
+		if (GameConfiguration.GetValue("BBStemp") ~= nil) then
+			if (GameConfiguration.GetValue("BBStemp") == true) then
+				BBS_temp = true;
+				print ("Init: BBS Temperature: On");
+			else
+				BBS_temp = false;
+				print ("Init: BBS Temperature: Off")
+			end
+		else
+			BBS_temp = false;
+			print ("Init: BBS Temperature: Off")
+		end
+		print ("Init: Rainfall: ", rainfall, "1 = Dry, 2 = Standard, 3 = Humid");
+		print ("Init: World Age: ", world_age, "1 = New, 2 = Standard 3 = Old");
+		print ("Init: Ridge: ", ridge, "1 = Standard 2 = Large Open 4 = Flat Earth");
+		print ("Init: Sea Level: ", sea_level, "1 = Low Sea Level, 2 = Standard, 3 = High Sea Level");
+		print("Init: Strategic Resources:",MapConfiguration.GetValue("BBSStratRes"))
+		local resourcesConfig = MapConfiguration.GetValue("resources");
+		print ("Init: Resources: ", resourcesConfig, "1 = Sparse, 2 = Standard, 3 = Abundant");
+		local startConfig = MapConfiguration.GetValue("start")
+		print ("Init: Spawntype: ", startConfig, "1 = Standard, 2 = Balanced, 3 = Legendary");
+
+		local RichNum = args.RichNum or 5;
+
+		local iBalancingOne = 2;
+		local iBalancingTwo = 0;
+		local iBalancingThree = -1;
+		local force_remap = true;
+		local majList = {}
+		local tempEval = {}
+		local minFood = 5;
+		local avgFood = 0;
+		local maxFood = 0;
+		local minProd = 6;
+		local avgProd = 0;
+		local maxProd = 0;
+		local avgHill = 0;
+		local dispersion = 0.15; --override later
+		local dispersion_2 = 0.075;
+		local count = 0;
+		local debug_balancing = false
+
+		if (GameConfiguration.GetValue("DEBUG_BALANCING") ~= nil) then
+			if (GameConfiguration.GetValue("DEBUG_BALANCING") == true) then
+				debug_balancing = true
+			end
+		end
+		if (GameConfiguration.GetValue("AutoRemap") ~= nil) then
+			if (GameConfiguration.GetValue("AutoRemap") == true) then
+				force_remap = true;
+				print ("Init: Forced Remap: On");
+			else
+				force_remap = false;
+			end
+		else
+			force_remap = false;
+		end
+		-- iBalancing are the legacy sliders now set in place
+
+		print ("开始计算开局资源补偿")
+		if resourcesConfig ~= nil then
+			if (resourcesConfig == 1 or resourcesConfig == 2) then
+				iBalancingTwo = math.min (resourcesConfig - 2,0);
+				minFood = minFood + resourcesConfig;
+
+				iBalancingOneDeviationNumber = resourcesConfig-2;--贫瘠\普通
+			elseif (resourcesConfig == 3) then
+				iBalancingTwo = 1;
+				minFood = minFood + 3;
+				minProd = minProd + 3;
+				iBalancingOneDeviationNumber = 1;--富有
+			else
+				minFood = 9;
+				iBalancingOneDeviationNumber = 0;--普通
+			end
+		end
+		print("iBalancingOneDeviationNumber:",iBalancingOneDeviationNumber);
+		if (startConfig == 3) then
+			iBalancingTwo = iBalancingTwo + 3;
+		end
+
+		if (Game:GetProperty("BBS_RESPAWN") ~= nil) then
+			if (Game:GetProperty("BBS_RESPAWN") == false) then
+				bBiasFail = true;
+			else
+				bBiasFail = false;
+			end
+		else
+			bBiasFail = true;
+		end
+
+		iBalancingThree = 1;
+		iBalancingFour = 0;
+
+		print ("地图平衡脚本：初始化完毕");
+		print ("Init: ", Game:GetProperty("BBS_INIT_COUNT")," time.")
+		print ("Init: Global Parameters: Natural Wonder Buffer:", GlobalParameters.START_DISTANCE_MAJOR_NATURAL_WONDER)
+		print ("Init: Global Parameters: City-State Buffer:", GlobalParameters.START_DISTANCE_MINOR_MAJOR_CIVILIZATION)
+		print ("Init: Global Parameters: Major Civs Buffer:", GlobalParameters.START_DISTANCE_MAJOR_CIVILIZATION - GlobalParameters.START_DISTANCE_RANGE_MAJOR)
+
+		-------------------------------------------------------------------------------------
+		-- Settings: Importing BBS Settings
+		-------------------------------------------------------------------------------------
+		if (iBalancingOne == 1) then
+			dispersion = 0.33;
+		elseif (iBalancingOne == 2) then
+			dispersion = 0.25;
+		elseif (iBalancingOne == 3) then
+			dispersion = 0.10;
+		end
+
+		dispersion = 0.15;
+
+		-------------------------------------------------------------------------------------
+		-- Settings: Importing Map Variables
+		-------------------------------------------------------------------------------------
+
+		-- Firaxis Defaults from SetDefaultAssignedStartingPlots.lua
+		local bTerraformingSpawn = true;
+
+		--Find Default Number
+		local MapSizeTypes = {};
+		for row in GameInfo.Maps() do
+			MapSizeTypes[row.RowId] = row.DefaultPlayers;
+		end
+		local sizekey = Map.GetMapSize() + 1;
+		local iDefaultNumberPlayers = MapSizeTypes[sizekey] or 8;
+		iDefaultNumberMajor = iDefaultNumberPlayers ;
+		iDefaultNumberMinor = math.floor(iDefaultNumberPlayers * 1.5);
+
+
+		-------------------------------------------------------------------------------------
+		-- Settings: Importing Player Variables
+		-------------------------------------------------------------------------------------
+		local iNumMinCivs = 0;
+		tempMajorList = PlayerManager.GetAliveMajorIDs();
+
+
+		-- Creating Player Table
+		local major_table = {}
+		local minor_table = {}
+		local major_count = 0
+		local minor_count = 0
+		for i = 0, 60 do
+			local tmp_civ = Players[i]
+			if Players[i] ~= nil then
+				if tmp_civ:IsMajor() == true and tmp_civ:IsAlive() == true then
+					major_count = major_count + 1
+					major_table[major_count] = i
+				end
+				if tmp_civ:IsMajor() == false and tmp_civ:IsAlive() == true then
+					minor_count = minor_count + 1
+					minor_table[minor_count] = i
+				end
+			end
+		end
+
+		print ("载入冻土资源补偿配置")
+		Tundra_Resource_Pick()
+
+		-- Check for Minor placement failure
+
+		print ("检查城邦出生点是否已分配")
+		if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") ~= nil) then
+		-- BBS placement true
+			if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") > 0) then
+				__Debug("Minor failure module:",Game:GetProperty("BBS_MINOR_FAILING_TOTAL")," Minor Civs are failing.")
+				for j = 1, Game:GetProperty("BBS_MINOR_FAILING_TOTAL") do
+					if (Game:GetProperty("BBS_MINOR_FAILING_ID_"..j) ~= nil) then
+						local playerUnits;
+						if (Players[Game:GetProperty("BBS_MINOR_FAILING_ID_"..j)] ~= nil) then
+							if (Players[Game:GetProperty("BBS_MINOR_FAILING_ID_"..j)]:GetUnits() ~= nil) then
+								playerUnits = Players[Game:GetProperty("BBS_MINOR_FAILING_ID_"..j)]:GetUnits();
+								for k, unit in playerUnits:Members() do
+									playerUnits:Destroy(unit)
+								end
+								print("城邦玩家", Game:GetProperty("BBS_MINOR_FAILING_ID_"..j),"因未能安排合适出生点而被移除。")
+							end
+						end
+					end
+				end
+			else
+				__Debug("Minor failure module: All Minor Civs have been placed.")
+			end
+		else
+			__Debug("Minor failure module: Firaxis placement only check if minimum distance are met")
+		end
+
+
+		-- Check Distances if Firaxis Placement Algo has been used
+		local bError_proximity = false;
+
+		if bBiasFail == true or bBiasFail == false then
+			print ("BBS分配出生点失败。地图脚本正在检查F社分配出生点脚本是否存在错误")
+			for i = 1, major_count do
+				if (PlayerConfigurations[major_table[i]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[major_table[i]]:GetHandicapTypeID() ~= 2021024770 and PlayerConfigurations[major_table[i]]:GetLeaderTypeName() ~= "LEADER_KUPE") then
+					local pStartPlot_i = Players[major_table[i]]:GetStartingPlot()
+					for j = 1, major_count do
+						if (PlayerConfigurations[major_table[j]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[major_table[j]]:GetHandicapTypeID() ~= 2021024770 and PlayerConfigurations[major_table[j]]:GetLeaderTypeName() ~= "LEADER_KUPE" and major_table[i] ~= major_table[j]) then
+							local pStartPlot_j = Players[major_table[j]]:GetStartingPlot()
+							local distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(),pStartPlot_j:GetIndex())
+							__Debug("I:", i,"J:", j,"Distance:",distance)
+							if (distance < 9 ) then
+								print ("Init: Minimum CPL distance rule breached");
+								if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") == nil) then
+									Game:SetProperty("BBS_MINOR_FAILING_TOTAL",0)
+								end
+								bError_proximity = true;
+								Game:SetProperty("BBS_DISTANCE_ERROR","Two Players are only "..distance.." tiles away from each other and allowed to remap as per CPL rules.")
+							end
+						end
+					end
+					for j = 1, minor_count do
+						if (Players[minor_table[j]]:IsAlive() == true) then
+							local pStartPlot_j = Players[minor_table[j]]:GetStartingPlot()
+							local distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(),pStartPlot_j:GetIndex())
+							__Debug("I:", i,"J:", j,"Distance:",distance)
+							if (distance < 6 ) or pStartPlot_i == pStartPlot_j then
+								print ("Init: Minimum CPL distance rule breached");
+								if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") == nil) then
+									Game:SetProperty("BBS_MINOR_FAILING_TOTAL",0)
+								end
+								-- Let's kill a CS to ensure the game is within CPL rules
+								local playerUnits;
+								playerUnits = Players[minor_table[j]]:GetUnits();
+								for k, unit in playerUnits:Members() do
+									playerUnits:Destroy(unit)
+								end
+								print("Minor failure module: Firaxis Placement: Minor Player", minor_table[j]," has been eliminated (too close to major).",distance)
+								Game:SetProperty("BBS_MINOR_FAILING_ID_"..minor_table[j],minor_table[j])
+								Game:SetProperty("BBS_MINOR_FAILING_TOTAL",Game:GetProperty("BBS_MINOR_FAILING_TOTAL")+1)
+							end
+						end
+					end
+				else
+					if ( PlayerConfigurations[major_table[i]]:GetLeaderTypeName() == "LEADER_SPECTATOR" or PlayerConfigurations[major_table[i]]:GetHandicapTypeID() == 2021024770 ) then
+						print ("Init: Spectator Player Id:", major_table[i]);
+					else
+						print ("Init: Maori Player Id:", major_table[i]);
+					end
+				end
+			end
+			-- Minor Minor
+			local bmin = false
+			for i = 1, minor_count do
+				local pStartPlot_i = Players[minor_table[i]]:GetStartingPlot()
+				for j = 1, minor_count do
+					local pStartPlot_j = Players[minor_table[j]]:GetStartingPlot()
+					if (minor_table[i] ~= minor_table[j]) then
+						if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") ~= nil) then
+							bmin = false
+							for k = 1, Game:GetProperty("BBS_MINOR_FAILING_TOTAL") do
+								if Game:GetProperty("BBS_MINOR_FAILING_ID_"..k) == minor_table[i] or Game:GetProperty("BBS_MINOR_FAILING_ID_"..k) == minor_table[j] then
+									bmin = true
+								end
+							end
+						end
+						if bmin == false then
+							local distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(),pStartPlot_j:GetIndex())
+							__Debug("I:", minor_table[i],"J:", minor_table[j],"Distance:",distance)
+							if (distance < 7 ) or pStartPlot_i == pStartPlot_j then
+								if (Game:GetProperty("BBS_MINOR_FAILING_TOTAL") == nil) then
+									Game:SetProperty("BBS_MINOR_FAILING_TOTAL",0)
+								end
+								-- Let's kill a CS to avoid a CS settler roaming and breaking CPL rules
+								local playerUnits;
+								playerUnits = Players[minor_table[j]]:GetUnits();
+								for k, unit in playerUnits:Members() do
+									playerUnits:Destroy(unit)
+								end
+								print("Minor failure module: Firaxis Placement: Minor Player", minor_table[j]," has been eliminated (too close to minor).",distance)
+								Game:SetProperty("BBS_MINOR_FAILING_TOTAL",Game:GetProperty("BBS_MINOR_FAILING_TOTAL")+1)
+								Game:SetProperty("BBS_MINOR_FAILING_ID_"..Game:GetProperty("BBS_MINOR_FAILING_TOTAL"),minor_table[j])
+							end
+						else
+							bmin = false
+						end
+					end
+				end
+			end
+		end
+
+
+
+		-- 强制重开
+		tempMajorList = PlayerManager.GetAliveMajorIDs();
+		if (force_remap == true and bError_proximity == true) then
+			print ("Init: Defeat all players");
+			for i = 1, major_count do
+				local pPlayer = Players[major_table[i]]
+				local playerUnits;
+				local startPlot;
+				playerUnits = pPlayer:GetUnits()
+
+				for j, unit in playerUnits:Members() do
+					playerUnits:Destroy(unit)
+				end
+			end
+			Game:SetProperty("BBS_DISTANCE_ERROR","Minimum distances between civilizations could not be met. You must remap as per CPL rules.");
+			print ("Init: Exit");
+			return
+		end
+
+
+		print ("地图平衡脚本：所有平衡前初始化已全部完成", os.date("%c"))
+
+
+		--------------------------------------------------------------------------------------
+		-- Terrain Balancing - Init
+		--------------------------------------------------------------------------------------
+
+		print ("地图平衡脚本：出生点地形平衡")
+		-- 创建主玩家数据表，从 EvaluateStartingLocation 函数分配数据
+		-- 然后 majList [i] 对象将在代码的其余部分用于存储每个玩家的平衡信息
+		-- EvalType = {不可通行地形，水域，雪地，沙漠...}
+
+		for i = 1, major_count do
+			local sPlayerLeaderName = PlayerConfigurations[major_table[i]]:GetLeaderTypeName()
+			local sPlayerCivName = PlayerConfigurations[major_table[i]]:GetCivilizationTypeName()
+			local pPlayer = Players[major_table[i]]
+			local playerUnits;
+			local startPlot;
+			SpawnTurn = 1;
+			startPlot = pPlayer:GetStartingPlot()
+			if (startPlot ~= nil) then
+				tempEval = EvaluateStartingLocation(startPlot)
+				majList[i] = {
+					leader = sPlayerLeaderName,
+					civ = sPlayerCivName,
+					plotX = startPlot:GetX(),
+					plotY = startPlot:GetY(),
+					food_spawn_start = tempEval[5], -- 出生点食物值
+					prod_spawn_start = tempEval[6], -- 出生点生产力值
+					culture_spawn_start = tempEval[7], -- 出生点文化值
+					faith_spawn_start = tempEval[8], -- 出生点信仰值
+					impassable_start = tempEval[9], -- 出生点不可通行地形
+					water_start = tempEval[10], --出生点水域
+					snow_start = tempEval[11], -- 出生点雪地
+					desert_start = tempEval[12], -- 出生点沙漠
+					impassable_inner = tempEval[13],-- 内层不可通行地形
+					water_inner = tempEval[14],-- 内层水域
+					snow_inner = tempEval[15],-- 内层雪地
+					desert_inner = tempEval[16],-- 内层沙漠
+					impassable_outer = tempEval[17],-- 外层不可通行地形
+					water_outer = tempEval[18],-- 外层水域
+					snow_outer = tempEval[19],-- 外层雪地
+					desert_outer = tempEval[20],-- 外层沙漠
+					flood = tempEval[21],-- 洪水
+					hill_start = tempEval[22],-- 出生点丘陵
+					hill_inner = tempEval[23],-- 内层丘陵
+					prod_adjust = tempEval[6],
+					food_adjust = tempEval[5],
+					best_tile = tempEval[24],-- 最佳地块
+					best_tile_2 = tempEval[25],-- 次佳地块
+					food_spawn_inner = tempEval[26],
+					prod_spawn_inner = tempEval[27],
+					best_tile_inner = tempEval[28],
+					best_tile_inner_2 = tempEval[29],
+					plains = tempEval[30]}
+				__Debug("Major Start X: ", majList[i].plotX, "Major Start Y: ", majList[i].plotY, "Player: ",major_table[i]," ",majList[i].leader, majList[i].civ);
+			end
+		end
+
+		--------------------------------------------------------------------------------------
+		-- Terraforming
+		--------------------------------------------------------------------------------------
+		print ("地图平衡脚本：使地图看起来更像地球")
+		if debug_balancing == false then
+			__Debug("Terraforming Starts")
+
+			-- 为所有人开局添加水源
+			for i = 1, major_count do
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR" and majList[i].leader ~= "LEADER_LADY_SIX_SKY") then
+						-- Check for freshwater
+						local wplot = Map.GetPlot(majList[i].plotX,majList[i].plotY)
+						if (wplot:IsCoastalLand() == false and wplot:IsWater() == false and  wplot:IsRiver() == false and wplot:IsFreshWater() == false) then
+							print("添加淡水 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+							Terraforming_Water(Map.GetPlot(majList[i].plotX,majList[i].plotY));
+						-- 富饶系数如果大于5，所有人开局获得淡水
+						elseif(RichNum >= 5 and wplot:IsRiver() == false) then
+							print("TeamPVP 添加淡水 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ); -- put a print to catch the error in non debug mode
+							Terraforming_Water(Map.GetPlot(majList[i].plotX,majList[i].plotY));
+						end
+					end
+				end
+			end
+
+			-- 移除过多的泛滥平原
+			for i = 1, major_count do
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+						-- 不移除沙漠和埃及的泛滥平原单元格
+						if ((majList[i].flood >= 100) and majList[i].civ ~= "CIVILIZATION_EGYPT" and (not TeamPVPIsDesertCiv(majList[i].civ)) ) then
+							print("TeamPVP Check for Floodplains Start:",majList[i].civ);
+							__Debug("Floodplains Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+							Terraforming_Flood(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree);
+						end
+					end
+				end
+			end
+
+			-- 修复文明可能在奢侈品上生成的错误（当富饶系数小于7时）
+			for i = 1, major_count do
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+						local start_plot = Map.GetPlot(majList[i].plotX,majList[i].plotY);
+						if (start_plot ~= nil) then
+							-- 非传奇开局移除可可/香料/糖
+							if (startConfig ~= 3) then
+								__Debug("Luxury balancing: Check for Banned Luxury on Spawn");
+								Terraforming_BanLux(start_plot);
+							end
+							if (start_plot:GetResourceCount() > 0) and RichNum < 7 then
+								ResourceBuilder.SetResourceType(start_plot, -1);
+							end
+						end
+					end
+				end
+			end
+
+			-- Check the style option selected by the player, default = 1
+
+			if (bTerraformingSpawn == true) then
+
+			-- Cycle through Civs to find the ones with odd starts
+
+				for i = 1, major_count do
+				-- Added Spectator mod handling if a major player isn't detected
+					if (majList[i] ~= nil) then
+						if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+						--dimai
+							__AddLeyLine(Map.GetPlot(majList[i].plotX,majList[i].plotY));
+							-- Check for Tundra Starts
+							Terraforming_Polar_Start(Map.GetPlot(majList[i].plotX,majList[i].plotY));
+							print ("TeamPVP Terraforming_Polar_Start success");
+							print("TeamPVP civilizationType:",majList[i].civ);
+							if ( ( ( (majList[i].snow_start + majList[i].snow_inner + majList[i].snow_outer) > 12 or ( (majList[i].snow_start + majList[i].snow_inner + majList[i].snow_outer) > 6
+							and (majList[i].water_start + majList[i].water_inner + majList[i].water_outer) > 6 ) ) )
+							and IsTundraCiv(majList[i].civ) == false ) then
+								print("TeamPVP Terraforming Polar Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+								if TeamPVPIsDesertCiv(majList[i].civ) == true then
+									Terraforming(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree,2);
+								else
+									Terraforming(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree,0);
+								end
+
+							elseif( TeamPVPIsDesertCiv(majList[i].civ) == true) then -- Now forces to Terraform Mali to counterbalance the lower amount of deserts on the map
+								print("TeamPVP Mali Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+								Terraforming(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree,2);
+							elseif( IsTundraCiv(majList[i].civ) == true ) then
+								print("TeamPVP Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+								Terraforming(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree,1);
+
+							elseif( IsTundraCiv(majList[i].civ) == false and TeamPVPIsDesertCiv(majList[i].civ) == false and  ((majList[i].snow_start + majList[i].snow_inner + majList[i].snow_outer > 0) or (majList[i].desert_outer + majList[i].desert_inner + majList[i].desert_start > 0)) )then
+								print("TeamPVP Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+								Terraforming(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree,0);
+							end
+						end
+					end
+				end
+
+
+
+			else
+
+
+				__Debug("Terraforming: Terrain Update Not Required (Use Original Civ 6 Map)");
+			end
+
+			-- Fix improper reef and ice placement in coastal start
+			for i = 1, major_count do
+			-- Added Spectator mod handling if a major player isn't detected
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+						if (Map.GetPlot(majList[i].plotX,majList[i].plotY):IsCoastalLand() == true) then
+						-- Check for Coastal Start
+							__Debug("Coastal Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+							Terraforming_Coastal(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree, false)
+						end
+					end
+				end
+			end
+
+			-- Fix Natural Wonders mountains problem
+
+			for iPlotIndex = 0, Map.GetPlotCount()-1 do
+				local natPlot = Map.GetPlotByIndex(iPlotIndex)
+				if (natPlot ~= nil) then
+					if (natPlot:IsNaturalWonder() == true and natPlot:GetFeatureType() ~= 29) then
+						for i = 0, 5 do
+							local adjacentPlot = GetAdjacentTiles(natPlot, i);
+							if (adjacentPlot ~= nil) then
+								if (adjacentPlot:IsImpassable() == true and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:IsNaturalWonder() == false) then
+									TerrainBuilder.SetTerrainType(adjacentPlot,adjacentPlot:GetTerrainType()-1);
+									if ( adjacentPlot:GetFeatureType() == g_FEATURE_VOLCANO) then
+										TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+
+			-- Fix extreme Mountains Start
+			for i = 1, major_count do
+			-- Added Spectator mod handling if a major player isn't detected
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770  and majList[i].leader ~= "LEADER_PACHACUTI"  ) then
+						if ( ( (majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) >= 12) or ((majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) >= 8 and (majList[i].water_start + majList[i].water_inner + majList[i].water_outer) >= 4 ) ) then
+						-- Check for Mountain Start
+							__Debug("Mountain Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+							Terraforming_Mountain(Map.GetPlot(majList[i].plotX,majList[i].plotY),0)
+
+						end
+					end
+					if((majList[i].leader == "LEADER_PACHACUTI" or majList[i].leader == "LEADER_T_ROOSEVELT") and  (majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) < 6)  then
+						__Debug("Mountain Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+						Terraforming_Mountain(Map.GetPlot(majList[i].plotX,majList[i].plotY),3)
+					end
+				end
+			end
+
+			-- Fix Walled in
+			for i = 1, major_count do
+			-- Added Spectator mod handling if a major player isn't detected
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+						if ( ( (majList[i].impassable_start + majList[i].water_start ) > 4) and majList[i].leader ~= "LEADER_PACHACUTI"  ) then
+						-- Check for Walled-in
+							__Debug("Walled-In Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+							Terraforming_Nuke_Mountain(Map.GetPlot(majList[i].plotX,majList[i].plotY))
+
+						end
+					end
+				end
+			end
+
+			-- Fix Trees missing / Plains
+			if string.lower(mapName) ~= "tilted_axis.lua" then
+				for iPlotIndex = 0, Map.GetPlotCount()-1, 1 do
+					local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+					local pPlot = Map.GetPlotByIndex(iPlotIndex)
+					if (pPlot:GetY() > gridHeight/6 and pPlot:GetY() < gridHeight*4/9) or (pPlot:GetY() > 5*gridHeight/9 and pPlot:GetY() < gridHeight*5/6) then
+						if rng < 0.5 then
+							if pPlot:IsImpassable() == false and pPlot:IsWater() == false and pPlot:GetResourceType() == -1 and pPlot:GetFeatureType() == -1 and pPlot:GetTerrainType() ~= 7 and pPlot:GetTerrainType() ~= 6 and pPlot:GetTerrainType() ~= 7 and pPlot:GetTerrainType() ~= 12 and pPlot:GetTerrainType() ~= 13 then
+								if rng < 0.15 or  (rng < 0.33 and pPlot:GetTerrainType() == 3) then
+									TerrainBuilder.SetFeatureType(pPlot,3)
+									if not pPlot:IsHills() then
+										TerrainBuilder.SetTerrainType(pPlot, pPlot:GetTerrainType() + 1)
+									end
+								end
+							end
+						end
+					end
+				end
+			end
+
+
+			__Debug("Terraforming: Completed")
+			print ("Terraforming - Completed", os.date("%c"))
+
+			---------------------------------------------------------------------------------------------------------------
+			-- Starting the resources rebalancing in 3 phases: Strategic, Food and Production
+			---------------------------------------------------------------------------------------------------------------
             ---------------------------------------------------------------------------------------------------------------
-            -- Starting the resources rebalancing in 3 phases: Strategic, Food and Production
-            ---------------------------------------------------------------------------------------------------------------
-            ---------------------------------------------------------------------------------------------------------------
-            -- Phase 1: Strategic Resource Balancing / Original Firaxis Code from AddBalancedResources() reworked
-            ---------------------------------------------------------------------------------------------------------------
+			-- Phase 1: Strategic Resource Balancing / Original Firaxis Code from AddBalancedResources() reworked
+			---------------------------------------------------------------------------------------------------------------
 
-            __Debug("Phase 1: Strategic Resource Balancing")
+			__Debug("Phase 1: Strategic Resource Balancing")
 
-            for i = 1, major_count do
-                -- Added Spectator mod handling if a major player isn't detected
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                        if (Map.GetPlot(majList[i].plotX,majList[i].plotY):IsWater() == false) then
-                            BalanceStrategic(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader);
-                        end
-                    end
-                end
-            end
+			for i = 1, major_count do
+			-- Added Spectator mod handling if a major player isn't detected
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+						if (Map.GetPlot(majList[i].plotX,majList[i].plotY):IsWater() == false) then
+							BalanceStrategic(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader);
+						end
+					end
+				end
+			end
 
-            -- Phase 1 Completed
-            print ("Strategic Resouce Balancing - Completed", os.date("%c"))
+			-- Phase 1 Completed
+			print ("Strategic Resouce Balancing - Completed", os.date("%c"))
 
-            ---------------------------------------------------------------------------------------------------------------
-            -- Phase 2: Food Resource Balancing / Original Fertility function Code from AddBalancedResources() reworked
-            ---------------------------------------------------------------------------------------------------------------
-            --丘陵
-            for i = 1, major_count do
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR") then
-                    	local functionCount = 0;
+			---------------------------------------------------------------------------------------------------------------
+			-- Phase 2: Food Resource Balancing / Original Fertility function Code from AddBalancedResources() reworked
+			---------------------------------------------------------------------------------------------------------------
+			--丘陵
+			for i = 1, major_count do
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR") then
+						local functionCount = 0;
 						local successCount = 0;
 						local isLucky = false;
 						local isLuckyRng = TerrainBuilder.GetRandomNumber(100,"test");
 						if(isLuckyRng<=25)then
-							isLucky=true
+							isLucky = true
 						end
-                        print("majList[i].leader:",majList[i].leader);
+						print("majList[i].leader:",majList[i].leader);
 						while(functionCount<=20)do
-						    local functionResult = civAddHillTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ,isLucky,functionCount);
-						    if(functionResult==functionResultFalse)then
-						        functionCount = functionCount + 1;
-						    elseif functionResult==functionResultTrue then
-						        functionCount = functionCount + 1;
-						        successCount = successCount + 1;
-						    elseif functionResult==functionResultSuccess or functionResult==functionResultFail then
-						        print("successCount:",successCount);
-						        break;
-						    end
+							local functionResult = civAddHillTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ,isLucky,functionCount);
+							if(functionResult==functionResultFalse)then
+								functionCount = functionCount + 1;
+							elseif functionResult==functionResultTrue then
+								functionCount = functionCount + 1;
+								successCount = successCount + 1;
+							elseif functionResult==functionResultSuccess or functionResult==functionResultFail then
+								print("successCount:",successCount);
+								break;
+							end
 						end
-                        print("functionCount:",functionCount);
-                    end
-                end
-            end
+						print("functionCount:",functionCount);
+					end
+				end
+			end
 
 
-            --食物
-            for i = 1, major_count do
-                addRiceCount = 0;
-                addFoodSheepCount = 0;
-                resourcesFishCount=0;
-                addJungleCount=0;
-                addForestCount=0;
-                addHuntCount=0;
-                addBananaCount=0;
-                addBonusOneRingIsDeleteResource=false;
-                local PlotRice=Map.GetPlot(majList[i].plotX,majList[i].plotY);
-                for ii = 0, 18 do
-                    local adjacentPlotRice = GetAdjacentTiles(PlotRice, ii);
-                    if (adjacentPlotRice ~= nil) then
-                        if(adjacentPlotRice:GetResourceCount() > 0) then
-                            --print("GetResourceType :",adjacentPlotStones:GetResourceType());
-                            if(1 == adjacentPlotRice:GetResourceType() or 6 == adjacentPlotRice:GetResourceType() or 9 == adjacentPlotRice:GetResourceType() or 52 == adjacentPlotRice:GetResourceType()) then
-                                addRiceCount=addRiceCount+1;--牛麦子大米玉米
-                                --print("stonesCounts++",majList[i].civ);
-                            end
-                            if(7 == adjacentPlotRice:GetResourceType())then
-                                addFoodSheepCount=addFoodSheepCount+1;--羊
-                            end
-                            if (adjacentPlotRice:IsWater() == true and adjacentPlotRice:GetResourceCount() > 0 and adjacentPlotRice:GetResourceType() ~= 45) then
-                                resourcesFishCount = resourcesFishCount + 1;
-                            end
-                            if(4 == adjacentPlotRice:GetResourceType())then
-                                addHuntCount=addHuntCount+1;--鹿
-                            end
-                            if(0 == adjacentPlotRice:GetResourceType())then
-                                addBananaCount=addBananaCount+1;--香蕉
-                            end
+			--食物
+			for i = 1, major_count do
+				addRiceCount = 0;
+				addFoodSheepCount = 0;
+				resourcesFishCount = 0;
+				addJungleCount = 0;
+				addForestCount = 0;
+				addHuntCount = 0;
+				addBananaCount = 0;
+				addBonusOneRingIsDeleteResource = false;
+				local PlotRice = Map.GetPlot(majList[i].plotX,majList[i].plotY);
+				for ii = 0, 18 do
+					local adjacentPlotRice = GetAdjacentTiles(PlotRice, ii);
+					if (adjacentPlotRice ~= nil) then
+						if(adjacentPlotRice:GetResourceCount() > 0) then
+						--print("GetResourceType :",adjacentPlotStones:GetResourceType());
+							if(1 == adjacentPlotRice:GetResourceType() or 6 == adjacentPlotRice:GetResourceType() or 9 == adjacentPlotRice:GetResourceType() or 52 == adjacentPlotRice:GetResourceType()) then
+								addRiceCount = addRiceCount+1;--牛麦子大米玉米
+							--print("stonesCounts++",majList[i].civ);
+							end
+							if(7 == adjacentPlotRice:GetResourceType())then
+								addFoodSheepCount = addFoodSheepCount+1;--羊
+							end
+							if (adjacentPlotRice:IsWater() == true and adjacentPlotRice:GetResourceCount() > 0 and adjacentPlotRice:GetResourceType() ~= 45) then
+								resourcesFishCount = resourcesFishCount + 1;
+							end
+							if(4 == adjacentPlotRice:GetResourceType())then
+								addHuntCount = addHuntCount+1;--鹿
+							end
+							if(0 == adjacentPlotRice:GetResourceType())then
+								addBananaCount = addBananaCount+1;--香蕉
+							end
 
-                        end
+						end
 
-                        if(adjacentPlotRice:GetFeatureType() == 2)then
-                            addJungleCount=addJungleCount+1;
-                        end
-                        if(adjacentPlotRice:GetFeatureType() == 3)then
-                            addForestCount=addForestCount+1;
-                        end
+						if(adjacentPlotRice:GetFeatureType() == 2)then
+							addJungleCount = addJungleCount+1;
+						end
+						if(adjacentPlotRice:GetFeatureType() == 3)then
+							addForestCount = addForestCount+1;
+						end
 
-                    end
+					end
 
-                end
-                print("teamPVP start addRiceCount:",addRiceCount);
-                print("teamPVP start addFoodSheepCount:",addFoodSheepCount);
-                print("teamPVP start resourcesFishCount:",resourcesFishCount);
-                print("teamPVP start addJungleCount:",addJungleCount);
-                print("teamPVP start addForestCount:",addForestCount);
-                print("teamPVP start addHuntCount:",addHuntCount);
-                print("teamPVP start addBananaCount:",addBananaCount);
+				end
+				print("teamPVP start addRiceCount:",addRiceCount);
+				print("teamPVP start addFoodSheepCount:",addFoodSheepCount);
+				print("teamPVP start resourcesFishCount:",resourcesFishCount);
+				print("teamPVP start addJungleCount:",addJungleCount);
+				print("teamPVP start addForestCount:",addForestCount);
+				print("teamPVP start addHuntCount:",addHuntCount);
+				print("teamPVP start addBananaCount:",addBananaCount);
 
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                    	local functionCount = 0;
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+						local functionCount = 0;
 						local successCount = 0;
 						local isLucky = false;
 						local isLuckyRng = TerrainBuilder.GetRandomNumber(100,"test");
 						if(isLuckyRng<=25)then
-							isLucky=true
+							isLucky = true
 						end
-                        local functionResult = functionResultFail;--此部分公用
-                        --先补一次1环内
-                        local isMust = false;
-                        while(functionCount<=20)do
-                            local functionResult = civAddOneRingFloorsTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ,isMust);
-                            if(functionResult==functionResultFalse)then
-                                functionCount = functionCount + 1;
-                                if(functionCount>=10)then
-                                    isMust=true;
-                                end
-                            elseif functionResult==functionResultTrue then
-                                functionCount = functionCount + 1;
-                                successCount = successCount + 1;
-                            elseif functionResult==functionResultSuccess or functionResult==functionResultFail then
-                                print("OneRingFloors majList[i].leader:",majList[i].leader);
-                                print("OneRingFloors functionCount:",functionCount);
-                                print("OneRingFloors successCount:",successCount);
-                                print("OneRingFloors isMust:",isMust);
-                                break;
-                            end
-                        end
-                        functionCount=0;
+						local functionResult = functionResultFail;--此部分公用
+						--先补一次1环内
+						local isMust = false;
 						while(functionCount<=20)do
-						    local functionResult = civAddFoodTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ,successCount,isLucky);
-						    if(functionResult==functionResultFalse)then
-						        functionCount = functionCount + 1;
-						    elseif functionResult==functionResultTrue then
-						        functionCount = functionCount + 1;
-						        successCount = successCount + 1;
-						    elseif functionResult==functionResultSuccess or functionResult==functionResultFail then
-						        print("majList[i].leader:",majList[i].leader);
-						        print("functionCount:",functionCount);
-						        print("successCount:",successCount);
-						        break;
-						    end
+							local functionResult = civAddOneRingFloorsTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ,isMust);
+							if(functionResult==functionResultFalse)then
+								functionCount = functionCount + 1;
+								if(functionCount>=10)then
+									isMust = true;
+								end
+							elseif functionResult==functionResultTrue then
+								functionCount = functionCount + 1;
+								successCount = successCount + 1;
+							elseif functionResult==functionResultSuccess or functionResult==functionResultFail then
+								print("OneRingFloors majList[i].leader:",majList[i].leader);
+								print("OneRingFloors functionCount:",functionCount);
+								print("OneRingFloors successCount:",successCount);
+								print("OneRingFloors isMust:",isMust);
+								break;
+							end
 						end
-                        if(functionResult==functionResultSuccess or functionResult==functionResultFail)then
-                            --获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
-                            local civFlag=0;
-                            if (TeamPVPIsDesertCiv(majList[i].civ) and majList[i].desert_start > 0)then
-                                civFlag=2;
-                            elseif(IsTundraCiv(majList[i].civ) and majList[i].snow_start > 0)then
-                                civFlag=1;
-                            elseif (majList[i].civ == "CIVILIZATION_INCA" or majList[i].leader == "LEADER_T_ROOSEVELT") then
-                                civFlag=3;
-                            end
-                            --AddBonusBind(Map.GetPlot(majList[i].plotX,majList[i].plotY),iBalancingThree,civFlag,majList[i].civ);
-                            local bindFunctionCount = 0;
-                            while(bindFunctionCount<=20)do
-                                functionResult = AddBonusBind(Map.GetPlot(majList[i].plotX,majList[i].plotY),iBalancingThree,civFlag,majList[i].civ);
-                                if(functionResult==functionResultSuccess or functionResult==functionResultFail)then
-                                    print("AddBonusBind majList[i].leader:",majList[i].leader);
-                                    print("AddBonusBind functionCount:",functionCount);
-                                    print("AddBonusBind successCount:",successCount);
-                                    break;
-                                end
-                            end
-                        end
-                    end
-                end
-            end
+						functionCount = 0;
+						while(functionCount<=20)do
+							local functionResult = civAddFoodTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ,successCount,isLucky);
+							if(functionResult==functionResultFalse)then
+								functionCount = functionCount + 1;
+							elseif functionResult==functionResultTrue then
+								functionCount = functionCount + 1;
+								successCount = successCount + 1;
+							elseif functionResult==functionResultSuccess or functionResult==functionResultFail then
+								print("majList[i].leader:",majList[i].leader);
+								print("functionCount:",functionCount);
+								print("successCount:",successCount);
+								break;
+							end
+						end
+						if(functionResult==functionResultSuccess or functionResult==functionResultFail)then
+						--获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
+							local civFlag = 0;
+							if (TeamPVPIsDesertCiv(majList[i].civ) and majList[i].desert_start > 0)then
+								civFlag = 2;
+							elseif(IsTundraCiv(majList[i].civ) and majList[i].snow_start > 0)then
+								civFlag = 1;
+							elseif (majList[i].civ == "CIVILIZATION_INCA" or majList[i].leader == "LEADER_T_ROOSEVELT") then
+								civFlag = 3;
+							end
+							--AddBonusBind(Map.GetPlot(majList[i].plotX,majList[i].plotY),iBalancingThree,civFlag,majList[i].civ);
+							local bindFunctionCount = 0;
+							while(bindFunctionCount<=20)do
+								functionResult = AddBonusBind(Map.GetPlot(majList[i].plotX,majList[i].plotY),iBalancingThree,civFlag,majList[i].civ);
+								if(functionResult==functionResultSuccess or functionResult==functionResultFail)then
+									print("AddBonusBind majList[i].leader:",majList[i].leader);
+									print("AddBonusBind functionCount:",functionCount);
+									print("AddBonusBind successCount:",successCount);
+									break;
+								end
+							end
+						end
+					end
+				end
+			end
 
-            if (startConfig ~= 3) then
-                for i = 1, major_count do
-                    if (majList[i] ~= nil) then
-                        if(majList[i].leader ~= "LEADER_SPECTATOR" and majList[i].civ ~= "CIVILIZATION_EGYPT" ) then
-                            civRemoveFoodTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ);
-                        end
-                    end
-                end
-            end
+			if (startConfig ~= 3) then
+				for i = 1, major_count do
+					if (majList[i] ~= nil) then
+						if(majList[i].leader ~= "LEADER_SPECTATOR" and majList[i].civ ~= "CIVILIZATION_EGYPT" ) then
+							civRemoveFoodTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ);
+						end
+					end
+				end
+			end
 
-            --产出
-            for i = 1, major_count do
-                stonesCounts = 0;
-                local PlotStones=Map.GetPlot(majList[i].plotX,majList[i].plotY);
-                for ii = 0, 18 do
-                    local adjacentPlotStones = GetAdjacentTiles(PlotStones, ii);
-                    if (adjacentPlotStones ~= nil) then
-                        if(adjacentPlotStones:GetResourceCount() > 0) then
-                            --print("GetResourceType :",adjacentPlotStones:GetResourceType());
-                            if(8 == adjacentPlotStones:GetResourceType()) then
-                                stonesCounts=stonesCounts+1;
-                                --print("stonesCounts++",majList[i].civ);
-                            end
-                        end
+			--产出
+			for i = 1, major_count do
+				stonesCounts = 0;
+				local PlotStones = Map.GetPlot(majList[i].plotX,majList[i].plotY);
+				for ii = 0, 18 do
+					local adjacentPlotStones = GetAdjacentTiles(PlotStones, ii);
+					if (adjacentPlotStones ~= nil) then
+						if(adjacentPlotStones:GetResourceCount() > 0) then
+						--print("GetResourceType :",adjacentPlotStones:GetResourceType());
+							if(8 == adjacentPlotStones:GetResourceType()) then
+								stonesCounts = stonesCounts+1;
+							--print("stonesCounts++",majList[i].civ);
+							end
+						end
 
-                    end
+					end
 
-                end
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR") then
-                    	local functionCount = 0;
+				end
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR") then
+						local functionCount = 0;
 						local successCount = 0;
 						local isLucky = false;
 						local isLuckyRng = TerrainBuilder.GetRandomNumber(100,"test");
 						if(isLuckyRng<=25)then
-							isLucky=true
+							isLucky = true
 						end
 						while(functionCount<=20)do
-						    local functionResult = civAddProdTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ,successCount,isLucky);
-						    if(functionResult==functionResultFalse)then
-						        functionCount = functionCount + 1;
-						    elseif functionResult==functionResultTrue then
-						        functionCount = functionCount + 1;
-						        successCount = successCount + 1;
-						    elseif functionResult==functionResultSuccess or functionResult==functionResultFail then
-						        print("majList[i].leader:",majList[i].leader);
-						        print("functionCount:",functionCount);
-						        print("successCount:",successCount);
-						        break;
-						    end
+							local functionResult = civAddProdTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ,successCount,isLucky);
+							if(functionResult==functionResultFalse)then
+								functionCount = functionCount + 1;
+							elseif functionResult==functionResultTrue then
+								functionCount = functionCount + 1;
+								successCount = successCount + 1;
+							elseif functionResult==functionResultSuccess or functionResult==functionResultFail then
+								print("majList[i].leader:",majList[i].leader);
+								print("functionCount:",functionCount);
+								print("successCount:",successCount);
+								break;
+							end
 						end
-                    end
-                end
-            end
+					end
+				end
+			end
 
-            -- Phase 3 reduce the positive outliers
+			-- Phase 3 reduce the positive outliers
 
-            -- Check for Major Civ below threshold
-            if (startConfig ~= 3) then
+			-- Check for Major Civ below threshold
+			if (startConfig ~= 3) then
 
-                for i = 1, major_count do
-                    if (majList[i] ~= nil) then
-                        if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                            civRemoveProdTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ);
-                        end
-                    end
-                end
-            end
-
-
-            print ("Production Balancing - Completed", os.date("%c"))
-            ---------------------------------------------------------------------------------------------------------------------------------------------------------
-            -- Phase 4: Best Tiles Balancing: Looking at the 2 best tiles for Ancient and Classical Starts
-            ----------------------------------------------------------------------------------------------------------------------------------------------------------;
-
-            local iStartEra = GameInfo.Eras[ GameConfiguration.GetStartEra() ];
-            local iStartIndex = 1;
+				for i = 1, major_count do
+					if (majList[i] ~= nil) then
+						if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+							civRemoveProdTeamPVP(Map.GetPlot(majList[i].plotX,majList[i].plotY),majList[i].leader,majList[i].civ);
+						end
+					end
+				end
+			end
 
 
-            if iStartEra ~= nil then
-                iStartIndex = iStartEra.ChronologyIndex;
-            end
+			print ("Production Balancing - Completed", os.date("%c"))
+			---------------------------------------------------------------------------------------------------------------------------------------------------------
+			-- Phase 4: Best Tiles Balancing: Looking at the 2 best tiles for Ancient and Classical Starts
+			----------------------------------------------------------------------------------------------------------------------------------------------------------;
 
-            if (iStartIndex == 1 or iStartIndex == 2) then
-
-                -- Let's get the averages
-                local avg_best_tile_1 = 0;
-                local avg_best_tile_2 = 0;
-                local max_best_tile_1 = 0;
-                local max_best_tile_2 = 0;
-                local best_civ_1 = nil
-                local best_civ_2 = nil
-                count = 0;
-                for i = 1, major_count do
-                    if (majList[i] == nil or majList[i].leader == "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                        count = count +1;
-                    else
-                        startPlot = Map.GetPlot(majList[i].plotX, majList[i].plotY);
-                        tempEval = EvaluateStartingLocation(startPlot)
-                        majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9);
-                        majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*.9);
-                        if (majList[i].civ == "CIVILIZATION_RUSSIA" ) and tempEval[11] > 4 then
-                            majList[i].best_tile = math.max(tempEval[24],tempEval[28]) + 1;
-                            majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]) + 1;
-                        end
-                        if (majList[i].civ == "CIVILIZATION_CANADA" or majList[i].civ == "CIVILIZATION_SUK_TIBET"  ) and tempEval[11] > 4 then
-                            majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 1;
-                            majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*0.9) + 1;
-                        end
-                        if (majList[i].civ == "CIVILIZATION_KJERAG" ) and tempEval[11] > 4 then
-                            majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 1;
-                            majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*0.9) + 1;
-                        end
-                        if (TeamPVPIsDesertCiv(majList[i].civ)) and tempEval[12] > 4 then
-                            majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 0.75;
-                            majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*0.9) + 0.75;
-                        end
-                        if (majList[i].civ == "CIVILIZATION_MAORI" ) then
-                            majList[i].best_tile = math.max(majList[i].best_tile,4) -- so Maori doesn't penalized other.
-                            majList[i].best_tile_2 = math.max(majList[i].best_tile_2,4) -- so Maori doesn't penalized other.
-                        end
-                        __Debug(majList[i].civ ,"S1-S2-I1-I2:", tempEval[24], tempEval[25],tempEval[28],tempEval[29], "Best", majList[i].best_tile, "Second", majList[i].best_tile_2)
-                        if majList[i].best_tile > max_best_tile_1 then
-                            max_best_tile_1 = majList[i].best_tile
-                            max_best_tile_2 = majList[i].best_tile_2
-                            best_civ_2 = majList[i].leader
-                            best_civ_1 = majList[i].leader
-                        end
-                        if startPlot:GetTerrainType() == 4 then
-                            majList[i].best_tile = majList[i].best_tile + 1 -- Factor in the fact we have a base 2:2 city tile instead of a 2:1
-                        end
-                        avg_best_tile_1  = avg_best_tile_1 + majList[i].best_tile;
-                        avg_best_tile_2  = avg_best_tile_2 + majList[i].best_tile_2;
-                    end
-
-                end
-
-                avg_best_tile_1 = avg_best_tile_1 / (major_count - count);
-                avg_best_tile_2 = avg_best_tile_2 / (major_count - count);
-
-                __Debug("Phase 4: Best Tiles Balancing: Average Score:", avg_best_tile_1+avg_best_tile_2,"Average Best tile:", avg_best_tile_1, "Second Avg. Best:", avg_best_tile_2, "Top", max_best_tile_1, best_civ_1, "Second",max_best_tile_2,best_civ_2)
-                --avg_best_tile_1 = max_best_tile_1
-                --avg_best_tile_2 = max_best_tile_2
-                -- Check for Major Civ below threshold
-
-                for i = 1, major_count do
-                    if (majList[i] ~= nil) then
-                        if(majList[i].leader ~= "LEADER_SPECTATOR") then
-                            if ( (avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2) > 1.0 ) then
-                                __Debug("Tile balancing: Need to adjust: ", majList[i].leader, "Score:", (majList[i].best_tile + majList[i].best_tile_2), "Missing score:", (avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2) )
-                                if(majList[i].civ == "CIVILIZATION_INCA") then
-                                    --Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 3)
-                                elseif(majList[i].civ == "CIVILIZATION_EGYPT") then
-                                    --Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 4)
-                                elseif TeamPVPIsDesertCiv(majList[i].civ) then
-                                    --Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 2)
-                                elseif(majList[i].civ == "CIVILIZATION_CANADA" or majList[i].civ == "CIVILIZATION_SUK_TIBET"  or majList[i].civ == "CIVILIZATION_RUSSIA") then
-                                    --Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 1)
-                                else
-                                    --Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 0)
-                                end
-                            else
-                                __Debug("Tile balancing: No Need to adjust: ", majList[i].leader, "Score:", (majList[i].best_tile + majList[i].best_tile_2) )
-                            end
-                            if ( ( majList[i].best_tile + majList[i].best_tile_2 ) > ( ( avg_best_tile_1 + avg_best_tile_2 ) * (  1 + dispersion_2) ) ) then
-                                __Debug("Tile balancing: Need to adjust Positive Outliers: ", majList[i].leader, "Score:", (majList[i].best_tile + majList[i].best_tile_2), "Need to Adjust:", math.max(math.floor(majList[i].best_tile + majList[i].best_tile_2 - avg_best_tile_1 - avg_best_tile_2),1))
-                                for k = 1, math.max(math.floor(majList[i].best_tile + majList[i].best_tile_2 - avg_best_tile_1 - avg_best_tile_2),1) do
-                                    local sPlot = Map.GetPlot(majList[i].plotX,majList[i].plotY)
-                                    TerrainBuilder.SetFeatureType(sPlot, -1)
-                                    if (sPlot:GetTerrainType() == 4) then
-                                        TerrainBuilder.SetTerrainType(sPlot, sPlot:GetTerrainType()-1);
-                                        __Debug("Tile balancing: Need to adjust: ", majList[i].leader, "Start too strong: Remove Plain Hills on Starting Tile")
-                                    else
-                                        if RemoveFood(Map.GetPlot(majList[i].plotX,majList[i].plotY)) == true then
-                                            __Debug("Tile balancing: Need to adjust: ", majList[i].leader, "Start too strong: Remove One Food")
-                                        else
-                                            __Debug("Tile balancing: Need to adjust: ", majList[i].leader, "Start too strong: Remove One Prod")
-                                            RemoveProd(Map.GetPlot(majList[i].plotX,majList[i].plotY))
-                                        end
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
+			local iStartEra = GameInfo.Eras[ GameConfiguration.GetStartEra() ];
+			local iStartIndex = 1;
 
 
-                print ("Best Tiles Balancing - Completed", os.date("%c"))
-            end -- era check end
-            ---------------------------------------------------------------------------------------------------------------------------------------------------------
-            -- Finalize
-            ----------------------------------------------------------------------------------------------------------------------------------------------------------
+			if iStartEra ~= nil then
+				iStartIndex = iStartEra.ChronologyIndex;
+			end
 
-            -- Re-run coastal check if Reefs added are blocking a harbour
-            for i = 1, major_count do
-                -- Added Spectator mod handling if a major player isn't detected
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                        if (Map.GetPlot(majList[i].plotX,majList[i].plotY):IsCoastalLand() == true) then
-                            -- Check for Coastal Start
-                            __Debug("Coastal Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
-                            Terraforming_Coastal(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree, true)
-                        end
-                    end
-                end
-            end
+			if (iStartIndex == 1 or iStartIndex == 2) then
 
-            -- Oasis Hills ? Well no
-            for i = 1, major_count do
-                -- Added Spectator mod handling if a major player isn't detected
-                if (majList[i] ~= nil) then
-                    if TeamPVPIsDesertCiv(majList[i].civ) then
-                        for j = 0, 60 do
-                            local mali_plot = GetAdjacentTiles(Map.GetPlot(majList[i].plotX,majList[i].plotY),j) -- forgot the j!
-                            if mali_plot ~= nil then
-                                if (mali_plot:GetTerrainType() == 7 and mali_plot:GetFeatureType() == 4) then
-                                    print ("Oasis on Hills -----> Die")
-                                    TerrainBuilder.SetTerrainType(mali_plot, 6);
-                                    ResourceBuilder.SetResourceType(mali_plot, -1);
-                                end
-                            end
-                        end
-                    end
-                end
-            end
+			-- Let's get the averages
+				local avg_best_tile_1 = 0;
+				local avg_best_tile_2 = 0;
+				local max_best_tile_1 = 0;
+				local max_best_tile_2 = 0;
+				local best_civ_1 = nil
+				local best_civ_2 = nil
+				count = 0;
+				for i = 1, major_count do
+					if (majList[i] == nil or majList[i].leader == "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+						count = count +1;
+					else
+						startPlot = Map.GetPlot(majList[i].plotX, majList[i].plotY);
+						tempEval = EvaluateStartingLocation(startPlot)
+						majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9);
+						majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*.9);
+						if (majList[i].civ == "CIVILIZATION_RUSSIA" ) and tempEval[11] > 4 then
+							majList[i].best_tile = math.max(tempEval[24],tempEval[28]) + 1;
+							majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]) + 1;
+						end
+						if (majList[i].civ == "CIVILIZATION_CANADA" or majList[i].civ == "CIVILIZATION_SUK_TIBET"  ) and tempEval[11] > 4 then
+							majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 1;
+							majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*0.9) + 1;
+						end
+						if (majList[i].civ == "CIVILIZATION_KJERAG" ) and tempEval[11] > 4 then
+							majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 1;
+							majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*0.9) + 1;
+						end
+						if (TeamPVPIsDesertCiv(majList[i].civ)) and tempEval[12] > 4 then
+							majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 0.75;
+							majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*0.9) + 0.75;
+						end
+						if (majList[i].civ == "CIVILIZATION_MAORI" ) then
+							majList[i].best_tile = math.max(majList[i].best_tile,4) -- so Maori doesn't penalized other.
+							majList[i].best_tile_2 = math.max(majList[i].best_tile_2,4) -- so Maori doesn't penalized other.
+						end
+						__Debug(majList[i].civ ,"S1-S2-I1-I2:", tempEval[24], tempEval[25],tempEval[28],tempEval[29], "Best", majList[i].best_tile, "Second", majList[i].best_tile_2)
+						if majList[i].best_tile > max_best_tile_1 then
+							max_best_tile_1 = majList[i].best_tile
+							max_best_tile_2 = majList[i].best_tile_2
+							best_civ_2 = majList[i].leader
+							best_civ_1 = majList[i].leader
+						end
+						if startPlot:GetTerrainType() == 4 then
+							majList[i].best_tile = majList[i].best_tile + 1 -- Factor in the fact we have a base 2:2 city tile instead of a 2:1
+						end
+						avg_best_tile_1 = avg_best_tile_1 + majList[i].best_tile;
+						avg_best_tile_2 = avg_best_tile_2 + majList[i].best_tile_2;
+					end
 
-            -- Fix lack of freshwater #2
+				end
 
-            for i = 1, major_count do
-                -- Added Spectator mod handling if a major player isn't detected
-                if (majList[i] ~= nil) then
-                    if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                        -- Check for freshwater
-                        local wplot = Map.GetPlot(majList[i].plotX,majList[i].plotY)
-                        if (wplot:IsCoastalLand() == false and wplot:IsWater() == false and  wplot:IsRiver() == false and wplot:IsFreshWater() == false) then
-                            -- Fix No Water
-                            print("Water Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ); -- put a print to catch the error in non debug mode
-                            Terraforming_Water(Map.GetPlot(majList[i].plotX,majList[i].plotY));
-                        end
-                    end
-                end
-            end
+				avg_best_tile_1 = avg_best_tile_1 / (major_count - count);
+				avg_best_tile_2 = avg_best_tile_2 / (major_count - count);
 
-            -- Run one last eval for debug
-            --
+				__Debug("Phase 4: Best Tiles Balancing: Average Score:", avg_best_tile_1+avg_best_tile_2,"Average Best tile:", avg_best_tile_1, "Second Avg. Best:", avg_best_tile_2, "Top", max_best_tile_1, best_civ_1, "Second",max_best_tile_2,best_civ_2)
+				--avg_best_tile_1 = max_best_tile_1
+				--avg_best_tile_2 = max_best_tile_2
+				-- Check for Major Civ below threshold
 
-            for i = 1, major_count do
-                local temp = 0;
-                count = 0;
-                if (majList[i] == nil or majList[i].leader == "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                    count = count + 1
-                else
-                    startPlot = Map.GetPlot(majList[i].plotX, majList[i].plotY);
-                    tempEval = EvaluateStartingLocation(startPlot)
-                    majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9);
-                    majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*.9);
-                    if (majList[i].civ == "CIVILIZATION_RUSSIA" ) and tempEval[11] > 4 then
-                        majList[i].best_tile = math.max(tempEval[24],tempEval[28]) + 1;
-                        majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]) + 1;
-                    end
-                    if (majList[i].civ == "CIVILIZATION_CANADA" or majList[i].civ == "CIVILIZATION_SUK_TIBET" ) and tempEval[11] > 4 then
-                        majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 1;
-                        majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*.9) + 1;
-                    end
-                    if (majList[i].civ == "CIVILIZATION_KJERAG" ) and tempEval[11] > 4 then
-                        majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 1;
-                        majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*.9) + 1;
-                    end
-                    if TeamPVPIsDesertCiv(majList[i].civ) and tempEval[12] > 4 then
-                        majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 0.75;
-                        majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*.9) + 0.75;
-                    end
-                    print ("BBS Script - Completed", os.date("%c"), "Player", i,Locale.Lookup(PlayerConfigurations[major_table[i]]:GetPlayerName()) ,"Food adjustement:", (tempEval[5]-majList[i].food_adjust), "Production adjustement:", (tempEval[6]-majList[i].prod_adjust), "Best Tile", majList[i].best_tile/1.25, "2nd Best", majList[i].best_tile_2/1.25   );
-                    if (bBiasFail == true) then
-                        Game:SetProperty("BBS_SAFE_MODE",true)
-                    else
-                        Game:SetProperty("BBS_SAFE_MODE",false)
-                    end
-                end
+				for i = 1, major_count do
+					if (majList[i] ~= nil) then
+						if(majList[i].leader ~= "LEADER_SPECTATOR") then
+							if ( (avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2) > 1.0 ) then
+								__Debug("Tile balancing: Need to adjust: ", majList[i].leader, "Score:", (majList[i].best_tile + majList[i].best_tile_2), "Missing score:", (avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2) )
+								if(majList[i].civ == "CIVILIZATION_INCA") then
+								--Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 3)
+								elseif(majList[i].civ == "CIVILIZATION_EGYPT") then
+								--Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 4)
+								elseif TeamPVPIsDesertCiv(majList[i].civ) then
+								--Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 2)
+								elseif(majList[i].civ == "CIVILIZATION_CANADA" or majList[i].civ == "CIVILIZATION_SUK_TIBET"  or majList[i].civ == "CIVILIZATION_RUSSIA") then
+								--Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 1)
+								else
+								--Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 0)
+								end
+							else
+								__Debug("Tile balancing: No Need to adjust: ", majList[i].leader, "Score:", (majList[i].best_tile + majList[i].best_tile_2) )
+							end
+							if ( ( majList[i].best_tile + majList[i].best_tile_2 ) > ( ( avg_best_tile_1 + avg_best_tile_2 ) * (  1 + dispersion_2) ) ) then
+								__Debug("Tile balancing: Need to adjust Positive Outliers: ", majList[i].leader, "Score:", (majList[i].best_tile + majList[i].best_tile_2), "Need to Adjust:", math.max(math.floor(majList[i].best_tile + majList[i].best_tile_2 - avg_best_tile_1 - avg_best_tile_2),1))
+								for k = 1, math.max(math.floor(majList[i].best_tile + majList[i].best_tile_2 - avg_best_tile_1 - avg_best_tile_2),1) do
+									local sPlot = Map.GetPlot(majList[i].plotX,majList[i].plotY)
+									TerrainBuilder.SetFeatureType(sPlot, -1)
+									if (sPlot:GetTerrainType() == 4) then
+										TerrainBuilder.SetTerrainType(sPlot, sPlot:GetTerrainType()-1);
+										__Debug("Tile balancing: Need to adjust: ", majList[i].leader, "Start too strong: Remove Plain Hills on Starting Tile")
+									else
+										if RemoveFood(Map.GetPlot(majList[i].plotX,majList[i].plotY)) == true then
+											__Debug("Tile balancing: Need to adjust: ", majList[i].leader, "Start too strong: Remove One Food")
+										else
+											__Debug("Tile balancing: Need to adjust: ", majList[i].leader, "Start too strong: Remove One Prod")
+											RemoveProd(Map.GetPlot(majList[i].plotX,majList[i].plotY))
+										end
+									end
+								end
+							end
+						end
+					end
+				end
 
-            end
-    else
-        print ("BBS Script - Completed - Debug", os.date("%c") );
-    end -- Debug Balancing
 
-    -- Gemedon's input to limit crash
-    TerrainBuilder.AnalyzeChokepoints()
-    -- Coast -> Lake
-    AreaBuilder.Recalculate();
-    -- Flag for the UI
-    Game:SetProperty("BBS_PLOT_HIDDEN",false)
-    -- Fix the Volcano bug
-    for iPlotIndex = 0, Map.GetPlotCount()-1, 1 do
-        local pPlot = Map.GetPlotByIndex(iPlotIndex)
-        if (pPlot:GetFeatureType() == g_FEATURE_VOLCANO) then
-            local iPlotTerrain = pPlot:GetTerrainType()
-            if iPlotTerrain ~= 2 and iPlotTerrain ~= 5 and iPlotTerrain ~= 8 and iPlotTerrain ~= 11 and iPlotTerrain ~= 14 then
-                TerrainBuilder.SetFeatureType(pPlot,5)
-                ResourceBuilder.SetResourceType(pPlot,-1)
-            end
-        end
-    end
+				print ("Best Tiles Balancing - Completed", os.date("%c"))
+			end -- era check end
+			---------------------------------------------------------------------------------------------------------------------------------------------------------
+			-- Finalize
+			----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-    else
-    __Debug("D TURN STARTING: Any other turn");
+			-- Re-run coastal check if Reefs added are blocking a harbour
+			for i = 1, major_count do
+			-- Added Spectator mod handling if a major player isn't detected
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+						if (Map.GetPlot(majList[i].plotX,majList[i].plotY):IsCoastalLand() == true) then
+						-- Check for Coastal Start
+							__Debug("Coastal Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ);
+							Terraforming_Coastal(Map.GetPlot(majList[i].plotX,majList[i].plotY), iBalancingThree, true)
+						end
+					end
+				end
+			end
 
-    end
+			-- Oasis Hills ? Well no
+			for i = 1, major_count do
+			-- Added Spectator mod handling if a major player isn't detected
+				if (majList[i] ~= nil) then
+					if TeamPVPIsDesertCiv(majList[i].civ) then
+						for j = 0, 60 do
+							local mali_plot = GetAdjacentTiles(Map.GetPlot(majList[i].plotX,majList[i].plotY),j) -- forgot the j!
+							if mali_plot ~= nil then
+								if (mali_plot:GetTerrainType() == 7 and mali_plot:GetFeatureType() == 4) then
+									print ("Oasis on Hills -----> Die")
+									TerrainBuilder.SetTerrainType(mali_plot, 6);
+									ResourceBuilder.SetResourceType(mali_plot, -1);
+								end
+							end
+						end
+					end
+				end
+			end
+
+			-- Fix lack of freshwater #2
+
+			for i = 1, major_count do
+			-- Added Spectator mod handling if a major player isn't detected
+				if (majList[i] ~= nil) then
+					if(majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+					-- Check for freshwater
+						local wplot = Map.GetPlot(majList[i].plotX,majList[i].plotY)
+						if (wplot:IsCoastalLand() == false and wplot:IsWater() == false and  wplot:IsRiver() == false and wplot:IsFreshWater() == false) then
+						-- Fix No Water
+							print("Water Terraforming Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ",i," ",majList[i].leader, majList[i].civ); -- put a print to catch the error in non debug mode
+							Terraforming_Water(Map.GetPlot(majList[i].plotX,majList[i].plotY));
+						end
+					end
+				end
+			end
+
+			-- Run one last eval for debug
+			--
+
+			for i = 1, major_count do
+				local temp = 0;
+				count = 0;
+				if (majList[i] == nil or majList[i].leader == "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+					count = count + 1
+				else
+					startPlot = Map.GetPlot(majList[i].plotX, majList[i].plotY);
+					tempEval = EvaluateStartingLocation(startPlot)
+					majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9);
+					majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*.9);
+					if (majList[i].civ == "CIVILIZATION_RUSSIA" ) and tempEval[11] > 4 then
+						majList[i].best_tile = math.max(tempEval[24],tempEval[28]) + 1;
+						majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]) + 1;
+					end
+					if (majList[i].civ == "CIVILIZATION_CANADA" or majList[i].civ == "CIVILIZATION_SUK_TIBET" ) and tempEval[11] > 4 then
+						majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 1;
+						majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*.9) + 1;
+					end
+					if (majList[i].civ == "CIVILIZATION_KJERAG" ) and tempEval[11] > 4 then
+						majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 1;
+						majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*.9) + 1;
+					end
+					if TeamPVPIsDesertCiv(majList[i].civ) and tempEval[12] > 4 then
+						majList[i].best_tile = math.max(tempEval[24],tempEval[28]*0.9) + 0.75;
+						majList[i].best_tile_2 = math.max(tempEval[25],tempEval[29]*.9) + 0.75;
+					end
+					print ("BBS Script - Completed", os.date("%c"), "Player", i,Locale.Lookup(PlayerConfigurations[major_table[i]]:GetPlayerName()) ,"Food adjustement:", (tempEval[5]-majList[i].food_adjust), "Production adjustement:", (tempEval[6]-majList[i].prod_adjust), "Best Tile", majList[i].best_tile/1.25, "2nd Best", majList[i].best_tile_2/1.25   );
+					if (bBiasFail == true) then
+						Game:SetProperty("BBS_SAFE_MODE",true)
+					else
+						Game:SetProperty("BBS_SAFE_MODE",false)
+					end
+				end
+
+			end
+		else
+			print ("BBS Script - Completed - Debug", os.date("%c") );
+		end -- Debug Balancing
+
+		-- Gemedon's input to limit crash
+		TerrainBuilder.AnalyzeChokepoints()
+		-- Coast -> Lake
+		AreaBuilder.Recalculate();
+		-- Flag for the UI
+		Game:SetProperty("BBS_PLOT_HIDDEN",false)
+		-- Fix the Volcano bug
+		for iPlotIndex = 0, Map.GetPlotCount()-1, 1 do
+			local pPlot = Map.GetPlotByIndex(iPlotIndex)
+			if (pPlot:GetFeatureType() == g_FEATURE_VOLCANO) then
+				local iPlotTerrain = pPlot:GetTerrainType()
+				if iPlotTerrain ~= 2 and iPlotTerrain ~= 5 and iPlotTerrain ~= 8 and iPlotTerrain ~= 11 and iPlotTerrain ~= 14 then
+					TerrainBuilder.SetFeatureType(pPlot,5)
+					ResourceBuilder.SetResourceType(pPlot,-1)
+				end
+			end
+		end
+
+	else
+		__Debug("D TURN STARTING: Any other turn");
+
+	end
 end
 
 
@@ -1119,38 +1130,38 @@ end
 -- 确保冻土补正只会补偿地图上已有的资源
 -- 确保冻土补正只会补偿至多4种奢侈资源
 function Tundra_Resource_Pick()
-    TERRAIN_TUNDRA_RESOURCE = GetShuffledCopyOfTable(TERRAIN_TUNDRA_RESOURCE)
-    TERRAIN_TUNDRA_HILLS_RESOURCE = GetShuffledCopyOfTable(TERRAIN_TUNDRA_HILLS_RESOURCE)
-    for i = #TERRAIN_TUNDRA_RESOURCE, 1, -1 do
-        if not MapHasResource(TERRAIN_TUNDRA_RESOURCE[i]) then
-            table.remove(TERRAIN_TUNDRA_RESOURCE,i)
-        end
-    end
-    for i = #TERRAIN_TUNDRA_HILLS_RESOURCE, 1, -1 do
-        if not MapHasResource(TERRAIN_TUNDRA_HILLS_RESOURCE[i]) then
-            table.remove(TERRAIN_TUNDRA_HILLS_RESOURCE,i)
-        end
-    end
-    local LuxNum = 0
-    for i = #TERRAIN_TUNDRA_RESOURCE, 1, -1 do
-        if GameInfo.Resources[TERRAIN_TUNDRA_RESOURCE[i]].ResourceClassType == 'RESOURCECLASS_LUXURY' then
-            if LuxNum >= 4 then
-                table.remove(TERRAIN_TUNDRA_RESOURCE,i)
-            else
-                LuxNum = LuxNum + 1
-            end
-        end
-    end
-    LuxNum = 0
-    for i = #TERRAIN_TUNDRA_HILLS_RESOURCE, 1, -1 do
-        if GameInfo.Resources[TERRAIN_TUNDRA_HILLS_RESOURCE[i]].ResourceClassType == 'RESOURCECLASS_LUXURY' then
-            if LuxNum >= 4 then
-                table.remove(TERRAIN_TUNDRA_HILLS_RESOURCE,i)
-            else
-                LuxNum = LuxNum + 1
-            end
-        end
-    end
+	TERRAIN_TUNDRA_RESOURCE = GetShuffledCopyOfTable(TERRAIN_TUNDRA_RESOURCE)
+	TERRAIN_TUNDRA_HILLS_RESOURCE = GetShuffledCopyOfTable(TERRAIN_TUNDRA_HILLS_RESOURCE)
+	for i = #TERRAIN_TUNDRA_RESOURCE, 1, -1 do
+		if not MapHasResource(TERRAIN_TUNDRA_RESOURCE[i]) then
+			table.remove(TERRAIN_TUNDRA_RESOURCE,i)
+		end
+	end
+	for i = #TERRAIN_TUNDRA_HILLS_RESOURCE, 1, -1 do
+		if not MapHasResource(TERRAIN_TUNDRA_HILLS_RESOURCE[i]) then
+			table.remove(TERRAIN_TUNDRA_HILLS_RESOURCE,i)
+		end
+	end
+	local LuxNum = 0
+	for i = #TERRAIN_TUNDRA_RESOURCE, 1, -1 do
+		if GameInfo.Resources[TERRAIN_TUNDRA_RESOURCE[i]].ResourceClassType == 'RESOURCECLASS_LUXURY' then
+			if LuxNum >= 4 then
+				table.remove(TERRAIN_TUNDRA_RESOURCE,i)
+			else
+				LuxNum = LuxNum + 1
+			end
+		end
+	end
+	LuxNum = 0
+	for i = #TERRAIN_TUNDRA_HILLS_RESOURCE, 1, -1 do
+		if GameInfo.Resources[TERRAIN_TUNDRA_HILLS_RESOURCE[i]].ResourceClassType == 'RESOURCECLASS_LUXURY' then
+			if LuxNum >= 4 then
+				table.remove(TERRAIN_TUNDRA_HILLS_RESOURCE,i)
+			else
+				LuxNum = LuxNum + 1
+			end
+		end
+	end
 end
 
 
@@ -1158,617 +1169,618 @@ end
 
 function EvaluateStartingLocation(plot)
 
-    local plotX = plot:GetX();
-    local plotY = plot:GetY();
-    local impassable = 0;
-    local snow = 0;
-    local water = 0;
-    local desert = 0;
-    local flood = 0;
-    local hill = 0;
-    local plains = 0;
-    local flood_start = 0;
-    local flood_inner = 0;
-    local flood_outer = 0;
-    local food_spawn_start = 0;
-    local prod_spawn_start = 0;
-    local food_spawn_inner = 0;
-    local prod_spawn_inner = 0;
-    local culture_spawn_start = 0;
-    local faith_spawn_start = 0;
-    local best_yield_start = 0;
-    local impassable_start = 0;
-    local snow_start = 0;
-    local water_start = 0;
-    local desert_start = 0;
-    local hill_start = 0;
-    local impassable_inner = 0;
-    local snow_inner = 0;
-    local water_inner = 0;
-    local desert_inner = 0;
-    local hill_inner = 0;
-    local impassable_outer = 0;
-    local snow_outer = 0;
-    local water_outer = 0;
-    local desert_outer = 0
-    local type = "Standard"
-    local gridWidth, gridHeight = Map.GetGridSize();
-    local terrainType = plot:GetTerrainType();
-    local iResourcesInDB = 0;
-    local bCulture = false;
-    local bFaith = false;
-    local direction = 0;
-    eResourceType	= {};
-    eResourceClassType = {};
-    eRevealedEra = {};
-    local count = 0;
-    local adjacentPlot = nil;
-    local adjacentPlot2 = nil;
-    local adjacentPlot3 = nil;
-    local adjacentPlot4 = nil;
-    local temp_tile = 0;
-    local best_tile = 0;
-    local second_best_tile = 0;
-    local best_tile_inner = 0;
-    local second_best_tile_inner = 0;
+	local plotX = plot:GetX();
+	local plotY = plot:GetY();
+	local impassable = 0;
+	local snow = 0;
+	local water = 0;
+	local desert = 0;
+	local flood = 0;
+	local hill = 0;
+	local plains = 0;
+	local flood_start = 0;
+	local flood_inner = 0;
+	local flood_outer = 0;
+	local food_spawn_start = 0;
+	local prod_spawn_start = 0;
+	local food_spawn_inner = 0;
+	local prod_spawn_inner = 0;
+	local culture_spawn_start = 0;
+	local faith_spawn_start = 0;
+	local best_yield_start = 0;
+	local impassable_start = 0;
+	local snow_start = 0;
+	local water_start = 0;
+	local desert_start = 0;
+	local hill_start = 0;
+	local impassable_inner = 0;
+	local snow_inner = 0;
+	local water_inner = 0;
+	local desert_inner = 0;
+	local hill_inner = 0;
+	local impassable_outer = 0;
+	local snow_outer = 0;
+	local water_outer = 0;
+	local desert_outer = 0
+	local type = "Standard"
+	local gridWidth, gridHeight = Map.GetGridSize();
+	local terrainType = plot:GetTerrainType();
+	local iResourcesInDB = 0;
+	local bCulture = false;
+	local bFaith = false;
+	local direction = 0;
+	eResourceType = {};
+	eResourceClassType = {};
+	eRevealedEra = {};
+	local count = 0;
+	local adjacentPlot = nil;
+	local adjacentPlot2 = nil;
+	local adjacentPlot3 = nil;
+	local adjacentPlot4 = nil;
+	local temp_tile = 0;
+	local best_tile = 0;
+	local second_best_tile = 0;
+	local best_tile_inner = 0;
+	local second_best_tile_inner = 0;
 
-    -- EvalType is the result table to then be used as the basis for later balancing opperation
+	-- EvalType is the result table to then be used as the basis for later balancing opperation
 
-    local EvalType = {impassable,water,snow,desert, food_spawn_start, prod_spawn_start, culture_spawn_start, faith_spawn_start, impassable_start,water_start,snow_start,desert_start,impassable_inner,water_inner,snow_inner,desert_inner,impassable_outer,water_outer,snow_outer,desert_outer}
+	local EvalType = {impassable,water,snow,desert, food_spawn_start, prod_spawn_start, culture_spawn_start, faith_spawn_start, impassable_start,water_start,snow_start,desert_start,impassable_inner,water_inner,snow_inner,desert_inner,impassable_outer,water_outer,snow_outer,desert_outer}
 
-    for row in GameInfo.Resources() do
-        eResourceType[iResourcesInDB] = row.Hash;
-        eResourceClassType[iResourcesInDB] = row.ResourceClassType;
-        eRevealedEra[iResourcesInDB] = row.RevealedEra;
-        iResourcesInDB = iResourcesInDB + 1;
-    end
-
-
-    -- Starting plot:
-    -- Tile #-1
-
-    for i = -1, 35 do --35
-        adjacentPlot = GetAdjacentTiles(plot, i)
-        if (adjacentPlot ~= nil) then
-            terrainType = adjacentPlot:GetTerrainType();
-            if (i == -1) then
-                if(adjacentPlot:IsImpassable() == true) then
-                    impassable = impassable + 1;
-                end
-
-                -- Checks to see if the plot is water
-                if(adjacentPlot:IsWater() == true) then
-                    water = water + 1;
-                end
-
-                -- Add to the Snow counter if snow shows up
-                if(terrainType == 9 or terrainType == 10 or terrainType == 12 or terrainType == 13) then
-                    snow = snow + 1;
-                end
-
-                -- Add to the hills counter if Hill shows up
-                if(terrainType == 1 or terrainType == 7 or terrainType == 4 or terrainType == 10) then
-                    hill = hill + 1;
-                end
-
-                -- Add to the plains counter if Plain shows up
-                if(terrainType == 3 or terrainType == 4) then
-                    plains = plains + 1;
-                end
-
-                -- Add to the Desert counter if desert shows up
-                if(terrainType == 6 or terrainType == 7) then
-                    desert = desert + 1;
-                end
-
-                -- Add to Floodplains if they are showing up
-                if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND) then
-                    flood = flood +1;
-                end
-                -- Gets the food and production counts
-                if(adjacentPlot:GetYield(g_YIELD_FOOD)>=3
-                	or (adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3
-                        +adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)>=2)then
-                	food_spawn_start = food_spawn_start + adjacentPlot:GetYield(g_YIELD_FOOD);
-                	prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                end
-
-                if(adjacentPlot:GetYield(g_YIELD_FOOD)>=4
-                	or (adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3
-                        +adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)>=3)then
-                	food_spawn_start = food_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
-                	prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                end
-
-                bCulture = false;
-                bFaith = false;
-                for row = 0, iResourcesInDB do
-                    if (eResourceClassType[row]== "RESOURCECLASS_LUXURY") then
-                        if(adjacentPlot:GetResourceCount() > 0) then
-                            -- Check for Coffee, Jade, Marble, Incense, dyes and clams
-                            if (adjacentPlot:GetResourceType() == 12 or adjacentPlot:GetResourceType() == 20 or adjacentPlot:GetResourceType() == 21 or adjacentPlot:GetResourceType() == 49) then
-                                bCulture = true;
-                            elseif (adjacentPlot:GetResourceType() == 15 or adjacentPlot:GetResourceType() == 18 or adjacentPlot:GetResourceType() == 23) then
-                                bFaith = true;
-                            end
-                        end
-                    end
-                end
-                if (bCulture == true) then
-                    culture_spawn_start = culture_spawn_start + 1;
-                end
-                if (bFaith == true) then
-                    faith_spawn_start = faith_spawn_start + 1;
-                end
-                -- Starting ring
-                -- Tiles #0 #5
-            elseif (i > -1 and i < 6) then
-
-                temp_tile = 0;
-
-                if(adjacentPlot:IsImpassable() == true) then
-                    impassable_start = impassable_start + 1;
-                end
-
-                -- Checks to see if the plot is water
-                if(adjacentPlot:IsWater() == true) then
-                    water_start = water_start + 1;
-                end
-
-                -- Add to the Snow counter if snow shows up
-                if(terrainType == 9 or terrainType == 10 or terrainType == 12 or terrainType == 13) then
-                    snow_start = snow_start + 1;
-                end
-
-                -- Add to the Desert counter if desert shows up
-                if(terrainType == 6 or terrainType == 7) then
-                    desert_start = desert_start + 1;
-                end
-
-                -- Add to the hills counter if Hill shows up
-                if(terrainType == 1 or terrainType == 7 or terrainType == 4 or terrainType == 10) then
-                    hill_start = hill_start + 1;
-                end
-
-                -- Add to the plains counter if Plain shows up
-                if(terrainType == 3 or terrainType == 4) then
-                    plains = plains + 1;
-                end
-
-                -- Add to Floodplains if they are showing up
-                if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND) then
-                    flood_start = flood_start +1;
-                end
-
-                -- Gets the food and production counts
-                food_spawn_start = food_spawn_start + adjacentPlot:GetYield(g_YIELD_FOOD);
-                prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_SCIENCE);
-                prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_CULTURE);
-                prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-                prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-
-                temp_tile = adjacentPlot:GetYield(g_YIELD_FOOD)
-                if temp_tile > 1 then
-                    temp_tile = temp_tile + adjacentPlot:GetYield(g_YIELD_PRODUCTION) * 1.5 + adjacentPlot:GetYield(g_YIELD_GOLD) * 0.5;
-                else -- not enough food to value those tiles fully
-                    temp_tile = temp_tile + adjacentPlot:GetYield(g_YIELD_PRODUCTION) * 0.75 + adjacentPlot:GetYield(g_YIELD_GOLD) * 0.25;
-                end
-
-                -- Adjust for non discovered resources
-                if(adjacentPlot:GetResourceType() ~= -1) then
-                    if (adjacentPlot:GetResourceType() == 41 or adjacentPlot:GetResourceType() == 46 or adjacentPlot:GetResourceType() == 43) then
-                        temp_tile = temp_tile - 2 * 1.5
-                        food_spawn_start = food_spawn_start - adjacentPlot:GetYield(g_YIELD_FOOD);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_SCIENCE);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_CULTURE);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    elseif (adjacentPlot:GetResourceType() == 42 or adjacentPlot:GetResourceType() == 44) then
-                        temp_tile = temp_tile - 1 * 1.5 - 1
-                        food_spawn_start = food_spawn_start - adjacentPlot:GetYield(g_YIELD_FOOD);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_SCIENCE);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_CULTURE);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    elseif (adjacentPlot:GetResourceType() == 45) then
-                        temp_tile = temp_tile - 3 * 1.5
-                        food_spawn_start = food_spawn_start - adjacentPlot:GetYield(g_YIELD_FOOD);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_SCIENCE);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_CULTURE);
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-	                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    elseif(adjacentPlot:GetResourceType() == 54)then--地脉
-                        food_spawn_start = food_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_FOOD);
-	                    prod_spawn_start = prod_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-	                    prod_spawn_start = prod_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
-	                    prod_spawn_start = prod_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
-	                    prod_spawn_start = prod_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-	                    prod_spawn_start = prod_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    end
-                end
-                --陆地食物+产出大于等于4
-                if(adjacentPlot:GetYield(g_YIELD_FOOD)>=4 and adjacentPlot:GetTerrainType() ~= 15)then
-                    food_spawn_start = food_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
-                end
-                --陆地食物+产出小于等于3.5 不计入总分
-                if((adjacentPlot:GetYield(g_YIELD_FOOD)
-                        +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3
-                        +adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)<=3.5 and adjacentPlot:GetTerrainType() ~= 15)then
-                    --food_spawn_start=food_spawn_start-0.1;
-                    food_spawn_start = food_spawn_start - adjacentPlot:GetYield(g_YIELD_FOOD);
-                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_SCIENCE);
-                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_CULTURE);
-                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                end
-                --海洋单元格
-                if((adjacentPlot:GetYield(g_YIELD_FOOD)
-                        +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3)<=3 and adjacentPlot:GetTerrainType() == 15) then
-                    food_spawn_start = food_spawn_start - adjacentPlot:GetYield(g_YIELD_FOOD);
-                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_SCIENCE);
-                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_CULTURE);
-                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-                    prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    --prod_spawn_start = prod_spawn_start - 0.5;--产出补算
-                end
-
-                --产出大于等于5
-                if((adjacentPlot:GetYield(g_YIELD_FOOD)
-                        +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3
-                        +adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)>=5 and adjacentPlot:GetTerrainType() ~= 15) then
-                    food_spawn_start = food_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
-                    prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                    prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
-                    prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
-                    prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-                    prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                end
-
-                --海洋单元格
-                if((adjacentPlot:GetYield(g_YIELD_FOOD)
-                        +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3)>=4 and adjacentPlot:GetTerrainType() == 15) then
-                    food_spawn_start = food_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
-                    prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                    prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
-                    prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
-                    prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-                    prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    prod_spawn_start = prod_spawn_start + 0.5;--产出补算 锤
-                end
-                --
-                --海洋单元格 产出补算
-                if((adjacentPlot:GetYield(g_YIELD_FOOD)
-                        +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3)>3 and
-                        (adjacentPlot:GetYield(g_YIELD_FOOD)
-                                +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                                +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                                +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                                +adjacentPlot:GetYield(g_YIELD_GOLD)/3)<4 and adjacentPlot:GetTerrainType() == 15) then
-                    prod_spawn_start = prod_spawn_start + 0.5;--产出补算 锤
-                end
-                bCulture = false;
-                bFaith = false;
-                if(adjacentPlot:GetResourceType() ~= -1) then
-                    -- Check for Coffee, Jade, Marble, Incense, Silk, dyes and clams
-                    if (adjacentPlot:GetResourceType() == 12 or adjacentPlot:GetResourceType() == 20 or adjacentPlot:GetResourceType() == 21 or adjacentPlot:GetResourceType() == 25 or adjacentPlot:GetResourceType() == 49) then
-                        bCulture = true;
-                    elseif (adjacentPlot:GetResourceType() == 15 or adjacentPlot:GetResourceType() == 18 or adjacentPlot:GetResourceType() == 23) then
-                        bFaith = true;
-                    end
-                end
-
-                if (bCulture == true) then
-                    culture_spawn_start = culture_spawn_start + 1;
-                    if adjacentPlot:GetYield(g_YIELD_PRODUCTION) > 0 then
-                        temp_tile = temp_tile + 2;
-                    else
-                        temp_tile = temp_tile + 1;
-                    end
-                end
-                if (bFaith == true) then
-                    faith_spawn_start = faith_spawn_start + 1;
-                    if adjacentPlot:GetYield(g_YIELD_PRODUCTION) > 0 then
-                        temp_tile = temp_tile + 1.5;
-                    else
-                        temp_tile = temp_tile + 0.5;
-                    end
-                end
-                if (temp_tile > best_tile or temp_tile == best_tile) then
-                    second_best_tile = best_tile
-                    best_tile = temp_tile
-                else
-                    if (temp_tile > second_best_tile and temp_tile < best_tile) then
-                        second_best_tile = temp_tile
-                    end
-                end
-                temp_tile = 0
-                -- Inner ring
-                -- Tiles #6 to #17
-            elseif (i > 5 and i < 18) then
-
-                -- Checks to see if the plot is impassable
-                if(adjacentPlot:IsImpassable() == true) then
-                    impassable_inner = impassable_inner + 1;
-                end
-
-                -- Checks to see if the plot is water
-                if(adjacentPlot:IsWater() == true) then
-                    water_inner = water_inner + 1;
-                end
-
-                -- Add to the Snow counter if snow shows up
-                if(terrainType == 9 or terrainType == 10 or terrainType == 12 or terrainType == 13) then
-                    snow_inner = snow_inner + 1;
-                end
-
-                -- Add to the hills counter if Hill shows up
-                if(terrainType == 1 or terrainType == 7 or terrainType == 4 or terrainType == 10) then
-                    hill_inner = hill_inner + 1;
-                end
-
-                -- Add to the plains counter if Plain shows up
-                if(terrainType == 3 or terrainType == 4) then
-                    plains = plains + 1;
-                end
-
-                -- Add to Floodplains if they are showing up
-                if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND) then
-                    flood_inner = flood_inner +1;
-                end
-
-                -- Add to the Desert counter if desert shows up
-                if(terrainType == 6 or terrainType == 7) then
-                    desert_inner = desert_inner + 1;
-                end
-
-                -- Gets the food and production counts
-                food_spawn_inner = food_spawn_inner + adjacentPlot:GetYield(g_YIELD_FOOD);
-                prod_spawn_inner = prod_spawn_inner + adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                prod_spawn_inner = prod_spawn_inner + adjacentPlot:GetYield(g_YIELD_SCIENCE);
-                prod_spawn_inner = prod_spawn_inner + adjacentPlot:GetYield(g_YIELD_CULTURE);
-                prod_spawn_inner = prod_spawn_inner + adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-                prod_spawn_inner = prod_spawn_inner + adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                temp_tile = adjacentPlot:GetYield(g_YIELD_FOOD)
-
-                if temp_tile > 1 then
-                    temp_tile = temp_tile + adjacentPlot:GetYield(g_YIELD_PRODUCTION) * 1.5 + adjacentPlot:GetYield(g_YIELD_GOLD) * 0.5;
-                else -- not enough food to value those tiles fully
-                    temp_tile = temp_tile + adjacentPlot:GetYield(g_YIELD_PRODUCTION) * 0.75 + adjacentPlot:GetYield(g_YIELD_GOLD) * 0.25;
-                end
-
-                -- Adjust for non discovered resources
-                if(adjacentPlot:GetResourceType() ~= -1) then
-                    if (adjacentPlot:GetResourceType() == 41 or adjacentPlot:GetResourceType() == 46 or adjacentPlot:GetResourceType() == 43) then
-                        temp_tile = temp_tile - 2 * 1.5
-                        food_spawn_inner = food_spawn_inner - adjacentPlot:GetYield(g_YIELD_FOOD);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_SCIENCE);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_CULTURE);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    elseif (adjacentPlot:GetResourceType() == 42 or adjacentPlot:GetResourceType() == 44) then
-                        temp_tile = temp_tile - 1 * 1.5 - 1
-                        food_spawn_inner = food_spawn_inner - adjacentPlot:GetYield(g_YIELD_FOOD);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_SCIENCE);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_CULTURE);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    elseif (adjacentPlot:GetResourceType() == 45) then
-                        temp_tile = temp_tile - 3 * 1.5
-                        food_spawn_inner = food_spawn_inner - adjacentPlot:GetYield(g_YIELD_FOOD);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_SCIENCE);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_CULTURE);
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-	                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    elseif(adjacentPlot:GetResourceType() == 54)then--地脉
-                        food_spawn_inner = food_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_FOOD);
-	                    prod_spawn_inner = prod_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-	                    prod_spawn_inner = prod_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
-	                    prod_spawn_inner = prod_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
-	                    prod_spawn_inner = prod_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-	                    prod_spawn_inner = prod_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    end
-                end
-                --陆地食物+产出大于等于4
-                if(adjacentPlot:GetYield(g_YIELD_FOOD)>=4 and adjacentPlot:GetTerrainType() ~= 15)then
-                    food_spawn_inner = food_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
-                end
-                --陆地食物+产出小于等于3 不计入总分
-                if((adjacentPlot:GetYield(g_YIELD_FOOD)
-                        +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3
-                        +adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)<=3.5 and adjacentPlot:GetTerrainType() ~= 15)then
-                    --food_spawn_start=food_spawn_start-0.1;
-                    food_spawn_inner = food_spawn_inner - adjacentPlot:GetYield(g_YIELD_FOOD);
-                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_SCIENCE);
-                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_CULTURE);
-                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                end
-                --海洋单元格
-                if((adjacentPlot:GetYield(g_YIELD_FOOD)
-                        +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3)<=3 and adjacentPlot:GetTerrainType() == 15) then
-                    food_spawn_inner = food_spawn_inner - adjacentPlot:GetYield(g_YIELD_FOOD);
-                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_SCIENCE);
-                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_CULTURE);
-                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-                    prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    --prod_spawn_start = prod_spawn_start - 0.5;--产出补算
-                end
-
-                --产出大于等于5
-                if((adjacentPlot:GetYield(g_YIELD_FOOD)
-                        +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3
-                        +adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)>=5 and adjacentPlot:GetTerrainType() ~= 15) then
-                    food_spawn_inner = food_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
-                    prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                    prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
-                    prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
-                    prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-                    prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                end
-
-                --海洋单元格
-                if((adjacentPlot:GetYield(g_YIELD_FOOD)
-                        +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3)>=4 and adjacentPlot:GetTerrainType() == 15) then
-                    food_spawn_inner = food_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
-                    prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
-                    prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
-                    prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
-                    prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
-                    prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
-                    prod_spawn_inner = prod_spawn_inner + 0.5;--产出补算 锤
-                end
-                --
-                --海洋单元格 产出补算
-                if((adjacentPlot:GetYield(g_YIELD_FOOD)
-                        +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                        +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                        +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                        +adjacentPlot:GetYield(g_YIELD_GOLD)/3)>3 and
-                        (adjacentPlot:GetYield(g_YIELD_FOOD)
-                                +adjacentPlot:GetYield(g_YIELD_PRODUCTION)
-                                +adjacentPlot:GetYield(g_YIELD_SCIENCE)
-                                +adjacentPlot:GetYield(g_YIELD_CULTURE)
-                                +adjacentPlot:GetYield(g_YIELD_GOLD)/3)<4 and adjacentPlot:GetTerrainType() == 15) then
-                    prod_spawn_start = prod_spawn_start + 0.5;--产出补算 锤
-                end
-                bCulture = false;
-                bFaith = false;
-                if(adjacentPlot:GetResourceType() ~= -1) then
-                    -- Check for Coffee, Jade, Marble, Incense, Silk, dyes and clams
-                    if (adjacentPlot:GetResourceType() == 12 or adjacentPlot:GetResourceType() == 20 or adjacentPlot:GetResourceType() == 21 or adjacentPlot:GetResourceType() == 25 or adjacentPlot:GetResourceType() == 49) then
-                        bCulture = true;
-                    elseif (adjacentPlot:GetResourceType() == 15 or adjacentPlot:GetResourceType() == 18 or adjacentPlot:GetResourceType() == 23) then
-                        bFaith = true;
-                    end
-                end
-
-                if (bCulture == true) then
-                    culture_spawn_start = culture_spawn_start + 1;
-                    if adjacentPlot:GetYield(g_YIELD_PRODUCTION) > 0 then
-                        temp_tile = temp_tile + 2;
-                    else
-                        temp_tile = temp_tile + 1;
-                    end
-                end
-                if (bFaith == true) then
-                    faith_spawn_start = faith_spawn_start + 1;
-                    if adjacentPlot:GetYield(g_YIELD_PRODUCTION) > 0 then
-                        temp_tile = temp_tile + 1.5;
-                    else
-                        temp_tile = temp_tile + 0.5;
-                    end
-                end
-                if (temp_tile > best_tile_inner or temp_tile == best_tile_inner) then
-                    second_best_tile_inner = best_tile_inner
-                    best_tile_inner = temp_tile
-                else
-                    if (temp_tile > second_best_tile_inner and temp_tile < best_tile_inner) then
-                        second_best_tile_inner = temp_tile
-                    end
-                end
-                temp_tile = 0
-
-                -- Outer ring
-                -- Tiles #18 to #35
-            elseif (i > 17 and i < 35) then
-
-                if(adjacentPlot:IsImpassable() == true) then
-                    impassable_outer = impassable_outer + 1;
-                end
-
-                -- Checks to see if the plot is water
-                if(adjacentPlot:IsWater() == true) then
-                    water_outer = water_outer + 1;
-                end
-
-                -- Add to the Snow counter if snow shows up
-                if(terrainType == 9 or terrainType == 10 or terrainType == 12 or terrainType == 13) then
-                    snow_outer = snow_outer + 1;
-                end
-
-                -- Add to the Desert counter if desert shows up
-                if(terrainType == 6 or terrainType == 7) then
-                    desert_outer = desert_outer + 1;
-                end
-
-                -- Add to Floodplains if they are showing up
-                if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND) then
-                    flood_outer = flood_outer +1;
-                end
+	for row in GameInfo.Resources() do
+		eResourceType[iResourcesInDB] = row.Hash;
+		eResourceClassType[iResourcesInDB] = row.ResourceClassType;
+		eRevealedEra[iResourcesInDB] = row.RevealedEra;
+		iResourcesInDB = iResourcesInDB + 1;
+	end
 
 
-            end
-        end
-    end
+	-- Starting plot:
+	-- Tile #-1
 
-    impassable = impassable + impassable_start + impassable_inner + impassable_outer
-    water = water + water_start + water_inner + water_outer
-    snow = snow + snow_start + snow_inner + snow_outer
-    flood = flood + flood_start + flood_inner --+ flood_outer
-    desert = desert + desert_start + desert_inner + desert_outer
-    hill = hill + hill_start + hill_inner
-    __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Total mountain: ", impassable, "Total water: ", water, "Total snow: ", snow, "Total desert: ", desert, "Total hill", hill, "Immediate Food: ", food_spawn_start, "Immediate Prod: ", prod_spawn_start, "Immediate Culture: ", culture_spawn_start, "Immediate Faith: ",faith_spawn_start,"Floodplains",flood,"Best_tile",best_tile,"Best_tile_2",second_best_tile, "Plains Tiles",plains)
-    EvalType = {impassable,water,snow,desert, food_spawn_start, prod_spawn_start, culture_spawn_start, faith_spawn_start, impassable_start,water_start,snow_start,desert_start,impassable_inner,water_inner,snow_inner,desert_inner,impassable_outer,water_outer,snow_outer,desert_outer,flood,hill_start,hill_inner,best_tile,second_best_tile,food_spawn_inner, prod_spawn_inner,best_tile_inner,second_best_tile_inner,plains}
-    return EvalType
+	for i = -1, 35 do
+	--35
+		adjacentPlot = GetAdjacentTiles(plot, i)
+		if (adjacentPlot ~= nil) then
+			terrainType = adjacentPlot:GetTerrainType();
+			if (i == -1) then
+				if(adjacentPlot:IsImpassable() == true) then
+					impassable = impassable + 1;
+				end
+
+				-- Checks to see if the plot is water
+				if(adjacentPlot:IsWater() == true) then
+					water = water + 1;
+				end
+
+				-- Add to the Snow counter if snow shows up
+				if(terrainType == 9 or terrainType == 10 or terrainType == 12 or terrainType == 13) then
+					snow = snow + 1;
+				end
+
+				-- Add to the hills counter if Hill shows up
+				if(terrainType == 1 or terrainType == 7 or terrainType == 4 or terrainType == 10) then
+					hill = hill + 1;
+				end
+
+				-- Add to the plains counter if Plain shows up
+				if(terrainType == 3 or terrainType == 4) then
+					plains = plains + 1;
+				end
+
+				-- Add to the Desert counter if desert shows up
+				if(terrainType == 6 or terrainType == 7) then
+					desert = desert + 1;
+				end
+
+				-- Add to Floodplains if they are showing up
+				if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND) then
+					flood = flood +1;
+				end
+				-- Gets the food and production counts
+				if(adjacentPlot:GetYield(g_YIELD_FOOD)>=3
+				or (adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3
+				+adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)>=2)then
+					food_spawn_start = food_spawn_start + adjacentPlot:GetYield(g_YIELD_FOOD);
+					prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+				end
+
+				if(adjacentPlot:GetYield(g_YIELD_FOOD)>=4
+				or (adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3
+				+adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)>=3)then
+					food_spawn_start = food_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+				end
+
+				bCulture = false;
+				bFaith = false;
+				for row = 0, iResourcesInDB do
+					if (eResourceClassType[row]== "RESOURCECLASS_LUXURY") then
+						if(adjacentPlot:GetResourceCount() > 0) then
+						-- Check for Coffee, Jade, Marble, Incense, dyes and clams
+							if (adjacentPlot:GetResourceType() == 12 or adjacentPlot:GetResourceType() == 20 or adjacentPlot:GetResourceType() == 21 or adjacentPlot:GetResourceType() == 49) then
+								bCulture = true;
+							elseif (adjacentPlot:GetResourceType() == 15 or adjacentPlot:GetResourceType() == 18 or adjacentPlot:GetResourceType() == 23) then
+								bFaith = true;
+							end
+						end
+					end
+				end
+				if (bCulture == true) then
+					culture_spawn_start = culture_spawn_start + 1;
+				end
+				if (bFaith == true) then
+					faith_spawn_start = faith_spawn_start + 1;
+				end
+			-- Starting ring
+			-- Tiles #0 #5
+			elseif (i > -1 and i < 6) then
+
+				temp_tile = 0;
+
+				if(adjacentPlot:IsImpassable() == true) then
+					impassable_start = impassable_start + 1;
+				end
+
+				-- Checks to see if the plot is water
+				if(adjacentPlot:IsWater() == true) then
+					water_start = water_start + 1;
+				end
+
+				-- Add to the Snow counter if snow shows up
+				if(terrainType == 9 or terrainType == 10 or terrainType == 12 or terrainType == 13) then
+					snow_start = snow_start + 1;
+				end
+
+				-- Add to the Desert counter if desert shows up
+				if(terrainType == 6 or terrainType == 7) then
+					desert_start = desert_start + 1;
+				end
+
+				-- Add to the hills counter if Hill shows up
+				if(terrainType == 1 or terrainType == 7 or terrainType == 4 or terrainType == 10) then
+					hill_start = hill_start + 1;
+				end
+
+				-- Add to the plains counter if Plain shows up
+				if(terrainType == 3 or terrainType == 4) then
+					plains = plains + 1;
+				end
+
+				-- Add to Floodplains if they are showing up
+				if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND) then
+					flood_start = flood_start +1;
+				end
+
+				-- Gets the food and production counts
+				food_spawn_start = food_spawn_start + adjacentPlot:GetYield(g_YIELD_FOOD);
+				prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+				prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_SCIENCE);
+				prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_CULTURE);
+				prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+				prod_spawn_start = prod_spawn_start + adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+
+				temp_tile = adjacentPlot:GetYield(g_YIELD_FOOD)
+				if temp_tile > 1 then
+					temp_tile = temp_tile + adjacentPlot:GetYield(g_YIELD_PRODUCTION) * 1.5 + adjacentPlot:GetYield(g_YIELD_GOLD) * 0.5;
+				else -- not enough food to value those tiles fully
+					temp_tile = temp_tile + adjacentPlot:GetYield(g_YIELD_PRODUCTION) * 0.75 + adjacentPlot:GetYield(g_YIELD_GOLD) * 0.25;
+				end
+
+				-- Adjust for non discovered resources
+				if(adjacentPlot:GetResourceType() ~= -1) then
+					if (adjacentPlot:GetResourceType() == 41 or adjacentPlot:GetResourceType() == 46 or adjacentPlot:GetResourceType() == 43) then
+						temp_tile = temp_tile - 2 * 1.5
+						food_spawn_start = food_spawn_start - adjacentPlot:GetYield(g_YIELD_FOOD);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_SCIENCE);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_CULTURE);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+					elseif (adjacentPlot:GetResourceType() == 42 or adjacentPlot:GetResourceType() == 44) then
+						temp_tile = temp_tile - 1 * 1.5 - 1
+						food_spawn_start = food_spawn_start - adjacentPlot:GetYield(g_YIELD_FOOD);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_SCIENCE);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_CULTURE);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+					elseif (adjacentPlot:GetResourceType() == 45) then
+						temp_tile = temp_tile - 3 * 1.5
+						food_spawn_start = food_spawn_start - adjacentPlot:GetYield(g_YIELD_FOOD);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_SCIENCE);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_CULTURE);
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+						prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+					elseif(adjacentPlot:GetResourceType() == 54)then--地脉
+						food_spawn_start = food_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_FOOD);
+						prod_spawn_start = prod_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+						prod_spawn_start = prod_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
+						prod_spawn_start = prod_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
+						prod_spawn_start = prod_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+						prod_spawn_start = prod_spawn_start - 1.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+					end
+				end
+				--陆地食物+产出大于等于4
+				if(adjacentPlot:GetYield(g_YIELD_FOOD)>=4 and adjacentPlot:GetTerrainType() ~= 15)then
+					food_spawn_start = food_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
+				end
+				--陆地食物+产出小于等于3.5 不计入总分
+				if((adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3
+				+adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)<=3.5 and adjacentPlot:GetTerrainType() ~= 15)then
+				--food_spawn_start=food_spawn_start-0.1;
+					food_spawn_start = food_spawn_start - adjacentPlot:GetYield(g_YIELD_FOOD);
+					prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+					prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_SCIENCE);
+					prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_CULTURE);
+					prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+					prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+				end
+				--海洋单元格
+				if((adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3)<=3 and adjacentPlot:GetTerrainType() == 15) then
+					food_spawn_start = food_spawn_start - adjacentPlot:GetYield(g_YIELD_FOOD);
+					prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+					prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_SCIENCE);
+					prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_CULTURE);
+					prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+					prod_spawn_start = prod_spawn_start - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+				--prod_spawn_start = prod_spawn_start - 0.5;--产出补算
+				end
+
+				--产出大于等于5
+				if((adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3
+				+adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)>=5 and adjacentPlot:GetTerrainType() ~= 15) then
+					food_spawn_start = food_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+				end
+
+				--海洋单元格
+				if((adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3)>=4 and adjacentPlot:GetTerrainType() == 15) then
+					food_spawn_start = food_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+					prod_spawn_start = prod_spawn_start + 0.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+					prod_spawn_start = prod_spawn_start + 0.5;--产出补算 锤
+				end
+				--
+				--海洋单元格 产出补算
+				if((adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3)>3 and
+				(adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3)<4 and adjacentPlot:GetTerrainType() == 15) then
+					prod_spawn_start = prod_spawn_start + 0.5;--产出补算 锤
+				end
+				bCulture = false;
+				bFaith = false;
+				if(adjacentPlot:GetResourceType() ~= -1) then
+				-- Check for Coffee, Jade, Marble, Incense, Silk, dyes and clams
+					if (adjacentPlot:GetResourceType() == 12 or adjacentPlot:GetResourceType() == 20 or adjacentPlot:GetResourceType() == 21 or adjacentPlot:GetResourceType() == 25 or adjacentPlot:GetResourceType() == 49) then
+						bCulture = true;
+					elseif (adjacentPlot:GetResourceType() == 15 or adjacentPlot:GetResourceType() == 18 or adjacentPlot:GetResourceType() == 23) then
+						bFaith = true;
+					end
+				end
+
+				if (bCulture == true) then
+					culture_spawn_start = culture_spawn_start + 1;
+					if adjacentPlot:GetYield(g_YIELD_PRODUCTION) > 0 then
+						temp_tile = temp_tile + 2;
+					else
+						temp_tile = temp_tile + 1;
+					end
+				end
+				if (bFaith == true) then
+					faith_spawn_start = faith_spawn_start + 1;
+					if adjacentPlot:GetYield(g_YIELD_PRODUCTION) > 0 then
+						temp_tile = temp_tile + 1.5;
+					else
+						temp_tile = temp_tile + 0.5;
+					end
+				end
+				if (temp_tile > best_tile or temp_tile == best_tile) then
+					second_best_tile = best_tile
+					best_tile = temp_tile
+				else
+					if (temp_tile > second_best_tile and temp_tile < best_tile) then
+						second_best_tile = temp_tile
+					end
+				end
+				temp_tile = 0
+			-- Inner ring
+			-- Tiles #6 to #17
+			elseif (i > 5 and i < 18) then
+
+			-- Checks to see if the plot is impassable
+				if(adjacentPlot:IsImpassable() == true) then
+					impassable_inner = impassable_inner + 1;
+				end
+
+				-- Checks to see if the plot is water
+				if(adjacentPlot:IsWater() == true) then
+					water_inner = water_inner + 1;
+				end
+
+				-- Add to the Snow counter if snow shows up
+				if(terrainType == 9 or terrainType == 10 or terrainType == 12 or terrainType == 13) then
+					snow_inner = snow_inner + 1;
+				end
+
+				-- Add to the hills counter if Hill shows up
+				if(terrainType == 1 or terrainType == 7 or terrainType == 4 or terrainType == 10) then
+					hill_inner = hill_inner + 1;
+				end
+
+				-- Add to the plains counter if Plain shows up
+				if(terrainType == 3 or terrainType == 4) then
+					plains = plains + 1;
+				end
+
+				-- Add to Floodplains if they are showing up
+				if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND) then
+					flood_inner = flood_inner +1;
+				end
+
+				-- Add to the Desert counter if desert shows up
+				if(terrainType == 6 or terrainType == 7) then
+					desert_inner = desert_inner + 1;
+				end
+
+				-- Gets the food and production counts
+				food_spawn_inner = food_spawn_inner + adjacentPlot:GetYield(g_YIELD_FOOD);
+				prod_spawn_inner = prod_spawn_inner + adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+				prod_spawn_inner = prod_spawn_inner + adjacentPlot:GetYield(g_YIELD_SCIENCE);
+				prod_spawn_inner = prod_spawn_inner + adjacentPlot:GetYield(g_YIELD_CULTURE);
+				prod_spawn_inner = prod_spawn_inner + adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+				prod_spawn_inner = prod_spawn_inner + adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+				temp_tile = adjacentPlot:GetYield(g_YIELD_FOOD)
+
+				if temp_tile > 1 then
+					temp_tile = temp_tile + adjacentPlot:GetYield(g_YIELD_PRODUCTION) * 1.5 + adjacentPlot:GetYield(g_YIELD_GOLD) * 0.5;
+				else -- not enough food to value those tiles fully
+					temp_tile = temp_tile + adjacentPlot:GetYield(g_YIELD_PRODUCTION) * 0.75 + adjacentPlot:GetYield(g_YIELD_GOLD) * 0.25;
+				end
+
+				-- Adjust for non discovered resources
+				if(adjacentPlot:GetResourceType() ~= -1) then
+					if (adjacentPlot:GetResourceType() == 41 or adjacentPlot:GetResourceType() == 46 or adjacentPlot:GetResourceType() == 43) then
+						temp_tile = temp_tile - 2 * 1.5
+						food_spawn_inner = food_spawn_inner - adjacentPlot:GetYield(g_YIELD_FOOD);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_SCIENCE);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_CULTURE);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+					elseif (adjacentPlot:GetResourceType() == 42 or adjacentPlot:GetResourceType() == 44) then
+						temp_tile = temp_tile - 1 * 1.5 - 1
+						food_spawn_inner = food_spawn_inner - adjacentPlot:GetYield(g_YIELD_FOOD);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_SCIENCE);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_CULTURE);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+					elseif (adjacentPlot:GetResourceType() == 45) then
+						temp_tile = temp_tile - 3 * 1.5
+						food_spawn_inner = food_spawn_inner - adjacentPlot:GetYield(g_YIELD_FOOD);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_SCIENCE);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_CULTURE);
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+						prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+					elseif(adjacentPlot:GetResourceType() == 54)then--地脉
+						food_spawn_inner = food_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_FOOD);
+						prod_spawn_inner = prod_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+						prod_spawn_inner = prod_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
+						prod_spawn_inner = prod_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
+						prod_spawn_inner = prod_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+						prod_spawn_inner = prod_spawn_inner - 1.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+					end
+				end
+				--陆地食物+产出大于等于4
+				if(adjacentPlot:GetYield(g_YIELD_FOOD)>=4 and adjacentPlot:GetTerrainType() ~= 15)then
+					food_spawn_inner = food_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
+				end
+				--陆地食物+产出小于等于3 不计入总分
+				if((adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3
+				+adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)<=3.5 and adjacentPlot:GetTerrainType() ~= 15)then
+				--food_spawn_start=food_spawn_start-0.1;
+					food_spawn_inner = food_spawn_inner - adjacentPlot:GetYield(g_YIELD_FOOD);
+					prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+					prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_SCIENCE);
+					prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_CULTURE);
+					prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+					prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+				end
+				--海洋单元格
+				if((adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3)<=3 and adjacentPlot:GetTerrainType() == 15) then
+					food_spawn_inner = food_spawn_inner - adjacentPlot:GetYield(g_YIELD_FOOD);
+					prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+					prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_SCIENCE);
+					prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_CULTURE);
+					prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+					prod_spawn_inner = prod_spawn_inner - adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+				--prod_spawn_start = prod_spawn_start - 0.5;--产出补算
+				end
+
+				--产出大于等于5
+				if((adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3
+				+adjacentPlot:GetYield(g_YIELD_FAITH)/1.5)>=5 and adjacentPlot:GetTerrainType() ~= 15) then
+					food_spawn_inner = food_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
+					prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+					prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
+					prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
+					prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+					prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+				end
+
+				--海洋单元格
+				if((adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3)>=4 and adjacentPlot:GetTerrainType() == 15) then
+					food_spawn_inner = food_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_FOOD);
+					prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_PRODUCTION);
+					prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_SCIENCE);
+					prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_CULTURE);
+					prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_GOLD)/3;--0.5
+					prod_spawn_inner = prod_spawn_inner + 0.1*adjacentPlot:GetYield(g_YIELD_FAITH)/1.5;--0,67
+					prod_spawn_inner = prod_spawn_inner + 0.5;--产出补算 锤
+				end
+				--
+				--海洋单元格 产出补算
+				if((adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3)>3 and
+				(adjacentPlot:GetYield(g_YIELD_FOOD)
+				+adjacentPlot:GetYield(g_YIELD_PRODUCTION)
+				+adjacentPlot:GetYield(g_YIELD_SCIENCE)
+				+adjacentPlot:GetYield(g_YIELD_CULTURE)
+				+adjacentPlot:GetYield(g_YIELD_GOLD)/3)<4 and adjacentPlot:GetTerrainType() == 15) then
+					prod_spawn_start = prod_spawn_start + 0.5;--产出补算 锤
+				end
+				bCulture = false;
+				bFaith = false;
+				if(adjacentPlot:GetResourceType() ~= -1) then
+				-- Check for Coffee, Jade, Marble, Incense, Silk, dyes and clams
+					if (adjacentPlot:GetResourceType() == 12 or adjacentPlot:GetResourceType() == 20 or adjacentPlot:GetResourceType() == 21 or adjacentPlot:GetResourceType() == 25 or adjacentPlot:GetResourceType() == 49) then
+						bCulture = true;
+					elseif (adjacentPlot:GetResourceType() == 15 or adjacentPlot:GetResourceType() == 18 or adjacentPlot:GetResourceType() == 23) then
+						bFaith = true;
+					end
+				end
+
+				if (bCulture == true) then
+					culture_spawn_start = culture_spawn_start + 1;
+					if adjacentPlot:GetYield(g_YIELD_PRODUCTION) > 0 then
+						temp_tile = temp_tile + 2;
+					else
+						temp_tile = temp_tile + 1;
+					end
+				end
+				if (bFaith == true) then
+					faith_spawn_start = faith_spawn_start + 1;
+					if adjacentPlot:GetYield(g_YIELD_PRODUCTION) > 0 then
+						temp_tile = temp_tile + 1.5;
+					else
+						temp_tile = temp_tile + 0.5;
+					end
+				end
+				if (temp_tile > best_tile_inner or temp_tile == best_tile_inner) then
+					second_best_tile_inner = best_tile_inner
+					best_tile_inner = temp_tile
+				else
+					if (temp_tile > second_best_tile_inner and temp_tile < best_tile_inner) then
+						second_best_tile_inner = temp_tile
+					end
+				end
+				temp_tile = 0
+
+			-- Outer ring
+			-- Tiles #18 to #35
+			elseif (i > 17 and i < 35) then
+
+				if(adjacentPlot:IsImpassable() == true) then
+					impassable_outer = impassable_outer + 1;
+				end
+
+				-- Checks to see if the plot is water
+				if(adjacentPlot:IsWater() == true) then
+					water_outer = water_outer + 1;
+				end
+
+				-- Add to the Snow counter if snow shows up
+				if(terrainType == 9 or terrainType == 10 or terrainType == 12 or terrainType == 13) then
+					snow_outer = snow_outer + 1;
+				end
+
+				-- Add to the Desert counter if desert shows up
+				if(terrainType == 6 or terrainType == 7) then
+					desert_outer = desert_outer + 1;
+				end
+
+				-- Add to Floodplains if they are showing up
+				if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS or adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND) then
+					flood_outer = flood_outer +1;
+				end
+
+
+			end
+		end
+	end
+
+	impassable = impassable + impassable_start + impassable_inner + impassable_outer
+	water = water + water_start + water_inner + water_outer
+	snow = snow + snow_start + snow_inner + snow_outer
+	flood = flood + flood_start + flood_inner --+ flood_outer
+	desert = desert + desert_start + desert_inner + desert_outer
+	hill = hill + hill_start + hill_inner
+	__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Total mountain: ", impassable, "Total water: ", water, "Total snow: ", snow, "Total desert: ", desert, "Total hill", hill, "Immediate Food: ", food_spawn_start, "Immediate Prod: ", prod_spawn_start, "Immediate Culture: ", culture_spawn_start, "Immediate Faith: ",faith_spawn_start,"Floodplains",flood,"Best_tile",best_tile,"Best_tile_2",second_best_tile, "Plains Tiles",plains)
+	EvalType = {impassable,water,snow,desert, food_spawn_start, prod_spawn_start, culture_spawn_start, faith_spawn_start, impassable_start,water_start,snow_start,desert_start,impassable_inner,water_inner,snow_inner,desert_inner,impassable_outer,water_outer,snow_outer,desert_outer,flood,hill_start,hill_inner,best_tile,second_best_tile,food_spawn_inner, prod_spawn_inner,best_tile_inner,second_best_tile_inner,plains}
+	return EvalType
 end
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 function AddBonusFood(plot,intensity, flag,majListCiv)
-	-- flag = 0 normal
-	-- flag = 1 tundra civ
-	-- flag = 2 desert civ
-	-- flag = 3 mountain civ
+-- flag = 0 normal
+-- flag = 1 tundra civ
+-- flag = 2 desert civ
+-- flag = 3 mountain civ
 	local iResourcesInDB = 0;
 	local terrainType = plot:GetTerrainType();
 	local featureType = plot:GetFeatureType();
 	local gridWidth, gridHeight = Map.GetGridSize();
 	local direction = 0;
-	eResourceType	= {};
+	eResourceType = {};
 	eResourceClassType = {};
 	aBonus = {};
 	local limit_1 = 0;
@@ -1782,262 +1794,262 @@ function AddBonusFood(plot,intensity, flag,majListCiv)
 	local start_range = 1;
 	local end_range = 5;
 	--方法变量
-	local rngAdd=0;--成功率附加
-	local rngAddBlock=14;--成功率附加每次失败递增
-	local unSetrng=0.5;--单元格基础失败率
+	local rngAdd = 0;--成功率附加
+	local rngAddBlock = 14;--成功率附加每次失败递增
+	local unSetrng = 0.5;--单元格基础失败率
 
-	local rngSet=0;--选择资源类型随机数，临时变量
+	local rngSet = 0;--选择资源类型随机数，临时变量
 
 	if (intensity == 0) then
 		limit_1 = 0.9;
-		elseif (intensity == 1) then
-			limit_1 = 0.5;
-		elseif (intensity == 2) then
-			limit_1 = 0.25;
+	elseif (intensity == 1) then
+		limit_1 = 0.5;
+	elseif (intensity == 2) then
+		limit_1 = 0.25;
 	end
 
 	for k = 0, 1 do
 
-	if k == 0 then
-		if (flag == 2 or flag == 1) then
-			start_range = 1;
-			end_range = 17;
-			increment = 2;
+		if k == 0 then
+			if (flag == 2 or flag == 1) then
+				start_range = 1;
+				end_range = 17;
+				increment = 2;
 			else
-			start_range = 1;
-			end_range = 17;--5
-			increment = 1;
-		end
-	elseif k == 1 then
-		if (flag == 2 or flag == 1) then
-			start_range = 17;
-			end_range = 1;
-			increment = -1;
+				start_range = 1;
+				end_range = 17;--5
+				increment = 1;
+			end
+		elseif k == 1 then
+			if (flag == 2 or flag == 1) then
+				start_range = 17;
+				end_range = 1;
+				increment = -1;
 			else
-			start_range = 1;
-			end_range = 17;--5
-			increment = 1;
+				start_range = 1;
+				end_range = 17;--5
+				increment = 1;
+			end
 		end
-	end
 
-	for i = start_range, end_range, increment do
-		adjacentPlot = GetAdjacentTiles(plot, i)
+		for i = start_range, end_range, increment do
+			adjacentPlot = GetAdjacentTiles(plot, i)
 
-		if (adjacentPlot ~= nil) then
+			if (adjacentPlot ~= nil) then
 
-		terrainType = adjacentPlot:GetTerrainType();
+				terrainType = adjacentPlot:GetTerrainType();
 
-			if (adjacentPlot:GetResourceCount() < 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:IsNaturalWonder() == false) then
+				if (adjacentPlot:GetResourceCount() < 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:IsNaturalWonder() == false) then
 
-				rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
+					rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
 
-				--关联特殊处理
-				local civAddRng = 0;
+					--关联特殊处理
+					local civAddRng = 0;
 
-				--猎场
-				civAddRng = 0;
-				if(IsHuntCiv(majListCiv))then
-					civAddRng = 1;
+					--猎场
+					civAddRng = 0;
+					if(IsHuntCiv(majListCiv))then
+						civAddRng = 1;
 
-					if(addHuntCount<1 and (terrainType == 9 or terrainType == 10 or (adjacentPlot:GetFeatureType()==3)) and adjacentPlot:GetResourceType() == -1) then
-					-- Deer
-						if(rng +civAddRng> unSetrng) then
-							if(ResourceBuilder.CanHaveResource(adjacentPlot, 4)) then
-								ResourceBuilder.SetResourceType(adjacentPlot, 4, 1);
-								print("IsHuntCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Deer");
-								rngAdd=0;
-								addHuntCount=addHuntCount+1;
-								return true;
+						if(addHuntCount<1 and (terrainType == 9 or terrainType == 10 or (adjacentPlot:GetFeatureType()==3)) and adjacentPlot:GetResourceType() == -1) then
+						-- Deer
+							if(rng +civAddRng> unSetrng) then
+								if(ResourceBuilder.CanHaveResource(adjacentPlot, 4)) then
+									ResourceBuilder.SetResourceType(adjacentPlot, 4, 1);
+									print("IsHuntCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Deer");
+									rngAdd = 0;
+									addHuntCount = addHuntCount+1;
+									return true;
+								end
+							else
+								rngAdd = rngAdd+rngAddBlock;
 							end
-					    else
-					    	rngAdd=rngAdd+rngAddBlock;
-					    end
 
-					end
-				end
-				--羊
-				civAddRng = 0;
-				if(IsPastureCiv(majListCiv))then
-					civAddRng = 1;
-
-					if((terrainType == 4 and adjacentPlot:GetFeatureType() == -1)
-					or (terrainType == 1 and adjacentPlot:GetFeatureType() == -1)
-					or (terrainType == 7 and adjacentPlot:GetFeatureType() == -1)
-					or (terrainType == 10 and adjacentPlot:GetFeatureType() == -1)) and addFoodSheepCount < 2 and adjacentPlot:IsNaturalWonder() == false then
-					-- sheep
-						if(rng+0.15+civAddRng > unSetrng) then
-							if(ResourceBuilder.CanHaveResource(adjacentPlot, 7)) then
-								ResourceBuilder.SetResourceType(adjacentPlot, 7, 1);
-								print("IsPastureCiv Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep");
-								rngAdd=0;
-								addFoodSheepCount=addFoodSheepCount+1;
-								print("IsPastureCiv teamPVP addFoodSheepCount:",addFoodSheepCount);
-								return true;
-							end
-					    end
-					end
-				end
-				--雨林
-				civAddRng = 0;
-				if(IsJungleCiv(majListCiv))then
-					civAddRng = 1;
-
-					if(addJungleCount<5 and terrainType == 4 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
-					-- 黄地雨林
-						if(rng+0.3+civAddRng > unSetrng) then
-							TerrainBuilder.SetFeatureType(adjacentPlot,2);
-							print("IsJungleCiv Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-							rngAdd=0;
-							addJungleCount=addJungleCount+1;
-							print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-							return true;
-					    end
-					end
-
-					if(addJungleCount<5 and terrainType == 1 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
-					-- 绿地丘陵-》黄地雨林
-						if(rng+0.3+civAddRng > unSetrng) then
-							TerrainBuilder.SetTerrainType(adjacentPlot,4);
-							TerrainBuilder.SetFeatureType(adjacentPlot,2);
-							print("IsJungleCiv convert1 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-							rngAdd=0;
-							addJungleCount=addJungleCount+1;
-							print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-							return true;
-					    end
-					end
-
-					if(addJungleCount<5 and terrainType == 4 and adjacentPlot:GetFeatureType() == 3) and adjacentPlot:IsNaturalWonder() == false then
-					-- 黄地丘陵森林-》雨林
-						if(rng+0.3+civAddRng > unSetrng) then
-							TerrainBuilder.SetFeatureType(adjacentPlot,2);
-							print("IsJungleCiv convert2 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-							rngAdd=0;
-							addJungleCount=addJungleCount+1;
-							print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-							--return true;继续执行补贴
-					    end
-					end
-
-					if(addJungleCount<5 and terrainType == 1 and adjacentPlot:GetFeatureType() == 3) and adjacentPlot:IsNaturalWonder() == false then
-					-- 黄地丘陵森林-》雨林
-						if(rng+0.3+civAddRng > unSetrng) then
-							TerrainBuilder.SetTerrainType(adjacentPlot,4);
-							TerrainBuilder.SetFeatureType(adjacentPlot,2);
-							print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-							rngAdd=0;
-							addJungleCount=addJungleCount+1;
-							print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-							--return true;继续执行补贴
-					    end
-					end
-				end
-				--森林
-				civAddRng = 0;
-				if(IsForestCiv(majListCiv))then
-					civAddRng = 1;
-
-					if(addForestCount<5 and adjacentPlot:GetResourceCount() < 1 and (terrainType == 1 or terrainType == 4) and (adjacentPlot:GetFeatureType() == -1) and (adjacentPlot:IsImpassable() == false) and (adjacentPlot:IsWater() == false) and  (adjacentPlot:GetTerrainType() ~= 6) and (adjacentPlot:GetTerrainType() ~= 7) and (adjacentPlot:GetTerrainType() ~= 12) and (adjacentPlot:GetTerrainType() ~= 13)) then
-
-						if(rng + civAddRng > unSetrng) then
-							TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                            if not adjacentPlot:IsHills() then
-                                TerrainBuilder.SetTerrainType(adjacentPlot, adjacentPlot:GetTerrainType() + 1)
-                            end
-							print("IsForestCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
-							addForestCount=addForestCount+1;
-							return true;
 						end
 					end
-				end
-                --森林+雨林
-                civAddRng = 0;
-                if(IsForestAndJungleCiv(majListCiv))then
-                    civAddRng = 1;
+					--羊
+					civAddRng = 0;
+					if(IsPastureCiv(majListCiv))then
+						civAddRng = 1;
 
-                    if(addForestCount<2 and adjacentPlot:GetResourceCount() < 1 and (terrainType == 1 or terrainType == 4) and (adjacentPlot:GetFeatureType() == -1) and (adjacentPlot:IsImpassable() == false) and (adjacentPlot:IsWater() == false) and  (adjacentPlot:GetTerrainType() ~= 6) and (adjacentPlot:GetTerrainType() ~= 7) and (adjacentPlot:GetTerrainType() ~= 12) and (adjacentPlot:GetTerrainType() ~= 13)) then
-
-                        if(rng + civAddRng > unSetrng) then
-                            TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                            if not adjacentPlot:IsHills() then
-                                TerrainBuilder.SetTerrainType(adjacentPlot, adjacentPlot:GetTerrainType() + 1)
-                            end
-                            print("IsForestCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
-                            addForestCount=addForestCount+1;
-                            return true;
-                        end
-                    end
-
-                    if(addJungleCount<3 and terrainType == 4 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
-                    -- 黄地雨林
-                        if(rng+civAddRng > unSetrng) then
-                            TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                            print("IsJungleCiv Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                            rngAdd=0;
-                            addJungleCount=addJungleCount+1;
-                            print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-                            return true;
-                        end
-                    end
-                end
-                --香蕉
-                civAddRng = 0;
-                if(IsBananaCiv(majListCiv))then
-                    civAddRng = 1;
-
-                    if(addBananaCount<2 and terrainType == 3 and (adjacentPlot:GetFeatureType() == 3 or adjacentPlot:GetFeatureType() == 2 or adjacentPlot:GetFeatureType() == -1)) then
-                        --平原\树-》平原雨林 然后加香蕉
-                        --或者本身就可以加
-                        if(rng + civAddRng +rngAdd> unSetrng) then
-                            if(adjacentPlot:GetFeatureType() == 3 or adjacentPlot:GetFeatureType() == -1)then
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                            end
-                            if(ResourceBuilder.CanHaveResource(adjacentPlot, 0)) then
-                                ResourceBuilder.SetResourceType(adjacentPlot, 0, 1);
-                                print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Banana");
-                                rngAdd=0;
-                                addBananaCount = addBananaCount+1;
-                                return true;
-                            end
-                        else
-                            rngAdd=rngAdd+rngAddBlock;
-                        end
-                    end
-
-                    if(addBananaCount<2 and (terrainType == 0 and (adjacentPlot:GetFeatureType() == 3 or adjacentPlot:GetFeatureType() == -1))) then
-                        --草原\树-》平原雨林 然后加香蕉
-                        if(rng + civAddRng +rngAdd> unSetrng) then
-                            TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                            TerrainBuilder.SetTerrainType(adjacentPlot,3);
-                            if(ResourceBuilder.CanHaveResource(adjacentPlot, 0)) then
-                                ResourceBuilder.SetResourceType(adjacentPlot, 0, 1);
-                                print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Banana");
-                                rngAdd=0;
-                                addBananaCount = addBananaCount+1;
-                                return true;
-                            end
-                        else
-                            rngAdd=rngAdd+rngAddBlock;
-                        end
-                    end
-                end
-				--
-
-
-				if(terrainType == 3 and adjacentPlot:GetFeatureType() == g_FEATURE_JUNGLE) then
-				--banana
-				    if(rng > unSetrng) then
-						if(ResourceBuilder.CanHaveResource(adjacentPlot, 0)) then
-							ResourceBuilder.SetResourceType(adjacentPlot, 0, 1);
-							print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Banana");
-                            addBananaCount = addBananaCount+1;
-							rngAdd=0;
-							return true;
+						if((terrainType == 4 and adjacentPlot:GetFeatureType() == -1)
+						or (terrainType == 1 and adjacentPlot:GetFeatureType() == -1)
+						or (terrainType == 7 and adjacentPlot:GetFeatureType() == -1)
+						or (terrainType == 10 and adjacentPlot:GetFeatureType() == -1)) and addFoodSheepCount < 2 and adjacentPlot:IsNaturalWonder() == false then
+						-- sheep
+							if(rng+0.15+civAddRng > unSetrng) then
+								if(ResourceBuilder.CanHaveResource(adjacentPlot, 7)) then
+									ResourceBuilder.SetResourceType(adjacentPlot, 7, 1);
+									print("IsPastureCiv Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep");
+									rngAdd = 0;
+									addFoodSheepCount = addFoodSheepCount+1;
+									print("IsPastureCiv teamPVP addFoodSheepCount:",addFoodSheepCount);
+									return true;
+								end
+							end
 						end
-				    else
-				    	rngAdd=rngAdd+rngAddBlock;
-				    end
-				--[[elseif( (terrainType == 6 and adjacentPlot:GetFeatureType() ~= g_FEATURE_OASIS  )
+					end
+					--雨林
+					civAddRng = 0;
+					if(IsJungleCiv(majListCiv))then
+						civAddRng = 1;
+
+						if(addJungleCount<5 and terrainType == 4 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
+						-- 黄地雨林
+							if(rng+0.3+civAddRng > unSetrng) then
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return true;
+							end
+						end
+
+						if(addJungleCount<5 and terrainType == 1 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
+						-- 绿地丘陵-》黄地雨林
+							if(rng+0.3+civAddRng > unSetrng) then
+								TerrainBuilder.SetTerrainType(adjacentPlot,4);
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert1 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return true;
+							end
+						end
+
+						if(addJungleCount<5 and terrainType == 4 and adjacentPlot:GetFeatureType() == 3) and adjacentPlot:IsNaturalWonder() == false then
+						-- 黄地丘陵森林-》雨林
+							if(rng+0.3+civAddRng > unSetrng) then
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert2 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+							--return true;继续执行补贴
+							end
+						end
+
+						if(addJungleCount<5 and terrainType == 1 and adjacentPlot:GetFeatureType() == 3) and adjacentPlot:IsNaturalWonder() == false then
+						-- 黄地丘陵森林-》雨林
+							if(rng+0.3+civAddRng > unSetrng) then
+								TerrainBuilder.SetTerrainType(adjacentPlot,4);
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+							--return true;继续执行补贴
+							end
+						end
+					end
+					--森林
+					civAddRng = 0;
+					if(IsForestCiv(majListCiv))then
+						civAddRng = 1;
+
+						if(addForestCount<5 and adjacentPlot:GetResourceCount() < 1 and (terrainType == 1 or terrainType == 4) and (adjacentPlot:GetFeatureType() == -1) and (adjacentPlot:IsImpassable() == false) and (adjacentPlot:IsWater() == false) and  (adjacentPlot:GetTerrainType() ~= 6) and (adjacentPlot:GetTerrainType() ~= 7) and (adjacentPlot:GetTerrainType() ~= 12) and (adjacentPlot:GetTerrainType() ~= 13)) then
+
+							if(rng + civAddRng > unSetrng) then
+								TerrainBuilder.SetFeatureType(adjacentPlot,3);
+								if not adjacentPlot:IsHills() then
+									TerrainBuilder.SetTerrainType(adjacentPlot, adjacentPlot:GetTerrainType() + 1)
+								end
+								print("IsForestCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
+								addForestCount = addForestCount+1;
+								return true;
+							end
+						end
+					end
+					--森林+雨林
+					civAddRng = 0;
+					if(IsForestAndJungleCiv(majListCiv))then
+						civAddRng = 1;
+
+						if(addForestCount<2 and adjacentPlot:GetResourceCount() < 1 and (terrainType == 1 or terrainType == 4) and (adjacentPlot:GetFeatureType() == -1) and (adjacentPlot:IsImpassable() == false) and (adjacentPlot:IsWater() == false) and  (adjacentPlot:GetTerrainType() ~= 6) and (adjacentPlot:GetTerrainType() ~= 7) and (adjacentPlot:GetTerrainType() ~= 12) and (adjacentPlot:GetTerrainType() ~= 13)) then
+
+							if(rng + civAddRng > unSetrng) then
+								TerrainBuilder.SetFeatureType(adjacentPlot,3);
+								if not adjacentPlot:IsHills() then
+									TerrainBuilder.SetTerrainType(adjacentPlot, adjacentPlot:GetTerrainType() + 1)
+								end
+								print("IsForestCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
+								addForestCount = addForestCount+1;
+								return true;
+							end
+						end
+
+						if(addJungleCount<3 and terrainType == 4 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
+						-- 黄地雨林
+							if(rng+civAddRng > unSetrng) then
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return true;
+							end
+						end
+					end
+					--香蕉
+					civAddRng = 0;
+					if(IsBananaCiv(majListCiv))then
+						civAddRng = 1;
+
+						if(addBananaCount<2 and terrainType == 3 and (adjacentPlot:GetFeatureType() == 3 or adjacentPlot:GetFeatureType() == 2 or adjacentPlot:GetFeatureType() == -1)) then
+						--平原\树-》平原雨林 然后加香蕉
+						--或者本身就可以加
+							if(rng + civAddRng +rngAdd> unSetrng) then
+								if(adjacentPlot:GetFeatureType() == 3 or adjacentPlot:GetFeatureType() == -1)then
+									TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								end
+								if(ResourceBuilder.CanHaveResource(adjacentPlot, 0)) then
+									ResourceBuilder.SetResourceType(adjacentPlot, 0, 1);
+									print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Banana");
+									rngAdd = 0;
+									addBananaCount = addBananaCount+1;
+									return true;
+								end
+							else
+								rngAdd = rngAdd+rngAddBlock;
+							end
+						end
+
+						if(addBananaCount<2 and (terrainType == 0 and (adjacentPlot:GetFeatureType() == 3 or adjacentPlot:GetFeatureType() == -1))) then
+						--草原\树-》平原雨林 然后加香蕉
+							if(rng + civAddRng +rngAdd> unSetrng) then
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								TerrainBuilder.SetTerrainType(adjacentPlot,3);
+								if(ResourceBuilder.CanHaveResource(adjacentPlot, 0)) then
+									ResourceBuilder.SetResourceType(adjacentPlot, 0, 1);
+									print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Banana");
+									rngAdd = 0;
+									addBananaCount = addBananaCount+1;
+									return true;
+								end
+							else
+								rngAdd = rngAdd+rngAddBlock;
+							end
+						end
+					end
+					--
+
+
+					if(terrainType == 3 and adjacentPlot:GetFeatureType() == g_FEATURE_JUNGLE) then
+					--banana
+						if(rng > unSetrng) then
+							if(ResourceBuilder.CanHaveResource(adjacentPlot, 0)) then
+								ResourceBuilder.SetResourceType(adjacentPlot, 0, 1);
+								print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Banana");
+								addBananaCount = addBananaCount+1;
+								rngAdd = 0;
+								return true;
+							end
+						else
+							rngAdd = rngAdd+rngAddBlock;
+						end
+					--[[elseif( (terrainType == 6 and adjacentPlot:GetFeatureType() ~= g_FEATURE_OASIS  )
 					or (terrainType == 9 and flag ~= 1) ) and adjacentPlot:IsNaturalWonder() == false and flag ~= 2 then
 					-- Convert to Grassland
 					if(rng > limit_1) then
@@ -2049,7 +2061,7 @@ function AddBonusFood(plot,intensity, flag,majListCiv)
 						return true;
 					end--]]
 					--rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-				--[[elseif((terrainType == 4 and flag ~= 1 and rng > 0.9)
+					--[[elseif((terrainType == 4 and flag ~= 1 and rng > 0.9)
 					or (terrainType == 7)
 					or (terrainType == 10 and flag ~= 1)) and adjacentPlot:IsNaturalWonder() == false and flag ~= 2 then
 					-- Convert to Grassland
@@ -2059,7 +2071,7 @@ function AddBonusFood(plot,intensity, flag,majListCiv)
 						return true;
 					end
 --]]
-                --[[elseif(terrainType == 4 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
+					--[[elseif(terrainType == 4 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
 					-- 雨林
 						if(rng > unSetrng) then
 							TerrainBuilder.SetFeatureType(adjacentPlot,2);
@@ -2069,70 +2081,70 @@ function AddBonusFood(plot,intensity, flag,majListCiv)
 					    else
 					    	rngAdd=rngAdd+rngAddBlock;
 					    end--]]
-			    elseif((terrainType == 4 and adjacentPlot:GetFeatureType() == -1)
+					elseif((terrainType == 4 and adjacentPlot:GetFeatureType() == -1)
 					or (terrainType == 1 and adjacentPlot:GetFeatureType() == -1)
 					or (terrainType == 7 and adjacentPlot:GetFeatureType() == -1)
 					or (terrainType == 10 and adjacentPlot:GetFeatureType() == -1)) and addFoodSheepCount < 2 and adjacentPlot:IsNaturalWonder() == false then
 					-- sheep
-					if(rng+0.15 > unSetrng) then
-						if(ResourceBuilder.CanHaveResource(adjacentPlot, 7)) then
-							ResourceBuilder.SetResourceType(adjacentPlot, 7, 1);
-							__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep");
-							rngAdd=0;
-							addFoodSheepCount=addFoodSheepCount+1;
-							print("teamPVP addFoodSheepCount:",addFoodSheepCount);
-							return true;
+						if(rng+0.15 > unSetrng) then
+							if(ResourceBuilder.CanHaveResource(adjacentPlot, 7)) then
+								ResourceBuilder.SetResourceType(adjacentPlot, 7, 1);
+								__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep");
+								rngAdd = 0;
+								addFoodSheepCount = addFoodSheepCount+1;
+								print("teamPVP addFoodSheepCount:",addFoodSheepCount);
+								return true;
+							end
+						else
+							rngAdd = rngAdd+rngAddBlock
 						end
-				    else
-				    	rngAdd=rngAdd+rngAddBlock
-				    end
 
-				elseif(terrainType == 6 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
+					elseif(terrainType == 6 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
 					-- Desert Sheep on Hill
-					TerrainBuilder.SetTerrainType(adjacentPlot,7);
-					ResourceBuilder.SetResourceType(adjacentPlot, 7, 1); -- 不添加沙漠羊
-					__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep on Desert Hill");
-					return true;
-			    elseif(terrainType == 4 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
-					-- 雨林
-					if(rng+0.3 > unSetrng) then
-						TerrainBuilder.SetFeatureType(adjacentPlot,2);
-						print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-						rngAdd=0;
+						TerrainBuilder.SetTerrainType(adjacentPlot,7);
+						ResourceBuilder.SetResourceType(adjacentPlot, 7, 1); -- 不添加沙漠羊
+						__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep on Desert Hill");
 						return true;
-				    else
-				    	rngAdd=rngAdd+rngAddBlock;
-				    end
-				elseif(terrainType == 0 and addRiceCount<1 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
+					elseif(terrainType == 4 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
+					-- 雨林
+						if(rng+0.3 > unSetrng) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,2);
+							print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+							rngAdd = 0;
+							return true;
+						else
+							rngAdd = rngAdd+rngAddBlock;
+						end
+					elseif(terrainType == 0 and addRiceCount<1 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
 					-- Add Cattle / Rice
-					if(rng-0.15 > unSetrng) then
-						if(ResourceBuilder.CanHaveResource(adjacentPlot, 1)) then
-                            ResourceBuilder.SetResourceType(adjacentPlot, 1, 1);
-                            __Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Cattle");
-                            rngAdd=0;
-                            addRiceCount=addRiceCount+1;
-                            print("teamPVP addRiceCount:",addRiceCount);
-                            return true;
-                        else
-                            if(ResourceBuilder.CanHaveResource(adjacentPlot, 6)) then
-                                ResourceBuilder.SetResourceType(adjacentPlot, 6, 1);
-                                __Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Rice");
-                                rngAdd=0;
-                                addRiceCount=addRiceCount+1;
-                                print("teamPVP addRiceCount:",addRiceCount);
-                                return true;
-                            end
-                        end
-					else
-						rngAdd=rngAdd+rngAddBlock;
-					end
+						if(rng-0.15 > unSetrng) then
+							if(ResourceBuilder.CanHaveResource(adjacentPlot, 1)) then
+								ResourceBuilder.SetResourceType(adjacentPlot, 1, 1);
+								__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Cattle");
+								rngAdd = 0;
+								addRiceCount = addRiceCount+1;
+								print("teamPVP addRiceCount:",addRiceCount);
+								return true;
+							else
+								if(ResourceBuilder.CanHaveResource(adjacentPlot, 6)) then
+									ResourceBuilder.SetResourceType(adjacentPlot, 6, 1);
+									__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Rice");
+									rngAdd = 0;
+									addRiceCount = addRiceCount+1;
+									print("teamPVP addRiceCount:",addRiceCount);
+									return true;
+								end
+							end
+						else
+							rngAdd = rngAdd+rngAddBlock;
+						end
 
 
-				elseif(terrainType == 3 and addRiceCount<1 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
+					elseif(terrainType == 3 and addRiceCount<1 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
 
-					if(rng > unSetrng) then
-						rngSet = TerrainBuilder.GetRandomNumber(100,"test")/100;
-						if(rngSet > 0.5) then
+						if(rng > unSetrng) then
+							rngSet = TerrainBuilder.GetRandomNumber(100,"test")/100;
+							if(rngSet > 0.5) then
 							--[[if(adjacentPlot:GetResourceType()==1 or adjacentPlot:GetResourceType()==6) and addRiceCount>=3 then
 								--增加过3次平地小麦、大米、玉米后则改为生成羊
 								TerrainBuilder.SetFeatureType(adjacentPlot,-1)
@@ -2142,27 +2154,27 @@ function AddBonusFood(plot,intensity, flag,majListCiv)
 								--addRiceCount=0;
 							    return true;
 							end--]]
-							if(ResourceBuilder.CanHaveResource(adjacentPlot, 9)) then
-								ResourceBuilder.SetResourceType(adjacentPlot, 9, 1);
-								__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Wheat");
-					            ngAdd=0;
-					            addRiceCount=addRiceCount+1;
-					            print("teamPVP addRiceCount:",addRiceCount);
-								return true;
-							else
-								if(ResourceBuilder.CanHaveResource(adjacentPlot, 52)) then
-									ResourceBuilder.SetResourceType(adjacentPlot, 52, 1);
-									__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Maize");
-									rngAdd=0;
-									addRiceCount=addRiceCount+1;
+								if(ResourceBuilder.CanHaveResource(adjacentPlot, 9)) then
+									ResourceBuilder.SetResourceType(adjacentPlot, 9, 1);
+									__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Wheat");
+									ngAdd = 0;
+									addRiceCount = addRiceCount+1;
 									print("teamPVP addRiceCount:",addRiceCount);
 									return true;
+								else
+									if(ResourceBuilder.CanHaveResource(adjacentPlot, 52)) then
+										ResourceBuilder.SetResourceType(adjacentPlot, 52, 1);
+										__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Maize");
+										rngAdd = 0;
+										addRiceCount = addRiceCount+1;
+										print("teamPVP addRiceCount:",addRiceCount);
+										return true;
+									end
 								end
 							end
+						else
+							rngAdd = rngAdd+rngAddBlock;
 						end
-					else
-						rngAdd=rngAdd+rngAddBlock;
-					end
 					--wheat
 					--TeamPVP
 					--if(rng > 0.5) then
@@ -2183,7 +2195,7 @@ function AddBonusFood(plot,intensity, flag,majListCiv)
 						__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Maize");
 						return true;
 					end	--]]
-				--[[elseif(terrainType == 4 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
+					--[[elseif(terrainType == 4 and adjacentPlot:GetFeatureType() == -1) and adjacentPlot:IsNaturalWonder() == false then
 					-- Plains wheat
 						if(rng > unSetrng) then
 							TerrainBuilder.SetTerrainType(adjacentPlot,4);
@@ -2194,37 +2206,37 @@ function AddBonusFood(plot,intensity, flag,majListCiv)
 					    else
 					    	rngAdd=rngAdd+rngAddBlock;
 					    end--]]
-				elseif(terrainType == 6 and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() < 1) then
+					elseif(terrainType == 6 and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() < 1) then
 					-- Oasis
-					local bOasis = true
-					for j = 0, 5 do
-						adjacentPlot2 = GetAdjacentTiles(adjacentPlot, j)
-						if (adjacentPlot2 ~= nil ) then
-							if (adjacentPlot2:GetTerrainType() ~= 6 and adjacentPlot2:GetTerrainType() ~= 7 and adjacentPlot2:GetTerrainType() ~= 8 or adjacentPlot2:GetFeatureType() == g_FEATURE_OASIS )  then
-								bOasis = false
+						local bOasis = true
+						for j = 0, 5 do
+							adjacentPlot2 = GetAdjacentTiles(adjacentPlot, j)
+							if (adjacentPlot2 ~= nil ) then
+								if (adjacentPlot2:GetTerrainType() ~= 6 and adjacentPlot2:GetTerrainType() ~= 7 and adjacentPlot2:GetTerrainType() ~= 8 or adjacentPlot2:GetFeatureType() == g_FEATURE_OASIS )  then
+									bOasis = false
+								end
 							end
-						end
 
-					end
-					--rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-					if(rng > unSetrng) then
-						rngSet = TerrainBuilder.GetRandomNumber(100,"test")/100;
-						if (bOasis == true and rngSet > 0.75) then
-							ResourceBuilder.SetResourceType(adjacentPlot, -1);
-							TerrainBuilder.SetFeatureType(adjacentPlot,4);
-							__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Oasis");
-							return true;
-						else
+						end
+						--rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+						if(rng > unSetrng) then
+							rngSet = TerrainBuilder.GetRandomNumber(100,"test")/100;
+							if (bOasis == true and rngSet > 0.75) then
+								ResourceBuilder.SetResourceType(adjacentPlot, -1);
+								TerrainBuilder.SetFeatureType(adjacentPlot,4);
+								__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Oasis");
+								return true;
+							else
 							--生成沙漠丘陵
-							TerrainBuilder.SetTerrainType(adjacentPlot,7);
-							ResourceBuilder.SetResourceType(adjacentPlot, -1);
-							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+								TerrainBuilder.SetTerrainType(adjacentPlot,7);
+								ResourceBuilder.SetResourceType(adjacentPlot, -1);
+								TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							end
+						else
+							rngAdd = rngAdd+rngAddBlock;
 						end
-				    else
-				    	rngAdd=rngAdd+rngAddBlock;
-				    end
 
-				--[[elseif( (terrainType == 4 and adjacentPlot:GetFeatureType() == 3)
+					--[[elseif( (terrainType == 4 and adjacentPlot:GetFeatureType() == 3)
 					or (terrainType == 1 and adjacentPlot:GetFeatureType() == 3)
 					or (terrainType == 7 and adjacentPlot:GetFeatureType() == 3)
 					or (terrainType == 10 and adjacentPlot:GetFeatureType() == 3) and count < max_unFeature) and adjacentPlot:IsNaturalWonder() == false then
@@ -2235,80 +2247,80 @@ function AddBonusFood(plot,intensity, flag,majListCiv)
 					__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep");
 					return true;
 					--]]
-				elseif(addFoodSheepCount < 2 and (terrainType == 3 and adjacentPlot:GetFeatureType() == 3 and adjacentPlot:IsNaturalWonder() == false)) then
+					elseif(addFoodSheepCount < 2 and (terrainType == 3 and adjacentPlot:GetFeatureType() == 3 and adjacentPlot:IsNaturalWonder() == false)) then
 					-- sheep instead of forest
-					if(rng+0.15 > unSetrng) then
-						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-						TerrainBuilder.SetTerrainType(adjacentPlot,4);
-						ResourceBuilder.SetResourceType(adjacentPlot, 7, 1);
-						addFoodSheepCount=addFoodSheepCount+1;
-						print("teamPVP addFoodSheepCount:",addFoodSheepCount);
-						__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep on Plains Hills");
-						rngAdd=0;
-						return true;
-				    else
-				    	rngAdd=rngAdd+rngAddBlock;
-				    end
-				elseif(terrainType == 15 and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:IsFreshWater() == false and adjacentPlot:GetResourceType() == 5) then
+						if(rng+0.15 > unSetrng) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							TerrainBuilder.SetTerrainType(adjacentPlot,4);
+							ResourceBuilder.SetResourceType(adjacentPlot, 7, 1);
+							addFoodSheepCount = addFoodSheepCount+1;
+							print("teamPVP addFoodSheepCount:",addFoodSheepCount);
+							__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep on Plains Hills");
+							rngAdd = 0;
+							return true;
+						else
+							rngAdd = rngAdd+rngAddBlock;
+						end
+					elseif(terrainType == 15 and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:IsFreshWater() == false and adjacentPlot:GetResourceType() == 5) then
 
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-					if(rng > unSetrng and adjacentPlot:GetResourceType() == 5) then
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+						if(rng > unSetrng and adjacentPlot:GetResourceType() == 5) then
 						-- Reef
 
-						__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Reef");
-						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_REEF);
-						rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+							__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Reef");
+							TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_REEF);
+							rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
 
-						return true;
-					else
-					    rngAdd=rngAdd+rngAddBlock;
-					end
-				elseif(terrainType == 15 and resourcesFishCount<3) and adjacentPlot:IsNaturalWonder() == false then
-					-- fish
-					if(rng > unSetrng) then
-						if(ResourceBuilder.CanHaveResource(adjacentPlot, 5)) then
-							ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
-							__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Fish");
-							rngAdd=0;
-							resourcesFishCount=resourcesFishCount+1;
 							return true;
+						else
+							rngAdd = rngAdd+rngAddBlock;
 						end
-				    else
-				    	rngAdd=rngAdd+rngAddBlock;
-				    end
+					elseif(terrainType == 15 and resourcesFishCount<3) and adjacentPlot:IsNaturalWonder() == false then
+					-- fish
+						if(rng > unSetrng) then
+							if(ResourceBuilder.CanHaveResource(adjacentPlot, 5)) then
+								ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
+								__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Fish");
+								rngAdd = 0;
+								resourcesFishCount = resourcesFishCount+1;
+								return true;
+							end
+						else
+							rngAdd = rngAdd+rngAddBlock;
+						end
 
+					end
+				else
+					rngAdd = rngAdd+rngAddBlock;
 				end
-			else
-                rngAdd=rngAdd+rngAddBlock;
-            end
-		end
+			end
 
 
-		if (adjacentPlot ~= nil) then
-			terrainType = adjacentPlot:GetTerrainType();
-			if( (terrainType == 6 and flag == 2 and adjacentPlot:IsRiver() == true and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() < 1) ) and adjacentPlot:IsNaturalWonder() == false then
+			if (adjacentPlot ~= nil) then
+				terrainType = adjacentPlot:GetTerrainType();
+				if( (terrainType == 6 and flag == 2 and adjacentPlot:IsRiver() == true and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() < 1) ) and adjacentPlot:IsNaturalWonder() == false then
 				-- Add Desert Floodplains
-				TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
-				__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Turned the tile to a Desert Floodplains");
-				return true;
-			end
-
-			if( flag ~= 2 and flag ~= 1 and (terrainType == 2 and flag ~= 3 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or (terrainType == 5 and flag ~= 3 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or (terrainType == 8 and flag ~= 3 and flag ~= 2 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or (terrainType == 11 and flag ~= 3 and flag ~= 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or  (terrainType == 14 and flag ~= 3 and flag ~= 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) and adjacentPlot:GetResourceCount() < 1) and adjacentPlot:IsNaturalWonder() == false then
-				-- Convert to Flatland or Hills
-				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-				if rng > 0.80 and (terrainType == 2 or terrainType == 5)then
-					TerrainBuilder.SetTerrainType(adjacentPlot,terrainType - 1);
-					TerrainBuilder.SetFeatureType(adjacentPlot,3);
-					__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Turned the Grass Mountain to a Flat land with stones");
+					TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
+					__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Turned the tile to a Desert Floodplains");
 					return true;
-				elseif rng > 0.70 then
-					TerrainBuilder.SetTerrainType(adjacentPlot,terrainType - 1);
-					__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Turned the Mountain to a Hill");
-					return true
+				end
+
+				if( flag ~= 2 and flag ~= 1 and (terrainType == 2 and flag ~= 3 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or (terrainType == 5 and flag ~= 3 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or (terrainType == 8 and flag ~= 3 and flag ~= 2 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or (terrainType == 11 and flag ~= 3 and flag ~= 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) or  (terrainType == 14 and flag ~= 3 and flag ~= 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) and adjacentPlot:GetResourceCount() < 1) and adjacentPlot:IsNaturalWonder() == false then
+				-- Convert to Flatland or Hills
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+					if rng > 0.80 and (terrainType == 2 or terrainType == 5)then
+						TerrainBuilder.SetTerrainType(adjacentPlot,terrainType - 1);
+						TerrainBuilder.SetFeatureType(adjacentPlot,3);
+						__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Turned the Grass Mountain to a Flat land with stones");
+						return true;
+					elseif rng > 0.70 then
+						TerrainBuilder.SetTerrainType(adjacentPlot,terrainType - 1);
+						__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Turned the Mountain to a Hill");
+						return true
+					end
 				end
 			end
 		end
-	end
 
 
 	end -- k end loop
@@ -2320,359 +2332,359 @@ end
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 function AddBonusBind(plot,intensity, flag,majListCiv)
-    -- flag = 0 normal
-    -- flag = 1 tundra civ
-    -- flag = 2 desert civ
-    -- flag = 3 mountain civ
-    local iResourcesInDB = 0;
-    local terrainType = plot:GetTerrainType();
-    local featureType = plot:GetFeatureType();
-    local gridWidth, gridHeight = Map.GetGridSize();
-    local direction = 0;
-    eResourceType   = {};
-    eResourceClassType = {};
-    aBonus = {};
-    local limit_1 = 0;
-    local max_unFeature = 2;
-    local adjacentPlot = nil;
-    local adjacentPlot2 = nil;
-    local adjacentPlot3 = nil;
-    local adjacentPlot4 = nil;
-    local count = 0;
-    local increment = 1;
-    local start_range = 1;
-    local end_range = 5;
-    --方法变量
-    local rngAdd=0;--成功率附加
-    local rngAddBlock=14;--成功率附加每次失败递增
-    local unSetrng=0.5;--单元格基础失败率
+-- flag = 0 normal
+-- flag = 1 tundra civ
+-- flag = 2 desert civ
+-- flag = 3 mountain civ
+	local iResourcesInDB = 0;
+	local terrainType = plot:GetTerrainType();
+	local featureType = plot:GetFeatureType();
+	local gridWidth, gridHeight = Map.GetGridSize();
+	local direction = 0;
+	eResourceType = {};
+	eResourceClassType = {};
+	aBonus = {};
+	local limit_1 = 0;
+	local max_unFeature = 2;
+	local adjacentPlot = nil;
+	local adjacentPlot2 = nil;
+	local adjacentPlot3 = nil;
+	local adjacentPlot4 = nil;
+	local count = 0;
+	local increment = 1;
+	local start_range = 1;
+	local end_range = 5;
+	--方法变量
+	local rngAdd = 0;--成功率附加
+	local rngAddBlock = 14;--成功率附加每次失败递增
+	local unSetrng = 0.5;--单元格基础失败率
 
-    local rngSet=0;--选择资源类型随机数，临时变量
+	local rngSet = 0;--选择资源类型随机数，临时变量
 
-    if (intensity == 0) then
-        limit_1 = 0.9;
-    elseif (intensity == 1) then
-        limit_1 = 0.5;
-    elseif (intensity == 2) then
-        limit_1 = 0.25;
-    end
+	if (intensity == 0) then
+		limit_1 = 0.9;
+	elseif (intensity == 1) then
+		limit_1 = 0.5;
+	elseif (intensity == 2) then
+		limit_1 = 0.25;
+	end
 
-    for k = 0, 1 do
+	for k = 0, 1 do
 
-        if k == 0 then
-            if (flag == 2 or flag == 1) then
-                start_range = 1;
-                end_range = 17;
-                increment = 2;
-            else
-                start_range = 1;
-                end_range = 17;--5
-                increment = 1;
-            end
-        elseif k == 1 then
-            if (flag == 2 or flag == 1) then
-                start_range = 17;
-                end_range = 1;
-                increment = -1;
-            else
-                start_range = 1;
-                end_range = 17;--5
-                increment = 1;
-            end
-        end
+		if k == 0 then
+			if (flag == 2 or flag == 1) then
+				start_range = 1;
+				end_range = 17;
+				increment = 2;
+			else
+				start_range = 1;
+				end_range = 17;--5
+				increment = 1;
+			end
+		elseif k == 1 then
+			if (flag == 2 or flag == 1) then
+				start_range = 17;
+				end_range = 1;
+				increment = -1;
+			else
+				start_range = 1;
+				end_range = 17;--5
+				increment = 1;
+			end
+		end
 
-        for i = start_range, end_range, increment do
-            adjacentPlot = GetAdjacentTiles(plot, i)
+		for i = start_range, end_range, increment do
+			adjacentPlot = GetAdjacentTiles(plot, i)
 
-            if (adjacentPlot ~= nil) then
+			if (adjacentPlot ~= nil) then
 
-                terrainType = adjacentPlot:GetTerrainType();
+				terrainType = adjacentPlot:GetTerrainType();
 
-                if (adjacentPlot:GetResourceCount() < 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:IsNaturalWonder() == false) then
+				if (adjacentPlot:GetResourceCount() < 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:IsNaturalWonder() == false) then
 
-                    local rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
+					local rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
 
-                    --关联特殊处理
-                    local civAddRng = 0;
+					--关联特殊处理
+					local civAddRng = 0;
 
-                    --猎场
-                    if(IsHuntCiv(majListCiv))then
-                        if(addHuntCount >= 1)then
-                            return functionResultSuccess;
-                        end
-                        if(addHuntCount<1 and (adjacentPlot:GetFeatureType()==3)) then
-                            -- Deer
-                            if(rng +civAddRng> unSetrng) then
-                                if(ResourceBuilder.CanHaveResource(adjacentPlot, 4)) then
-                                    ResourceBuilder.SetResourceType(adjacentPlot, 4, 1);
-                                    print("IsHuntCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Deer");
-                                    rngAdd=0;
-                                    addHuntCount=addHuntCount+1;
-                                    return functionResultTrue;
-                                end
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        end
-                    end
-                    --羊
-                    if(IsPastureCiv(majListCiv))then
-                        if(addFoodSheepCount >= 2)then
-                            return functionResultSuccess;
-                        end
-                        if((terrainType == 4 and adjacentPlot:GetFeatureType() == 3 or (adjacentPlot:GetFeatureType() == 2))
-                                or (terrainType == 1 and adjacentPlot:GetFeatureType() == 3)
-                                or (terrainType == 7 and adjacentPlot:GetFeatureType() == 3)) and addFoodSheepCount < 2 then
-                            -- sheep
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                local tempGetFeatureType = adjacentPlot:GetFeatureType();
-                                TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                                if(ResourceBuilder.CanHaveResource(adjacentPlot, 7)) then
-                                    ResourceBuilder.SetResourceType(adjacentPlot, 7, 1);
-                                    print("IsPastureCiv Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep");
-                                    rngAdd=0;
-                                    addFoodSheepCount=addFoodSheepCount+1;
-                                    print("IsPastureCiv teamPVP addFoodSheepCount:",addFoodSheepCount);
-                                    return functionResultTrue;
-                                else
-                                    --如果失败 则回退
-                                    TerrainBuilder.SetFeatureType(adjacentPlot,tempGetFeatureType);
-                                end
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        end
-                    end
-                    --雨林
-                    if(IsJungleCiv(majListCiv))then
-                        if(addJungleCount >= 5)then
-                            return functionResultSuccess;
-                        end
-                        if(addJungleCount<5 and terrainType == 4 and adjacentPlot:GetFeatureType() == 3) then
-                            -- 黄地丘陵森林-》雨林
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                print("IsJungleCiv convert2 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                addJungleCount=addJungleCount+1;
-                                print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        elseif(addJungleCount<5 and terrainType == 3 and adjacentPlot:GetFeatureType() == 3) then
-                            -- 黄地森林-》雨林
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                addJungleCount=addJungleCount+1;
-                                print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        elseif(addJungleCount<5 and terrainType == 1 and adjacentPlot:GetFeatureType() == 3) then
-                            -- 绿地丘陵森林-》雨林
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                TerrainBuilder.SetTerrainType(adjacentPlot,4);
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                addJungleCount=addJungleCount+1;
-                                print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        elseif(addJungleCount<5 and terrainType == 0 and adjacentPlot:GetFeatureType() == 3) then
-                            -- 绿地森林-》雨林
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                TerrainBuilder.SetTerrainType(adjacentPlot,3);
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                addJungleCount=addJungleCount+1;
-                                print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        end
-                    end
-                    --森林
-                    if(IsForestCiv(majListCiv))then
-                        if(addForestCount >= 5)then
-                            return functionResultSuccess;
-                        end
-                        if(addForestCount<5 and terrainType == 4 and adjacentPlot:GetFeatureType() == 2) then
-                            -- 黄地丘陵雨林-》绿地森林
-                            if(rng + civAddRng > unSetrng) then
-                                TerrainBuilder.SetTerrainType(adjacentPlot,1);
-                                TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                                print("IsForestCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
-                                addForestCount=addForestCount+1;
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        elseif(addForestCount<5 and terrainType == 3 and adjacentPlot:GetFeatureType() == 2) then
-                            -- 黄地雨林-》绿地森林
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                TerrainBuilder.SetTerrainType(adjacentPlot,0);
-                                TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                                print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                addForestCount=addForestCount+1;
-                                print("IsJungleCiv teamPVP addForestCount:",addForestCount);
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        end
-                    end
-                    --森林+雨林
-                    if(IsForestAndJungleCiv(majListCiv))then
-                        if(addForestCount >= 2 and addJungleCount>=3 )then
-                            return functionResultSuccess;
-                        end
-                        if(addJungleCount<3 and terrainType == 4 and adjacentPlot:GetFeatureType() == 3) then
-                            -- 黄地丘陵森林-》雨林
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                print("IsJungleCiv convert2 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                addJungleCount=addJungleCount+1;
-                                print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        elseif(addJungleCount<23 and terrainType == 3 and adjacentPlot:GetFeatureType() == 3) then
-                            -- 黄地森林-》雨林
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                addJungleCount=addJungleCount+1;
-                                print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        elseif(addJungleCount<3 and terrainType == 1 and adjacentPlot:GetFeatureType() == 3) then
-                            -- 绿地丘陵森林-》雨林
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                TerrainBuilder.SetTerrainType(adjacentPlot,4);
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                addJungleCount=addJungleCount+1;
-                                print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        elseif(addJungleCount<3 and terrainType == 0 and adjacentPlot:GetFeatureType() == 3) then
-                            -- 绿地森林-》雨林
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                TerrainBuilder.SetTerrainType(adjacentPlot,3);
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                addJungleCount=addJungleCount+1;
-                                print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        end
+					--猎场
+					if(IsHuntCiv(majListCiv))then
+						if(addHuntCount >= 1)then
+							return functionResultSuccess;
+						end
+						if(addHuntCount<1 and (adjacentPlot:GetFeatureType()==3)) then
+						-- Deer
+							if(rng +civAddRng> unSetrng) then
+								if(ResourceBuilder.CanHaveResource(adjacentPlot, 4)) then
+									ResourceBuilder.SetResourceType(adjacentPlot, 4, 1);
+									print("IsHuntCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Deer");
+									rngAdd = 0;
+									addHuntCount = addHuntCount+1;
+									return functionResultTrue;
+								end
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						end
+					end
+					--羊
+					if(IsPastureCiv(majListCiv))then
+						if(addFoodSheepCount >= 2)then
+							return functionResultSuccess;
+						end
+						if((terrainType == 4 and adjacentPlot:GetFeatureType() == 3 or (adjacentPlot:GetFeatureType() == 2))
+						or (terrainType == 1 and adjacentPlot:GetFeatureType() == 3)
+						or (terrainType == 7 and adjacentPlot:GetFeatureType() == 3)) and addFoodSheepCount < 2 then
+						-- sheep
+							if(rng+0.15+civAddRng > unSetrng) then
+								local tempGetFeatureType = adjacentPlot:GetFeatureType();
+								TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+								if(ResourceBuilder.CanHaveResource(adjacentPlot, 7)) then
+									ResourceBuilder.SetResourceType(adjacentPlot, 7, 1);
+									print("IsPastureCiv Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep");
+									rngAdd = 0;
+									addFoodSheepCount = addFoodSheepCount+1;
+									print("IsPastureCiv teamPVP addFoodSheepCount:",addFoodSheepCount);
+									return functionResultTrue;
+								else
+								--如果失败 则回退
+									TerrainBuilder.SetFeatureType(adjacentPlot,tempGetFeatureType);
+								end
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						end
+					end
+					--雨林
+					if(IsJungleCiv(majListCiv))then
+						if(addJungleCount >= 5)then
+							return functionResultSuccess;
+						end
+						if(addJungleCount<5 and terrainType == 4 and adjacentPlot:GetFeatureType() == 3) then
+						-- 黄地丘陵森林-》雨林
+							if(rng+0.15+civAddRng > unSetrng) then
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert2 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						elseif(addJungleCount<5 and terrainType == 3 and adjacentPlot:GetFeatureType() == 3) then
+						-- 黄地森林-》雨林
+							if(rng+0.15+civAddRng > unSetrng) then
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						elseif(addJungleCount<5 and terrainType == 1 and adjacentPlot:GetFeatureType() == 3) then
+						-- 绿地丘陵森林-》雨林
+							if(rng+0.15+civAddRng > unSetrng) then
+								TerrainBuilder.SetTerrainType(adjacentPlot,4);
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						elseif(addJungleCount<5 and terrainType == 0 and adjacentPlot:GetFeatureType() == 3) then
+						-- 绿地森林-》雨林
+							if(rng+0.15+civAddRng > unSetrng) then
+								TerrainBuilder.SetTerrainType(adjacentPlot,3);
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						end
+					end
+					--森林
+					if(IsForestCiv(majListCiv))then
+						if(addForestCount >= 5)then
+							return functionResultSuccess;
+						end
+						if(addForestCount<5 and terrainType == 4 and adjacentPlot:GetFeatureType() == 2) then
+						-- 黄地丘陵雨林-》绿地森林
+							if(rng + civAddRng > unSetrng) then
+								TerrainBuilder.SetTerrainType(adjacentPlot,1);
+								TerrainBuilder.SetFeatureType(adjacentPlot,3);
+								print("IsForestCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
+								addForestCount = addForestCount+1;
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						elseif(addForestCount<5 and terrainType == 3 and adjacentPlot:GetFeatureType() == 2) then
+						-- 黄地雨林-》绿地森林
+							if(rng+0.15+civAddRng > unSetrng) then
+								TerrainBuilder.SetTerrainType(adjacentPlot,0);
+								TerrainBuilder.SetFeatureType(adjacentPlot,3);
+								print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addForestCount = addForestCount+1;
+								print("IsJungleCiv teamPVP addForestCount:",addForestCount);
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						end
+					end
+					--森林+雨林
+					if(IsForestAndJungleCiv(majListCiv))then
+						if(addForestCount >= 2 and addJungleCount>=3 )then
+							return functionResultSuccess;
+						end
+						if(addJungleCount<3 and terrainType == 4 and adjacentPlot:GetFeatureType() == 3) then
+						-- 黄地丘陵森林-》雨林
+							if(rng+0.15+civAddRng > unSetrng) then
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert2 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						elseif(addJungleCount<23 and terrainType == 3 and adjacentPlot:GetFeatureType() == 3) then
+						-- 黄地森林-》雨林
+							if(rng+0.15+civAddRng > unSetrng) then
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						elseif(addJungleCount<3 and terrainType == 1 and adjacentPlot:GetFeatureType() == 3) then
+						-- 绿地丘陵森林-》雨林
+							if(rng+0.15+civAddRng > unSetrng) then
+								TerrainBuilder.SetTerrainType(adjacentPlot,4);
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						elseif(addJungleCount<3 and terrainType == 0 and adjacentPlot:GetFeatureType() == 3) then
+						-- 绿地森林-》雨林
+							if(rng+0.15+civAddRng > unSetrng) then
+								TerrainBuilder.SetTerrainType(adjacentPlot,3);
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addJungleCount = addJungleCount+1;
+								print("IsJungleCiv teamPVP addJungleCount:",addJungleCount);
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						end
 
-                        if(addForestCount<2 and terrainType == 4 and adjacentPlot:GetFeatureType() == 2) then
-                            -- 黄地丘陵雨林-》绿地森林
-                            if(rng + civAddRng > unSetrng) then
-                                TerrainBuilder.SetTerrainType(adjacentPlot,1);
-                                TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                                print("IsForestCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
-                                addForestCount=addForestCount+1;
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        elseif(addForestCount<2 and terrainType == 3 and adjacentPlot:GetFeatureType() == 2) then
-                            -- 黄地雨林-》绿地森林
-                            if(rng+0.15+civAddRng > unSetrng) then
-                                TerrainBuilder.SetTerrainType(adjacentPlot,0);
-                                TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                                print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                addForestCount=addForestCount+1;
-                                print("IsJungleCiv teamPVP addForestCount:",addForestCount);
-                                return functionResultTrue;
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        end
-                    end
-                    --香蕉
-                    if(IsBananaCiv(majListCiv))then
-                        if(addBananaCount >= 2)then
-                            return functionResultSuccess;
-                        end
-                        if(addBananaCount<2 and terrainType == 4 and (adjacentPlot:GetFeatureType() == 3 or adjacentPlot:GetFeatureType() == 2)) then
-                            --平原丘陵\树-》平原雨林 然后加香蕉
-                            --或者本身就可以加
-                            if(rng + civAddRng +rngAdd> unSetrng) then
-                                local tempGetFeatureType = adjacentPlot:GetFeatureType();
-                                if(adjacentPlot:GetFeatureType() == 3 or adjacentPlot:GetFeatureType() == -1)then
-                                    TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                end
-                                TerrainBuilder.SetTerrainType(adjacentPlot,3);
-                                if(ResourceBuilder.CanHaveResource(adjacentPlot, 0)) then
-                                    ResourceBuilder.SetResourceType(adjacentPlot, 0, 1);
-                                    print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Banana");
-                                    rngAdd=0;
-                                    addBananaCount = addBananaCount+1;
-                                    return functionResultTrue;
-                                else
-                                    --失败回退
-                                    TerrainBuilder.SetFeatureType(adjacentPlot,tempGetFeatureType);
-                                    TerrainBuilder.SetTerrainType(adjacentPlot,terrainType);
-                                end
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        end
+						if(addForestCount<2 and terrainType == 4 and adjacentPlot:GetFeatureType() == 2) then
+						-- 黄地丘陵雨林-》绿地森林
+							if(rng + civAddRng > unSetrng) then
+								TerrainBuilder.SetTerrainType(adjacentPlot,1);
+								TerrainBuilder.SetFeatureType(adjacentPlot,3);
+								print("IsForestCiv Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
+								addForestCount = addForestCount+1;
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						elseif(addForestCount<2 and terrainType == 3 and adjacentPlot:GetFeatureType() == 2) then
+						-- 黄地雨林-》绿地森林
+							if(rng+0.15+civAddRng > unSetrng) then
+								TerrainBuilder.SetTerrainType(adjacentPlot,0);
+								TerrainBuilder.SetFeatureType(adjacentPlot,3);
+								print("IsJungleCiv convert3 Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								addForestCount = addForestCount+1;
+								print("IsJungleCiv teamPVP addForestCount:",addForestCount);
+								return functionResultTrue;
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						end
+					end
+					--香蕉
+					if(IsBananaCiv(majListCiv))then
+						if(addBananaCount >= 2)then
+							return functionResultSuccess;
+						end
+						if(addBananaCount<2 and terrainType == 4 and (adjacentPlot:GetFeatureType() == 3 or adjacentPlot:GetFeatureType() == 2)) then
+						--平原丘陵\树-》平原雨林 然后加香蕉
+						--或者本身就可以加
+							if(rng + civAddRng +rngAdd> unSetrng) then
+								local tempGetFeatureType = adjacentPlot:GetFeatureType();
+								if(adjacentPlot:GetFeatureType() == 3 or adjacentPlot:GetFeatureType() == -1)then
+									TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								end
+								TerrainBuilder.SetTerrainType(adjacentPlot,3);
+								if(ResourceBuilder.CanHaveResource(adjacentPlot, 0)) then
+									ResourceBuilder.SetResourceType(adjacentPlot, 0, 1);
+									print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Banana");
+									rngAdd = 0;
+									addBananaCount = addBananaCount+1;
+									return functionResultTrue;
+								else
+								--失败回退
+									TerrainBuilder.SetFeatureType(adjacentPlot,tempGetFeatureType);
+									TerrainBuilder.SetTerrainType(adjacentPlot,terrainType);
+								end
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						end
 
-                        if(addBananaCount<2 and terrainType == 1 and (adjacentPlot:GetFeatureType() == 3)) then
-                            --草原丘陵\树-》平原雨林 然后加香蕉
-                            if(rng + civAddRng +rngAdd> unSetrng) then
-                                local tempGetFeatureType = adjacentPlot:GetFeatureType();
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                TerrainBuilder.SetTerrainType(adjacentPlot,3);
-                                if(ResourceBuilder.CanHaveResource(adjacentPlot, 0)) then
-                                    ResourceBuilder.SetResourceType(adjacentPlot, 0, 1);
-                                    print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Banana");
-                                    rngAdd=0;
-                                    addBananaCount = addBananaCount+1;
-                                    return functionResultTrue;
-                                else
-                                    --失败回退
-                                    TerrainBuilder.SetFeatureType(adjacentPlot,tempGetFeatureType);
-                                    TerrainBuilder.SetTerrainType(adjacentPlot,terrainType);
-                                end
-                            else
-                                rngAdd=rngAdd+3*rngAddBlock;
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end -- k end loop
+						if(addBananaCount<2 and terrainType == 1 and (adjacentPlot:GetFeatureType() == 3)) then
+						--草原丘陵\树-》平原雨林 然后加香蕉
+							if(rng + civAddRng +rngAdd> unSetrng) then
+								local tempGetFeatureType = adjacentPlot:GetFeatureType();
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								TerrainBuilder.SetTerrainType(adjacentPlot,3);
+								if(ResourceBuilder.CanHaveResource(adjacentPlot, 0)) then
+									ResourceBuilder.SetResourceType(adjacentPlot, 0, 1);
+									print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Banana");
+									rngAdd = 0;
+									addBananaCount = addBananaCount+1;
+									return functionResultTrue;
+								else
+								--失败回退
+									TerrainBuilder.SetFeatureType(adjacentPlot,tempGetFeatureType);
+									TerrainBuilder.SetTerrainType(adjacentPlot,terrainType);
+								end
+							else
+								rngAdd = rngAdd+3*rngAddBlock;
+							end
+						end
+					end
+				end
+			end
+		end
+	end -- k end loop
 
-    __Debug("Food balancing: Couldn't add Food Bonus");
-    return functionResultFail;
+	__Debug("Food balancing: Couldn't add Food Bonus");
+	return functionResultFail;
 end
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -2683,7 +2695,7 @@ function AddBonusProd(plot, intensity,flag)
 	local gridWidth, gridHeight = Map.GetGridSize();
 	local bWater = true;
 	local count = 0;
-	eResourceType	= {};
+	eResourceType = {};
 	eResourceClassType = {};
 	aBonus = {};
 	local limit_1 = 0;
@@ -2697,126 +2709,126 @@ function AddBonusProd(plot, intensity,flag)
 	local increment = 1;
 
 	--方法变量
-	local rngAdd=0;--成功率附加
-	local rngAddBlock=14;--成功率附加每次失败递增
-	local unSetrng=0.5;--单元格基础失败率
+	local rngAdd = 0;--成功率附加
+	local rngAddBlock = 14;--成功率附加每次失败递增
+	local unSetrng = 0.5;--单元格基础失败率
 
-	local rngSet=0;--选择资源类型随机数，临时变量
+	local rngSet = 0;--选择资源类型随机数，临时变量
 
 	local isAddStore = 0;
 
 	if (intensity == 0) then
 		limit_1 = 0.9;
-		elseif (intensity == 1) then
-			limit_1 = 0.75;
-		elseif (intensity == 2) then
-			limit_1 = 0.5;
+	elseif (intensity == 1) then
+		limit_1 = 0.75;
+	elseif (intensity == 2) then
+		limit_1 = 0.5;
 	end
 
 	for k = 0, 1 do
 
-	if k == 0 then
-		if (flag == 2 or flag == 1) then
-			start_range = 1;
-			end_range = 17;
-			increment = 2;
+		if k == 0 then
+			if (flag == 2 or flag == 1) then
+				start_range = 1;
+				end_range = 17;
+				increment = 2;
 			else
-			start_range = 1;
-			end_range = 17;
-			increment = 1;
-		end
-	elseif k == 1 then
-		if (flag == 2 or flag == 1) then
-			start_range = 17;
-			end_range = 1;
-			increment = -1;
+				start_range = 1;
+				end_range = 17;
+				increment = 1;
+			end
+		elseif k == 1 then
+			if (flag == 2 or flag == 1) then
+				start_range = 17;
+				end_range = 1;
+				increment = -1;
 			else
-			start_range = 1;
-			end_range = 17;
-			increment = 1;
+				start_range = 1;
+				end_range = 17;
+				increment = 1;
+			end
 		end
-	end
 
-	for i = start_range, end_range, increment do
-		adjacentPlot = GetAdjacentTiles(plot, i);
+		for i = start_range, end_range, increment do
+			adjacentPlot = GetAdjacentTiles(plot, i);
 
 
-		if (adjacentPlot ~= nil) then
+			if (adjacentPlot ~= nil) then
 
-			if (adjacentPlot:GetResourceCount() < 1) and adjacentPlot:IsNaturalWonder() == false then
+				if (adjacentPlot:GetResourceCount() < 1) and adjacentPlot:IsNaturalWonder() == false then
 
-				terrainType = adjacentPlot:GetTerrainType();
-				rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
+					terrainType = adjacentPlot:GetTerrainType();
+					rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
 
-				if(((adjacentPlot:GetTerrainType() == 4) or (adjacentPlot:GetTerrainType() == 1) or (adjacentPlot:GetTerrainType() == 10))
-				 and (adjacentPlot:GetFeatureType() == -1) and (adjacentPlot:IsImpassable() == false) and (adjacentPlot:IsWater() == false) and  (adjacentPlot:GetTerrainType() ~= 6) and (adjacentPlot:GetTerrainType() ~= 7) and (adjacentPlot:GetTerrainType() ~= 12) and (adjacentPlot:GetTerrainType() ~= 13)) then
+					if(((adjacentPlot:GetTerrainType() == 4) or (adjacentPlot:GetTerrainType() == 1) or (adjacentPlot:GetTerrainType() == 10))
+					and (adjacentPlot:GetFeatureType() == -1) and (adjacentPlot:IsImpassable() == false) and (adjacentPlot:IsWater() == false) and  (adjacentPlot:GetTerrainType() ~= 6) and (adjacentPlot:GetTerrainType() ~= 7) and (adjacentPlot:GetTerrainType() ~= 12) and (adjacentPlot:GetTerrainType() ~= 13)) then
 					--Wood
-					if(rng > unSetrng) then
-						rngSet = TerrainBuilder.GetRandomNumber(100,"test")/100;
-						if(stonesCounts<3 and terrainType == 1)then
-							local stonesPercent = isAddStore*20/100;
-							if (rngSet > (0.5+stonesPercent)) then
+						if(rng > unSetrng) then
+							rngSet = TerrainBuilder.GetRandomNumber(100,"test")/100;
+							if(stonesCounts<3 and terrainType == 1)then
+								local stonesPercent = isAddStore*20/100;
+								if (rngSet > (0.5+stonesPercent)) then
 								--TerrainBuilder.SetFeatureType(adjacentPlot,3);
-								stonesCounts=stonesCounts+1;
-								ResourceBuilder.SetResourceType(adjacentPlot, 8, 1);
-								__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Flat land with stones");
-								rngAdd=0;
-								isAddStore=1;
-								return true;
+									stonesCounts = stonesCounts+1;
+									ResourceBuilder.SetResourceType(adjacentPlot, 8, 1);
+									__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Flat land with stones");
+									rngAdd = 0;
+									isAddStore = 1;
+									return true;
+								else--if (rng > 0.1) then
+								--ResourceBuilder.SetResourceType(adjacentPlot, 8, 1);
+									TerrainBuilder.SetFeatureType(adjacentPlot,3);
+									__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
+									rngAdd = 0;
+									isAddStore = -1;
+									return true
+								end
 							else--if (rng > 0.1) then
 							--ResourceBuilder.SetResourceType(adjacentPlot, 8, 1);
 								TerrainBuilder.SetFeatureType(adjacentPlot,3);
 								__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
-								rngAdd=0;
-								isAddStore=-1;
+								rngAdd = 0;
 								return true
 							end
-						else--if (rng > 0.1) then
-							--ResourceBuilder.SetResourceType(adjacentPlot, 8, 1);
-							TerrainBuilder.SetFeatureType(adjacentPlot,3);
-							__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Wood");
-							rngAdd=0;
-							return true
+						else
+							rngAdd = rngAdd+rngAddBlock;
 						end
-				    else
-				    	rngAdd=rngAdd+rngAddBlock;
-				    end
-				elseif((terrainType == 7 and adjacentPlot:GetResourceType() == -1) or (terrainType == 10 and adjacentPlot:GetResourceType() == -1)) then
+					elseif((terrainType == 7 and adjacentPlot:GetResourceType() == -1) or (terrainType == 10 and adjacentPlot:GetResourceType() == -1)) then
 					-- copper
 					--__Debug("Food balancing: Copper");
-					if(rng > unSetrng) then
-						if(ResourceBuilder.CanHaveResource(adjacentPlot, 2)) then
-							ResourceBuilder.SetResourceType(adjacentPlot, 2, 1);
-							__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Copper");
-							rngAdd=0;
-							return true;
+						if(rng > unSetrng) then
+							if(ResourceBuilder.CanHaveResource(adjacentPlot, 2)) then
+								ResourceBuilder.SetResourceType(adjacentPlot, 2, 1);
+								__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Copper");
+								rngAdd = 0;
+								return true;
+							end
+						else
+							rngAdd = rngAdd+rngAddBlock;
 						end
-				    else
-				    	rngAdd=rngAdd+rngAddBlock;
-				    end
-				elseif((terrainType == 9 or terrainType == 10) and adjacentPlot:GetResourceType() == -1) then
+					elseif((terrainType == 9 or terrainType == 10) and adjacentPlot:GetResourceType() == -1) then
 					-- Deer
-					if(rng > unSetrng) then
-						if(ResourceBuilder.CanHaveResource(adjacentPlot, 4)) then
-							ResourceBuilder.SetResourceType(adjacentPlot, 4, 1);
-							__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Deer");
-							rngAdd=0;
-							return true;
+						if(rng > unSetrng) then
+							if(ResourceBuilder.CanHaveResource(adjacentPlot, 4)) then
+								ResourceBuilder.SetResourceType(adjacentPlot, 4, 1);
+								__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: Deer");
+								rngAdd = 0;
+								return true;
+							end
+						else
+							rngAdd = rngAdd+rngAddBlock;
 						end
-				    else
-				    	rngAdd=rngAdd+rngAddBlock;
-				    end
 
+					end
 				end
-			end
 
-		end--
+			end--
 
 
-		if (adjacentPlot ~= nil) then
-			rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-			terrainType = adjacentPlot:GetTerrainType();
-			--[[if(terrainType == 15 and adjacentPlot:GetFeatureType() == -1 and (adjacentPlot:GetResourceCount() < 1 or adjacentPlot:GetResourceType() == 5 ) ) then
+			if (adjacentPlot ~= nil) then
+				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+				terrainType = adjacentPlot:GetTerrainType();
+				--[[if(terrainType == 15 and adjacentPlot:GetFeatureType() == -1 and (adjacentPlot:GetResourceCount() < 1 or adjacentPlot:GetResourceType() == 5 ) ) then
 				bWater = true;
 				for j = 0, 5 do
 					if(adjacentPlot:GetX() >= 0 and adjacentPlot:GetY() < gridHeight) then
@@ -2839,35 +2851,35 @@ function AddBonusProd(plot, intensity,flag)
 				end
 
 			else--]]
-			if(terrainType == 15 and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:IsFreshWater() == false and adjacentPlot:GetResourceType() == 5) then
+				if(terrainType == 15 and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:IsFreshWater() == false and adjacentPlot:GetResourceType() == 5) then
 
-				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-				if(rng > unSetrng and adjacentPlot:GetResourceType() == 5) then
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+					if(rng > unSetrng and adjacentPlot:GetResourceType() == 5) then
 					-- Reef
 
-					__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Reef");
-					TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_REEF);
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-					--[[if(rng > limit_1 * 1.25 and adjacentPlot:GetResourceType() == -1) then
+						__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Reef");
+						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_REEF);
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+						--[[if(rng > limit_1 * 1.25 and adjacentPlot:GetResourceType() == -1) then
 						-- Reef with fish
 
 						__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Fish");
 						ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
 					end--]]
+						return true;
+					else
+						rngAdd = rngAdd+rngAddBlock;
+					end
+
+				elseif(terrainType == 15 and adjacentPlot:GetFeatureType() == g_FEATURE_REEF and adjacentPlot:GetResourceType() == -1 and resourcesFishCount<3) then
+					__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Fish");
+					ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
+					resourcesFishCount = resourcesFishCount+1;
 					return true;
-				else
-				    rngAdd=rngAdd+rngAddBlock;
 				end
-
-			elseif(terrainType == 15 and adjacentPlot:GetFeatureType() == g_FEATURE_REEF and adjacentPlot:GetResourceType() == -1 and resourcesFishCount<3) then
-				__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Fish");
-				ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
-				resourcesFishCount=resourcesFishCount+1;
-				return true;
 			end
-		end
 
-	end
+		end
 
 	end -- k end loop
 
@@ -2884,7 +2896,7 @@ function AddHills(plot, intensity,flag,civAddHillTeamPVP)
 	local featureType = plot:GetFeatureType();
 	local gridWidth, gridHeight = Map.GetGridSize();
 	local direction = 0;
-	eResourceType	= {};
+	eResourceType = {};
 	eResourceClassType = {};
 	aBonus = {};
 	local limit_1 = 0;
@@ -2898,149 +2910,149 @@ function AddHills(plot, intensity,flag,civAddHillTeamPVP)
 	local end_range = 17;
 	local increment = 1;
 	--方法变量
-	local rngAdd=0;--成功率附加
-	local rngAddBlock=50;--成功率附加每次失败递增
+	local rngAdd = 0;--成功率附加
+	local rngAddBlock = 50;--成功率附加每次失败递增
 
 	if (intensity == 0) then
 		limit_1 = 0.9;
 		limit_2 = 0.75;
-		elseif (intensity == 1) then
-			limit_1 = 0.33;
-			limit_2 = 0.20;
-		elseif (intensity == 2) then
-			limit_1 = 0.20;
-			limit_2 = 0.10;
+	elseif (intensity == 1) then
+		limit_1 = 0.33;
+		limit_2 = 0.20;
+	elseif (intensity == 2) then
+		limit_1 = 0.20;
+		limit_2 = 0.10;
 	end
 
 	for k = 0, 1 do
 
-	if k == 0 then
-		if (flag == 2 or flag == 1) then
-			start_range = 0;
-			end_range = 17;
-			increment = 1;
+		if k == 0 then
+			if (flag == 2 or flag == 1) then
+				start_range = 0;
+				end_range = 17;
+				increment = 1;
 			else
-			start_range = 0;
-			end_range = 17;
-			increment = 1;
-		end
-	elseif k == 1 then
-		if (flag == 2 or flag == 1) then
-			start_range = 17;
-			end_range = 0;
-			increment = -1;
+				start_range = 0;
+				end_range = 17;
+				increment = 1;
+			end
+		elseif k == 1 then
+			if (flag == 2 or flag == 1) then
+				start_range = 17;
+				end_range = 0;
+				increment = -1;
 			else
-			start_range = 17;
-			end_range = 0;
-			increment = -1;
-		end
-	end
-
-	for i = start_range, end_range, increment do
-		adjacentPlot = GetAdjacentTiles(plot, i);
-
-		if (i < 6) then
-			limit = limit_1
-			else
-			limit = limit_2
+				start_range = 17;
+				end_range = 0;
+				increment = -1;
+			end
 		end
 
-		if (adjacentPlot ~= nil) then
-			if adjacentPlot:IsNaturalWonder() == false then
-			terrainType = adjacentPlot:GetTerrainType();
-			rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
-            --强制补贴丘陵
-            if (civAddHillTeamPVP>=12 and rng>=1 and adjacentPlot:GetResourceCount() == 1 and (((adjacentPlot:GetYield(g_YIELD_PRODUCTION) + adjacentPlot:GetYield(g_YIELD_FOOD))<4) and adjacentPlot:GetYield(g_YIELD_SCIENCE)<=0 and adjacentPlot:GetYield(g_YIELD_CULTURE)<=0 and adjacentPlot:GetYield(g_YIELD_GOLD)<=0 and adjacentPlot:GetYield(g_YIELD_FAITH)<=0) and adjacentPlot:IsWater() == false
-                and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false) then
-                if(adjacentPlot:GetResourceType()<40 and adjacentPlot:GetResourceType()>46 and adjacentPlot:GetResourceType()~=54 and (terrainType == 4 or terrainType == 3 or terrainType == 0 or terrainType == 1))then
-                    ResourceBuilder.SetResourceType(adjacentPlot, -1);
-                    rngAdd=0;
-                    print("civAddHillTeamPVP IsDeleteResource true Get",adjacentPlot:GetX(),":",adjacentPlot:GetY());
-                end
-            end
-			if(terrainType == 0 and adjacentPlot:GetResourceType() == -1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) then
-				if(rng > limit) then
-					TerrainBuilder.SetTerrainType(adjacentPlot,1);
-					__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Turned the tile to a Grassland Hill");
-					rngAdd=0;
-					return true;
-				else
-					if (i < 6) then
-						rngAdd=rngAdd+rngAddBlock-7;
-						else
-						rngAdd=rngAdd+rngAddBlock;
-					end
+		for i = start_range, end_range, increment do
+			adjacentPlot = GetAdjacentTiles(plot, i);
 
-				end
-			elseif(terrainType == 3 and adjacentPlot:GetResourceType() == -1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) then
-				if(rng > limit) then
-					TerrainBuilder.SetTerrainType(adjacentPlot,4);
-					__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Turned the tile to a Plain Hill");
-					rngAdd=0;
-					return true;
-				else
-					if (i < 6) then
-						rngAdd=rngAdd+rngAddBlock-7;
-						else
-						rngAdd=rngAdd+rngAddBlock;
-					end
-
-				end
-			elseif(terrainType == 6 and adjacentPlot:GetResourceType() == -1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:GetFeatureType() ~= g_FEATURE_OASIS and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) then
-				if(rng > limit) then
-					TerrainBuilder.SetTerrainType(adjacentPlot,7);
-					__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Turned the tile to a Desert Hill");
-					rngAdd=0;
-					return true;
-				else
-					if (i < 6) then
-						rngAdd=rngAdd+rngAddBlock-7;
-						else
-						rngAdd=rngAdd+rngAddBlock;
-					end
-
-				end
-			elseif(terrainType == 9 and adjacentPlot:GetResourceType() == -1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) then
-				if(rng > limit) then
-					TerrainBuilder.SetTerrainType(adjacentPlot,10);
-					__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Turned the tile to a Tundra Hill");
-					rngAdd=0;
-					return true;
-				else
-					if (i < 6) then
-						rngAdd=rngAdd+rngAddBlock-7;
-						else
-						rngAdd=rngAdd+rngAddBlock;
-					end
-
-				end
-			elseif(adjacentPlot:GetResourceType() == -1 and adjacentPlot:GetFeatureType() == g_FEATURE_MARSH and (terrainType == 0 or terrainType == 3)) then
-				if(rng > limit * 2) then
-					TerrainBuilder.SetTerrainType(adjacentPlot,terrainType + 1);
-					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-					__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Turned the Marsh tile to a Hill");
-					rngAdd=0;
-					return true;
-				else
-					if (i < 6) then
-						rngAdd=rngAdd+rngAddBlock-7;
-						else
-						rngAdd=rngAdd+rngAddBlock;
-					end
-
-				end
+			if (i < 6) then
+				limit = limit_1
 			else
-				if (i < 6) then
-					rngAdd=rngAdd+rngAddBlock-7;
-				else
-					rngAdd=rngAdd+rngAddBlock;
-				end
+				limit = limit_2
 			end
 
+			if (adjacentPlot ~= nil) then
+				if adjacentPlot:IsNaturalWonder() == false then
+					terrainType = adjacentPlot:GetTerrainType();
+					rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
+					--强制补贴丘陵
+					if (civAddHillTeamPVP>=12 and rng>=1 and adjacentPlot:GetResourceCount() == 1 and (((adjacentPlot:GetYield(g_YIELD_PRODUCTION) + adjacentPlot:GetYield(g_YIELD_FOOD))<4) and adjacentPlot:GetYield(g_YIELD_SCIENCE)<=0 and adjacentPlot:GetYield(g_YIELD_CULTURE)<=0 and adjacentPlot:GetYield(g_YIELD_GOLD)<=0 and adjacentPlot:GetYield(g_YIELD_FAITH)<=0) and adjacentPlot:IsWater() == false
+					and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false) then
+						if(adjacentPlot:GetResourceType()<40 and adjacentPlot:GetResourceType()>46 and adjacentPlot:GetResourceType()~=54 and (terrainType == 4 or terrainType == 3 or terrainType == 0 or terrainType == 1))then
+							ResourceBuilder.SetResourceType(adjacentPlot, -1);
+							rngAdd = 0;
+							print("civAddHillTeamPVP IsDeleteResource true Get",adjacentPlot:GetX(),":",adjacentPlot:GetY());
+						end
+					end
+					if(terrainType == 0 and adjacentPlot:GetResourceType() == -1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) then
+						if(rng > limit) then
+							TerrainBuilder.SetTerrainType(adjacentPlot,1);
+							__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Turned the tile to a Grassland Hill");
+							rngAdd = 0;
+							return true;
+						else
+							if (i < 6) then
+								rngAdd = rngAdd+rngAddBlock-7;
+							else
+								rngAdd = rngAdd+rngAddBlock;
+							end
 
+						end
+					elseif(terrainType == 3 and adjacentPlot:GetResourceType() == -1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) then
+						if(rng > limit) then
+							TerrainBuilder.SetTerrainType(adjacentPlot,4);
+							__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Turned the tile to a Plain Hill");
+							rngAdd = 0;
+							return true;
+						else
+							if (i < 6) then
+								rngAdd = rngAdd+rngAddBlock-7;
+							else
+								rngAdd = rngAdd+rngAddBlock;
+							end
+
+						end
+					elseif(terrainType == 6 and adjacentPlot:GetResourceType() == -1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:GetFeatureType() ~= g_FEATURE_OASIS and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) then
+						if(rng > limit) then
+							TerrainBuilder.SetTerrainType(adjacentPlot,7);
+							__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Turned the tile to a Desert Hill");
+							rngAdd = 0;
+							return true;
+						else
+							if (i < 6) then
+								rngAdd = rngAdd+rngAddBlock-7;
+							else
+								rngAdd = rngAdd+rngAddBlock;
+							end
+
+						end
+					elseif(terrainType == 9 and adjacentPlot:GetResourceType() == -1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO) then
+						if(rng > limit) then
+							TerrainBuilder.SetTerrainType(adjacentPlot,10);
+							__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Turned the tile to a Tundra Hill");
+							rngAdd = 0;
+							return true;
+						else
+							if (i < 6) then
+								rngAdd = rngAdd+rngAddBlock-7;
+							else
+								rngAdd = rngAdd+rngAddBlock;
+							end
+
+						end
+					elseif(adjacentPlot:GetResourceType() == -1 and adjacentPlot:GetFeatureType() == g_FEATURE_MARSH and (terrainType == 0 or terrainType == 3)) then
+						if(rng > limit * 2) then
+							TerrainBuilder.SetTerrainType(adjacentPlot,terrainType + 1);
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							__Debug("Prod Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Turned the Marsh tile to a Hill");
+							rngAdd = 0;
+							return true;
+						else
+							if (i < 6) then
+								rngAdd = rngAdd+rngAddBlock-7;
+							else
+								rngAdd = rngAdd+rngAddBlock;
+							end
+
+						end
+					else
+						if (i < 6) then
+							rngAdd = rngAdd+rngAddBlock-7;
+						else
+							rngAdd = rngAdd+rngAddBlock;
+						end
+					end
+
+
+				end
+			end
 		end
-		end
-	end
 
 	end -- end k loop
 
@@ -3050,10 +3062,10 @@ end
 ------------------------------------------------------------------------------
 
 function Terraforming_Nuke_Mountain(plot)
-	-- flag = 0 normal
-	-- flag = 1 tundra civ
-	-- flag = 2 desert civ
-	-- flag = 3 mountain civ
+-- flag = 0 normal
+-- flag = 1 tundra civ
+-- flag = 2 desert civ
+-- flag = 3 mountain civ
 	local terrainType = plot:GetTerrainType();
 	local featureType = plot:GetFeatureType();
 	local gridWidth, gridHeight = Map.GetGridSize();
@@ -3078,7 +3090,7 @@ function Terraforming_Nuke_Mountain(plot)
 
 		if (i < 6) then
 			limit = limit_1
-			else
+		else
 			limit = limit_2
 		end
 
@@ -3101,10 +3113,10 @@ end
 ------------------------------------------------------------------------------
 
 function Terraforming_Mountain(plot,flag)
-	-- flag = 0 normal
-	-- flag = 1 tundra civ
-	-- flag = 2 desert civ
-	-- flag = 3 mountain civ
+-- flag = 0 normal
+-- flag = 1 tundra civ
+-- flag = 2 desert civ
+-- flag = 3 mountain civ
 	local terrainType = plot:GetTerrainType();
 	local featureType = plot:GetFeatureType();
 	local gridWidth, gridHeight = Map.GetGridSize();
@@ -3117,8 +3129,8 @@ function Terraforming_Mountain(plot,flag)
 	local adjacentPlot4 = nil;
 	local rng = 0
 	local count = 0
-    local rngMountainAdd = 0
-    local mountainTerrainTypeTemp = 0
+	local rngMountainAdd = 0
+	local mountainTerrainTypeTemp = 0
 
 	--------------------------------------------------------------------------------------------------------------
 	-- Terraforming Mountain -------------------------------------------------------------------------------------
@@ -3150,31 +3162,31 @@ function Terraforming_Mountain(plot,flag)
 					rngMountainAdd = -10;
 				end
 				if (adjacentPlot:IsImpassable() == false
-					and adjacentPlot:IsWater() == false
-					and adjacentPlot:IsNaturalWonder() == false
-					and adjacentPlot:GetResourceCount() < 1
-					and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS
-					and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND
-					and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS
-					and rng <= (0.7+2*(i-6)/100+rngMountainAdd/100)
-					and count <= 2) then
+				and adjacentPlot:IsWater() == false
+				and adjacentPlot:IsNaturalWonder() == false
+				and adjacentPlot:GetResourceCount() < 1
+				and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS
+				and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND
+				and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS
+				and rng <= (0.7+2*(i-6)/100+rngMountainAdd/100)
+				and count <= 2) then
 
 					if adjacentPlot:GetTerrainType() == 0 or adjacentPlot:GetTerrainType() == 1 then
-                        TerrainBuilder.SetTerrainType(adjacentPlot,2);
-                    elseif adjacentPlot:GetTerrainType() == 3 or adjacentPlot:GetTerrainType() == 4 then
-                        TerrainBuilder.SetTerrainType(adjacentPlot,5);
-                    elseif adjacentPlot:GetTerrainType() == 9 or adjacentPlot:GetTerrainType() == 10 then
-                        TerrainBuilder.SetTerrainType(adjacentPlot,11);
-                    elseif adjacentPlot:GetTerrainType() == 6 or adjacentPlot:GetTerrainType() == 7 then
-                        TerrainBuilder.SetTerrainType(adjacentPlot,8);
-                    end
+						TerrainBuilder.SetTerrainType(adjacentPlot,2);
+					elseif adjacentPlot:GetTerrainType() == 3 or adjacentPlot:GetTerrainType() == 4 then
+						TerrainBuilder.SetTerrainType(adjacentPlot,5);
+					elseif adjacentPlot:GetTerrainType() == 9 or adjacentPlot:GetTerrainType() == 10 then
+						TerrainBuilder.SetTerrainType(adjacentPlot,11);
+					elseif adjacentPlot:GetTerrainType() == 6 or adjacentPlot:GetTerrainType() == 7 then
+						TerrainBuilder.SetTerrainType(adjacentPlot,8);
+					end
 					TerrainBuilder.SetFeatureType(adjacentPlot,-1)
 					count = count + 1
 					__Debug("Terraforming_Mountain X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Place a Mountain (Inca)");
 				end
 			end
 		end
-		count=0;
+		count = 0;
 		for i = 18, 60 do
 			if (GetAdjacentTiles(plot, i) ~= nil) then
 				rng = TerrainBuilder.GetRandomNumber(100,"test")/100
@@ -3201,23 +3213,23 @@ function Terraforming_Mountain(plot,flag)
 					rngMountainAdd = -10;
 				end
 				if (adjacentPlot:IsImpassable() == false
-					and adjacentPlot:IsWater() == false
-					and adjacentPlot:IsNaturalWonder() == false
-					and adjacentPlot:GetResourceCount() < 1
-					and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS
-					and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND
-					and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS
-					and rng <= (0.7+2*(i-18)/100+rngMountainAdd/100)
-					and count <= 5) then
+				and adjacentPlot:IsWater() == false
+				and adjacentPlot:IsNaturalWonder() == false
+				and adjacentPlot:GetResourceCount() < 1
+				and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS
+				and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND
+				and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS
+				and rng <= (0.7+2*(i-18)/100+rngMountainAdd/100)
+				and count <= 5) then
 
 					if adjacentPlot:GetTerrainType() == 0 or adjacentPlot:GetTerrainType() == 1 then
 						TerrainBuilder.SetTerrainType(adjacentPlot,2);
 					elseif adjacentPlot:GetTerrainType() == 3 or adjacentPlot:GetTerrainType() == 4 then
 						TerrainBuilder.SetTerrainType(adjacentPlot,5);
-                    elseif adjacentPlot:GetTerrainType() == 9 or adjacentPlot:GetTerrainType() == 10 then
-                        TerrainBuilder.SetTerrainType(adjacentPlot,11);
-                    elseif adjacentPlot:GetTerrainType() == 6 or adjacentPlot:GetTerrainType() == 7 then
-                        TerrainBuilder.SetTerrainType(adjacentPlot,8);
+					elseif adjacentPlot:GetTerrainType() == 9 or adjacentPlot:GetTerrainType() == 10 then
+						TerrainBuilder.SetTerrainType(adjacentPlot,11);
+					elseif adjacentPlot:GetTerrainType() == 6 or adjacentPlot:GetTerrainType() == 7 then
+						TerrainBuilder.SetTerrainType(adjacentPlot,8);
 					end
 					TerrainBuilder.SetFeatureType(adjacentPlot,-1)
 					count = count + 1
@@ -3236,19 +3248,19 @@ function Terraforming_Mountain(plot,flag)
 	for i = 0, 5 do
 		if (GetAdjacentTiles(plot, i) ~= nil) then
 			if ( GetAdjacentTiles(plot, i):IsImpassable() == true ) and GetAdjacentTiles(plot, i):IsNaturalWonder() == false then
-				-- immediate wall
+			-- immediate wall
 				__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "Analysing the plot");
 				if (i == 0) then
 					if ( GetAdjacentTiles(plot, 5) ~= nil and GetAdjacentTiles(plot, i+1) ~= nil ) then
 						if ( GetAdjacentTiles(plot, 5):IsImpassable() == true and GetAdjacentTiles(plot, i+1):IsImpassable() == true ) then
-							-- Walled-in is there actual terrain on the other side ?
+						-- Walled-in is there actual terrain on the other side ?
 							if ( GetAdjacentTiles(plot, 5*i+60) ~= nil ) then
 								if ( GetAdjacentTiles(plot, 5*i+60):IsImpassable() == false and GetAdjacentTiles(plot, 5*i+60):IsWater() == false  ) then
-									-- Ok there is land let measure the distance to dig through
+								-- Ok there is land let measure the distance to dig through
 									if ( GetAdjacentTiles(plot, 2*i+6) ~= nil and GetAdjacentTiles(plot, 3*i+18) ~= nil and GetAdjacentTiles(plot, 4*i+36) ~= nil) then
 										if ( GetAdjacentTiles(plot, 2*i+6):IsImpassable() == true) then
 											distance = 2;
-											else
+										else
 											distance = 1;
 										end
 										if ( GetAdjacentTiles(plot, 3*i+18):IsImpassable() == true) then
@@ -3263,27 +3275,27 @@ function Terraforming_Mountain(plot,flag)
 											minimal_effort_i = i;
 										end
 									end
-									else
+								else
 									__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "No good Terrain on the other side");
 								end
-								else
+							else
 								__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "No Terrain on the other side");
 							end
-							else
+						else
 							__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "Can move around the Mountain");
 						end
 					end
-					elseif (i>0 and i <5) then
+				elseif (i>0 and i <5) then
 					if ( GetAdjacentTiles(plot, i-1) ~= nil and GetAdjacentTiles(plot, i+1) ~= nil ) then
 						if ( GetAdjacentTiles(plot, i-1):IsImpassable() == true and GetAdjacentTiles(plot, i+1):IsImpassable() == true ) then
-							-- Walled-in is there actual terrain on the other side ?
+						-- Walled-in is there actual terrain on the other side ?
 							if ( GetAdjacentTiles(plot, 5*i+60) ~= nil ) then
 								if ( GetAdjacentTiles(plot, 5*i+60):IsImpassable() == false and GetAdjacentTiles(plot, 5*i+60):IsWater() == false  ) then
-									-- Ok there is land let measure the distance to dig through
+								-- Ok there is land let measure the distance to dig through
 									if ( GetAdjacentTiles(plot, 2*i+6) ~= nil and GetAdjacentTiles(plot, 3*i+18) ~= nil and GetAdjacentTiles(plot, 4*i+36) ~= nil) then
 										if ( GetAdjacentTiles(plot, 2*i+6):IsImpassable() == true) then
 											distance = 2;
-											else
+										else
 											distance = 1;
 										end
 										if ( GetAdjacentTiles(plot, 3*i+18):IsImpassable() == true) then
@@ -3298,27 +3310,27 @@ function Terraforming_Mountain(plot,flag)
 											minimal_effort_i = i;
 										end
 									end
-									else
+								else
 									__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "No good Terrain on the other side");
 								end
-								else
+							else
 								__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "No Terrain on the other side");
 							end
-							else
+						else
 							__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "Can move around the Mountain");
 						end
 					end
-					elseif (i == 5) then
+				elseif (i == 5) then
 					if ( GetAdjacentTiles(plot, i-1) ~= nil and GetAdjacentTiles(plot, 0) ~= nil ) then
 						if ( GetAdjacentTiles(plot, i-1):IsImpassable() == true and GetAdjacentTiles(plot, 0):IsImpassable() == true ) then
-							-- Walled-in is there actual terrain on the other side ?
+						-- Walled-in is there actual terrain on the other side ?
 							if ( GetAdjacentTiles(plot, 5*i+60) ~= nil ) then
 								if ( GetAdjacentTiles(plot, 5*i+60):IsImpassable() == false and GetAdjacentTiles(plot, 5*i+60):IsWater() == false  ) then
-									-- Ok there is land let measure the distance to dig through
+								-- Ok there is land let measure the distance to dig through
 									if ( GetAdjacentTiles(plot, 2*i+6) ~= nil and GetAdjacentTiles(plot, 3*i+18) ~= nil and GetAdjacentTiles(plot, 4*i+36) ~= nil) then
 										if ( GetAdjacentTiles(plot, 2*i+6):IsImpassable() == true) then
 											distance = 2;
-											else
+										else
 											distance = 1;
 										end
 										if ( GetAdjacentTiles(plot, 3*i+18):IsImpassable() == true) then
@@ -3333,19 +3345,19 @@ function Terraforming_Mountain(plot,flag)
 											minimal_effort_i = i;
 										end
 									end
-									else
+								else
 									__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "No good Terrain on the other side");
 								end
-								else
+							else
 								__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "No Terrain on the other side");
 							end
-							else
+						else
 							__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "Can move around the Mountain");
 						end
 					end
 				end
-				else
-				-- one tile away wall
+			else
+			-- one tile away wall
 				if (GetAdjacentTiles(plot, 2*i+6) ~= nil) then
 					__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, 2*i+6):GetX(), "Y: ", GetAdjacentTiles(plot, 2*i+6):GetY(), "Analysing the plot");
 					if ( GetAdjacentTiles(plot, 2*i+6):IsImpassable() == true ) then
@@ -3359,7 +3371,7 @@ function Terraforming_Mountain(plot,flag)
 											if ( GetAdjacentTiles(plot, 3*i+18) ~= nil and GetAdjacentTiles(plot, 4*i+36) ~= nil) then
 												if ( GetAdjacentTiles(plot, 3*i+18):IsImpassable() == true) then
 													distance = 1;
-													else
+												else
 													distance = 0;
 												end
 												if ( GetAdjacentTiles(plot, 4*i+36):IsImpassable() == true) then
@@ -3371,14 +3383,14 @@ function Terraforming_Mountain(plot,flag)
 													minimal_effort_i = i;
 												end
 											end
-											else
+										else
 											__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "No good Terrain on the other side");
 
 										end
-										else
+									else
 										__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "No Terrain on the other side");
 									end
-									else
+								else
 									__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, 2*i+6):GetX(), "Y: ", GetAdjacentTiles(plot, 2*i+6):GetY(), "Can move around the Mountain");
 								end
 							end
@@ -3392,7 +3404,7 @@ function Terraforming_Mountain(plot,flag)
 											if ( GetAdjacentTiles(plot, 3*i+18) ~= nil and GetAdjacentTiles(plot, 4*i+36) ~= nil) then
 												if ( GetAdjacentTiles(plot, 3*i+18):IsImpassable() == true) then
 													distance = 1;
-													else
+												else
 													distance = 0;
 												end
 												if ( GetAdjacentTiles(plot, 4*i+36):IsImpassable() == true) then
@@ -3404,14 +3416,14 @@ function Terraforming_Mountain(plot,flag)
 													minimal_effort_i = i;
 												end
 											end
-											else
+										else
 											__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "No good Terrain on the other side");
 
 										end
-										else
+									else
 										__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, i):GetX(), "Y: ", GetAdjacentTiles(plot, i):GetY(), "No Terrain on the other side");
 									end
-									else
+								else
 									__Debug("Terraforming_Mountain X: ", GetAdjacentTiles(plot, 2*i+6):GetX(), "Y: ", GetAdjacentTiles(plot, 2*i+6):GetY(), "Can move around the Mountain");
 								end
 							end
@@ -3486,10 +3498,10 @@ end
 ------------------------------------------------------------------------------
 
 function Terraforming_Polar_Start(plot)
-	-- flag = 0 normal
-	-- flag = 1 tundra civ
-	-- flag = 2 desert civ
-	-- flag = 3 mountain civ
+-- flag = 0 normal
+-- flag = 1 tundra civ
+-- flag = 2 desert civ
+-- flag = 3 mountain civ
 	local terrainType = plot:GetTerrainType();
 	local featureType = plot:GetFeatureType();
 	local gridWidth, gridHeight = Map.GetGridSize();
@@ -3497,7 +3509,7 @@ function Terraforming_Polar_Start(plot)
 	local ContinentPlots = {};
 
 	ContinentNum = plot:GetContinentType()
-	ContinentPlots =  Map.GetContinentPlots(ContinentNum);
+	ContinentPlots = Map.GetContinentPlots(ContinentNum);
 	__Debug("Terraforming Polar Continent",ContinentNum);
 
 	--------------------------------------------------------------------------------------------------------------
@@ -3564,11 +3576,11 @@ end
 ------------------------------------------------------------------------------
 
 function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
-	-- flag = 0 normal
-	-- flag = 1 tundra civ
-	-- flag = 2 desert civ
-	-- flag = 3 mountain civ
-	-- flag = 4 floodplains civ
+-- flag = 0 normal
+-- flag = 1 tundra civ
+-- flag = 2 desert civ
+-- flag = 3 mountain civ
+-- flag = 4 floodplains civ
 	local iResourcesInDB = 0;
 	local terrainType = plot:GetTerrainType();
 	local featureType = plot:GetFeatureType();
@@ -3609,7 +3621,7 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 					break
 				end
 			-- Second Best: With a poor Resource
-				elseif(adjacentPlot:GetResourceType() < 10 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~=g_FEATURE_FLOODPLAINS_PLAINS and i < 6 and temp_tile < 3.6) then
+			elseif(adjacentPlot:GetResourceType() < 10 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~=g_FEATURE_FLOODPLAINS_PLAINS and i < 6 and temp_tile < 3.6) then
 				if (valid_target_1 == nil) then
 					valid_target_1 = i;
 				end
@@ -3620,12 +3632,12 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 					break
 				end
 			-- Third Best: Only one floodplains tile destroyed
-				elseif(adjacentPlot:GetResourceCount() < 1 and valid_target_2 == nil and i < 5 and temp_tile < 3.6) then
+			elseif(adjacentPlot:GetResourceCount() < 1 and valid_target_2 == nil and i < 5 and temp_tile < 3.6) then
 				if (valid_target_1 == nil) then
 					valid_target_1 = i;
 				end
 			-- Fourth Best: Slightly improve a good inner tile
-				elseif(adjacentPlot:GetResourceCount() < 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~=g_FEATURE_FLOODPLAINS_PLAINS and i < 6 and temp_tile < 4.75) then
+			elseif(adjacentPlot:GetResourceCount() < 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~=g_FEATURE_FLOODPLAINS_PLAINS and i < 6 and temp_tile < 4.75) then
 				if (valid_target_1 == nil) then
 					valid_target_1 = i;
 				end
@@ -3636,7 +3648,7 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 					break
 				end
 			-- Fifth Best: Pick an bad tile on the second ring then player can decide to move
-				elseif(adjacentPlot:GetResourceCount() < 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~=g_FEATURE_FLOODPLAINS_PLAINS and i > 5 and temp_tile < 3.6) then
+			elseif(adjacentPlot:GetResourceCount() < 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~=g_FEATURE_FLOODPLAINS_PLAINS and i > 5 and temp_tile < 3.6) then
 				if (valid_target_1 == nil) then
 					valid_target_1 = i;
 				end
@@ -3667,7 +3679,7 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 		if ( target_plot_1 == nil) then
 			__Debug("Terraforming Best: No Valid Target 1 plot");
 			return
-			else
+		else
 			if (target_plot_1:GetResourceType() > 39 and target_plot_1:GetResourceType() < 46) then
 				__Debug("Terraforming Best: No Valid Target 1 plot: Preserve Strategic Resource");
 				return
@@ -3678,305 +3690,305 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 		-- On average player have a 2/2 tile
 		-- Player doesn't have a 2/2 tile
 
-				target_plot_1 = GetAdjacentTiles(plot, valid_target_1)
-				-- Grassland
-				if ( target_plot_1:GetTerrainType() == 0 or target_plot_1:GetTerrainType() == 1 or (target_plot_1:GetTerrainType() == 2 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO) ) then
-					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND and flag ~= 4) ) then
-					-- +5 on Grassland
+			target_plot_1 = GetAdjacentTiles(plot, valid_target_1)
+			-- Grassland
+			if ( target_plot_1:GetTerrainType() == 0 or target_plot_1:GetTerrainType() == 1 or (target_plot_1:GetTerrainType() == 2 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO) ) then
+				if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND and flag ~= 4) ) then
+				-- +5 on Grassland
 					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
-						if missing_amount > 1 then
-							rng = rng + 0.15
-						end
-						if (rng >= 0.75) then
-							-- Flat Deer Forest
-							TerrainBuilder.SetTerrainType(target_plot_1,0);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							TerrainBuilder.SetFeatureType(target_plot_1,3);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Grassland Forest with Deers");
-							elseif (rng >= 0.45 and rng < 0.75) then
-							-- Forested Hill
-							TerrainBuilder.SetTerrainType(target_plot_1,1);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							TerrainBuilder.SetFeatureType(target_plot_1,3);
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Forested Grassland Hill");
-							elseif (rng >= 0.15 and rng < 0.45) then
-							-- Stone Hill
-							TerrainBuilder.SetTerrainType(target_plot_1,1);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 8, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Stone Grassland Hill");
-							elseif (rng >= 0.0 and rng < 0.15) then
-							-- Copper Hill
-							TerrainBuilder.SetTerrainType(target_plot_1,1);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/1/2 Copper Grassland Hill");
-						end
-						else
-						-- floodplains and floodplains Civs
-						if (target_plot_1:GetResourceCount() < 1) then
-							ResourceBuilder.SetResourceType(target_plot_1, 6, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Rice Grassland Floodplains");
-						end
+					if missing_amount > 1 then
+						rng = rng + 0.15
 					end
-				-- Plains
-				elseif ( target_plot_1:GetTerrainType() == 3 or target_plot_1:GetTerrainType() == 4 or (target_plot_1:GetTerrainType() == 5 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
-					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS and flag ~= 4) ) then
-					-- +5 on Plains
+					if (rng >= 0.75) then
+					-- Flat Deer Forest
+						TerrainBuilder.SetTerrainType(target_plot_1,0);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						TerrainBuilder.SetFeatureType(target_plot_1,3);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Grassland Forest with Deers");
+					elseif (rng >= 0.45 and rng < 0.75) then
+					-- Forested Hill
+						TerrainBuilder.SetTerrainType(target_plot_1,1);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						TerrainBuilder.SetFeatureType(target_plot_1,3);
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Forested Grassland Hill");
+					elseif (rng >= 0.15 and rng < 0.45) then
+					-- Stone Hill
+						TerrainBuilder.SetTerrainType(target_plot_1,1);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 8, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Stone Grassland Hill");
+					elseif (rng >= 0.0 and rng < 0.15) then
+					-- Copper Hill
+						TerrainBuilder.SetTerrainType(target_plot_1,1);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/1/2 Copper Grassland Hill");
+					end
+				else
+				-- floodplains and floodplains Civs
+					if (target_plot_1:GetResourceCount() < 1) then
+						ResourceBuilder.SetResourceType(target_plot_1, 6, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Rice Grassland Floodplains");
+					end
+				end
+			-- Plains
+			elseif ( target_plot_1:GetTerrainType() == 3 or target_plot_1:GetTerrainType() == 4 or (target_plot_1:GetTerrainType() == 5 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
+				if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS and flag ~= 4) ) then
+				-- +5 on Plains
 					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
-						if missing_amount > 1 then
-							rng = rng + 0.15
-						end
-						if (rng >= 0.75) then
-							-- Hill with Sheep
+					if missing_amount > 1 then
+						rng = rng + 0.15
+					end
+					if (rng >= 0.75) then
+					-- Hill with Sheep
+						TerrainBuilder.SetTerrainType(target_plot_1,4);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Sheep Plain Hill");
+					elseif (rng >= 0.25 and rng < 0.75) then
+					-- Copper Plain Hill
+						TerrainBuilder.SetTerrainType(target_plot_1,4);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/2/2 Copper Plain Hill");
+					elseif (rng >= 0.0 and rng < 0.25) then
+						if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
+						-- Jungle Plain Hill
+							TerrainBuilder.SetTerrainType(target_plot_1,4);
+							TerrainBuilder.SetFeatureType(target_plot_1,-1);
+							ResourceBuilder.SetResourceType(target_plot_1, -1);
+							TerrainBuilder.SetFeatureType(target_plot_1,2);
+							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Jungle Plain Hill");
+						else
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,4);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Sheep Plain Hill");
-							elseif (rng >= 0.25 and rng < 0.75) then
-							-- Copper Plain Hill
-							TerrainBuilder.SetTerrainType(target_plot_1,4);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/2/2 Copper Plain Hill");
-							elseif (rng >= 0.0 and rng < 0.25) then
-								if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
-								-- Jungle Plain Hill
-									TerrainBuilder.SetTerrainType(target_plot_1,4);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									TerrainBuilder.SetFeatureType(target_plot_1,2);
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Jungle Plain Hill");
-									else
-									-- Hill with Sheep
-									TerrainBuilder.SetTerrainType(target_plot_1,4);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Sheep Plain Hill");
-								end
-						end
-						else
-						-- floodplains and floodplains Civs
-						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
-							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Wheat Plains Floodplains");
 						end
 					end
-				-- Desert
-				elseif ( target_plot_1:GetTerrainType() == 6 or target_plot_1:GetTerrainType() == 7 or (target_plot_1:GetTerrainType() == 8 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
-					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
-					-- +5 on Desert -> impossible
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
-						if (rng >= 0.5) then
-							-- Hill with Sheep
-							TerrainBuilder.SetTerrainType(target_plot_1,7);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							--ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Desert Hill");
-							elseif (rng >= 0.0 and rng < 0.5) then
-							-- Copper Hill
-							TerrainBuilder.SetTerrainType(target_plot_1,7);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Desert Hill");
-						end
-						else
-						-- floodplains
-						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
-							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/0 Wheat Desert Floodplains");
-						end
-					end
-				-- Tundra
-				elseif ( target_plot_1:GetTerrainType() == 9 or target_plot_1:GetTerrainType() == 10 or (target_plot_1:GetTerrainType() == 11 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
-					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_MARSH) then
-					-- +5 on Tundra -> impossible
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
-						if (rng >= 0.75) then
-							-- Hill with Sheep
-							TerrainBuilder.SetTerrainType(target_plot_1,10);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Tundra Hill");
-							elseif (rng >= 0.2 and rng < 0.75) then
-							-- Copper Hill
-							TerrainBuilder.SetTerrainType(target_plot_1,10);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Tundra Hill");
-							elseif (rng >= 0.0 and rng < 0.2) then
-							-- Forested Deer
-							TerrainBuilder.SetTerrainType(target_plot_1,10);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							TerrainBuilder.SetFeatureType(target_plot_1,3);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Deer Tundra Hill");
-						end
+				else
+				-- floodplains and floodplains Civs
+					if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
+						ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Wheat Plains Floodplains");
 					end
 				end
+			-- Desert
+			elseif ( target_plot_1:GetTerrainType() == 6 or target_plot_1:GetTerrainType() == 7 or (target_plot_1:GetTerrainType() == 8 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
+				if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
+				-- +5 on Desert -> impossible
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+					if (rng >= 0.5) then
+					-- Hill with Sheep
+						TerrainBuilder.SetTerrainType(target_plot_1,7);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						--ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Desert Hill");
+					elseif (rng >= 0.0 and rng < 0.5) then
+					-- Copper Hill
+						TerrainBuilder.SetTerrainType(target_plot_1,7);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Desert Hill");
+					end
+				else
+				-- floodplains
+					if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
+						ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/0 Wheat Desert Floodplains");
+					end
+				end
+			-- Tundra
+			elseif ( target_plot_1:GetTerrainType() == 9 or target_plot_1:GetTerrainType() == 10 or (target_plot_1:GetTerrainType() == 11 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
+				if ( target_plot_1:GetFeatureType() ~= g_FEATURE_MARSH) then
+				-- +5 on Tundra -> impossible
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+					if (rng >= 0.75) then
+					-- Hill with Sheep
+						TerrainBuilder.SetTerrainType(target_plot_1,10);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Tundra Hill");
+					elseif (rng >= 0.2 and rng < 0.75) then
+					-- Copper Hill
+						TerrainBuilder.SetTerrainType(target_plot_1,10);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Tundra Hill");
+					elseif (rng >= 0.0 and rng < 0.2) then
+					-- Forested Deer
+						TerrainBuilder.SetTerrainType(target_plot_1,10);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						TerrainBuilder.SetFeatureType(target_plot_1,3);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Deer Tundra Hill");
+					end
+				end
+			end
 
 		elseif ( avg_best >= 5.75 ) then
 
-				target_plot_1 = GetAdjacentTiles(plot, valid_target_1)
+			target_plot_1 = GetAdjacentTiles(plot, valid_target_1)
 
-				-- Grassland
-				if ( target_plot_1:GetTerrainType() == 0 or target_plot_1:GetTerrainType() == 1 or (target_plot_1:GetTerrainType() == 2 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO) ) then
-					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND and flag ~= 4) ) then
-					-- +5.5 on Grassland
+			-- Grassland
+			if ( target_plot_1:GetTerrainType() == 0 or target_plot_1:GetTerrainType() == 1 or (target_plot_1:GetTerrainType() == 2 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO) ) then
+				if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND and flag ~= 4) ) then
+				-- +5.5 on Grassland
 					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
-						if (rng >= 0) then
-							-- Forested Hill with deer
-							TerrainBuilder.SetTerrainType(target_plot_1,1);
+					if (rng >= 0) then
+					-- Forested Hill with deer
+						TerrainBuilder.SetTerrainType(target_plot_1,1);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
+						TerrainBuilder.SetFeatureType(target_plot_1,3);
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/3 Forested Deer Grassland Hill");
+
+					end
+				else
+				-- floodplains and floodplains Civs
+					if (target_plot_1:GetResourceCount() < 1) then
+						ResourceBuilder.SetResourceType(target_plot_1, 6, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Rice Grassland Floodplains");
+					end
+				end
+			-- Plains
+			elseif ( target_plot_1:GetTerrainType() == 3 or target_plot_1:GetTerrainType() == 4 or (target_plot_1:GetTerrainType() == 5 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
+				if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS and flag ~= 4) ) then
+				-- +5.5 on Plains
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+					if (rng >= 0.7) then
+					-- Forested Hill with Deer
+						TerrainBuilder.SetTerrainType(target_plot_1,4);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						TerrainBuilder.SetFeatureType(target_plot_1,3);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/4 Forested Plain Hill with Deer");
+					elseif (rng >= 0.5 and rng < 0.7) then
+					-- Forested Plain Hill
+						TerrainBuilder.SetTerrainType(target_plot_1,4);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						TerrainBuilder.SetFeatureType(target_plot_1,3);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/3 Forested Plain Hill");
+					elseif (rng >= 0 and rng < 0.5) then
+					-- Banana Jungle Hill
+						if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
+							TerrainBuilder.SetTerrainType(target_plot_1,4);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
-							TerrainBuilder.SetFeatureType(target_plot_1,3);
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/3 Forested Deer Grassland Hill");
-
-						end
-						else
-						-- floodplains and floodplains Civs
-						if (target_plot_1:GetResourceCount() < 1) then
-							ResourceBuilder.SetResourceType(target_plot_1, 6, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Rice Grassland Floodplains");
-						end
-					end
-				-- Plains
-				elseif ( target_plot_1:GetTerrainType() == 3 or target_plot_1:GetTerrainType() == 4 or (target_plot_1:GetTerrainType() == 5 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
-					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS and flag ~= 4) ) then
-					-- +5.5 on Plains
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
-						if (rng >= 0.7) then
-							-- Forested Hill with Deer
+							ResourceBuilder.SetResourceType(target_plot_1, 0, 1);
+							TerrainBuilder.SetFeatureType(target_plot_1,2);
+							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/2 Jungle Plain Hill with Banana");
+						elseif rng > 0.25 then
+						-- Forested Plain Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,4);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							TerrainBuilder.SetFeatureType(target_plot_1,3);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/4 Forested Plain Hill with Deer");
-							elseif (rng >= 0.5 and rng < 0.7) then
-							-- Forested Plain Hill
+						else
+						-- Sheep Plain Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,4);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							TerrainBuilder.SetFeatureType(target_plot_1,3);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/3 Forested Plain Hill");
-							elseif (rng >= 0 and rng < 0.5) then
-							-- Banana Jungle Hill
-								if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
-									TerrainBuilder.SetTerrainType(target_plot_1,4);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 0, 1);
-									TerrainBuilder.SetFeatureType(target_plot_1,2);
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/2 Jungle Plain Hill with Banana");
-									elseif rng > 0.25 then
-									-- Forested Plain Hill
-									TerrainBuilder.SetTerrainType(target_plot_1,4);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									TerrainBuilder.SetFeatureType(target_plot_1,3);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/4 Forested Plain Hill with Deer");
-									else
-									-- Sheep Plain Hill
-									TerrainBuilder.SetTerrainType(target_plot_1,4);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 7, 1)
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Plain Hill with Sheep");
-								end
+							ResourceBuilder.SetResourceType(target_plot_1, 7, 1)
+							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Plain Hill with Sheep");
+						end
 
-						end
-						else
-						-- floodplains and floodplains Civs
-						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
-							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Wheat Plains Floodplains");
-						end
 					end
-				-- Desert
-				elseif ( target_plot_1:GetTerrainType() == 6 or target_plot_1:GetTerrainType() == 7 or (target_plot_1:GetTerrainType() == 8 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
-					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
-					-- on Desert -> impossible
+				else
+				-- floodplains and floodplains Civs
+					if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
+						ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Wheat Plains Floodplains");
+					end
+				end
+			-- Desert
+			elseif ( target_plot_1:GetTerrainType() == 6 or target_plot_1:GetTerrainType() == 7 or (target_plot_1:GetTerrainType() == 8 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
+				if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
+				-- on Desert -> impossible
 					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
-						if (rng >= 0.5) then
-							-- Hill with Sheep
-							TerrainBuilder.SetTerrainType(target_plot_1,7);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							--ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Desert Hill");
-							elseif (rng >= 0.0 and rng < 0.5) then
-							-- Copper Hill
-							TerrainBuilder.SetTerrainType(target_plot_1,7);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Desert Hill");
-						end
-						else
-						-- floodplains
-						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
-							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/0 Wheat Desert Floodplains");
-						end
+					if (rng >= 0.5) then
+					-- Hill with Sheep
+						TerrainBuilder.SetTerrainType(target_plot_1,7);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						--ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Desert Hill");
+					elseif (rng >= 0.0 and rng < 0.5) then
+					-- Copper Hill
+						TerrainBuilder.SetTerrainType(target_plot_1,7);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Desert Hill");
 					end
-				-- Tundra
-				elseif ( target_plot_1:GetTerrainType() == 9 or target_plot_1:GetTerrainType() == 10 or (target_plot_1:GetTerrainType() == 11 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
-					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_MARSH) then
-					-- +5 on Tundra -> impossible
+				else
+				-- floodplains
+					if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
+						ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/0 Wheat Desert Floodplains");
+					end
+				end
+			-- Tundra
+			elseif ( target_plot_1:GetTerrainType() == 9 or target_plot_1:GetTerrainType() == 10 or (target_plot_1:GetTerrainType() == 11 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
+				if ( target_plot_1:GetFeatureType() ~= g_FEATURE_MARSH) then
+				-- +5 on Tundra -> impossible
 					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
-						if (rng >= 0.75) then
-							-- Hill with Sheep
-							TerrainBuilder.SetTerrainType(target_plot_1,10);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Tundra Hill");
-							elseif (rng >= 0.5 and rng < 0.75) then
-							-- Copper Hill
-							TerrainBuilder.SetTerrainType(target_plot_1,10);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Tundra Hill");
-							elseif (rng >= 0.0 and rng < 0.5) then
-							-- Forested Deer
-							TerrainBuilder.SetTerrainType(target_plot_1,10);
-							TerrainBuilder.SetFeatureType(target_plot_1,-1);
-							TerrainBuilder.SetFeatureType(target_plot_1,3);
-							ResourceBuilder.SetResourceType(target_plot_1, -1);
-							ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
-							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Deer Tundra Hill");
-						end
+					if (rng >= 0.75) then
+					-- Hill with Sheep
+						TerrainBuilder.SetTerrainType(target_plot_1,10);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Tundra Hill");
+					elseif (rng >= 0.5 and rng < 0.75) then
+					-- Copper Hill
+						TerrainBuilder.SetTerrainType(target_plot_1,10);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Tundra Hill");
+					elseif (rng >= 0.0 and rng < 0.5) then
+					-- Forested Deer
+						TerrainBuilder.SetTerrainType(target_plot_1,10);
+						TerrainBuilder.SetFeatureType(target_plot_1,-1);
+						TerrainBuilder.SetFeatureType(target_plot_1,3);
+						ResourceBuilder.SetResourceType(target_plot_1, -1);
+						ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
+						__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Deer Tundra Hill");
 					end
+				end
 
 
-		else
-				-- 3/1
+			else
+			-- 3/1
 
 				target_plot_1 = GetAdjacentTiles(plot, valid_target_1)
 				-- Grassland
 				if ( target_plot_1:GetTerrainType() == 0 or target_plot_1:GetTerrainType() == 1 or (target_plot_1:GetTerrainType() == 2 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO) ) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND and flag ~= 4) ) then
 					-- +4.5 on Grassland
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,1);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
@@ -3984,8 +3996,8 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/1 Sheep Grassland Hill");
 
 						end
-						else
-						-- floodplains and floodplains Civs
+					else
+					-- floodplains and floodplains Civs
 						if (target_plot_1:GetResourceCount() < 1) then
 							ResourceBuilder.SetResourceType(target_plot_1, 6, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Rice Grassland Floodplains");
@@ -3995,29 +4007,29 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 3 or target_plot_1:GetTerrainType() == 4 or (target_plot_1:GetTerrainType() == 5 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS and flag ~= 4) ) then
 					-- +4.5 on Plains
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.0) then
-							-- Banana Jungle Hill
-								if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
-									TerrainBuilder.SetTerrainType(target_plot_1,3);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1,0, 1);
-									TerrainBuilder.SetFeatureType(target_plot_1,2);
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/1 Jungle Plain with Banana");
-									else
-									-- Forested Plain Hill
-									TerrainBuilder.SetTerrainType(target_plot_1,3);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									TerrainBuilder.SetFeatureType(target_plot_1,3);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 4, 1);
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Forested Plain with Deer");
-								end
+						-- Banana Jungle Hill
+							if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
+								TerrainBuilder.SetTerrainType(target_plot_1,3);
+								TerrainBuilder.SetFeatureType(target_plot_1,-1);
+								ResourceBuilder.SetResourceType(target_plot_1, -1);
+								ResourceBuilder.SetResourceType(target_plot_1,0, 1);
+								TerrainBuilder.SetFeatureType(target_plot_1,2);
+								__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/1 Jungle Plain with Banana");
+							else
+							-- Forested Plain Hill
+								TerrainBuilder.SetTerrainType(target_plot_1,3);
+								TerrainBuilder.SetFeatureType(target_plot_1,-1);
+								TerrainBuilder.SetFeatureType(target_plot_1,3);
+								ResourceBuilder.SetResourceType(target_plot_1, -1);
+								ResourceBuilder.SetResourceType(target_plot_1, 4, 1);
+								__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Forested Plain with Deer");
+							end
 
 						end
-						else
-						-- floodplains and floodplains Civs
+					else
+					-- floodplains and floodplains Civs
 						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Wheat Plains Floodplains");
@@ -4027,24 +4039,24 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 6 or target_plot_1:GetTerrainType() == 7 or (target_plot_1:GetTerrainType() == 8 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 					-- on Desert -> impossible
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.5) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,7);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							--ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Desert Hill");
-							elseif (rng >= 0.0 and rng < 0.5) then
-							-- Copper Hill
+						elseif (rng >= 0.0 and rng < 0.5) then
+						-- Copper Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,7);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Desert Hill");
 						end
-						else
-						-- floodplains
+					else
+					-- floodplains
 						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/0 Wheat Desert Floodplains");
@@ -4054,23 +4066,23 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 9 or target_plot_1:GetTerrainType() == 10 or (target_plot_1:GetTerrainType() == 11 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_MARSH) then
 					-- +5 on Tundra -> impossible
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.66) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Tundra Hill");
-							elseif (rng >= 0.1 and rng < 0.66) then
-							-- Copper Hill
+						elseif (rng >= 0.1 and rng < 0.66) then
+						-- Copper Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Tundra Hill");
-							elseif (rng >= 0.0 and rng < 0.1) then
-							-- Forested Deer
+						elseif (rng >= 0.0 and rng < 0.1) then
+						-- Forested Deer
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							TerrainBuilder.SetFeatureType(target_plot_1,3);
@@ -4090,61 +4102,61 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 	-- Step: 2: Rebalancing Second Best Plot ---------------------------------------------------------------------
 	--------------------------------------------------------------------------------------------------------------
 	if missing_amount > 2 then
-	__Debug("Terraforming Best do another plot valid_target_2: ",valid_target_2);
-	if ( valid_target_2 ~= nil) then
-		target_plot_1 = GetAdjacentTiles(plot, valid_target_2)
-		if ( target_plot_1 == nil) then
-			__Debug("Terraforming Best: No Valid Target 2 plot");
-			return
-			else
-			if (target_plot_1:GetResourceType() > 39 and target_plot_1:GetResourceType() < 46) then
-				__Debug("Terraforming Best: No Valid Target 2 plot: Preserve Strategic Resource");
+		__Debug("Terraforming Best do another plot valid_target_2: ",valid_target_2);
+		if ( valid_target_2 ~= nil) then
+			target_plot_1 = GetAdjacentTiles(plot, valid_target_2)
+			if ( target_plot_1 == nil) then
+				__Debug("Terraforming Best: No Valid Target 2 plot");
 				return
+			else
+				if (target_plot_1:GetResourceType() > 39 and target_plot_1:GetResourceType() < 46) then
+					__Debug("Terraforming Best: No Valid Target 2 plot: Preserve Strategic Resource");
+					return
+				end
 			end
-		end
-		__Debug("Terraforming Best Place Second: ",valid_target_2,"avg_best_2",avg_best_2);
-		if ( (avg_best_2) >= 4.25 + adjust and avg_best_2 < 5.75) then
-		-- On average player have a 2/2 tile
-		-- Player doesn't have a 2/2 tile
+			__Debug("Terraforming Best Place Second: ",valid_target_2,"avg_best_2",avg_best_2);
+			if ( (avg_best_2) >= 4.25 + adjust and avg_best_2 < 5.75) then
+			-- On average player have a 2/2 tile
+			-- Player doesn't have a 2/2 tile
 
 				target_plot_1 = GetAdjacentTiles(plot, valid_target_2)
 				-- Grassland
 				if ( target_plot_1:GetTerrainType() == 0 or target_plot_1:GetTerrainType() == 1 or (target_plot_1:GetTerrainType() == 2 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO) ) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND and flag ~= 4) ) then
 					-- +5 on Grassland
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.75) then
-							-- Forested Hill
+						-- Forested Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,1);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							TerrainBuilder.SetFeatureType(target_plot_1,3);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Forested Grassland Hill");
-							elseif (rng >= 0.5 and rng < 0.75) then
-							-- Flat Deer Forest
+						elseif (rng >= 0.5 and rng < 0.75) then
+						-- Flat Deer Forest
 							TerrainBuilder.SetTerrainType(target_plot_1,0);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							TerrainBuilder.SetFeatureType(target_plot_1,3);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Grassland Forest with Deers");
-							elseif (rng >= 0.2 and rng < 0.5) then
-							-- Stone Hill
+						elseif (rng >= 0.2 and rng < 0.5) then
+						-- Stone Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,1);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 8, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Stone Grassland Hill");
-							elseif (rng >= 0.0 and rng < 0.2) then
-							-- Copper Hill
+						elseif (rng >= 0.0 and rng < 0.2) then
+						-- Copper Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,1);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/1/2 Copper Grassland Hill");
 						end
-						else
-						-- floodplains and floodplains Civs
+					else
+					-- floodplains and floodplains Civs
 						if (target_plot_1:GetResourceCount() < 1) then
 							ResourceBuilder.SetResourceType(target_plot_1, 6, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Rice Grassland Floodplains");
@@ -4154,40 +4166,40 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 3 or target_plot_1:GetTerrainType() == 4 or (target_plot_1:GetTerrainType() == 5 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS and flag ~= 4) ) then
 					-- +5 on Plains
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.75) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,4);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Sheep Plain Hill");
-							elseif (rng >= 0.25 and rng < 0.75) then
-							-- Copper Plain Hill
+						elseif (rng >= 0.25 and rng < 0.75) then
+						-- Copper Plain Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,4);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/2/2 Copper Plain Hill");
-							elseif (rng >= 0.0 and rng < 0.25) then
-								if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
-								-- Jungle Plain Hill
-									TerrainBuilder.SetTerrainType(target_plot_1,4);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									TerrainBuilder.SetFeatureType(target_plot_1,2);
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Jungle Plain Hill");
-									else
-									-- Hill with Sheep
-									TerrainBuilder.SetTerrainType(target_plot_1,4);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Sheep Plain Hill");
-								end
+						elseif (rng >= 0.0 and rng < 0.25) then
+							if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
+							-- Jungle Plain Hill
+								TerrainBuilder.SetTerrainType(target_plot_1,4);
+								TerrainBuilder.SetFeatureType(target_plot_1,-1);
+								ResourceBuilder.SetResourceType(target_plot_1, -1);
+								TerrainBuilder.SetFeatureType(target_plot_1,2);
+								__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Jungle Plain Hill");
+							else
+							-- Hill with Sheep
+								TerrainBuilder.SetTerrainType(target_plot_1,4);
+								TerrainBuilder.SetFeatureType(target_plot_1,-1);
+								ResourceBuilder.SetResourceType(target_plot_1, -1);
+								ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
+								__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Sheep Plain Hill");
+							end
 						end
-						else
-						-- floodplains and floodplains Civs
+					else
+					-- floodplains and floodplains Civs
 						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Wheat Plains Floodplains");
@@ -4197,24 +4209,24 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 6 or target_plot_1:GetTerrainType() == 7 or (target_plot_1:GetTerrainType() == 8 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 					-- +5 on Desert -> impossible
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.5) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,7);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							--ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Desert Hill");
-							elseif (rng >= 0.0 and rng < 0.5) then
-							-- Copper Hill
+						elseif (rng >= 0.0 and rng < 0.5) then
+						-- Copper Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,7);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Desert Hill");
 						end
-						else
-						-- floodplains
+					else
+					-- floodplains
 						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/0 Wheat Desert Floodplains");
@@ -4224,23 +4236,23 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 9 or target_plot_1:GetTerrainType() == 10 or (target_plot_1:GetTerrainType() == 11 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_MARSH) then
 					-- +5 on Tundra -> impossible
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.75) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Tundra Hill");
-							elseif (rng >= 0.2 and rng < 0.75) then
-							-- Copper Hill
+						elseif (rng >= 0.2 and rng < 0.75) then
+						-- Copper Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Tundra Hill");
-							elseif (rng >= 0.0 and rng < 0.2) then
-							-- Forested Deer
+						elseif (rng >= 0.0 and rng < 0.2) then
+						-- Forested Deer
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							TerrainBuilder.SetFeatureType(target_plot_1,3);
@@ -4251,16 +4263,16 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 					end
 				end
 
-		elseif ( avg_best_2 >= 5.75 ) then
+			elseif ( avg_best_2 >= 5.75 ) then
 
 				target_plot_1 = GetAdjacentTiles(plot, valid_target_2)
 				-- Grassland
 				if ( target_plot_1:GetTerrainType() == 0 or target_plot_1:GetTerrainType() == 1 or (target_plot_1:GetTerrainType() == 2 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO) ) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND and flag ~= 4) ) then
 					-- +5.5 on Grassland
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0) then
-							-- Forested Hill with deer
+						-- Forested Hill with deer
 							TerrainBuilder.SetTerrainType(target_plot_1,1);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
@@ -4269,8 +4281,8 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/3 Forested Deer Grassland Hill");
 
 						end
-						else
-						-- floodplains and floodplains Civs
+					else
+					-- floodplains and floodplains Civs
 						if (target_plot_1:GetResourceCount() < 1) then
 							ResourceBuilder.SetResourceType(target_plot_1, 6, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Rice Grassland Floodplains");
@@ -4280,51 +4292,51 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 3 or target_plot_1:GetTerrainType() == 4 or (target_plot_1:GetTerrainType() == 5 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS and flag ~= 4) ) then
 					-- +5.5 on Plains
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.7) then
-							-- Forested Hill with Deer
+						-- Forested Hill with Deer
 							TerrainBuilder.SetTerrainType(target_plot_1,4);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							TerrainBuilder.SetFeatureType(target_plot_1,3);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/4 Forested Plain Hill with Deer");
-							elseif (rng >= 0.5 and rng < 0.7) then
-							-- Forested Plain Hill
+						elseif (rng >= 0.5 and rng < 0.7) then
+						-- Forested Plain Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,4);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							TerrainBuilder.SetFeatureType(target_plot_1,3);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/3 Forested Plain Hill");
-							elseif (rng >= 0 and rng < 0.5) then
-							-- Banana Jungle Hill
-								if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
-									TerrainBuilder.SetTerrainType(target_plot_1,4);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 0, 1);
-									TerrainBuilder.SetFeatureType(target_plot_1,2);
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/2 Jungle Plain Hill with Banana");
-									elseif rng > 0.25 then
-									-- Forested Plain Hill
-									TerrainBuilder.SetTerrainType(target_plot_1,4);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									TerrainBuilder.SetFeatureType(target_plot_1,3);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/4 Forested Plain Hill with Deer");
-									else
-									-- Sheep Plain Hill
-									TerrainBuilder.SetTerrainType(target_plot_1,4);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 7, 1)
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Plain Hill with Sheep");
-								end
+						elseif (rng >= 0 and rng < 0.5) then
+						-- Banana Jungle Hill
+							if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
+								TerrainBuilder.SetTerrainType(target_plot_1,4);
+								TerrainBuilder.SetFeatureType(target_plot_1,-1);
+								ResourceBuilder.SetResourceType(target_plot_1, -1);
+								ResourceBuilder.SetResourceType(target_plot_1, 0, 1);
+								TerrainBuilder.SetFeatureType(target_plot_1,2);
+								__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/2 Jungle Plain Hill with Banana");
+							elseif rng > 0.25 then
+							-- Forested Plain Hill
+								TerrainBuilder.SetTerrainType(target_plot_1,4);
+								TerrainBuilder.SetFeatureType(target_plot_1,-1);
+								TerrainBuilder.SetFeatureType(target_plot_1,3);
+								ResourceBuilder.SetResourceType(target_plot_1, -1);
+								ResourceBuilder.SetResourceType(target_plot_1, 4, 1)
+								__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/4 Forested Plain Hill with Deer");
+							else
+							-- Sheep Plain Hill
+								TerrainBuilder.SetTerrainType(target_plot_1,4);
+								TerrainBuilder.SetFeatureType(target_plot_1,-1);
+								ResourceBuilder.SetResourceType(target_plot_1, -1);
+								ResourceBuilder.SetResourceType(target_plot_1, 7, 1)
+								__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Plain Hill with Sheep");
+							end
 
 						end
-						else
-						-- floodplains and floodplains Civs
+					else
+					-- floodplains and floodplains Civs
 						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Wheat Plains Floodplains");
@@ -4334,24 +4346,24 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 6 or target_plot_1:GetTerrainType() == 7 or (target_plot_1:GetTerrainType() == 8 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 					-- on Desert -> impossible
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.5) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,7);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							--ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Desert Hill");
-							elseif (rng >= 0.0 and rng < 0.5) then
-							-- Copper Hill
+						elseif (rng >= 0.0 and rng < 0.5) then
+						-- Copper Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,7);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Desert Hill");
 						end
-						else
-						-- floodplains
+					else
+					-- floodplains
 						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/0 Wheat Desert Floodplains");
@@ -4361,23 +4373,23 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 9 or target_plot_1:GetTerrainType() == 10 or (target_plot_1:GetTerrainType() == 11 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_MARSH) then
 					-- +5 on Tundra -> impossible
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.75) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Tundra Hill");
-							elseif (rng >= 0.5 and rng < 0.75) then
-							-- Copper Hill
+						elseif (rng >= 0.5 and rng < 0.75) then
+						-- Copper Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Tundra Hill");
-							elseif (rng >= 0.0 and rng < 0.5) then
-							-- Forested Deer
+						elseif (rng >= 0.0 and rng < 0.5) then
+						-- Forested Deer
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							TerrainBuilder.SetFeatureType(target_plot_1,3);
@@ -4388,17 +4400,17 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 					end
 				end
 
-		else
-				-- 3/1
+			else
+			-- 3/1
 
 				target_plot_1 = GetAdjacentTiles(plot, valid_target_2)
 				-- Grassland
 				if ( target_plot_1:GetTerrainType() == 0 or target_plot_1:GetTerrainType() == 1 or (target_plot_1:GetTerrainType() == 2 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO) ) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_GRASSLAND and flag ~= 4) ) then
 					-- +4.5 on Grassland
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,1);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
@@ -4406,8 +4418,8 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/1 Sheep Grassland Hill");
 
 						end
-						else
-						-- floodplains and floodplains Civs
+					else
+					-- floodplains and floodplains Civs
 						if (target_plot_1:GetResourceCount() < 1) then
 							ResourceBuilder.SetResourceType(target_plot_1, 6, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Rice Grassland Floodplains");
@@ -4417,29 +4429,29 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 3 or target_plot_1:GetTerrainType() == 4 or (target_plot_1:GetTerrainType() == 5 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS or ( target_plot_1:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS and flag ~= 4) ) then
 					-- +4.5 on Plains
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.0) then
-							-- Banana Jungle plains
-								if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
-									TerrainBuilder.SetTerrainType(target_plot_1,3);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 0, 1);
-									TerrainBuilder.SetFeatureType(target_plot_1,2);
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/1 Jungle Plain with Banana");
-									else
-									-- Forested Plain Hill
-									TerrainBuilder.SetTerrainType(target_plot_1,3);
-									TerrainBuilder.SetFeatureType(target_plot_1,-1);
-									TerrainBuilder.SetFeatureType(target_plot_1,3);
-									ResourceBuilder.SetResourceType(target_plot_1, -1);
-									ResourceBuilder.SetResourceType(target_plot_1, 4, 1);
-									__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Forested Plain with Deer");
-								end
+						-- Banana Jungle plains
+							if (target_plot_1:GetY() > gridHeight * 0.25 and target_plot_1:GetY() < gridHeight * 0.75) then
+								TerrainBuilder.SetTerrainType(target_plot_1,3);
+								TerrainBuilder.SetFeatureType(target_plot_1,-1);
+								ResourceBuilder.SetResourceType(target_plot_1, -1);
+								ResourceBuilder.SetResourceType(target_plot_1, 0, 1);
+								TerrainBuilder.SetFeatureType(target_plot_1,2);
+								__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/1 Jungle Plain with Banana");
+							else
+							-- Forested Plain Hill
+								TerrainBuilder.SetTerrainType(target_plot_1,3);
+								TerrainBuilder.SetFeatureType(target_plot_1,-1);
+								TerrainBuilder.SetFeatureType(target_plot_1,3);
+								ResourceBuilder.SetResourceType(target_plot_1, -1);
+								ResourceBuilder.SetResourceType(target_plot_1, 4, 1);
+								__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/2 Forested Plain with Deer");
+							end
 
 						end
-						else
-						-- floodplains and floodplains Civs
+					else
+					-- floodplains and floodplains Civs
 						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 3/0 Wheat Plains Floodplains");
@@ -4449,24 +4461,24 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 6 or target_plot_1:GetTerrainType() == 7 or (target_plot_1:GetTerrainType() == 8 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_FLOODPLAINS and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 					-- on Desert -> impossible
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.5) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,7);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							--ResourceBuilder.SetResourceType(target_plot_1, 7, 1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Desert Hill");
-							elseif (rng >= 0.0 and rng < 0.5) then
-							-- Copper Hill
+						elseif (rng >= 0.0 and rng < 0.5) then
+						-- Copper Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,7);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Desert Hill");
 						end
-						else
-						-- floodplains
+					else
+					-- floodplains
 						if (target_plot_1:GetResourceCount() < 1 and target_plot_1:GetFeatureType() ~= g_FEATURE_OASIS) then
 							ResourceBuilder.SetResourceType(target_plot_1, 9, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 2/0 Wheat Desert Floodplains");
@@ -4476,23 +4488,23 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 				elseif ( target_plot_1:GetTerrainType() == 9 or target_plot_1:GetTerrainType() == 10 or (target_plot_1:GetTerrainType() == 11 and flag ~= 3 and target_plot_1:GetFeatureType() ~= g_FEATURE_VOLCANO)) then
 					if ( target_plot_1:GetFeatureType() ~= g_FEATURE_MARSH) then
 					-- +5 on Tundra -> impossible
-					rng = TerrainBuilder.GetRandomNumber(100,"test")/100
+						rng = TerrainBuilder.GetRandomNumber(100,"test")/100
 						if (rng >= 0.66) then
-							-- Hill with Sheep
+						-- Hill with Sheep
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 7,1);
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/1 Sheep Tundra Hill");
-							elseif (rng >= 0.1 and rng < 0.66) then
-							-- Copper Hill
+						elseif (rng >= 0.1 and rng < 0.66) then
+						-- Copper Hill
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							ResourceBuilder.SetResourceType(target_plot_1, -1);
 							ResourceBuilder.SetResourceType(target_plot_1, 2, 1)
 							__Debug("Terraforming Best X: ", target_plot_1:GetX(), "Y: ", target_plot_1:GetY(), "Added 1/0/2 Copper Tundra Hill");
-							elseif (rng >= 0.0 and rng < 0.1) then
-							-- Forested Deer
+						elseif (rng >= 0.0 and rng < 0.1) then
+						-- Forested Deer
 							TerrainBuilder.SetTerrainType(target_plot_1,10);
 							TerrainBuilder.SetFeatureType(target_plot_1,-1);
 							TerrainBuilder.SetFeatureType(target_plot_1,3);
@@ -4504,8 +4516,8 @@ function Terraforming_Best(plot, avg_best, avg_best_2, missing_amount, flag)
 
 				end
 
+			end
 		end
-	end
 	end
 
 end
@@ -4525,11 +4537,11 @@ function Terraforming_Water(plot)
 
 	for i = 0, 5 do
 		adjacentPlot = GetAdjacentTiles(plot, i);
-		local adjacentWater =false;
-		for j= 0,5 do
+		local adjacentWater = false;
+		for j = 0,5 do
 			adjacentPlot_j = GetAdjacentTiles(adjacentPlot, j);
 			if(adjacentPlot_j:IsWater()==true)then
-				adjacentWater=true;
+				adjacentWater = true;
 			end
 		end
 		if (adjacentPlot ~=nil) then
@@ -4545,11 +4557,11 @@ function Terraforming_Water(plot)
 	-- Second round if you have an unit -- todo later moving the unit to starting plot to allow the lake to be placed
 	for i = 0, 5 do
 		adjacentPlot = GetAdjacentTiles(plot, i);
-		local adjacentWater =false;
-		for j= 0,5 do
+		local adjacentWater = false;
+		for j = 0,5 do
 			adjacentPlot_j = GetAdjacentTiles(adjacentPlot, j);
 			if(adjacentPlot_j:IsWater()==true)then
-				adjacentWater=true;
+				adjacentWater = true;
 			end
 		end
 		if (adjacentPlot ~=nil) then
@@ -4565,11 +4577,11 @@ function Terraforming_Water(plot)
 	-- third round remove resources so water get priority
 	for i = 0, 5 do
 		adjacentPlot = GetAdjacentTiles(plot, i);
-		local adjacentWater =false;
-		for j= 0,5 do
+		local adjacentWater = false;
+		for j = 0,5 do
 			adjacentPlot_j = GetAdjacentTiles(adjacentPlot, j);
 			if(adjacentPlot_j:IsWater()==true)then
-				adjacentWater=true;
+				adjacentWater = true;
 			end
 		end
 		if (adjacentPlot ~=nil and adjacentWater == false and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND) then
@@ -4587,10 +4599,10 @@ end
 ------------------------------------------------------------------------------
 
 function Terraforming_Flood(plot, intensity)
-	-- flag = 0 normal
-	-- flag = 1 tundra civ
-	-- flag = 2 desert civ
-	-- flag = 3 mountain civ
+-- flag = 0 normal
+-- flag = 1 tundra civ
+-- flag = 2 desert civ
+-- flag = 3 mountain civ
 	local max_water = 0;
 	local harborplot_index = nil;
 	local iResourcesInDB = 0;
@@ -4620,11 +4632,11 @@ function Terraforming_Flood(plot, intensity)
 		limit_3 = 0.33;
 		limit_4 = 0.66;
 
-		elseif (intensity == 2) then
-			limit_1 = 0.10;
-			limit_2 = 0.25;
-			limit_3 = 0.25;
-			limit_4 = 0.50;
+	elseif (intensity == 2) then
+		limit_1 = 0.10;
+		limit_2 = 0.25;
+		limit_3 = 0.25;
+		limit_4 = 0.50;
 
 	end
 
@@ -4633,7 +4645,7 @@ function Terraforming_Flood(plot, intensity)
 
 		if (i < 6) then
 			limit = limit_1
-			else
+		else
 			limit = limit_2
 		end
 
@@ -4656,10 +4668,10 @@ end
 ------------------------------------------------------------------------------
 
 function Terraforming_Coastal(plot, intensity, post_correction)
-	-- flag = 0 normal
-	-- flag = 1 tundra civ
-	-- flag = 2 desert civ
-	-- flag = 3 mountain civ
+-- flag = 0 normal
+-- flag = 1 tundra civ
+-- flag = 2 desert civ
+-- flag = 3 mountain civ
 	local max_water = 0;
 	local harborplot_index = nil;
 	local iResourcesInDB = 0;
@@ -4696,7 +4708,7 @@ function Terraforming_Coastal(plot, intensity, post_correction)
 		adjacentPlot = GetAdjacentTiles(plot, i);
 		if (adjacentPlot ~=nil) then
 			if (adjacentPlot:IsWater() == true) then
-				-- try to find the plot with a maximum number of adjacent water tile
+			-- try to find the plot with a maximum number of adjacent water tile
 				count = 0
 				for j = 0, 5 do
 					adjacentPlot2 = GetAdjacentTiles(adjacentPlot, j);
@@ -4731,7 +4743,7 @@ function Terraforming_Coastal(plot, intensity, post_correction)
 	local count_resources = 0
 	local count_water = 0
 	for i = 0, 17 do
-		--[[if (harborPlot ~= nil) then
+	--[[if (harborPlot ~= nil) then
 			adjacentPlot = GetAdjacentTiles(harborPlot, i);
 			else
 			adjacentPlot = GetAdjacentTiles(plot, i);
@@ -4762,30 +4774,30 @@ function Terraforming_Coastal(plot, intensity, post_correction)
 	if (post_correction == false) then
 	-- Step 3 Populating the harbor surrounding tiles
 
-	for i = 0, 17 do
+		for i = 0, 17 do
 		--[[if (harborPlot ~= nil) then
 				adjacentPlot = GetAdjacentTiles(harborPlot, i);
 				else
 				adjacentPlot = GetAdjacentTiles(plot, i);
 		end--]]
-		adjacentPlot = GetAdjacentTiles(plot, i);
-		local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-		if (adjacentPlot ~=nil) then
-			if (adjacentPlot:IsWater() == true and adjacentPlot:GetFeatureType() == -1 and (adjacentPlot:GetResourceCount() < 1 or adjacentPlot:GetResourceType() == 5)) and adjacentPlot:IsNaturalWonder() == false then
-				if (count_resources < 3) and adjacentPlot:GetResourceCount() < 1 then
-					if(ResourceBuilder.CanHaveResource(adjacentPlot, 5)) then
-						count_resources = count_resources+ 1
-						ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
-						TerrainBuilder.SetTerrainType(adjacentPlot,15);
-						__Debug("Coastal Terraforming (Step 3) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Fish");
+			adjacentPlot = GetAdjacentTiles(plot, i);
+			local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+			if (adjacentPlot ~=nil) then
+				if (adjacentPlot:IsWater() == true and adjacentPlot:GetFeatureType() == -1 and (adjacentPlot:GetResourceCount() < 1 or adjacentPlot:GetResourceType() == 5)) and adjacentPlot:IsNaturalWonder() == false then
+					if (count_resources < 3) and adjacentPlot:GetResourceCount() < 1 then
+						if(ResourceBuilder.CanHaveResource(adjacentPlot, 5)) then
+							count_resources = count_resources+ 1
+							ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
+							TerrainBuilder.SetTerrainType(adjacentPlot,15);
+							__Debug("Coastal Terraforming (Step 3) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Fish");
+						end
 					end
-				end
-				if (rng > limit_1 and count_reefs <1) and adjacentPlot:IsFreshWater() == false then
-					__Debug("Coastal Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Reef");
-					TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_REEF);
-					TerrainBuilder.SetTerrainType(adjacentPlot,15);
-					count_reefs = count_reefs + 1;
-					local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+					if (rng > limit_1 and count_reefs <1) and adjacentPlot:IsFreshWater() == false then
+						__Debug("Coastal Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Reef");
+						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_REEF);
+						TerrainBuilder.SetTerrainType(adjacentPlot,15);
+						count_reefs = count_reefs + 1;
+						local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
 					elseif (((rng/count_resources  > limit_2) or (count_resources < 3)) and adjacentPlot:GetResourceType() == -1) then
 						if(ResourceBuilder.CanHaveResource(adjacentPlot, 5)) then
 							count_resources = count_resources+ 1
@@ -4793,124 +4805,123 @@ function Terraforming_Coastal(plot, intensity, post_correction)
 							__Debug("Coastal Terraforming (Step 3) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Fish");
 						end
 
+					end
 				end
 			end
 		end
-	end
 
-    --6 12 18 24 30 36
-    --补贴4～6环的鱼，靠近陆地
-    local count_resources_4_6 = 0
-    for i = 30 -1, 126 -1 do
-        adjacentPlot = GetAdjacentTiles(plot, i);
-        if (adjacentPlot ~=nil) then
-            if (adjacentPlot:IsWater() == true and adjacentPlot:GetResourceCount() > 0 and adjacentPlot:GetResourceType() ~= 45) then
-                count_resources_4_6 = count_resources_4_6 + 1;
-            end
-        end
-    end
+		--6 12 18 24 30 36
+		--补贴4～6环的鱼，靠近陆地
+		local count_resources_4_6 = 0
+		for i = 30 -1, 126 -1 do
+			adjacentPlot = GetAdjacentTiles(plot, i);
+			if (adjacentPlot ~=nil) then
+				if (adjacentPlot:IsWater() == true and adjacentPlot:GetResourceCount() > 0 and adjacentPlot:GetResourceType() ~= 45) then
+					count_resources_4_6 = count_resources_4_6 + 1;
+				end
+			end
+		end
 
-    --补贴鱼
-    for i = 30 -1, 126 -1  do
-        adjacentPlot = GetAdjacentTiles(plot, i);
-        local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-        if (adjacentPlot ~=nil) then
-            if rng>0.33 and count_resources_4_6 < 5 and adjacentPlot:GetResourceCount() < 1 and adjacentPlot:IsWater() == true and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:IsNaturalWonder() == false then
-                if (TeamPVPIsAdjacentToLandAndNotAdjacent(adjacentPlot)==true) then
-                    if(ResourceBuilder.CanHaveResource(adjacentPlot, 5)) then
-                        count_resources_4_6 = count_resources_4_6+ 1
-                        ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,15);
-                        print("Coastal Terraforming (Step 4~6) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Fish");
-                    end
-                end
-            end
-        end
-    end
+		--补贴鱼
+		for i = 30 -1, 126 -1  do
+			adjacentPlot = GetAdjacentTiles(plot, i);
+			local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+			if (adjacentPlot ~=nil) then
+				if rng>0.33 and count_resources_4_6 < 5 and adjacentPlot:GetResourceCount() < 1 and adjacentPlot:IsWater() == true and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:IsNaturalWonder() == false then
+					if (TeamPVPIsAdjacentToLandAndNotAdjacent(adjacentPlot)==true) then
+						if(ResourceBuilder.CanHaveResource(adjacentPlot, 5)) then
+							count_resources_4_6 = count_resources_4_6+ 1
+							ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
+							TerrainBuilder.SetTerrainType(adjacentPlot,15);
+							print("Coastal Terraforming (Step 4~6) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Fish");
+						end
+					end
+				end
+			end
+		end
 
-    --移除密集鱼
-    for i = 18 -1, 126 -1  do
-        adjacentPlot = GetAdjacentTiles(plot, i);
-        if (adjacentPlot ~=nil) then
-            --判断为海资源格
-            if adjacentPlot:GetResourceCount() > 0 and adjacentPlot:IsWater() == true and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:IsNaturalWonder() == false then
-                --只移除鱼、螃蟹
-                if(adjacentPlot:GetResourceType() == 5 or adjacentPlot:GetResourceType() == 3) then
-                    --过于密集
-                    if (TeamPVPGetAdjacentWaterResourceCount(adjacentPlot)>=3) then
-                        --移除
-                        --ResourceBuilder.SetResourceType(adjacentPlot, -1);
-                        print("Coastal Terraforming (Step 3~6) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "remove: Fish");
-                    end
-                end
+		--移除密集鱼
+		for i = 18 -1, 126 -1  do
+			adjacentPlot = GetAdjacentTiles(plot, i);
+			if (adjacentPlot ~=nil) then
+			--判断为海资源格
+				if adjacentPlot:GetResourceCount() > 0 and adjacentPlot:IsWater() == true and adjacentPlot:GetFeatureType() == -1 and adjacentPlot:IsNaturalWonder() == false then
+				--只移除鱼、螃蟹
+					if(adjacentPlot:GetResourceType() == 5 or adjacentPlot:GetResourceType() == 3) then
+					--过于密集
+						if (TeamPVPGetAdjacentWaterResourceCount(adjacentPlot)>=3) then
+						--移除
+						--ResourceBuilder.SetResourceType(adjacentPlot, -1);
+							print("Coastal Terraforming (Step 3~6) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "remove: Fish");
+						end
+					end
 
-            end
-        end
-    end
+				end
+			end
+		end
 
-	local count_reefs = 0
-	local count_resources = 0
-	for i = 0, 60 do
+		local count_reefs = 0
+		local count_resources = 0
+		for i = 0, 60 do
 		--[[if (harborPlot ~= nil) then
 			adjacentPlot = GetAdjacentTiles(harborPlot, i);
 			else
 			adjacentPlot = GetAdjacentTiles(plot, i);
 		end--]]
-		adjacentPlot = GetAdjacentTiles(plot, i);
-		if (adjacentPlot ~=nil) then
-			if (adjacentPlot:GetFeatureType() == g_FEATURE_REEF) then
-				count_reefs = count_reefs + 1;
+			adjacentPlot = GetAdjacentTiles(plot, i);
+			if (adjacentPlot ~=nil) then
+				if (adjacentPlot:GetFeatureType() == g_FEATURE_REEF) then
+					count_reefs = count_reefs + 1;
 
-			end
-			if (adjacentPlot:IsWater() == true and adjacentPlot:GetResourceCount() > 0) then
-				count_resources = count_resources + 1;
-			end
-		end
-	end
-	__Debug("Count Reefs: ", count_reefs);
-	__Debug("Count Resources: ", count_resources);
-
-	-- Step 4 Ocean to Coast and Ice removal
-	for i = 0, 60 do
-
-		if (i < 6) then
-			limit = limit_3;
-			elseif( i>5 and i <18) then
-			limit = limit_4;
-			elseif( i>18) then
-			limit = limit_5;
-		end
-
-		adjacentPlot = GetAdjacentTiles(plot, i);
-		if (adjacentPlot ~=nil) then
-			terrainType = adjacentPlot:GetTerrainType();
-			rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-			if (terrainType == 16) and rng > limit and (adjacentPlot:GetResourceType() == 5 or adjacentPlot:GetResourceCount() < 1)  and adjacentPlot:IsNaturalWonder() == false then
-				__Debug("Terraforming Coastal X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Ocean to Coast tile",i);
-				TerrainBuilder.SetTerrainType(adjacentPlot,15);
-				local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-				if (adjacentPlot:GetFeatureType() == -1 and rng > limit and adjacentPlot:GetResourceType() == -1 and ( (count_resources <3 and i <17) or (count_resources <= 6 and i > 36) ) and (post_correction == false) and adjacentPlot:IsFreshWater() == false  ) then
-					TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_REEF);
-					__Debug("Coastal Terraforming (Step 4) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Reef",i);
+				end
+				if (adjacentPlot:IsWater() == true and adjacentPlot:GetResourceCount() > 0) then
 					count_resources = count_resources + 1;
+				end
+			end
+		end
+		__Debug("Count Reefs: ", count_reefs);
+		__Debug("Count Resources: ", count_resources);
+
+		-- Step 4 Ocean to Coast and Ice removal
+		for i = 0, 60 do
+
+			if (i < 6) then
+				limit = limit_3;
+			elseif( i>5 and i <18) then
+				limit = limit_4;
+			elseif( i>18) then
+				limit = limit_5;
+			end
+
+			adjacentPlot = GetAdjacentTiles(plot, i);
+			if (adjacentPlot ~=nil) then
+				terrainType = adjacentPlot:GetTerrainType();
+				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+				if (terrainType == 16) and rng > limit and (adjacentPlot:GetResourceType() == 5 or adjacentPlot:GetResourceCount() < 1)  and adjacentPlot:IsNaturalWonder() == false then
+					__Debug("Terraforming Coastal X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Ocean to Coast tile",i);
+					TerrainBuilder.SetTerrainType(adjacentPlot,15);
 					local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-					if( (rng / count_resources / count_resources ) > limit and adjacentPlot:GetResourceType() == -1) then
+					if (adjacentPlot:GetFeatureType() == -1 and rng > limit and adjacentPlot:GetResourceType() == -1 and ( (count_resources <3 and i <17) or (count_resources <= 6 and i > 36) ) and (post_correction == false) and adjacentPlot:IsFreshWater() == false  ) then
+						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_REEF);
+						__Debug("Coastal Terraforming (Step 4) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Reef",i);
+						count_resources = count_resources + 1;
+						local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+						if( (rng / count_resources / count_resources ) > limit and adjacentPlot:GetResourceType() == -1) then
 						-- Reef with fish
-						__Debug("Coastal Terraforming (Step 4) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Fish");
-						ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
+							__Debug("Coastal Terraforming (Step 4) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Fish");
+							ResourceBuilder.SetResourceType(adjacentPlot, 5, 1);
+						end
+					end
+
+					if (adjacentPlot:GetFeatureType() == 1 and rng > limit/2) then
+						__Debug("Costal Terraforming (Step 4) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Removing Ice",i);
+						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
 					end
 				end
-
-				if (adjacentPlot:GetFeatureType() == 1 and rng > limit/2) then
-					__Debug("Costal Terraforming (Step 4) X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Removing Ice",i);
-					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-				end
 			end
+
+
 		end
-
-
-
-	end
 
 	end
 	print("Coastal Terraforming : Total Reefs Count:", count_reefs, "Total Sea Resources:",count_resources );
@@ -4920,10 +4931,10 @@ end
 ------------------------------------------------------------------------------
 
 function Terraforming(plot, intensity, flag)
-	-- flag = 0 normal
-	-- flag = 1 tundra civ
-	-- flag = 2 desert civ
-	-- flag = 3 mountain civ
+-- flag = 0 normal
+-- flag = 1 tundra civ
+-- flag = 2 desert civ
+-- flag = 3 mountain civ
 	local iResourcesInDB = 0;
 	local terrainType = plot:GetTerrainType();
 	local featureType = plot:GetFeatureType();
@@ -4956,188 +4967,188 @@ function Terraforming(plot, intensity, flag)
 		if (i < 6) then
 			limit = limit_1
 			d_factor = -1
-			elseif( i >5 and i <18) then
-				limit = limit_2
-				d_factor = -1
-			elseif( i >17 and i <36) then
-				limit = limit_3
-				d_factor = -1
-			else
-				limit = limit_4
-				d_factor = 600
+		elseif( i >5 and i <18) then
+			limit = limit_2
+			d_factor = -1
+		elseif( i >17 and i <36) then
+			limit = limit_3
+			d_factor = -1
+		else
+			limit = limit_4
+			d_factor = 600
 		end
 		adjacentPlot = GetAdjacentTiles(plot, i);
 
 		if (adjacentPlot ~= nil) then
 			if adjacentPlot:IsNaturalWonder() == false then
-                terrainType = adjacentPlot:GetTerrainType()
-                if (adjacentPlot:GetFeatureType() == g_FEATURE_OASIS and flag ~=2) then
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Oasis",i);
-                    TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                end
-                if (adjacentPlot:GetFeatureType() == 1) then
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Ice",i);
-                    TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                end
-                rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-                if((terrainType == 9) and rng > limit and flag ~=1) then
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra to Plains tile",i);
-                    TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
-                    rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-                    if world_age == 1 and adjacentPlot:GetResourceCount() == 0 and adjacentPlot:GetFeatureType() < 4 and rng < 0.20 then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Make it a Plains hill",i);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
-                    end
-                    rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-                    if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
-                        TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                    end
-                end
-                if((terrainType == 10) and rng > limit and flag ~=1) then
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra Hills to Plains Hills tile",i);
-                    TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
-                    if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
-                        TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                    end
-                end
-                if((terrainType == 6) and rng > limit and flag ~=2) then
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Desert to Plains tile",i);
-                    TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
-                    if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS) then
-                        TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                        TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS_PLAINS);
-                    end
-                end
-                if((terrainType == 7) and rng > limit and flag ~=2) then
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Desert Hills to Plains Hills tile",i);
-                    TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
-                end
-                if(terrainType == 12) then
-                    if(i < 18 and flag ~=1) then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
-                    elseif(i < 36 and flag == 1) then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,9);
-                    elseif(flag ~=1) then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,9);
-                    end
-                end
+				terrainType = adjacentPlot:GetTerrainType()
+				if (adjacentPlot:GetFeatureType() == g_FEATURE_OASIS and flag ~=2) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Oasis",i);
+					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+				end
+				if (adjacentPlot:GetFeatureType() == 1) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Ice",i);
+					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+				end
+				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+				if((terrainType == 9) and rng > limit and flag ~=1) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra to Plains tile",i);
+					TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+					if world_age == 1 and adjacentPlot:GetResourceCount() == 0 and adjacentPlot:GetFeatureType() < 4 and rng < 0.20 then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Make it a Plains hill",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+					end
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+					if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
+						TerrainBuilder.SetFeatureType(adjacentPlot,3);
+					end
+				end
+				if((terrainType == 10) and rng > limit and flag ~=1) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra Hills to Plains Hills tile",i);
+					TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+					if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
+						TerrainBuilder.SetFeatureType(adjacentPlot,3);
+					end
+				end
+				if((terrainType == 6) and rng > limit and flag ~=2) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Desert to Plains tile",i);
+					TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
+					if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS) then
+						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS_PLAINS);
+					end
+				end
+				if((terrainType == 7) and rng > limit and flag ~=2) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Desert Hills to Plains Hills tile",i);
+					TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+				end
+				if(terrainType == 12) then
+					if(i < 18 and flag ~=1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
+					elseif(i < 36 and flag == 1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,9);
+					elseif(flag ~=1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,9);
+					end
+				end
 
-                if(terrainType == 13) then
-                    if(i < 18 and flag ~=1) then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
-                        elseif(i < 36 and flag == 1) then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,10);
-                        elseif(flag ~=1) then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,10);
-                    end
-                end
-                if((terrainType == 4) and rng > limit and adjacentPlot:GetFeatureType() ~= g_FEATURE_JUNGLE and flag ~=1 and flag ~=2) then
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Grassland Hills tile",i);
-                    TerrainBuilder.SetTerrainType(adjacentPlot,1);
-                end
-                if((terrainType == 3) and rng > limit and adjacentPlot:GetFeatureType() ~= g_FEATURE_JUNGLE and flag ~=1 and flag ~=2) then
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Grassland tile",i);
-                    TerrainBuilder.SetTerrainType(adjacentPlot,0);
-                end
-                if((terrainType == 0) and flag == 2 ) then
-                    ResourceBuilder.SetResourceType(adjacentPlot, -1);
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland to Plains tile",i);
-                    if(adjacentPlot:GetFeatureType() == g_FEATURE_MARSH) then
-                        TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                    end
-                    TerrainBuilder.SetTerrainType(adjacentPlot,3);
-                    terrainType = 3;
-                    if (adjacentPlot:IsRiver() == true) then
-                        TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                        TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS_PLAINS);
-                    end
-                end
-                if((terrainType == 1)  and flag == 2 ) then
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Hills to Plains Hills tile",i);
-                    ResourceBuilder.SetResourceType(adjacentPlot, -1);
-                    TerrainBuilder.SetTerrainType(adjacentPlot,4);
-                    terrainType = 4;
-                end
-                if((terrainType == 2) and adjacentPlot:GetResourceCount() <1 and flag == 2) then
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Mountains to Plains Mountains tile",i);
-                    TerrainBuilder.SetTerrainType(adjacentPlot,5);
-                    terrainType = 5;
-                end
+				if(terrainType == 13) then
+					if(i < 18 and flag ~=1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+					elseif(i < 36 and flag == 1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,10);
+					elseif(flag ~=1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,10);
+					end
+				end
+				if((terrainType == 4) and rng > limit and adjacentPlot:GetFeatureType() ~= g_FEATURE_JUNGLE and flag ~=1 and flag ~=2) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Grassland Hills tile",i);
+					TerrainBuilder.SetTerrainType(adjacentPlot,1);
+				end
+				if((terrainType == 3) and rng > limit and adjacentPlot:GetFeatureType() ~= g_FEATURE_JUNGLE and flag ~=1 and flag ~=2) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Grassland tile",i);
+					TerrainBuilder.SetTerrainType(adjacentPlot,0);
+				end
+				if((terrainType == 0) and flag == 2 ) then
+					ResourceBuilder.SetResourceType(adjacentPlot, -1);
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland to Plains tile",i);
+					if(adjacentPlot:GetFeatureType() == g_FEATURE_MARSH) then
+						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+					end
+					TerrainBuilder.SetTerrainType(adjacentPlot,3);
+					terrainType = 3;
+					if (adjacentPlot:IsRiver() == true) then
+						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS_PLAINS);
+					end
+				end
+				if((terrainType == 1)  and flag == 2 ) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Hills to Plains Hills tile",i);
+					ResourceBuilder.SetResourceType(adjacentPlot, -1);
+					TerrainBuilder.SetTerrainType(adjacentPlot,4);
+					terrainType = 4;
+				end
+				if((terrainType == 2) and adjacentPlot:GetResourceCount() <1 and flag == 2) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Mountains to Plains Mountains tile",i);
+					TerrainBuilder.SetTerrainType(adjacentPlot,5);
+					terrainType = 5;
+				end
 
-                -- 沙漠文明绿地变沙地
-                if (terrainType == 3 or terrainType == 4 or terrainType == 5) and flag == 2 then
-                    local d_count = 0
-				    local adjacentPlot2 = nil
-                    for k = 0, 5 do
-                        adjacentPlot2 = GetAdjacentTiles(adjacentPlot, k)
-                        if adjacentPlot2 ~= nil then
-                            if adjacentPlot2:GetTerrainType() == 6 or adjacentPlot2:GetTerrainType() == 7 or adjacentPlot2:GetTerrainType() == 8 then
-                                d_count = d_count + 1
-                            end
-                        end
-                    end
-                    if d_count > d_factor then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile",i);
-                        ResourceBuilder.SetResourceType(adjacentPlot, -1);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,terrainType + 3);
-                        if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
-                            TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                            TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
-                        elseif (adjacentPlot:IsRiver() == true and rng < 0.7) and TerrainType == 3 then
-                            TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                            TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
-                        else
-                            TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                        end
-                    end
-                end
+				-- 沙漠文明绿地变沙地
+				if (terrainType == 3 or terrainType == 4 or terrainType == 5) and flag == 2 then
+					local d_count = 0
+					local adjacentPlot2 = nil
+					for k = 0, 5 do
+						adjacentPlot2 = GetAdjacentTiles(adjacentPlot, k)
+						if adjacentPlot2 ~= nil then
+							if adjacentPlot2:GetTerrainType() == 6 or adjacentPlot2:GetTerrainType() == 7 or adjacentPlot2:GetTerrainType() == 8 then
+								d_count = d_count + 1
+							end
+						end
+					end
+					if d_count > d_factor then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile",i);
+						ResourceBuilder.SetResourceType(adjacentPlot, -1);
+						TerrainBuilder.SetTerrainType(adjacentPlot,terrainType + 3);
+						if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
+						elseif (adjacentPlot:IsRiver() == true and rng < 0.7) and TerrainType == 3 then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
+						else
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+						end
+					end
+				end
 
-                -- 冻土文明炸冻土
-                if(terrainType >= 0 and terrainType <= 2) and flag == 1 then
-                    if(i < 89) then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,9);
-                        if(adjacentPlot:GetFeatureType() ~= 3 and adjacentPlot:GetFeatureType() ~= -1) then
-                           TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                        end
-                        if(adjacentPlot:GetResourceType() ~= -1) then
-                            ResourceBuilder.SetResourceType(adjacentPlot, TERRAIN_TUNDRA_RESOURCE[TerrainBuilder.GetRandomNumber(#TERRAIN_TUNDRA_RESOURCE,"Get Random Resource") + 1], 1);
-                        end
-                        if(adjacentPlot:GetResourceType() ~= -1 and adjacentPlot:GetResourceType() ~= 4 and adjacentPlot:GetResourceType() ~= 16) then
-                           TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                        end
-                    end
-                end
-                if(terrainType >= 3 and terrainType <= 5) and flag == 1 then
-                    if(i < 89) then
-                        __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
-                        TerrainBuilder.SetTerrainType(adjacentPlot,10);
-                        if(adjacentPlot:GetFeatureType() ~= 3 and adjacentPlot:GetFeatureType() ~= -1) then
-                           TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                        end
-                        if(adjacentPlot:GetResourceType() ~= -1) then
-                            ResourceBuilder.SetResourceType(adjacentPlot, TERRAIN_TUNDRA_HILLS_RESOURCE[TerrainBuilder.GetRandomNumber(#TERRAIN_TUNDRA_HILLS_RESOURCE,"Get Random Resource") + 1], 1);
-                        end
-                        if(adjacentPlot:GetResourceType() ~= -1 and adjacentPlot:GetResourceType() ~= 4 and adjacentPlot:GetResourceType() ~= 16) then
-                           TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                        end
-                    end
-                end
+				-- 冻土文明炸冻土
+				if(terrainType >= 0 and terrainType <= 2) and flag == 1 then
+					if(i < 89) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,9);
+						if(adjacentPlot:GetFeatureType() ~= 3 and adjacentPlot:GetFeatureType() ~= -1) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,3);
+						end
+						if(adjacentPlot:GetResourceType() ~= -1) then
+							ResourceBuilder.SetResourceType(adjacentPlot, TERRAIN_TUNDRA_RESOURCE[TerrainBuilder.GetRandomNumber(#TERRAIN_TUNDRA_RESOURCE,"Get Random Resource") + 1], 1);
+						end
+						if(adjacentPlot:GetResourceType() ~= -1 and adjacentPlot:GetResourceType() ~= 4 and adjacentPlot:GetResourceType() ~= 16) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+						end
+					end
+				end
+				if(terrainType >= 3 and terrainType <= 5) and flag == 1 then
+					if(i < 89) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,10);
+						if(adjacentPlot:GetFeatureType() ~= 3 and adjacentPlot:GetFeatureType() ~= -1) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,3);
+						end
+						if(adjacentPlot:GetResourceType() ~= -1) then
+							ResourceBuilder.SetResourceType(adjacentPlot, TERRAIN_TUNDRA_HILLS_RESOURCE[TerrainBuilder.GetRandomNumber(#TERRAIN_TUNDRA_HILLS_RESOURCE,"Get Random Resource") + 1], 1);
+						end
+						if(adjacentPlot:GetResourceType() ~= -1 and adjacentPlot:GetResourceType() ~= 4 and adjacentPlot:GetResourceType() ~= 16) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+						end
+					end
+				end
 
-                rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-                if (adjacentPlot:IsWater() == false and adjacentPlot:IsImpassable() == false and adjacentPlot:GetTerrainType() ~= 12 and adjacentPlot:GetTerrainType() ~= 13 and adjacentPlot:GetTerrainType() ~= 6 and adjacentPlot:GetTerrainType() ~= 7 and adjacentPlot:GetFeatureType() == -1 and rng > limit_tree and adjacentPlot:GetResourceType() == -1 and count_wood < max_wood) then
-                    TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                    count_wood = count_wood + 1;
-                    __Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Wood",i);
-                end
+				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+				if (adjacentPlot:IsWater() == false and adjacentPlot:IsImpassable() == false and adjacentPlot:GetTerrainType() ~= 12 and adjacentPlot:GetTerrainType() ~= 13 and adjacentPlot:GetTerrainType() ~= 6 and adjacentPlot:GetTerrainType() ~= 7 and adjacentPlot:GetFeatureType() == -1 and rng > limit_tree and adjacentPlot:GetResourceType() == -1 and count_wood < max_wood) then
+					TerrainBuilder.SetFeatureType(adjacentPlot,3);
+					count_wood = count_wood + 1;
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Wood",i);
+				end
 			end
 		end
 	end
@@ -5146,7 +5157,7 @@ function Terraforming(plot, intensity, flag)
 
 	if(MapConfiguration.GetValue("MapName") == nil) then
 		return
-		else
+	else
 		if(MapConfiguration.GetValue("MapName") == "Tilted_Axis") then
 			__Debug("Terraforming: Tilted Axis map");
 			return
@@ -5164,15 +5175,15 @@ function Terraforming(plot, intensity, flag)
 		if (i < 6) then
 			limit = limit_1
 			d_factor = -1
-			elseif( i >5 and i <18) then
-				limit = limit_2
-				d_factor = -1
-			elseif( i >17 and i <36) then
-				limit = limit_3
-				d_factor = -1
-			else
-				limit = limit_4
-				d_factor = 600
+		elseif( i >5 and i <18) then
+			limit = limit_2
+			d_factor = -1
+		elseif( i >17 and i <36) then
+			limit = limit_3
+			d_factor = -1
+		else
+			limit = limit_4
+			d_factor = 600
 		end
 		adjacentPlot = GetAdjacentTiles(east_plot, i);
 		--__Debug("Evaluate Start X: ", adjacentPlot:GetX(), "Evaluate Start Y: ", adjacentPlot:GetY(), "Terrain Type: ", terrainType);
@@ -5180,109 +5191,109 @@ function Terraforming(plot, intensity, flag)
 
 		if (adjacentPlot ~= nil) then
 			if adjacentPlot:IsNaturalWonder() == false then
-			terrainType = adjacentPlot:GetTerrainType()
-			if (adjacentPlot:GetFeatureType() == g_FEATURE_OASIS and flag ~=2) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Oasis",i);
-				TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-			end
-			if (adjacentPlot:GetFeatureType() == 1) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Ice",i);
-				TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-			end
-			rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-			if((terrainType == 9) and rng > limit and flag ~=1) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra to Plains tile",i);
-				TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
-				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-				if world_age == 1 and adjacentPlot:GetResourceCount() == 0 and adjacentPlot:GetFeatureType() < 4 and rng < 0.20 then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Make it a Plains hill",i);
-					TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+				terrainType = adjacentPlot:GetTerrainType()
+				if (adjacentPlot:GetFeatureType() == g_FEATURE_OASIS and flag ~=2) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Oasis",i);
+					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+				end
+				if (adjacentPlot:GetFeatureType() == 1) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Ice",i);
+					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
 				end
 				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-				if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
-					TerrainBuilder.SetFeatureType(adjacentPlot,3);
-				end
-			end
-			if((terrainType == 10) and rng > limit and flag ~=1) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra Hills to Plains Hills tile",i);
-				TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
-				if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
-					TerrainBuilder.SetFeatureType(adjacentPlot,3);
-				end
-			end
-			if(terrainType == 12) then
-				if(i < 18 and flag ~=1) then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
+				if((terrainType == 9) and rng > limit and flag ~=1) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra to Plains tile",i);
 					TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
-					elseif(flag ~=1) then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
-					TerrainBuilder.SetTerrainType(adjacentPlot,9);
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+					if world_age == 1 and adjacentPlot:GetResourceCount() == 0 and adjacentPlot:GetFeatureType() < 4 and rng < 0.20 then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Make it a Plains hill",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+					end
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+					if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
+						TerrainBuilder.SetFeatureType(adjacentPlot,3);
+					end
 				end
-			end
-			if(terrainType == 13) then
-				if(i < 18 and flag ~=1) then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
+				if((terrainType == 10) and rng > limit and flag ~=1) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra Hills to Plains Hills tile",i);
 					TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+					if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
+						TerrainBuilder.SetFeatureType(adjacentPlot,3);
+					end
+				end
+				if(terrainType == 12) then
+					if(i < 18 and flag ~=1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
 					elseif(flag ~=1) then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
-					TerrainBuilder.SetTerrainType(adjacentPlot,10);
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,9);
+					end
 				end
-			end
-			rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-			if((terrainType == 0)  and flag == 2  ) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland to Plains tile",i);
-				ResourceBuilder.SetResourceType(adjacentPlot, -1);
-				if(adjacentPlot:GetFeatureType() == g_FEATURE_MARSH) then
-					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+				if(terrainType == 13) then
+					if(i < 18 and flag ~=1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+					elseif(flag ~=1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,10);
+					end
 				end
-				TerrainBuilder.SetTerrainType(adjacentPlot,3);
-				if (adjacentPlot:IsRiver() == true) then
-					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-					TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS_PLAINS);
+				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+				if((terrainType == 0)  and flag == 2  ) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland to Plains tile",i);
+					ResourceBuilder.SetResourceType(adjacentPlot, -1);
+					if(adjacentPlot:GetFeatureType() == g_FEATURE_MARSH) then
+						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+					end
+					TerrainBuilder.SetTerrainType(adjacentPlot,3);
+					if (adjacentPlot:IsRiver() == true) then
+						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS_PLAINS);
+					end
 				end
-			end
-			if((terrainType == 1) and flag == 2 ) then
-				print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Hills to Plains Hills tile",i);
-				ResourceBuilder.SetResourceType(adjacentPlot, -1);
-				TerrainBuilder.SetTerrainType(adjacentPlot,4);
-			end
-			if((terrainType == 2) and adjacentPlot:GetResourceCount() <1 and flag == 2) then
-				print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Mountains to Plains Mountains tile",i);
-				TerrainBuilder.SetTerrainType(adjacentPlot,5);
-			end
-			if((terrainType == 3 or terrainType == 4 or terrainType == 5) and flag == 2) then
-				local d_count = 0
-				local adjacentPlot2 = nil
-				for k = 0, 5 do
-					adjacentPlot2 = GetAdjacentTiles(adjacentPlot, k)
-					if adjacentPlot2 ~= nil then
-						if adjacentPlot2:GetTerrainType() == 6 or adjacentPlot2:GetTerrainType() == 7 or adjacentPlot2:GetTerrainType() == 8 then
-							d_count = d_count + 1
+				if((terrainType == 1) and flag == 2 ) then
+					print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Hills to Plains Hills tile",i);
+					ResourceBuilder.SetResourceType(adjacentPlot, -1);
+					TerrainBuilder.SetTerrainType(adjacentPlot,4);
+				end
+				if((terrainType == 2) and adjacentPlot:GetResourceCount() <1 and flag == 2) then
+					print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Mountains to Plains Mountains tile",i);
+					TerrainBuilder.SetTerrainType(adjacentPlot,5);
+				end
+				if((terrainType == 3 or terrainType == 4 or terrainType == 5) and flag == 2) then
+					local d_count = 0
+					local adjacentPlot2 = nil
+					for k = 0, 5 do
+						adjacentPlot2 = GetAdjacentTiles(adjacentPlot, k)
+						if adjacentPlot2 ~= nil then
+							if adjacentPlot2:GetTerrainType() == 6 or adjacentPlot2:GetTerrainType() == 7 or adjacentPlot2:GetTerrainType() == 8 then
+								d_count = d_count + 1
+							end
+						end
+					end
+					if d_count > d_factor then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile",i);
+						ResourceBuilder.SetResourceType(adjacentPlot, -1);
+						TerrainBuilder.SetTerrainType(adjacentPlot,terrainType + 3);
+						if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
+						elseif (adjacentPlot:IsRiver() == true and  rng < 0.33) and TerrainType == 3 then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
+						else
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
 						end
 					end
 				end
-				if d_count > d_factor then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile",i);
-					ResourceBuilder.SetResourceType(adjacentPlot, -1);
-					TerrainBuilder.SetTerrainType(adjacentPlot,terrainType + 3);
-					if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
-						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
-						elseif (adjacentPlot:IsRiver() == true and  rng < 0.33) and TerrainType == 3 then
-						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
-						else
-						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-					end
+				if (adjacentPlot:IsWater() == false and adjacentPlot:IsImpassable() == false and adjacentPlot:GetTerrainType() ~= 12 and adjacentPlot:GetTerrainType() ~= 13 and adjacentPlot:GetTerrainType() ~= 6 and adjacentPlot:GetTerrainType() ~= 7 and adjacentPlot:GetFeatureType() == -1 and rng > limit_tree and adjacentPlot:GetResourceType() == -1 and count_wood < max_wood) then
+					TerrainBuilder.SetFeatureType(adjacentPlot,3);
+					count_wood = count_wood + 1;
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Wood",i);
 				end
-			end
-			if (adjacentPlot:IsWater() == false and adjacentPlot:IsImpassable() == false and adjacentPlot:GetTerrainType() ~= 12 and adjacentPlot:GetTerrainType() ~= 13 and adjacentPlot:GetTerrainType() ~= 6 and adjacentPlot:GetTerrainType() ~= 7 and adjacentPlot:GetFeatureType() == -1 and rng > limit_tree and adjacentPlot:GetResourceType() == -1 and count_wood < max_wood) then
-				TerrainBuilder.SetFeatureType(adjacentPlot,3);
-				count_wood = count_wood + 1;
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Wood",i);
-			end
 			end
 		end
 
@@ -5301,15 +5312,15 @@ function Terraforming(plot, intensity, flag)
 		if (i < 6) then
 			limit = limit_1
 			d_factor = -1
-			elseif( i >5 and i <18) then
-				limit = limit_2
-				d_factor = -1
-			elseif( i >17 and i <36) then
-				limit = limit_3
-				d_factor = -1
-			else
-				limit = limit_4
-				d_factor = -1
+		elseif( i >5 and i <18) then
+			limit = limit_2
+			d_factor = -1
+		elseif( i >17 and i <36) then
+			limit = limit_3
+			d_factor = -1
+		else
+			limit = limit_4
+			d_factor = -1
 		end
 		adjacentPlot = GetAdjacentTiles(west_plot, i);
 		print("Evaluate Start X: ", adjacentPlot:GetX(), "Evaluate Start Y: ", adjacentPlot:GetY(), "i: ", i);
@@ -5317,143 +5328,143 @@ function Terraforming(plot, intensity, flag)
 
 		if (adjacentPlot ~= nil) then
 			if adjacentPlot:IsNaturalWonder() == false then
-			terrainType = adjacentPlot:GetTerrainType()
-			if (adjacentPlot:GetFeatureType() == g_FEATURE_OASIS and flag ~=2) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Oasis",i);
-				TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-			end
-			if (adjacentPlot:GetFeatureType() == 1) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Ice",i);
-				TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-			end
-			rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-			if((terrainType == 9) and rng > limit and flag ~=1) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra to Plains tile",i);
-				TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
-				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-				if world_age == 1 and adjacentPlot:GetResourceCount() == 0 and adjacentPlot:GetFeatureType() < 4 and rng < 0.20 then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Make it a Plains hill",i);
-					TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+				terrainType = adjacentPlot:GetTerrainType()
+				if (adjacentPlot:GetFeatureType() == g_FEATURE_OASIS and flag ~=2) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Oasis",i);
+					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+				end
+				if (adjacentPlot:GetFeatureType() == 1) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Remove Ice",i);
+					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
 				end
 				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-				if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
-					TerrainBuilder.SetFeatureType(adjacentPlot,3);
-				end
-			end
-			if((terrainType == 10) and rng > limit and flag ~=1) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra Hills to Plains Hills tile",i);
-				TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
-				if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
-					TerrainBuilder.SetFeatureType(adjacentPlot,3);
-				end
-			end
-			if(terrainType == 12) then
-				if(i < 18 and flag ~=1) then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
+				if((terrainType == 9) and rng > limit and flag ~=1) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra to Plains tile",i);
 					TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
-					elseif(flag ~=1) then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
-					TerrainBuilder.SetTerrainType(adjacentPlot,9);
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+					if world_age == 1 and adjacentPlot:GetResourceCount() == 0 and adjacentPlot:GetFeatureType() < 4 and rng < 0.20 then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Make it a Plains hill",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+					end
+					rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+					if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
+						TerrainBuilder.SetFeatureType(adjacentPlot,3);
+					end
 				end
-			end
-			if(terrainType == 13) then
-				if(i < 18 and flag ~=1) then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
+				if((terrainType == 10) and rng > limit and flag ~=1) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Tundra Hills to Plains Hills tile",i);
 					TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+					if adjacentPlot:GetFeatureType() == -1 and adjacentPlot:GetResourceCount() == 0 and rng < 0.15 then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Add woods",i);
+						TerrainBuilder.SetFeatureType(adjacentPlot,3);
+					end
+				end
+				if(terrainType == 12) then
+					if(i < 18 and flag ~=1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS);
 					elseif(flag ~=1) then
-					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
-					TerrainBuilder.SetTerrainType(adjacentPlot,10);
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,9);
+					end
 				end
-			end
-			rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-			if((terrainType == 0) and flag == 2 ) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland to Plains tile",i);
-				ResourceBuilder.SetResourceType(adjacentPlot, -1);
-				if(adjacentPlot:GetFeatureType() == g_FEATURE_MARSH) then
-					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+				if(terrainType == 13) then
+					if(i < 18 and flag ~=1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Plain tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,g_TERRAIN_TYPE_PLAINS_HILLS);
+					elseif(flag ~=1) then
+						__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing to Tundra tile",i);
+						TerrainBuilder.SetTerrainType(adjacentPlot,10);
+					end
 				end
-				TerrainBuilder.SetTerrainType(adjacentPlot,3);
-				if (adjacentPlot:IsRiver() == true) then
-					TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-					TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS_PLAINS);
+				rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+				if((terrainType == 0) and flag == 2 ) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland to Plains tile",i);
+					ResourceBuilder.SetResourceType(adjacentPlot, -1);
+					if(adjacentPlot:GetFeatureType() == g_FEATURE_MARSH) then
+						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+					end
+					TerrainBuilder.SetTerrainType(adjacentPlot,3);
+					if (adjacentPlot:IsRiver() == true) then
+						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS_PLAINS);
+					end
 				end
-			end
-			if((terrainType == 1) and flag == 2) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Hills to Plains Hills tile",i);
-				ResourceBuilder.SetResourceType(adjacentPlot, -1);
-				TerrainBuilder.SetTerrainType(adjacentPlot,4);
-			end
-			if((terrainType == 2) and adjacentPlot:GetResourceCount() <1 and flag == 2) then
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Mountains to Plains Mountains tile",i);
-				TerrainBuilder.SetTerrainType(adjacentPlot,5);
-			end
-			print("TeamPVP adjacentPlot i=",i,";terrainType=",terrainType);
-			if((terrainType == 3 or terrainType == 4 or terrainType == 5) and flag == 2) then
-				local d_count = 0
-				local adjacentPlot2 = nil
-				for k = 0, 5 do
-					adjacentPlot2 = GetAdjacentTiles(adjacentPlot, k)
-					if adjacentPlot2 ~= nil then
-						if adjacentPlot2:GetTerrainType() == 6 or adjacentPlot2:GetTerrainType() == 7 or adjacentPlot2:GetTerrainType() == 8 then
-							d_count = d_count + 1
+				if((terrainType == 1) and flag == 2) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Hills to Plains Hills tile",i);
+					ResourceBuilder.SetResourceType(adjacentPlot, -1);
+					TerrainBuilder.SetTerrainType(adjacentPlot,4);
+				end
+				if((terrainType == 2) and adjacentPlot:GetResourceCount() <1 and flag == 2) then
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Grassland Mountains to Plains Mountains tile",i);
+					TerrainBuilder.SetTerrainType(adjacentPlot,5);
+				end
+				print("TeamPVP adjacentPlot i=",i,";terrainType=",terrainType);
+				if((terrainType == 3 or terrainType == 4 or terrainType == 5) and flag == 2) then
+					local d_count = 0
+					local adjacentPlot2 = nil
+					for k = 0, 5 do
+						adjacentPlot2 = GetAdjacentTiles(adjacentPlot, k)
+						if adjacentPlot2 ~= nil then
+							if adjacentPlot2:GetTerrainType() == 6 or adjacentPlot2:GetTerrainType() == 7 or adjacentPlot2:GetTerrainType() == 8 then
+								d_count = d_count + 1
+							end
+						end
+					end
+					if d_count > d_factor then
+						print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile",i);
+						ResourceBuilder.SetResourceType(adjacentPlot, -1);
+						TerrainBuilder.SetTerrainType(adjacentPlot,terrainType + 3);
+						if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
+						elseif (adjacentPlot:IsRiver() == true and  rng < 0.33 and TerrainType == 3) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
+						else
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
 						end
 					end
 				end
-				if d_count > d_factor then
-					print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile",i);
-					ResourceBuilder.SetResourceType(adjacentPlot, -1);
-					TerrainBuilder.SetTerrainType(adjacentPlot,terrainType + 3);
-					if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
-						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
-						elseif (adjacentPlot:IsRiver() == true and  rng < 0.33 and TerrainType == 3) then
-						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
-						else
-						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+				if((terrainType == 0 or terrainType == 1 or terrainType == 2) and flag == 2) then
+					local d_count = 0
+					local adjacentPlot2 = nil
+					for k = 0, 5 do
+						adjacentPlot2 = GetAdjacentTiles(adjacentPlot, k)
+						if adjacentPlot2 ~= nil then
+							if adjacentPlot2:GetTerrainType() == 6 or adjacentPlot2:GetTerrainType() == 7 or adjacentPlot2:GetTerrainType() == 8 then
+								d_count = d_count + 1
+							end
+						end
 					end
-				end
-			end
-			if((terrainType == 0 or terrainType == 1 or terrainType == 2) and flag == 2) then
-				local d_count = 0
-				local adjacentPlot2 = nil
-				for k = 0, 5 do
-					adjacentPlot2 = GetAdjacentTiles(adjacentPlot, k)
-					if adjacentPlot2 ~= nil then
-						if adjacentPlot2:GetTerrainType() == 6 or adjacentPlot2:GetTerrainType() == 7 or adjacentPlot2:GetTerrainType() == 8 then
-							d_count = d_count + 1
+					print("TeamPVP d_count:",d_count,"d_factor:",d_factor);
+					if d_count > d_factor then
+						print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile",i);
+						ResourceBuilder.SetResourceType(adjacentPlot, -1);
+						TerrainBuilder.SetTerrainType(adjacentPlot,terrainType + 6);
+						if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
+						elseif (adjacentPlot:IsRiver() == true and  rng < 0.33 and TerrainType == 3) then
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
+						else
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
 						end
 					end
 				end
-				print("TeamPVP d_count:",d_count,"d_factor:",d_factor);
-				if d_count > d_factor then
-					print("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Changing Plains to Desert tile",i);
-					ResourceBuilder.SetResourceType(adjacentPlot, -1);
-					TerrainBuilder.SetTerrainType(adjacentPlot,terrainType + 6);
-					if (adjacentPlot:GetFeatureType() == g_FEATURE_FLOODPLAINS_PLAINS) then
-						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
-						elseif (adjacentPlot:IsRiver() == true and  rng < 0.33 and TerrainType == 3) then
-						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-						TerrainBuilder.SetFeatureType(adjacentPlot,g_FEATURE_FLOODPLAINS);
-						else
-						TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-					end
+				if (adjacentPlot:IsWater() == false and adjacentPlot:IsImpassable() == false and adjacentPlot:GetTerrainType() ~= 12 and adjacentPlot:GetTerrainType() ~= 13 and adjacentPlot:GetTerrainType() ~= 6 and adjacentPlot:GetTerrainType() ~= 7 and adjacentPlot:GetFeatureType() == -1 and rng > limit_tree and adjacentPlot:GetResourceType() == -1 and count_wood < max_wood) then
+					TerrainBuilder.SetFeatureType(adjacentPlot,3);
+					count_wood = count_wood + 1;
+					__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Wood",i);
 				end
-			end
-			if (adjacentPlot:IsWater() == false and adjacentPlot:IsImpassable() == false and adjacentPlot:GetTerrainType() ~= 12 and adjacentPlot:GetTerrainType() ~= 13 and adjacentPlot:GetTerrainType() ~= 6 and adjacentPlot:GetTerrainType() ~= 7 and adjacentPlot:GetFeatureType() == -1 and rng > limit_tree and adjacentPlot:GetResourceType() == -1 and count_wood < max_wood) then
-				TerrainBuilder.SetFeatureType(adjacentPlot,3);
-				count_wood = count_wood + 1;
-				__Debug("Terraforming X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added: Wood",i);
-			end
 			end
 		end
 
 
 	end
-	----------------------------------------------------------------------
+----------------------------------------------------------------------
 	--------------------- Terraforming Completed -------------------------
 	----------------------------------------------------------------------
 
@@ -5466,57 +5477,57 @@ function RemoveProd(plot)
 
 	local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
 	if rng > 0.5 then
-	for j = 0, 17 do
-		rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-		local otherPlot = GetAdjacentTiles(plot, j);
-		--__Debug("Evaluate Start X: ", otherPlot:GetX(), "Evaluate Start Y: ", otherPlot:GetY(), "Terrain Type: ", terrainType);
-		if otherPlot ~= nil then
-		if (otherPlot:GetResourceType() == 4 or otherPlot:GetResourceType() == 8) then
-			__Debug("Prod balancing: Prod Removed", otherPlot:GetResourceType());
-			ResourceBuilder.SetResourceType(otherPlot, -1);
-			return true;
+		for j = 0, 17 do
+			rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+			local otherPlot = GetAdjacentTiles(plot, j);
+			--__Debug("Evaluate Start X: ", otherPlot:GetX(), "Evaluate Start Y: ", otherPlot:GetY(), "Terrain Type: ", terrainType);
+			if otherPlot ~= nil then
+				if (otherPlot:GetResourceType() == 4 or otherPlot:GetResourceType() == 8) then
+					__Debug("Prod balancing: Prod Removed", otherPlot:GetResourceType());
+					ResourceBuilder.SetResourceType(otherPlot, -1);
+					return true;
+				end
+				if (otherPlot:GetFeatureType() == 3 and otherPlot:GetResourceCount() < 1 and rng > 0.5) then
+					TerrainBuilder.SetFeatureType(otherPlot,-1);
+					__Debug("Prod balancing: Wood Removed");
+					return true;
+				end
+			end
 		end
-		if (otherPlot:GetFeatureType() == 3 and otherPlot:GetResourceCount() < 1 and rng > 0.5) then
-			TerrainBuilder.SetFeatureType(otherPlot,-1);
-			__Debug("Prod balancing: Wood Removed");
-			return true;
-		end
-		end
-	end
 	else
-	for j = 17, 0, -1 do
-		rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
-		local otherPlot = GetAdjacentTiles(plot, j);
-		if otherPlot ~= nil then
-		--__Debug("Evaluate Start X: ", otherPlot:GetX(), "Evaluate Start Y: ", otherPlot:GetY(), "Terrain Type: ", terrainType);
-		if (otherPlot:GetResourceType() == 4) then
-			__Debug("Prod balancing: Prod Removed", otherPlot:GetResourceType());
-			ResourceBuilder.SetResourceType(otherPlot, -1);
-			return true;
+		for j = 17, 0, -1 do
+			rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
+			local otherPlot = GetAdjacentTiles(plot, j);
+			if otherPlot ~= nil then
+			--__Debug("Evaluate Start X: ", otherPlot:GetX(), "Evaluate Start Y: ", otherPlot:GetY(), "Terrain Type: ", terrainType);
+				if (otherPlot:GetResourceType() == 4) then
+					__Debug("Prod balancing: Prod Removed", otherPlot:GetResourceType());
+					ResourceBuilder.SetResourceType(otherPlot, -1);
+					return true;
+				end
+				if (otherPlot:GetFeatureType() == 3 and otherPlot:GetResourceCount() < 1 and rng > 0.5) then
+					TerrainBuilder.SetFeatureType(otherPlot,-1);
+					__Debug("Prod balancing: Wood Removed");
+					return true;
+				end
+				if (otherPlot:GetResourceType() == 8) then
+					__Debug("Prod balancing: Prod Removed", otherPlot:GetResourceType());
+					ResourceBuilder.SetResourceType(otherPlot, -1);
+					return true;
+				end
+			end
 		end
-		if (otherPlot:GetFeatureType() == 3 and otherPlot:GetResourceCount() < 1 and rng > 0.5) then
-			TerrainBuilder.SetFeatureType(otherPlot,-1);
-			__Debug("Prod balancing: Wood Removed");
-			return true;
-		end
-		if (otherPlot:GetResourceType() == 8) then
-			__Debug("Prod balancing: Prod Removed", otherPlot:GetResourceType());
-			ResourceBuilder.SetResourceType(otherPlot, -1);
-			return true;
-		end
-		end
-	end
 	end
 	__Debug("Prod balancing: Couldn't Remove Production through feature / resources, attempt Terrain");
 	for j = 0, 17 do
 		local otherPlot = GetAdjacentTiles(plot, j);
 		--__Debug("Evaluate Start X: ", otherPlot:GetX(), "Evaluate Start Y: ", otherPlot:GetY(), "Terrain Type: ", terrainType);
 		if otherPlot ~= nil then
-		if (otherPlot:GetTerrainType() == 4 or otherPlot:GetTerrainType() == 1) and otherPlot:GetResourceType() == -1 then
-			__Debug("Prod balancing: Prod Removed - Removed a Hill");
-			TerrainBuilder.SetTerrainType(otherPlot, otherPlot:GetTerrainType()-1)
-			return true;
-		end
+			if (otherPlot:GetTerrainType() == 4 or otherPlot:GetTerrainType() == 1) and otherPlot:GetResourceType() == -1 then
+				__Debug("Prod balancing: Prod Removed - Removed a Hill");
+				TerrainBuilder.SetTerrainType(otherPlot, otherPlot:GetTerrainType()-1)
+				return true;
+			end
 		end
 	end
 	__Debug("Prod balancing: Failed to Remove Production ");
@@ -5528,39 +5539,39 @@ function RemoveFood(plot)
 
 	local rng = TerrainBuilder.GetRandomNumber(100,"test")/100;
 	if rng > 0.5 then
-	for j = 0, 17 do
-		local otherPlot = GetAdjacentTiles(plot, j);
-		--__Debug("Evaluate Start X: ", otherPlot:GetX(), "Evaluate Start Y: ", otherPlot:GetY(), "Terrain Type: ", terrainType);
-		if otherPlot ~= nil then
-			if (otherPlot:GetResourceType() == 0 or otherPlot:GetResourceType() == 1 or otherPlot:GetResourceType() == 6 or otherPlot:GetResourceType() == 9) then
-				__Debug("Food balancing: Food Removed", otherPlot:GetResourceType());
-				ResourceBuilder.SetResourceType(otherPlot, -1);
-				return true;
-			end
-			if ((otherPlot:GetFeatureType() == 2 or otherPlot:GetFeatureType() == 5)and otherPlot:GetResourceCount() < 1) then
-				TerrainBuilder.SetFeatureType(otherPlot,-1);
-				__Debug("Food balancing: Jungle/Marsh Removed");
-				return true;
+		for j = 0, 17 do
+			local otherPlot = GetAdjacentTiles(plot, j);
+			--__Debug("Evaluate Start X: ", otherPlot:GetX(), "Evaluate Start Y: ", otherPlot:GetY(), "Terrain Type: ", terrainType);
+			if otherPlot ~= nil then
+				if (otherPlot:GetResourceType() == 0 or otherPlot:GetResourceType() == 1 or otherPlot:GetResourceType() == 6 or otherPlot:GetResourceType() == 9) then
+					__Debug("Food balancing: Food Removed", otherPlot:GetResourceType());
+					ResourceBuilder.SetResourceType(otherPlot, -1);
+					return true;
+				end
+				if ((otherPlot:GetFeatureType() == 2 or otherPlot:GetFeatureType() == 5)and otherPlot:GetResourceCount() < 1) then
+					TerrainBuilder.SetFeatureType(otherPlot,-1);
+					__Debug("Food balancing: Jungle/Marsh Removed");
+					return true;
+				end
 			end
 		end
-	end
 	else
-	for j = 17, 0,-1 do
-		local otherPlot = GetAdjacentTiles(plot, j);
-		--__Debug("Evaluate Start X: ", otherPlot:GetX(), "Evaluate Start Y: ", otherPlot:GetY(), "Terrain Type: ", terrainType);
-		if otherPlot ~= nil then
-			if ((otherPlot:GetFeatureType() == 2 or otherPlot:GetFeatureType() == 5)and otherPlot:GetResourceCount() < 1) then
-				TerrainBuilder.SetFeatureType(otherPlot,-1);
-				__Debug("Food balancing: Jungle/Marsh Removed");
-				return true;
-			end
-			if (otherPlot:GetResourceType() == 0 or otherPlot:GetResourceType() == 1 or otherPlot:GetResourceType() == 6 or otherPlot:GetResourceType() == 9) then
-				__Debug("Food balancing: Food Removed", otherPlot:GetResourceType());
-				ResourceBuilder.SetResourceType(otherPlot, -1);
-				return true;
+		for j = 17, 0,-1 do
+			local otherPlot = GetAdjacentTiles(plot, j);
+			--__Debug("Evaluate Start X: ", otherPlot:GetX(), "Evaluate Start Y: ", otherPlot:GetY(), "Terrain Type: ", terrainType);
+			if otherPlot ~= nil then
+				if ((otherPlot:GetFeatureType() == 2 or otherPlot:GetFeatureType() == 5)and otherPlot:GetResourceCount() < 1) then
+					TerrainBuilder.SetFeatureType(otherPlot,-1);
+					__Debug("Food balancing: Jungle/Marsh Removed");
+					return true;
+				end
+				if (otherPlot:GetResourceType() == 0 or otherPlot:GetResourceType() == 1 or otherPlot:GetResourceType() == 6 or otherPlot:GetResourceType() == 9) then
+					__Debug("Food balancing: Food Removed", otherPlot:GetResourceType());
+					ResourceBuilder.SetResourceType(otherPlot, -1);
+					return true;
+				end
 			end
 		end
-	end
 	end
 	__Debug("Food balancing: Couldn't Remove Food");
 	return false;
@@ -5583,48 +5594,48 @@ end
 ------------------------------------------------------------------------------
 
 function BalanceStrategic(plot,leader)
-    local iResourcesInDB = 0;
-    local iStartEra = GameInfo.Eras[ GameConfiguration.GetStartEra() ];
-    local iStartIndex = 1;
-    local direction = 0;
+	local iResourcesInDB = 0;
+	local iStartEra = GameInfo.Eras[ GameConfiguration.GetStartEra() ];
+	local iStartIndex = 1;
+	local direction = 0;
 
-    if iStartEra ~= nil then
-        iStartIndex = iStartEra.ChronologyIndex;
-    end
-    print("iStartIndex",iStartIndex);
-    print("BBSStratRes：",MapConfiguration.GetValue("BBSStratRes"));
-    -- 40 Aluminium
-    -- 41 Coal
-    -- 42 Horse
-    -- 43 Iron
-    -- 44 Niter
-    -- 45 Oil
-    -- 46 Uranium
+	if iStartEra ~= nil then
+		iStartIndex = iStartEra.ChronologyIndex;
+	end
+	print("iStartIndex",iStartIndex);
+	print("BBSStratRes：",MapConfiguration.GetValue("BBSStratRes"));
+	-- 40 Aluminium
+	-- 41 Coal
+	-- 42 Horse
+	-- 43 Iron
+	-- 44 Niter
+	-- 45 Oil
+	-- 46 Uranium
 
-    if MapConfiguration.GetValue("BBSStratRes") == 3 then
+	if MapConfiguration.GetValue("BBSStratRes") == 3 then
 
-        for k =0, 6 do
-            local bHasResource = false;
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check for ",40+k," Garanteed");
-            bHasResource = FindResource(40+k, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add", 40+k);
-                PlaceResource(40+k, plot,leader);
-            end
-        end
+		for k = 0, 6 do
+			local bHasResource = false;
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check for ",40+k," Garanteed");
+			bHasResource = FindResource(40+k, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add", 40+k);
+				PlaceResource(40+k, plot,leader);
+			end
+		end
 
-    else
+	else
 
-        if (iStartIndex == 1) then
-            local bHasResource = false;
-            if(FindResource(42, plot)==false)then
-                bHasResource = PlaceResource(42, plot,leader);
-            end
+		if (iStartIndex == 1) then
+			local bHasResource = false;
+			if(FindResource(42, plot)==false)then
+				bHasResource = PlaceResource(42, plot,leader);
+			end
 
-            if(FindResource(43, plot)==false)then
-                bHasResource = PlaceResource(43, plot,leader);
-            end
-            --[[_Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Horse");
+			if(FindResource(43, plot)==false)then
+				bHasResource = PlaceResource(43, plot,leader);
+			end
+			--[[_Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Horse");
             bHasResource = FindResource(42, plot);
             if(bHasResource == false) then
                 print("Balance Resources: Need to add Horses");
@@ -5636,144 +5647,144 @@ function BalanceStrategic(plot,leader)
                 __Debug("Balance Resources: Need to add Iron");
                 PlaceResource(43, plot,leader);
             end]]
-            -- Broader Check Oil & Niter & Aluminium + Coal
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Oil");
-            bHasResource = ContinentResource(45, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Iron");
-                PlaceResource(45, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Niter");
-            bHasResource = FindResource(44, plot, 100);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Niter");
-                PlaceResource(44, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Aluminium");
-            bHasResource = ContinentResource(40, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Aluminium");
-                PlaceResource(40, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Coal");
-            bHasResource = ContinentResource(41, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Coal");
-                PlaceResource(41, plot,leader);
-            end
+			-- Broader Check Oil & Niter & Aluminium + Coal
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Oil");
+			bHasResource = ContinentResource(45, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Iron");
+				PlaceResource(45, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Niter");
+			bHasResource = FindResource(44, plot, 100);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Niter");
+				PlaceResource(44, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Aluminium");
+			bHasResource = ContinentResource(40, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Aluminium");
+				PlaceResource(40, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Coal");
+			bHasResource = ContinentResource(41, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Coal");
+				PlaceResource(41, plot,leader);
+			end
 
-            -- Classical or Medieval
-        elseif (iStartIndex == 2 or iStartIndex == 3) then
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Horse");
-            bHasResource = FindResource(42, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Horses");
-                PlaceResource(42, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Iron");
-            bHasResource = FindResource(43, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Iron");
-                PlaceResource(43, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Niter");
-            bHasResource = FindResource(44, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Niter");
-                PlaceResource(44, plot,leader);
-            end
-            -- Broader Check Oil & Aluminium + Coal
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Oil");
-            bHasResource = ContinentResource(45, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Iron");
-                PlaceResource(45, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Aluminium");
-            bHasResource = ContinentResource(40, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Aluminium");
-                PlaceResource(40, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Coal");
-            bHasResource = ContinentResource(41, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Coal");
-                PlaceResource(41, plot,leader);
-            end
+		-- Classical or Medieval
+		elseif (iStartIndex == 2 or iStartIndex == 3) then
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Horse");
+			bHasResource = FindResource(42, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Horses");
+				PlaceResource(42, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Iron");
+			bHasResource = FindResource(43, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Iron");
+				PlaceResource(43, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Niter");
+			bHasResource = FindResource(44, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Niter");
+				PlaceResource(44, plot,leader);
+			end
+			-- Broader Check Oil & Aluminium + Coal
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Oil");
+			bHasResource = ContinentResource(45, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Iron");
+				PlaceResource(45, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Aluminium");
+			bHasResource = ContinentResource(40, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Aluminium");
+				PlaceResource(40, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Coal");
+			bHasResource = ContinentResource(41, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Coal");
+				PlaceResource(41, plot,leader);
+			end
 
-            --
-        elseif (iStartIndex == 4 or iStartIndex == 5) then
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Coal");
-            bHasResource = FindResource(41, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Coal");
-                PlaceResource(41, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Iron");
-            bHasResource = FindResource(43, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Iron");
-                PlaceResource(43, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Niter");
-            bHasResource = FindResource(44, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Niter");
-                PlaceResource(44, plot,leader);
-            end
-            -- Broader Check Oil & Aluminium
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Oil");
-            bHasResource = ContinentResource(45, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Iron");
-                PlaceResource(45, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Aluminium");
-            bHasResource = ContinentResource(40, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Aluminium");
-                PlaceResource(40, plot,leader);
-            end
+		--
+		elseif (iStartIndex == 4 or iStartIndex == 5) then
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Coal");
+			bHasResource = FindResource(41, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Coal");
+				PlaceResource(41, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Iron");
+			bHasResource = FindResource(43, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Iron");
+				PlaceResource(43, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Niter");
+			bHasResource = FindResource(44, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Niter");
+				PlaceResource(44, plot,leader);
+			end
+			-- Broader Check Oil & Aluminium
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Oil");
+			bHasResource = ContinentResource(45, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Iron");
+				PlaceResource(45, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Aluminium");
+			bHasResource = ContinentResource(40, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Aluminium");
+				PlaceResource(40, plot,leader);
+			end
 
-            --
+		--
 
-        elseif (iStartIndex == 6) then
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Coal");
-            bHasResource = FindResource(41, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Coal");
-                PlaceResource(41, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Oil");
-            bHasResource = FindResource(45, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Niter");
-                PlaceResource(45, plot,leader);
-            end
-            -- Broader Aluminium
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Aluminium");
-            bHasResource = ContinentResource(40, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Aluminium");
-                PlaceResource(40, plot,leader);
-            end
+		elseif (iStartIndex == 6) then
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Coal");
+			bHasResource = FindResource(41, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Coal");
+				PlaceResource(41, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Oil");
+			bHasResource = FindResource(45, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Niter");
+				PlaceResource(45, plot,leader);
+			end
+			-- Broader Aluminium
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Aluminium");
+			bHasResource = ContinentResource(40, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Aluminium");
+				PlaceResource(40, plot,leader);
+			end
 
-        elseif (iStartIndex > 6) then
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Aluminium");
-            bHasResource = FindResource(40, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Aluminium");
-                PlaceResource(40, plot,leader);
-            end
-            __Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Oil");
-            bHasResource = FindResource(45, plot);
-            if(bHasResource == false) then
-                __Debug("Balance Resources: Need to add Oil");
-                PlaceResource(45, plot,leader);
-            end
-        end
-    end
+		elseif (iStartIndex > 6) then
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Aluminium");
+			bHasResource = FindResource(40, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Aluminium");
+				PlaceResource(40, plot,leader);
+			end
+			__Debug("Evaluate Start X: ", plot:GetX(), "Evaluate Start Y: ", plot:GetY(), "Check Oil");
+			bHasResource = FindResource(45, plot);
+			if(bHasResource == false) then
+				__Debug("Balance Resources: Need to add Oil");
+				PlaceResource(45, plot,leader);
+			end
+		end
+	end
 end
 
 ------------------------------------------------------------------------------
@@ -5784,8 +5795,8 @@ function PlaceResource(eResourceType, plot,leader)
 	-- Place a ressource, first inner ring, then anywhere in 4 tiles
 
 
--- Inner ring
--- Tiles #6 to #17
+	-- Inner ring
+	-- Tiles #6 to #17
 	for i = 6, 17 do
 		adjacentPlot = GetAdjacentTiles(plot, i);
 		if (adjacentPlot ~= nil) then
@@ -5800,38 +5811,38 @@ function PlaceResource(eResourceType, plot,leader)
 		end
 	end
 
-    if(eResourceType==42 or eResourceType==43)then
-        local functionCount = 0;
-        local successCount = 0;
-        local isForce = false;
+	if(eResourceType==42 or eResourceType==43)then
+		local functionCount = 0;
+		local successCount = 0;
+		local isForce = false;
 
-        print("PlaceResource leader:",leader);
+		print("PlaceResource leader:",leader);
 
-        while(functionCount<=20)do
-            --大于10次失败 或是蒸汽英国补贴马
-            if(functionCount>=10 or (leader=="LEADER_VICTORIA_ALT" and eResourceType==42))then
-                isForce = true;
-            end
-            local functionResult = civAddStrategyTeamPVP(eResourceType,plot,isForce);
+		while(functionCount<=20)do
+		--大于10次失败 或是蒸汽英国补贴马
+			if(functionCount>=10 or (leader=="LEADER_VICTORIA_ALT" and eResourceType==42))then
+				isForce = true;
+			end
+			local functionResult = civAddStrategyTeamPVP(eResourceType,plot,isForce);
 
-            if(functionResult==functionResultFalse)then
-                functionCount = functionCount + 1;
-            elseif functionResult==functionResultTrue then
-                functionCount = functionCount + 1;
-                successCount = successCount + 1;
-            elseif functionResult==functionResultSuccess or functionResult==functionResultFail then
-                print("successCount:",successCount);
-                break;
-            end
-        end
+			if(functionResult==functionResultFalse)then
+				functionCount = functionCount + 1;
+			elseif functionResult==functionResultTrue then
+				functionCount = functionCount + 1;
+				successCount = successCount + 1;
+			elseif functionResult==functionResultSuccess or functionResult==functionResultFail then
+				print("successCount:",successCount);
+				break;
+			end
+		end
 
-        if(successCount >=1)then
-            return true;
-        end
-        print("functionCount:",functionCount);
-    end
+		if(successCount >=1)then
+			return true;
+		end
+		print("functionCount:",functionCount);
+	end
 
--- Anywhere within in a 5 tiles radius
+	-- Anywhere within in a 5 tiles radius
 	for i = 0, 90 do
 		adjacentPlot = GetAdjacentTiles(plot, i);
 		if (adjacentPlot ~= nil) then
@@ -5883,7 +5894,7 @@ function ContinentResource(eResourceType, plot)
 	-- Checks to see if there is a specific strategic on a specific continent
 	local adjacentPlot = nil;
 	local ContinentNum = plot:GetContinentType()
-	local ContinentPlots =  Map.GetContinentPlots(ContinentNum);
+	local ContinentPlots = Map.GetContinentPlots(ContinentNum);
 	__Debug("Check Continent:",ContinentNum," For resource:",eResourceType);
 
 	for i, plot in ipairs(ContinentPlots) do
@@ -5907,73 +5918,73 @@ end
 
 ------------------------------------------------------------------------------
 function AddLuxuryStarting(plot, s_type,flag,majListCiv)
-    -- Checks to see if it can place a nearby luxury
-    local terrainType = plot:GetTerrainType();
-    local gridWidth, gridHeight = Map.GetGridSize();
-    local iResourcesInDB = 0;
-    local plotX = plot:GetX();
-    local plotY = plot:GetY();
-    local currentContinent = plot:GetContinentType();
-    local direction = 0;
-    local bHasLuxury = false;
-    local adjacentPlot = plot;
-    eAddLux	= {};
-    eAddLux_Terrain	= {};
-    eAddLux_Feature = {};
-    local count = 0;
+-- Checks to see if it can place a nearby luxury
+	local terrainType = plot:GetTerrainType();
+	local gridWidth, gridHeight = Map.GetGridSize();
+	local iResourcesInDB = 0;
+	local plotX = plot:GetX();
+	local plotY = plot:GetY();
+	local currentContinent = plot:GetContinentType();
+	local direction = 0;
+	local bHasLuxury = false;
+	local adjacentPlot = plot;
+	eAddLux = {};
+	eAddLux_Terrain = {};
+	eAddLux_Feature = {};
+	local count = 0;
 
-    -- Find what luxury are on the current continent
-    plots = Map.GetContinentPlots(currentContinent);
-    for i, plot in ipairs(plots) do
+	-- Find what luxury are on the current continent
+	plots = Map.GetContinentPlots(currentContinent);
+	for i, plot in ipairs(plots) do
 
-        local pPlot = Map.GetPlotByIndex(plot);
-        if (pPlot~=nil) then
-            if (pPlot:GetResourceCount() > 0) and pPlot:IsNaturalWonder() == false then
-                -- 10 is citrus, 34 is jeans
-                if ((pPlot:GetResourceType() >= 10 and pPlot:GetResourceType() < 34 and pPlot:GetResourceType() ~= 27 and pPlot:GetResourceType() ~= 28 and pPlot:GetResourceType() ~= 11 and s_type ~= "plains")
-                        or (pPlot:GetResourceType() == 14 and pPlot:GetResourceType() == 16 and pPlot:GetResourceType() == 17 and pPlot:GetResourceType() == 26 and pPlot:GetResourceType() == 31 and s_type ~= "plains")
-                        or pPlot:GetResourceType() == 53) then
-                    bHasLuxury = true;
-                    --__Debug("found luxury at X",  pPlot:GetX(), "Y: ", pPlot:GetY());
-                    count = count + 1;
-                    table.insert(eAddLux, pPlot:GetResourceType());
-                    table.insert(eAddLux_Terrain, pPlot:GetTerrainType());
-                    table.insert(eAddLux_Feature, pPlot:GetFeatureType());
-                end
-            end
-        end
+		local pPlot = Map.GetPlotByIndex(plot);
+		if (pPlot~=nil) then
+			if (pPlot:GetResourceCount() > 0) and pPlot:IsNaturalWonder() == false then
+			-- 10 is citrus, 34 is jeans
+				if ((pPlot:GetResourceType() >= 10 and pPlot:GetResourceType() < 34 and pPlot:GetResourceType() ~= 27 and pPlot:GetResourceType() ~= 28 and pPlot:GetResourceType() ~= 11 and s_type ~= "plains")
+				or (pPlot:GetResourceType() == 14 and pPlot:GetResourceType() == 16 and pPlot:GetResourceType() == 17 and pPlot:GetResourceType() == 26 and pPlot:GetResourceType() == 31 and s_type ~= "plains")
+				or pPlot:GetResourceType() == 53) then
+					bHasLuxury = true;
+					--__Debug("found luxury at X",  pPlot:GetX(), "Y: ", pPlot:GetY());
+					count = count + 1;
+					table.insert(eAddLux, pPlot:GetResourceType());
+					table.insert(eAddLux_Terrain, pPlot:GetTerrainType());
+					table.insert(eAddLux_Feature, pPlot:GetFeatureType());
+				end
+			end
+		end
 
-    end
+	end
 
-    -- Try placing a Luxury in the 2 inner rings
+	-- Try placing a Luxury in the 2 inner rings
 
-    if(bHasLuxury == true) then
-        for i = 17, 0, -1 do
-            adjacentPlot = GetAdjacentTiles(plot, i);
-            if (adjacentPlot ~= nil) then
-                for j = 1, count do
-                    if((adjacentPlot:GetTerrainType() == eAddLux_Terrain[j]) and (adjacentPlot:GetResourceType() == -1)) and adjacentPlot:IsNaturalWonder() == false then
-                        TerrainBuilder.SetFeatureType(adjacentPlot,eAddLux_Feature[j]);
-                        __Debug("Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added a Luxury:",eAddLux[j]);
-                        ResourceBuilder.SetResourceType(adjacentPlot, eAddLux[j], 1);
-                        return true;
-                    end
-                end
-            end
+	if(bHasLuxury == true) then
+		for i = 17, 0, -1 do
+			adjacentPlot = GetAdjacentTiles(plot, i);
+			if (adjacentPlot ~= nil) then
+				for j = 1, count do
+					if((adjacentPlot:GetTerrainType() == eAddLux_Terrain[j]) and (adjacentPlot:GetResourceType() == -1)) and adjacentPlot:IsNaturalWonder() == false then
+						TerrainBuilder.SetFeatureType(adjacentPlot,eAddLux_Feature[j]);
+						__Debug("Balancing X: ", adjacentPlot:GetX(), "Y: ", adjacentPlot:GetY(), "Added a Luxury:",eAddLux[j]);
+						ResourceBuilder.SetResourceType(adjacentPlot, eAddLux[j], 1);
+						return true;
+					end
+				end
+			end
 
-        end
-    end
+		end
+	end
 
-    __Debug("Balancing X: ", plotX, "Y: ", plotY, "Failed to add a Luxury");
+	__Debug("Balancing X: ", plotX, "Y: ", plotY, "Failed to add a Luxury");
 
-    if(s_type == "food")then
-        return AddBonusFood(plot,iBalancingThree,flag,majListCiv);
-    end
-    if(s_type == "prod")then
-        return AddBonusProd(plot,iBalancingThree,flag);
-    end
-    -- Attempt to place a Maize
-    --[[	for i = 17, 0, -1 do
+	if(s_type == "food")then
+		return AddBonusFood(plot,iBalancingThree,flag,majListCiv);
+	end
+	if(s_type == "prod")then
+		return AddBonusProd(plot,iBalancingThree,flag);
+	end
+	-- Attempt to place a Maize
+	--[[	for i = 17, 0, -1 do
             adjacentPlot = GetAdjacentTiles(plot, i);
             if (adjacentPlot ~= nil) then
                 for j = 1, count do
@@ -5989,7 +6000,7 @@ function AddLuxuryStarting(plot, s_type,flag,majListCiv)
         end
     --]]
 
-    return false;
+	return false;
 end
 
 
@@ -5997,105 +6008,105 @@ end
 
 ------------------------------------------------------------------------------
 function IsTundraCiv(civilizationType)
-    if(civilizationType == "CIVILIZATION_RUSSIA" or civilizationType == "CIVILIZATION_CANADA" or civilizationType == "CIVILIZATION_SUK_TIBET" or civilizationType == "CIVILIZATION_KJERAG")then
-    	return true;
-    end
+	if(civilizationType == "CIVILIZATION_RUSSIA" or civilizationType == "CIVILIZATION_CANADA" or civilizationType == "CIVILIZATION_SUK_TIBET" or civilizationType == "CIVILIZATION_KJERAG")then
+		return true;
+	end
 	return false
 end
 
 ------------------------------------------------------------------------------
 function TeamPVPIsDesertCiv(civilizationType)
 	__Debug("TeamPVP civilizationType:",civilizationType);
-    if(civilizationType == "CIVILIZATION_MALI" or civilizationType == "CIVILIZATION_MER_PALMYRA")then
-    	return true;
-    end
+	if(civilizationType == "CIVILIZATION_MALI" or civilizationType == "CIVILIZATION_MER_PALMYRA")then
+		return true;
+	end
 	return false
 end
 ------------------------------------------------------------------------------
 function IsMountainCiv(civilizationType)
-    for row in GameInfo.StartBiasTerrains() do
-        if(row.CivilizationType == civilizationType) then
-				if row.TerrainType ~= nil then
+	for row in GameInfo.StartBiasTerrains() do
+		if(row.CivilizationType == civilizationType) then
+			if row.TerrainType ~= nil then
 				if row.TerrainType == "TERRAIN_GRASS_MOUNTAIN" then
 					return true
 				end
 			end
-        end
-    end
+		end
+	end
 	return false
 end
 ------------------------------------------------------------------------------
 function IsFloodCiv(civilizationType)
-    for row in GameInfo.StartBiasTerrains() do
-        if(row.CivilizationType == civilizationType) then
+	for row in GameInfo.StartBiasTerrains() do
+		if(row.CivilizationType == civilizationType) then
 			if row.FeatureType ~= nil then
 				if row.FeatureType == "FEATURE_FLOODPLAINS" or row.FeatureType == "FEATURE_FLOODPLAINS_GRASSLAND" or row.FeatureType == "FEATURE_FLOODPLAINS_PLAINS" then
 					return true
 				end
 			end
-        end
-    end
+		end
+	end
 	return false
 end
 ------------------------------------------------------------------------------
 function IsForestCiv(civilizationType)
-    if(civilizationType == "CIVILIZATION_NORWAY") then
-    	--print("IsForestCiv civilizationType:",civilizationType);
-    	return true;
-    end
+	if(civilizationType == "CIVILIZATION_NORWAY") then
+	--print("IsForestCiv civilizationType:",civilizationType);
+		return true;
+	end
 	return false
 end
 ------------------------------------------------------------------------------
 function IsJungleCiv(civilizationType)
-    if(civilizationType == "CIVILIZATION_BRAZIL" or civilizationType == "CIVILIZATION_KONGO") then
-    	--print("IsJungleCiv civilizationType:",civilizationType);
-    	return true;
-    end
+	if(civilizationType == "CIVILIZATION_BRAZIL" or civilizationType == "CIVILIZATION_KONGO") then
+	--print("IsJungleCiv civilizationType:",civilizationType);
+		return true;
+	end
 	return false
 end
 ------------------------------------------------------------------------------
 function IsLuxuryCiv(civilizationType)
-    if(civilizationType == "CIVILIZATION_FRANCE") then
-        --print("IsJungleCiv civilizationType:",civilizationType);
-        return true;
-    end
-    return false
+	if(civilizationType == "CIVILIZATION_FRANCE") then
+	--print("IsJungleCiv civilizationType:",civilizationType);
+		return true;
+	end
+	return false
 end
 ------------------------------------------------------------------------------
 function IsForestAndJungleCiv(civilizationType)
-    if(civilizationType == "CIVILIZATION_VIETNAM") then
-        --print("IsForestCiv civilizationType:",civilizationType);
-        return true;
-    end
-    return false
+	if(civilizationType == "CIVILIZATION_VIETNAM") then
+	--print("IsForestCiv civilizationType:",civilizationType);
+		return true;
+	end
+	return false
 end
 ------------------------------------------------------------------------------
 function IsBananaCiv(civilizationType)
-    if(civilizationType == "CIVILIZATION_MAYA") then
-        print("IsBananaCiv civilizationType:",civilizationType);
-        return true;
-    end
-    return false
+	if(civilizationType == "CIVILIZATION_MAYA") then
+		print("IsBananaCiv civilizationType:",civilizationType);
+		return true;
+	end
+	return false
 end
 ------------------------------------------------------------------------------
 function IsPastureCiv(civilizationType)
-    if(civilizationType == "CIVILIZATION_AUSTRALIA" or civilizationType == "CIVILIZATION_SCYTHIA" or civilizationType == "CIVILIZATION_MONGOLIA") then
-    	--print("IsPastureCiv civilizationType:",civilizationType);
-    	return true;
-    end
+	if(civilizationType == "CIVILIZATION_AUSTRALIA" or civilizationType == "CIVILIZATION_SCYTHIA" or civilizationType == "CIVILIZATION_MONGOLIA") then
+	--print("IsPastureCiv civilizationType:",civilizationType);
+		return true;
+	end
 	return false
 end
 ------------------------------------------------------------------------------
 function IsHuntCiv(civilizationType)
-    if(civilizationType == "CIVILIZATION_CANADA" or civilizationType == "CIVILIZATION_SUK_TIBET") then
-    	print("IsHuntCiv civilizationType:",civilizationType);
-    	return true;
-    end
+	if(civilizationType == "CIVILIZATION_CANADA" or civilizationType == "CIVILIZATION_SUK_TIBET") then
+		print("IsHuntCiv civilizationType:",civilizationType);
+		return true;
+	end
 	return false
 end
 
 function GetAdjacentTiles(plot, index)
-	-- This is an extended version of Firaxis, moving like a clockwise snail on the hexagon grids
+-- This is an extended version of Firaxis, moving like a clockwise snail on the hexagon grids
 	local gridWidth, gridHeight = Map.GetGridSize();
 	local count = 0;
 	local k = 0;
@@ -6112,7 +6123,7 @@ function GetAdjacentTiles(plot, index)
 			return plot;
 		end
 
-		else
+	else
 
 		__Debug("GetAdjacentTiles: Invalid Arguments");
 		return nil;
@@ -6139,7 +6150,7 @@ function GetAdjacentTiles(plot, index)
 		end
 
 		for j = i, i+1 do
-			--__Debug(i, j)
+		--__Debug(i, j)
 			k = j;
 			count = count + 1;
 
@@ -6151,7 +6162,7 @@ function GetAdjacentTiles(plot, index)
 				if(adjacentPlot2:GetX() >= 0 and adjacentPlot2:GetY() < gridHeight) then
 					adjacentPlot = Map.GetAdjacentPlot(adjacentPlot2:GetX(), adjacentPlot2:GetY(), k);
 
-					else
+				else
 
 					adjacentPlot = nil;
 				end
@@ -6174,7 +6185,7 @@ function GetAdjacentTiles(plot, index)
 			adjacentPlot = Map.GetAdjacentPlot(plot:GetX(), plot:GetY(), i);
 			adjacentPlot2 = nil;
 			adjacentPlot3 = nil;
-			else
+		else
 			adjacentPlot = nil;
 			adjacentPlot2 = nil;
 			adjacentPlot3 = nil;
@@ -6204,7 +6215,7 @@ function GetAdjacentTiles(plot, index)
 				if(adjacentPlot3:GetX() >= 0 and adjacentPlot3:GetY() < gridHeight) then
 					adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), 0);
 				end
-				else
+			else
 				if(adjacentPlot3:GetX() >= 0 and adjacentPlot3:GetY() < gridHeight) then
 					adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), i +1);
 				end
@@ -6230,7 +6241,7 @@ function GetAdjacentTiles(plot, index)
 						adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), 0);
 					end
 				end
-				else
+			else
 				if(adjacentPlot:GetX() >= 0 and adjacentPlot:GetY() < gridHeight) then
 					adjacentPlot3 = Map.GetAdjacentPlot(adjacentPlot:GetX(), adjacentPlot:GetY(), i+1);
 				end
@@ -6259,7 +6270,7 @@ function GetAdjacentTiles(plot, index)
 			adjacentPlot2 = nil;
 			adjacentPlot3 = nil;
 			adjacentPlot4 = nil;
-			else
+		else
 			adjacentPlot = nil;
 			adjacentPlot2 = nil;
 			adjacentPlot3 = nil;
@@ -6297,7 +6308,7 @@ function GetAdjacentTiles(plot, index)
 				if(adjacentPlot3:GetX() >= 0 and adjacentPlot3:GetY() < gridHeight) then
 					adjacentPlot4 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), 0);
 				end
-				else
+			else
 				if(adjacentPlot3:GetX() >= 0 and adjacentPlot3:GetY() < gridHeight) then
 					adjacentPlot4 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), i +1);
 				end
@@ -6330,7 +6341,7 @@ function GetAdjacentTiles(plot, index)
 						adjacentPlot4 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), 0);
 					end
 				end
-				else
+			else
 				if(adjacentPlot:GetX() >= 0 and adjacentPlot:GetY() < gridHeight) then
 					adjacentPlot3 = Map.GetAdjacentPlot(adjacentPlot:GetX(), adjacentPlot:GetY(), i+1);
 				end
@@ -6368,7 +6379,7 @@ function GetAdjacentTiles(plot, index)
 						adjacentPlot4 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), 0);
 					end
 				end
-				else
+			else
 				if(adjacentPlot:GetX() >= 0 and adjacentPlot:GetY() < gridHeight) then
 					adjacentPlot3 = Map.GetAdjacentPlot(adjacentPlot:GetX(), adjacentPlot:GetY(), i+1);
 				end
@@ -6384,7 +6395,7 @@ function GetAdjacentTiles(plot, index)
 			if (adjacentPlot4:GetX() >= 0 and adjacentPlot4:GetY() < gridHeight) then
 				if (i+1 == 6) then
 					adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot4:GetX(), adjacentPlot4:GetY(), 0);
-					else
+				else
 					adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot4:GetX(), adjacentPlot4:GetY(), i+1);
 				end
 				if (adjacentPlot2 ~= nil) then
@@ -6402,7 +6413,7 @@ function GetAdjacentTiles(plot, index)
 
 	--  > #60 to #90
 
-local count = 0
+	local count = 0
 	for i = 0, 5 do
 		if(plot:GetX() >= 0 and plot:GetY() < gridHeight) then
 			adjacentPlot = Map.GetAdjacentPlot(plot:GetX(), plot:GetY(), i); --first ring
@@ -6410,7 +6421,7 @@ local count = 0
 			adjacentPlot3 = nil;
 			adjacentPlot4 = nil;
 			adjacentPlot5 = nil;
-			else
+		else
 			adjacentPlot = nil;
 			adjacentPlot2 = nil;
 			adjacentPlot3 = nil;
@@ -6452,7 +6463,7 @@ local count = 0
 				if(adjacentPlot5:GetX() >= 0 and adjacentPlot5:GetY() < gridHeight) then
 					adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot5:GetX(), adjacentPlot5:GetY(), 0);
 				end
-				else
+			else
 				if(adjacentPlot5:GetX() >= 0 and adjacentPlot5:GetY() < gridHeight) then
 					adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot5:GetX(), adjacentPlot5:GetY(), i +1);
 				end
@@ -6481,14 +6492,14 @@ local count = 0
 						if(adjacentPlot4:GetX() >= 0 and adjacentPlot4:GetY() < gridHeight) then
 							if (i+1 == 6) then
 								adjacentPlot5 = Map.GetAdjacentPlot(adjacentPlot4:GetX(), adjacentPlot4:GetY(), 0);
-								else
+							else
 								adjacentPlot5 = Map.GetAdjacentPlot(adjacentPlot4:GetX(), adjacentPlot4:GetY(), i+1);
 							end
 							if (adjacentPlot5 ~= nil) then
 								if(adjacentPlot5:GetX() >= 0 and adjacentPlot5:GetY() < gridHeight) then
 									if (i+1 == 6) then
 										adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot5:GetX(), adjacentPlot5:GetY(), 0);
-										else
+									else
 										adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot5:GetX(), adjacentPlot5:GetY(), i+1);
 									end
 								end
@@ -6511,7 +6522,7 @@ local count = 0
 			if(adjacentPlot:GetX() >= 0 and adjacentPlot:GetY() < gridHeight) then
 				if (i+1 == 6) then
 					adjacentPlot3 = Map.GetAdjacentPlot(adjacentPlot:GetX(), adjacentPlot:GetY(), 0); -- 2 ring
-					else
+				else
 					adjacentPlot3 = Map.GetAdjacentPlot(adjacentPlot:GetX(), adjacentPlot:GetY(), i+1); -- 2 ring
 				end
 			end
@@ -6519,7 +6530,7 @@ local count = 0
 				if(adjacentPlot3:GetX() >= 0 and adjacentPlot3:GetY() < gridHeight) then
 					if (i+1 == 6) then
 						adjacentPlot4 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), 0); -- 3ring
-						else
+					else
 						adjacentPlot4 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), i+1); -- 3ring
 
 					end
@@ -6527,7 +6538,7 @@ local count = 0
 						if(adjacentPlot4:GetX() >= 0 and adjacentPlot4:GetY() < gridHeight) then
 							if (i+1 == 6) then
 								adjacentPlot5 = Map.GetAdjacentPlot(adjacentPlot4:GetX(), adjacentPlot4:GetY(), 0); --4th ring
-								else
+							else
 								adjacentPlot5 = Map.GetAdjacentPlot(adjacentPlot4:GetX(), adjacentPlot4:GetY(), i+1); --4th ring
 							end
 							if (adjacentPlot5 ~= nil) then
@@ -6555,7 +6566,7 @@ local count = 0
 			if(adjacentPlot:GetX() >= 0 and adjacentPlot:GetY() < gridHeight) then
 				if (i+1 == 6) then
 					adjacentPlot3 = Map.GetAdjacentPlot(adjacentPlot:GetX(), adjacentPlot:GetY(), 0); -- 2 ring
-					else
+				else
 					adjacentPlot3 = Map.GetAdjacentPlot(adjacentPlot:GetX(), adjacentPlot:GetY(), i+1); -- 2 ring
 				end
 			end
@@ -6563,7 +6574,7 @@ local count = 0
 				if(adjacentPlot3:GetX() >= 0 and adjacentPlot3:GetY() < gridHeight) then
 					if (i+1 == 6) then
 						adjacentPlot4 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), 0); -- 3ring
-						else
+					else
 						adjacentPlot4 = Map.GetAdjacentPlot(adjacentPlot3:GetX(), adjacentPlot3:GetY(), i+1); -- 3ring
 
 					end
@@ -6571,14 +6582,14 @@ local count = 0
 						if(adjacentPlot4:GetX() >= 0 and adjacentPlot4:GetY() < gridHeight) then
 							if (i+1 == 6) then
 								adjacentPlot5 = Map.GetAdjacentPlot(adjacentPlot4:GetX(), adjacentPlot4:GetY(), 0); --4th ring
-								else
+							else
 								adjacentPlot5 = Map.GetAdjacentPlot(adjacentPlot4:GetX(), adjacentPlot4:GetY(), i+1); --4th ring
 							end
 							if (adjacentPlot5 ~= nil) then
 								if(adjacentPlot5:GetX() >= 0 and adjacentPlot5:GetY() < gridHeight) then
 									if (i+1 == 6) then
 										adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot5:GetX(), adjacentPlot5:GetY(), 0); --5th ring
-										else
+									else
 										adjacentPlot2 = Map.GetAdjacentPlot(adjacentPlot5:GetX(), adjacentPlot5:GetY(), i+1); --5th ring
 									end
 								end
@@ -6603,20 +6614,20 @@ end
 
 -----------------------------------------------------------------------------
 function __Debug(...)
-    print (...);
+	print (...);
 end
 
 
 function __AddLeyLine(plot)
 	local iResourcesInDB = 0;
-	eResourceType	= {};
+	eResourceType = {};
 	eResourceClassType = {};
 	aBonus = {};
 
 	for row in GameInfo.Resources() do
 		eResourceType[iResourcesInDB] = row.Hash;
 		eResourceClassType[iResourcesInDB] = row.ResourceClassType;
-	    iResourcesInDB = iResourcesInDB + 1;
+		iResourcesInDB = iResourcesInDB + 1;
 	end
 
 	for row = 0, iResourcesInDB do
@@ -6630,7 +6641,7 @@ function __AddLeyLine(plot)
 	local plotX = plot:GetX();
 	local plotY = plot:GetY();
 
-	aShuffledBonus =  GetShuffledCopyOfTable(aBonus);
+	aShuffledBonus = GetShuffledCopyOfTable(aBonus);
 	for i, resource in ipairs(aShuffledBonus) do
 		for dx = -2, 2, 1 do
 			for dy = -2,2, 1 do
@@ -6650,39 +6661,39 @@ end
 -----------------------------------------------------------------------------
 function __isHaveLuxury(plot)
 
-    for i = 0, 17 do
+	for i = 0, 17 do
 		local pPlot = GetAdjacentTiles(plot, i);
-			if (pPlot~=nil) then
-					if (pPlot:GetResourceCount() > 0) and pPlot:IsNaturalWonder() == false then
-						-- 10 is citrus, 34 is jeans
-						if ((pPlot:GetResourceType() >= 10 and pPlot:GetResourceType() < 34 and pPlot:GetResourceType() ~= 27 and pPlot:GetResourceType() ~= 28 and pPlot:GetResourceType() ~= 11 and s_type ~= "plains")
-						or (pPlot:GetResourceType() == 14 and pPlot:GetResourceType() == 16 and pPlot:GetResourceType() == 17 and pPlot:GetResourceType() == 26 and pPlot:GetResourceType() == 31 and s_type ~= "plains")
-						or pPlot:GetResourceType() == 53) then
-							return true;
-						end
-					end
+		if (pPlot~=nil) then
+			if (pPlot:GetResourceCount() > 0) and pPlot:IsNaturalWonder() == false then
+			-- 10 is citrus, 34 is jeans
+				if ((pPlot:GetResourceType() >= 10 and pPlot:GetResourceType() < 34 and pPlot:GetResourceType() ~= 27 and pPlot:GetResourceType() ~= 28 and pPlot:GetResourceType() ~= 11 and s_type ~= "plains")
+				or (pPlot:GetResourceType() == 14 and pPlot:GetResourceType() == 16 and pPlot:GetResourceType() == 17 and pPlot:GetResourceType() == 26 and pPlot:GetResourceType() == 31 and s_type ~= "plains")
+				or pPlot:GetResourceType() == 53) then
+					return true;
+				end
 			end
+		end
 	end
-    return false;
+	return false;
 
 end
 -----------------------------------------------------------------------------
 function __countLuxuryTeamPVP(plot)
-    local count = 0;
-    for i = 0, 17 do
-        local pPlot = GetAdjacentTiles(plot, i);
-        if (pPlot~=nil) then
-            if (pPlot:GetResourceCount() > 0) and pPlot:IsNaturalWonder() == false then
-                -- 10 is citrus, 34 is jeans
-                if ((pPlot:GetResourceType() >= 10 and pPlot:GetResourceType() < 34 and pPlot:GetResourceType() ~= 27 and pPlot:GetResourceType() ~= 28 and pPlot:GetResourceType() ~= 11 and s_type ~= "plains")
-                        or (pPlot:GetResourceType() == 14 and pPlot:GetResourceType() == 16 and pPlot:GetResourceType() == 17 and pPlot:GetResourceType() == 26 and pPlot:GetResourceType() == 31 and s_type ~= "plains")
-                        or pPlot:GetResourceType() == 53) then
-                    count=count+1;
-                end
-            end
-        end
-    end
-    return count;
+	local count = 0;
+	for i = 0, 17 do
+		local pPlot = GetAdjacentTiles(plot, i);
+		if (pPlot~=nil) then
+			if (pPlot:GetResourceCount() > 0) and pPlot:IsNaturalWonder() == false then
+			-- 10 is citrus, 34 is jeans
+				if ((pPlot:GetResourceType() >= 10 and pPlot:GetResourceType() < 34 and pPlot:GetResourceType() ~= 27 and pPlot:GetResourceType() ~= 28 and pPlot:GetResourceType() ~= 11 and s_type ~= "plains")
+				or (pPlot:GetResourceType() == 14 and pPlot:GetResourceType() == 16 and pPlot:GetResourceType() == 17 and pPlot:GetResourceType() == 26 and pPlot:GetResourceType() == 31 and s_type ~= "plains")
+				or pPlot:GetResourceType() == 53) then
+					count = count+1;
+				end
+			end
+		end
+	end
+	return count;
 end
 -----------------------------------------------------------------------------
 ---
@@ -6692,752 +6703,752 @@ end
 ---
 
 function civAddFoodTeamPVP(startPlot,sPlayerLeaderName,sPlayerCivName,successCount,isLucky)
-    print("civAddFoodTeamPVP start sPlayerLeaderName:",sPlayerLeaderName);
-    local AddLuxuryStartFlag = "food";
+	print("civAddFoodTeamPVP start sPlayerLeaderName:",sPlayerLeaderName);
+	local AddLuxuryStartFlag = "food";
 
-    if(startPlot==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerLeaderName==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerCivName==nil)then
-        return functionResultFail;
-    end
-    --获取玩家当前地块数据
-    local tempEval = EvaluateStartingLocation(startPlot);
-    local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
-                     impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust=tempEval[6],food_adjust=tempEval[5],
-                     best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
-    local plotX=majList.plotX;
-    local plotY=majList.plotY;
-    --要求玩家出生地不是海水单元格（排除毛利等）
-    if (Map.GetPlot(plotX,plotY):IsWater() == true) then
-        --是在水上出生 结束补贴食物
-        return functionResultFail;
-    end
-    --获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
-    local civFlag=0;
-    if (TeamPVPIsDesertCiv(majList.civ)  and majList.desert_start > 0)then
-        civFlag=2;
-        --沙漠文明只补0次
-        if(successCount>=0)then
-            return functionResultSuccess;
-        end
-    elseif(IsTundraCiv(majList.civ) and majList.snow_start > 0)then
-        civFlag=1;
-        --冻土文明只补2次
-        if(successCount>=2)then
-            return functionResultSuccess;
-        end
-    elseif (majList.civ == "CIVILIZATION_INCA" or majList.leader == "LEADER_T_ROOSEVELT") then
-        civFlag=3;
-    end
-    --运气补正
-    local luckyDeviationNumber = 0;
-    if(isLucky==true)then
-        luckyDeviationNumber=0;
-    end
-    --计算最小食物数
-    local minFood = 5+iBalancingOneDeviationNumber+luckyDeviationNumber;
+	if(startPlot==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerLeaderName==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerCivName==nil)then
+		return functionResultFail;
+	end
+	--获取玩家当前地块数据
+	local tempEval = EvaluateStartingLocation(startPlot);
+	local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
+		impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust = tempEval[6],food_adjust = tempEval[5],
+		best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
+	local plotX = majList.plotX;
+	local plotY = majList.plotY;
+	--要求玩家出生地不是海水单元格（排除毛利等）
+	if (Map.GetPlot(plotX,plotY):IsWater() == true) then
+	--是在水上出生 结束补贴食物
+		return functionResultFail;
+	end
+	--获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
+	local civFlag = 0;
+	if (TeamPVPIsDesertCiv(majList.civ)  and majList.desert_start > 0)then
+		civFlag = 2;
+		--沙漠文明只补0次
+		if(successCount>=0)then
+			return functionResultSuccess;
+		end
+	elseif(IsTundraCiv(majList.civ) and majList.snow_start > 0)then
+		civFlag = 1;
+		--冻土文明只补2次
+		if(successCount>=2)then
+			return functionResultSuccess;
+		end
+	elseif (majList.civ == "CIVILIZATION_INCA" or majList.leader == "LEADER_T_ROOSEVELT") then
+		civFlag = 3;
+	end
+	--运气补正
+	local luckyDeviationNumber = 0;
+	if(isLucky==true)then
+		luckyDeviationNumber = 0;
+	end
+	--计算最小食物数
+	local minFood = 5+iBalancingOneDeviationNumber+luckyDeviationNumber;
 
-    --判断玩家食物
-    local foodStart=majList.food_spawn_start/2+majList.food_spawn_inner/2;
-    print("civAddFoodTeamPVP food_spawn_start:",majList.food_spawn_start/2);
-    print("civAddFoodTeamPVP food_spawn_inner:",majList.food_spawn_inner/2);
-    print("civAddFoodTeamPVP minFood:",minFood);
-    if(foodStart >= minFood)then
-        --充足 结束补贴食物
-        return functionResultSuccess;
-    end--不足 准备补贴
+	--判断玩家食物
+	local foodStart = majList.food_spawn_start/2+majList.food_spawn_inner/2;
+	print("civAddFoodTeamPVP food_spawn_start:",majList.food_spawn_start/2);
+	print("civAddFoodTeamPVP food_spawn_inner:",majList.food_spawn_inner/2);
+	print("civAddFoodTeamPVP minFood:",minFood);
+	if(foodStart >= minFood)then
+	--充足 结束补贴食物
+		return functionResultSuccess;
+	end--不足 准备补贴
 
-    --为玩家增加食物
-    local addFoodResult=false;
-    --如果没有奢侈，预先提供奢侈
-    --如果是奢侈文明，则判断他的奢侈数量
-    if(IsLuxuryCiv(majList.civ))then
-        if(__countLuxuryTeamPVP(Map.GetPlot(plotX,plotY)) <2)then
-            addFoodResult = AddLuxuryStarting(Map.GetPlot(plotX,plotY),AddLuxuryStartFlag,civFlag,majList.civ);
-        end
-    elseif(__isHaveLuxury(Map.GetPlot(plotX,plotY))==false)then
-        addProdResult = AddLuxuryStarting(Map.GetPlot(plotX,plotY),AddLuxuryStartFlag,civFlag,majList.civ);
-    end
-    --奢侈没有成功补上，或者未补贴过，补贴一个食物
-    if(addFoodResult==false)then
-        addFoodResult = AddBonusFood(Map.GetPlot(plotX,plotY),iBalancingThree,civFlag,majList.civ);
-    end
-    --返回结果
-    if(addFoodResult)then
-        return functionResultTrue;
-    else
-        return functionResultFalse;
-    end
+	--为玩家增加食物
+	local addFoodResult = false;
+	--如果没有奢侈，预先提供奢侈
+	--如果是奢侈文明，则判断他的奢侈数量
+	if(IsLuxuryCiv(majList.civ))then
+		if(__countLuxuryTeamPVP(Map.GetPlot(plotX,plotY)) <2)then
+			addFoodResult = AddLuxuryStarting(Map.GetPlot(plotX,plotY),AddLuxuryStartFlag,civFlag,majList.civ);
+		end
+	elseif(__isHaveLuxury(Map.GetPlot(plotX,plotY))==false)then
+		addProdResult = AddLuxuryStarting(Map.GetPlot(plotX,plotY),AddLuxuryStartFlag,civFlag,majList.civ);
+	end
+	--奢侈没有成功补上，或者未补贴过，补贴一个食物
+	if(addFoodResult==false)then
+		addFoodResult = AddBonusFood(Map.GetPlot(plotX,plotY),iBalancingThree,civFlag,majList.civ);
+	end
+	--返回结果
+	if(addFoodResult)then
+		return functionResultTrue;
+	else
+		return functionResultFalse;
+	end
 end
 
 function civRemoveFoodTeamPVP(startPlot,sPlayerLeaderName,sPlayerCivName)
-    if(startPlot==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerLeaderName==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerCivName==nil)then
-        return functionResultFail;
-    end
-    --获取玩家当前地块数据
-    local tempEval = EvaluateStartingLocation(startPlot);
-    local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
-                     impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust=tempEval[6],food_adjust=tempEval[5],
-                     best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
-    local plotX=majList.plotX;
-    local plotY=majList.plotY;
-    --要求玩家出生地不是海水单元格（排除毛利等）
-    if (Map.GetPlot(plotX,plotY):IsWater() == true) then
-        --是在水上出生 结束补贴食物
-        return functionResultFail;
-    end
-    --计算最大食物数
-    local maxFood = 9+iBalancingOneDeviationNumber;
-    --判断玩家食物
-    local foodStart=majList.food_spawn_start/2+majList.food_spawn_inner/2;
-    if(foodStart <= maxFood)then
-        --充足 结束补贴食物
-        return functionResultSuccess;
-    end--过多 准备移除
+	if(startPlot==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerLeaderName==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerCivName==nil)then
+		return functionResultFail;
+	end
+	--获取玩家当前地块数据
+	local tempEval = EvaluateStartingLocation(startPlot);
+	local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
+		impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust = tempEval[6],food_adjust = tempEval[5],
+		best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
+	local plotX = majList.plotX;
+	local plotY = majList.plotY;
+	--要求玩家出生地不是海水单元格（排除毛利等）
+	if (Map.GetPlot(plotX,plotY):IsWater() == true) then
+	--是在水上出生 结束补贴食物
+		return functionResultFail;
+	end
+	--计算最大食物数
+	local maxFood = 9+iBalancingOneDeviationNumber;
+	--判断玩家食物
+	local foodStart = majList.food_spawn_start/2+majList.food_spawn_inner/2;
+	if(foodStart <= maxFood)then
+	--充足 结束补贴食物
+		return functionResultSuccess;
+	end--过多 准备移除
 
-    RemoveFood(Map.GetPlot(plotX,plotY));
+	RemoveFood(Map.GetPlot(plotX,plotY));
 
-    return functionResultTrue;
+	return functionResultTrue;
 end
 
 function civAddProdTeamPVP(startPlot,sPlayerLeaderName,sPlayerCivName,successCount,isLucky)
-    print("civAddProdTeamPVP start sPlayerLeaderName:",sPlayerLeaderName);
-    local AddLuxuryStartFlag = "prod";
+	print("civAddProdTeamPVP start sPlayerLeaderName:",sPlayerLeaderName);
+	local AddLuxuryStartFlag = "prod";
 
-    if(startPlot==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerLeaderName==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerCivName==nil)then
-        return functionResultFail;
-    end
-    --获取玩家当前地块数据
-    local tempEval = EvaluateStartingLocation(startPlot);
-    local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
-                     impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust=tempEval[6],food_adjust=tempEval[5],
-                     best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
-    local plotX=majList.plotX;
-    local plotY=majList.plotY;
-    --要求玩家出生地不是海水单元格（排除毛利等）
-    if (Map.GetPlot(plotX,plotY):IsWater() == true) then
-        --是在水上出生 结束补贴食物
-        return functionResultFail;
-    end
-    --获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
-    local civFlag=0;
-    if (TeamPVPIsDesertCiv(majList.civ)  and majList.desert_start > 0)then
-        civFlag=2;
-        --沙漠文明只补3次
-        if(successCount>=3)then
-            return functionResultSuccess;
-        end
-    elseif(IsTundraCiv(majList.civ) and majList.snow_start > 0)then
-        civFlag=1;
-        --冻土文明只补1次
-        if(successCount>=1)then
-            return functionResultSuccess;
-        end
-    elseif (majList.civ == "CIVILIZATION_INCA" or majList.leader == "LEADER_T_ROOSEVELT") then
-        civFlag=3;
-    end
-    --运气补正
-    local luckyDeviationNumber = 0;
-    if(isLucky==true)then
-        luckyDeviationNumber=0;
-    end
-    --计算最小产出数
-    local minProd = 7+iBalancingOneDeviationNumber+luckyDeviationNumber;
-    --判断玩家产出
-    local prodStart=majList.prod_spawn_start/2+majList.prod_spawn_inner/2;
-    print("civAddProdTeamPVP prod_spawn_start:",majList.prod_spawn_start/2);
-    print("civAddProdTeamPVP prod_spawn_inner:",majList.prod_spawn_inner/2);
-    if(prodStart >= minProd)then
-        --充足 结束补贴产出
-        return functionResultSuccess;
-    end--不足 准备补贴
+	if(startPlot==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerLeaderName==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerCivName==nil)then
+		return functionResultFail;
+	end
+	--获取玩家当前地块数据
+	local tempEval = EvaluateStartingLocation(startPlot);
+	local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
+		impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust = tempEval[6],food_adjust = tempEval[5],
+		best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
+	local plotX = majList.plotX;
+	local plotY = majList.plotY;
+	--要求玩家出生地不是海水单元格（排除毛利等）
+	if (Map.GetPlot(plotX,plotY):IsWater() == true) then
+	--是在水上出生 结束补贴食物
+		return functionResultFail;
+	end
+	--获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
+	local civFlag = 0;
+	if (TeamPVPIsDesertCiv(majList.civ)  and majList.desert_start > 0)then
+		civFlag = 2;
+		--沙漠文明只补3次
+		if(successCount>=3)then
+			return functionResultSuccess;
+		end
+	elseif(IsTundraCiv(majList.civ) and majList.snow_start > 0)then
+		civFlag = 1;
+		--冻土文明只补1次
+		if(successCount>=1)then
+			return functionResultSuccess;
+		end
+	elseif (majList.civ == "CIVILIZATION_INCA" or majList.leader == "LEADER_T_ROOSEVELT") then
+		civFlag = 3;
+	end
+	--运气补正
+	local luckyDeviationNumber = 0;
+	if(isLucky==true)then
+		luckyDeviationNumber = 0;
+	end
+	--计算最小产出数
+	local minProd = 7+iBalancingOneDeviationNumber+luckyDeviationNumber;
+	--判断玩家产出
+	local prodStart = majList.prod_spawn_start/2+majList.prod_spawn_inner/2;
+	print("civAddProdTeamPVP prod_spawn_start:",majList.prod_spawn_start/2);
+	print("civAddProdTeamPVP prod_spawn_inner:",majList.prod_spawn_inner/2);
+	if(prodStart >= minProd)then
+	--充足 结束补贴产出
+		return functionResultSuccess;
+	end--不足 准备补贴
 
-    --为玩家增加食物
-    local addProdResult =false;
-    --如果没有奢侈，预先提供奢侈
-    --如果是奢侈文明，则判断他的奢侈数量
-    if(IsLuxuryCiv(majList.civ))then
-        if(__countLuxuryTeamPVP(Map.GetPlot(plotX,plotY)) <2)then
-            addFoodResult = AddLuxuryStarting(Map.GetPlot(plotX,plotY),AddLuxuryStartFlag,civFlag,majList.civ);
-        end
-    elseif(__isHaveLuxury(Map.GetPlot(plotX,plotY))==false)then
-        addProdResult = AddLuxuryStarting(Map.GetPlot(plotX,plotY),AddLuxuryStartFlag,civFlag,majList.civ);
-    end
-    --奢侈没有成功补上，或者未补贴过，补贴一个产出
-    if(addProdResult ==false)then
-        addProdResult = AddBonusProd(Map.GetPlot(plotX,plotY),iBalancingThree,civFlag,majList.civ);
-    end
-    --返回结果
-    if(addProdResult)then
-        return functionResultTrue;
-    else
-        return functionResultFalse;
-    end
+	--为玩家增加食物
+	local addProdResult = false;
+	--如果没有奢侈，预先提供奢侈
+	--如果是奢侈文明，则判断他的奢侈数量
+	if(IsLuxuryCiv(majList.civ))then
+		if(__countLuxuryTeamPVP(Map.GetPlot(plotX,plotY)) <2)then
+			addFoodResult = AddLuxuryStarting(Map.GetPlot(plotX,plotY),AddLuxuryStartFlag,civFlag,majList.civ);
+		end
+	elseif(__isHaveLuxury(Map.GetPlot(plotX,plotY))==false)then
+		addProdResult = AddLuxuryStarting(Map.GetPlot(plotX,plotY),AddLuxuryStartFlag,civFlag,majList.civ);
+	end
+	--奢侈没有成功补上，或者未补贴过，补贴一个产出
+	if(addProdResult ==false)then
+		addProdResult = AddBonusProd(Map.GetPlot(plotX,plotY),iBalancingThree,civFlag,majList.civ);
+	end
+	--返回结果
+	if(addProdResult)then
+		return functionResultTrue;
+	else
+		return functionResultFalse;
+	end
 end
 
 function civRemoveProdTeamPVP(startPlot,sPlayerLeaderName,sPlayerCivName)
-    if(startPlot==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerLeaderName==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerCivName==nil)then
-        return functionResultFail;
-    end
-    --获取玩家当前地块数据
-    local tempEval = EvaluateStartingLocation(startPlot);
-    local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
-                     impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust=tempEval[6],food_adjust=tempEval[5],
-                     best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
-    local plotX=majList.plotX;
-    local plotY=majList.plotY;
-    --要求玩家出生地不是海水单元格（排除毛利等）
-    if (Map.GetPlot(plotX,plotY):IsWater() == true) then
-        --是在水上出生 结束补贴食物
-        return functionResultFail;
-    end
-    --计算最大产出数
-    local maxProd = 11+iBalancingOneDeviationNumber;
-    --判断玩家产出
-    local prodStart=majList.prod_spawn_start/2+majList.prod_spawn_inner/2;
-    if(prodStart <= maxProd)then
-        --充足 结束补贴产出
-        return functionResultSuccess;
-    end--过多 准备移除
+	if(startPlot==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerLeaderName==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerCivName==nil)then
+		return functionResultFail;
+	end
+	--获取玩家当前地块数据
+	local tempEval = EvaluateStartingLocation(startPlot);
+	local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
+		impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust = tempEval[6],food_adjust = tempEval[5],
+		best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
+	local plotX = majList.plotX;
+	local plotY = majList.plotY;
+	--要求玩家出生地不是海水单元格（排除毛利等）
+	if (Map.GetPlot(plotX,plotY):IsWater() == true) then
+	--是在水上出生 结束补贴食物
+		return functionResultFail;
+	end
+	--计算最大产出数
+	local maxProd = 11+iBalancingOneDeviationNumber;
+	--判断玩家产出
+	local prodStart = majList.prod_spawn_start/2+majList.prod_spawn_inner/2;
+	if(prodStart <= maxProd)then
+	--充足 结束补贴产出
+		return functionResultSuccess;
+	end--过多 准备移除
 
-    RemoveProd(Map.GetPlot(plotX,plotY));
+	RemoveProd(Map.GetPlot(plotX,plotY));
 
-    return functionResultTrue;
+	return functionResultTrue;
 end
 
 function civAddHillTeamPVP(startPlot,sPlayerLeaderName,sPlayerCivName,isLucky,civAddHillTeamPVP)
-    print("civAddHillTeamPVP start sPlayerLeaderName:",sPlayerLeaderName);
-    if(startPlot==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerLeaderName==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerCivName==nil)then
-        return functionResultFail;
-    end
-    --获取玩家当前地块数据
-    local tempEval = EvaluateStartingLocation(startPlot);
-    local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
-                     impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust=tempEval[6],food_adjust=tempEval[5],
-                     best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
-    local plotX=majList.plotX;
-    local plotY=majList.plotY;
-    --要求玩家出生地不是海水单元格（排除毛利等）
-    if (Map.GetPlot(plotX,plotY):IsWater() == true) then
-        --是在水上出生 结束补贴食物
-        return functionResultFail;
-    end
-    --获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
-    local civFlag=0;
-    local civDeviationNumber=0;
-    if (TeamPVPIsDesertCiv(majList.civ)  and majList.desert_start > 0)then
-        civFlag=2;
-        civDeviationNumber=1;
-    elseif(IsTundraCiv(majList.civ) and majList.snow_start > 0)then
-        civFlag=1;
-    elseif (majList.civ == "CIVILIZATION_INCA" or majList.leader == "LEADER_T_ROOSEVELT") then
-        civFlag=3;
-        civDeviationNumber=1;
-    end
-    --运气补正
-    local luckyDeviationNumber = 0;
-    if(isLucky==true)then
-        luckyDeviationNumber=0;
-    end
-    --计算最小丘陵数
-    local minHill = 7+iBalancingOneDeviationNumber+civDeviationNumber+luckyDeviationNumber;
+	print("civAddHillTeamPVP start sPlayerLeaderName:",sPlayerLeaderName);
+	if(startPlot==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerLeaderName==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerCivName==nil)then
+		return functionResultFail;
+	end
+	--获取玩家当前地块数据
+	local tempEval = EvaluateStartingLocation(startPlot);
+	local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
+		impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust = tempEval[6],food_adjust = tempEval[5],
+		best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
+	local plotX = majList.plotX;
+	local plotY = majList.plotY;
+	--要求玩家出生地不是海水单元格（排除毛利等）
+	if (Map.GetPlot(plotX,plotY):IsWater() == true) then
+	--是在水上出生 结束补贴食物
+		return functionResultFail;
+	end
+	--获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
+	local civFlag = 0;
+	local civDeviationNumber = 0;
+	if (TeamPVPIsDesertCiv(majList.civ)  and majList.desert_start > 0)then
+		civFlag = 2;
+		civDeviationNumber = 1;
+	elseif(IsTundraCiv(majList.civ) and majList.snow_start > 0)then
+		civFlag = 1;
+	elseif (majList.civ == "CIVILIZATION_INCA" or majList.leader == "LEADER_T_ROOSEVELT") then
+		civFlag = 3;
+		civDeviationNumber = 1;
+	end
+	--运气补正
+	local luckyDeviationNumber = 0;
+	if(isLucky==true)then
+		luckyDeviationNumber = 0;
+	end
+	--计算最小丘陵数
+	local minHill = 7+iBalancingOneDeviationNumber+civDeviationNumber+luckyDeviationNumber;
 
-    --判断玩家丘陵
-    print("civAddHillTeamPVP majList.hill:",(majList.hill_start + majList.hill_inner));
-    if(((majList.hill_start + majList.hill_inner)) >= minHill)then
-        --充足 结束补贴丘陵
-        return functionResultSuccess;
-    end--不足 准备补贴
+	--判断玩家丘陵
+	print("civAddHillTeamPVP majList.hill:",(majList.hill_start + majList.hill_inner));
+	if(((majList.hill_start + majList.hill_inner)) >= minHill)then
+	--充足 结束补贴丘陵
+		return functionResultSuccess;
+	end--不足 准备补贴
 
-    --为玩家增加丘陵
-    local addHillResult =false;
-    --补贴一个丘陵
-    if(addHillResult ==false)then
-        addHillResult = AddHills(Map.GetPlot(plotX,plotY),iBalancingThree,0,civAddHillTeamPVP);
-    end
-    --返回结果
-    if(addHillResult)then
-        return functionResultTrue;
-    else
-        return functionResultFalse;
-    end
+	--为玩家增加丘陵
+	local addHillResult = false;
+	--补贴一个丘陵
+	if(addHillResult ==false)then
+		addHillResult = AddHills(Map.GetPlot(plotX,plotY),iBalancingThree,0,civAddHillTeamPVP);
+	end
+	--返回结果
+	if(addHillResult)then
+		return functionResultTrue;
+	else
+		return functionResultFalse;
+	end
 end
 --------
 function AddBonusOneRing(plot,intensity,flag,isMust)
-    -- flag = 0 normal
-    -- flag = 1 tundra civ
-    -- flag = 2 desert civ
-    -- flag = 3 mountain civ
-    local iResourcesInDB = 0;
-    local terrainType = plot:GetTerrainType();
-    local featureType = plot:GetFeatureType();
-    local gridWidth, gridHeight = Map.GetGridSize();
-    local direction = 0;
-    eResourceType   = {};
-    eResourceClassType = {};
-    aBonus = {};
-    local limit_1 = 0;
-    local max_unFeature = 2;
-    local adjacentPlot = nil;
-    local adjacentPlot2 = nil;
-    local adjacentPlot3 = nil;
-    local adjacentPlot4 = nil;
-    local count = 0;
-    local increment = 1;
-    local start_range = 1;
-    local end_range = 5;
-    --方法变量
-    local rngAdd=0;--成功率附加
-    local rngAddBlock=14;--成功率附加每次失败递增
-    local unSetrng=0.5;--单元格基础失败率
+-- flag = 0 normal
+-- flag = 1 tundra civ
+-- flag = 2 desert civ
+-- flag = 3 mountain civ
+	local iResourcesInDB = 0;
+	local terrainType = plot:GetTerrainType();
+	local featureType = plot:GetFeatureType();
+	local gridWidth, gridHeight = Map.GetGridSize();
+	local direction = 0;
+	eResourceType = {};
+	eResourceClassType = {};
+	aBonus = {};
+	local limit_1 = 0;
+	local max_unFeature = 2;
+	local adjacentPlot = nil;
+	local adjacentPlot2 = nil;
+	local adjacentPlot3 = nil;
+	local adjacentPlot4 = nil;
+	local count = 0;
+	local increment = 1;
+	local start_range = 1;
+	local end_range = 5;
+	--方法变量
+	local rngAdd = 0;--成功率附加
+	local rngAddBlock = 14;--成功率附加每次失败递增
+	local unSetrng = 0.5;--单元格基础失败率
 
-    local rngSet=0;--选择资源类型随机数，临时变量
+	local rngSet = 0;--选择资源类型随机数，临时变量
 
-    if (intensity == 0) then
-        limit_1 = 0.9;
-    elseif (intensity == 1) then
-        limit_1 = 0.5;
-    elseif (intensity == 2) then
-        limit_1 = 0.25;
-    end
+	if (intensity == 0) then
+		limit_1 = 0.9;
+	elseif (intensity == 1) then
+		limit_1 = 0.5;
+	elseif (intensity == 2) then
+		limit_1 = 0.25;
+	end
 
-    for k = 0, 1 do
+	for k = 0, 1 do
 
-        if k == 0 then
-            if (flag == 2 or flag == 1) then
-                start_range = 1;
-                end_range = 5;
-                increment = 2;
-            else
-                start_range = 1;
-                end_range = 5;--17
-                increment = 1;
-            end
-        elseif k == 1 then
-            if (flag == 2 or flag == 1) then
-                start_range = 5;
-                end_range = 1;
-                increment = -1;
-            else
-                start_range = 5;
-                end_range = 1;--17
-                increment = -1;
-            end
-        end
+		if k == 0 then
+			if (flag == 2 or flag == 1) then
+				start_range = 1;
+				end_range = 5;
+				increment = 2;
+			else
+				start_range = 1;
+				end_range = 5;--17
+				increment = 1;
+			end
+		elseif k == 1 then
+			if (flag == 2 or flag == 1) then
+				start_range = 5;
+				end_range = 1;
+				increment = -1;
+			else
+				start_range = 5;
+				end_range = 1;--17
+				increment = -1;
+			end
+		end
 
-        --检查是否已有2-2
-        for i = start_range, end_range, increment do
-            adjacentPlot = GetAdjacentTiles(plot, i)
+		--检查是否已有2-2
+		for i = start_range, end_range, increment do
+			adjacentPlot = GetAdjacentTiles(plot, i)
 
-            if (adjacentPlot ~= nil) then
+			if (adjacentPlot ~= nil) then
 
-                terrainType = adjacentPlot:GetTerrainType();
-                --如果已有2-2或更大，则返回success
-                if(adjacentPlot:GetYield(g_YIELD_PRODUCTION)>=2 and adjacentPlot:GetYield(g_YIELD_FOOD)>=2 and adjacentPlot:GetResourceType()<40 and adjacentPlot:GetResourceType()>46 and adjacentPlot:GetResourceType()~=54)then
-                    print("teamPVP checkGetYield success");
-                    return true;
-                end
-            end
-        end
-        print("teamPVP checkGetYield：isMust",isMust);
-        for i = start_range, end_range, increment do
-            adjacentPlot = GetAdjacentTiles(plot, i)
+				terrainType = adjacentPlot:GetTerrainType();
+				--如果已有2-2或更大，则返回success
+				if(adjacentPlot:GetYield(g_YIELD_PRODUCTION)>=2 and adjacentPlot:GetYield(g_YIELD_FOOD)>=2 and adjacentPlot:GetResourceType()<40 and adjacentPlot:GetResourceType()>46 and adjacentPlot:GetResourceType()~=54)then
+					print("teamPVP checkGetYield success");
+					return true;
+				end
+			end
+		end
+		print("teamPVP checkGetYield：isMust",isMust);
+		for i = start_range, end_range, increment do
+			adjacentPlot = GetAdjacentTiles(plot, i)
 
-            if (adjacentPlot ~= nil) then
+			if (adjacentPlot ~= nil) then
 
-                terrainType = adjacentPlot:GetTerrainType();
-                if (isMust==true and addBonusOneRingIsDeleteResource==false and adjacentPlot:GetResourceCount() == 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false) then
-                    local rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
-                    if(rng>0.7 and adjacentPlot:GetResourceType()<40 and adjacentPlot:GetResourceType()>46 and adjacentPlot:GetResourceType()~=54 and (terrainType == 4 or terrainType == 3 or terrainType == 0 or terrainType == 1))then
-                        ResourceBuilder.SetResourceType(adjacentPlot, -1);
-                        addBonusOneRingIsDeleteResource = true;
-                        print("addBonusOneRingIsDeleteResource true Get",adjacentPlot:GetX(),":",adjacentPlot:GetY());
-                    end
-                end
-                if (adjacentPlot:GetResourceCount() < 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false) then
+				terrainType = adjacentPlot:GetTerrainType();
+				if (isMust==true and addBonusOneRingIsDeleteResource==false and adjacentPlot:GetResourceCount() == 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false) then
+					local rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
+					if(rng>0.7 and adjacentPlot:GetResourceType()<40 and adjacentPlot:GetResourceType()>46 and adjacentPlot:GetResourceType()~=54 and (terrainType == 4 or terrainType == 3 or terrainType == 0 or terrainType == 1))then
+						ResourceBuilder.SetResourceType(adjacentPlot, -1);
+						addBonusOneRingIsDeleteResource = true;
+						print("addBonusOneRingIsDeleteResource true Get",adjacentPlot:GetX(),":",adjacentPlot:GetY());
+					end
+				end
+				if (adjacentPlot:GetResourceCount() < 1 and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS  and adjacentPlot:GetFeatureType() ~= g_FEATURE_VOLCANO and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_GRASSLAND and adjacentPlot:GetFeatureType() ~= g_FEATURE_MARSH and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false) then
 
-                    rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
+					rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd)/100;
 
-                    if((terrainType == 4 or terrainType == 3)  and adjacentPlot:GetFeatureType() == -1) then
-                        --黄地丘陵
-                        if(isMust==false and terrainType == 3)then
-                            --非必要 无视平原
-                            --跳过
-                        else
-                            --执行
-                            if(rng > unSetrng) then
-                                if(addFoodSheepCount< 2)then
-                                    rngSet = TerrainBuilder.GetRandomNumber(100,"test")/100;
-                                    if(rngSet > (0.75))then
-                                        -- 雨林
-                                        if(isMust == true and terrainType == 3)then
-                                            --升为丘陵
-                                            TerrainBuilder.SetTerrainType(adjacentPlot,4);
-                                        end
-                                        TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                        print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                        rngAdd=0;
-                                        return true;
-                                    else
-                                        --羊
-                                        if(isMust == true and terrainType == 3)then
-                                            --升为丘陵
-                                            TerrainBuilder.SetTerrainType(adjacentPlot,4);
-                                        end
-                                        if(ResourceBuilder.CanHaveResource(adjacentPlot, 7)) then
-                                            ResourceBuilder.SetResourceType(adjacentPlot, 7, 1);
-                                            __Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep");
-                                            rngAdd=0;
-                                            addFoodSheepCount=addFoodSheepCount+1;
-                                            print("teamPVP addFoodSheepCount:",addFoodSheepCount);
-                                            return true;
-                                        end
-                                    end
-                                else
-                                    -- 雨林
-                                    if(isMust == true and terrainType == 3)then
-                                        --升为丘陵
-                                        TerrainBuilder.SetTerrainType(adjacentPlot,4);
-                                    end
-                                    TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                    print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                    rngAdd=0;
-                                    return true;
-                                end
-                            else
-                                rngAdd=rngAdd+rngAddBlock;
-                            end
-                        end
-                    elseif((terrainType == 4 or terrainType == 3)  and adjacentPlot:GetFeatureType() == 3) then
-                        if(isMust==false and terrainType == 3)then
-                            --非必要 无视平原
-                            --跳过
-                        else
-                            --绿地丘陵
-                            if(rng > unSetrng) then
-                                -- 森林-》雨林
-                                if(isMust == true and terrainType == 3)then
-                                    --升为丘陵
-                                    TerrainBuilder.SetTerrainType(adjacentPlot,4);
-                                end
-                                TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                                print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                                rngAdd=0;
-                                return true;
-                            else
-                                rngAdd=rngAdd+rngAddBlock;
-                            end
-                        end
-                    elseif((terrainType == 3)  and adjacentPlot:GetFeatureType() == 2 and isMust == true) then
-                        --黄地
-                        if(rng > unSetrng) then
-                            -- 平原雨林-》丘陵雨林
-                            TerrainBuilder.SetTerrainType(adjacentPlot,4);
-                            print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added Hill");
-                            return true;
-                        else
-                            rngAdd=rngAdd+rngAddBlock;
-                        end
-                    elseif((terrainType == 3)  and adjacentPlot:GetFeatureType() == -1 and isMust == true) then
-                        --黄地
-                        if(rng > unSetrng) then
-                            -- 平原雨林-》丘陵雨林
-                            TerrainBuilder.SetTerrainType(adjacentPlot,4);
-                            print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added Hill");
-                            TerrainBuilder.SetFeatureType(adjacentPlot,2);
-                            rint("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
-                            return true;
-                        else
-                            rngAdd=rngAdd+rngAddBlock;
-                        end
-                    elseif((terrainType == 0)  and adjacentPlot:GetFeatureType() == 3 and isMust == true) then
-                        --绿地
-                        if(rng > unSetrng) then
-                            -- 草原森林-》丘陵树林
-                            TerrainBuilder.SetTerrainType(adjacentPlot,1);
-                            print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added Hill");
-                            return true;
-                        else
-                            rngAdd=rngAdd+rngAddBlock;
-                        end
-                    elseif((terrainType == 0)  and adjacentPlot:GetFeatureType() == -1 and isMust == true) then
-                        --绿地
-                        if(rng > unSetrng) then
-                            -- 草原森林-》丘陵树林
-                            TerrainBuilder.SetTerrainType(adjacentPlot,1);
-                            print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added Hill");
-                            TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                            print("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: 森林");
-                            return true;
-                        else
-                            rngAdd=rngAdd+rngAddBlock;
-                        end
-                    elseif((terrainType == 1 or terrainType == 0)
-                            and (adjacentPlot:GetFeatureType() == -1)) then
-                        if(isMust==false and terrainType == 0)then
-                            --非必要 无视平原
-                            --跳过
-                        else
-                            --绿地丘陵
-                            if(rng > unSetrng) then
-                                rngSet = TerrainBuilder.GetRandomNumber(100,"test")/100;
-                                if(stonesCounts<3)then
-                                    if (rngSet > (0.25)) then
-                                        --石头
-                                        if(isMust == true and terrainType == 0)then
-                                            --升为丘陵
-                                            TerrainBuilder.SetTerrainType(adjacentPlot,1);
-                                        end
-                                        stonesCounts=stonesCounts+1;
-                                        ResourceBuilder.SetResourceType(adjacentPlot, 8, 1);
-                                        print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Flat land with stones");
-                                        rngAdd=0;
-                                        isAddStore=1;
-                                        return true;
-                                    else
-                                        --森林
-                                        if(isMust == true and terrainType == 0)then
-                                            --升为丘陵
-                                            TerrainBuilder.SetTerrainType(adjacentPlot,1);
-                                        end
-                                        TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                                        print("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: 森林");
-                                        rngAdd=0;
-                                        isAddStore=-1;
-                                        return true;
-                                    end
-                                else
-                                    --森林
-                                    if(isMust == true and terrainType == 0)then
-                                        --升为丘陵
-                                        TerrainBuilder.SetTerrainType(adjacentPlot,1);
-                                    end
-                                    TerrainBuilder.SetFeatureType(adjacentPlot,3);
-                                    print("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: 森林");
-                                    rngAdd=0;
-                                    return true;
-                                end
-                            else
-                                rngAdd=rngAdd+rngAddBlock;
-                            end
-                        end
-                    end
-                else
-                    rngAdd=rngAdd+rngAddBlock;
-                end
-            end
-        end
-    end -- k end loop
+					if((terrainType == 4 or terrainType == 3)  and adjacentPlot:GetFeatureType() == -1) then
+					--黄地丘陵
+						if(isMust==false and terrainType == 3)then
+						--非必要 无视平原
+						--跳过
+						else
+						--执行
+							if(rng > unSetrng) then
+								if(addFoodSheepCount< 2)then
+									rngSet = TerrainBuilder.GetRandomNumber(100,"test")/100;
+									if(rngSet > (0.75))then
+									-- 雨林
+										if(isMust == true and terrainType == 3)then
+										--升为丘陵
+											TerrainBuilder.SetTerrainType(adjacentPlot,4);
+										end
+										TerrainBuilder.SetFeatureType(adjacentPlot,2);
+										print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+										rngAdd = 0;
+										return true;
+									else
+									--羊
+										if(isMust == true and terrainType == 3)then
+										--升为丘陵
+											TerrainBuilder.SetTerrainType(adjacentPlot,4);
+										end
+										if(ResourceBuilder.CanHaveResource(adjacentPlot, 7)) then
+											ResourceBuilder.SetResourceType(adjacentPlot, 7, 1);
+											__Debug("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: Sheep");
+											rngAdd = 0;
+											addFoodSheepCount = addFoodSheepCount+1;
+											print("teamPVP addFoodSheepCount:",addFoodSheepCount);
+											return true;
+										end
+									end
+								else
+								-- 雨林
+									if(isMust == true and terrainType == 3)then
+									--升为丘陵
+										TerrainBuilder.SetTerrainType(adjacentPlot,4);
+									end
+									TerrainBuilder.SetFeatureType(adjacentPlot,2);
+									print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+									rngAdd = 0;
+									return true;
+								end
+							else
+								rngAdd = rngAdd+rngAddBlock;
+							end
+						end
+					elseif((terrainType == 4 or terrainType == 3)  and adjacentPlot:GetFeatureType() == 3) then
+						if(isMust==false and terrainType == 3)then
+						--非必要 无视平原
+						--跳过
+						else
+						--绿地丘陵
+							if(rng > unSetrng) then
+							-- 森林-》雨林
+								if(isMust == true and terrainType == 3)then
+								--升为丘陵
+									TerrainBuilder.SetTerrainType(adjacentPlot,4);
+								end
+								TerrainBuilder.SetFeatureType(adjacentPlot,2);
+								print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+								rngAdd = 0;
+								return true;
+							else
+								rngAdd = rngAdd+rngAddBlock;
+							end
+						end
+					elseif((terrainType == 3)  and adjacentPlot:GetFeatureType() == 2 and isMust == true) then
+					--黄地
+						if(rng > unSetrng) then
+						-- 平原雨林-》丘陵雨林
+							TerrainBuilder.SetTerrainType(adjacentPlot,4);
+							print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added Hill");
+							return true;
+						else
+							rngAdd = rngAdd+rngAddBlock;
+						end
+					elseif((terrainType == 3)  and adjacentPlot:GetFeatureType() == -1 and isMust == true) then
+					--黄地
+						if(rng > unSetrng) then
+						-- 平原雨林-》丘陵雨林
+							TerrainBuilder.SetTerrainType(adjacentPlot,4);
+							print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added Hill");
+							TerrainBuilder.SetFeatureType(adjacentPlot,2);
+							rint("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added: 雨林 on Plains Hill");
+							return true;
+						else
+							rngAdd = rngAdd+rngAddBlock;
+						end
+					elseif((terrainType == 0)  and adjacentPlot:GetFeatureType() == 3 and isMust == true) then
+					--绿地
+						if(rng > unSetrng) then
+						-- 草原森林-》丘陵树林
+							TerrainBuilder.SetTerrainType(adjacentPlot,1);
+							print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added Hill");
+							return true;
+						else
+							rngAdd = rngAdd+rngAddBlock;
+						end
+					elseif((terrainType == 0)  and adjacentPlot:GetFeatureType() == -1 and isMust == true) then
+					--绿地
+						if(rng > unSetrng) then
+						-- 草原森林-》丘陵树林
+							TerrainBuilder.SetTerrainType(adjacentPlot,1);
+							print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Added Hill");
+							TerrainBuilder.SetFeatureType(adjacentPlot,3);
+							print("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: 森林");
+							return true;
+						else
+							rngAdd = rngAdd+rngAddBlock;
+						end
+					elseif((terrainType == 1 or terrainType == 0)
+					and (adjacentPlot:GetFeatureType() == -1)) then
+						if(isMust==false and terrainType == 0)then
+						--非必要 无视平原
+						--跳过
+						else
+						--绿地丘陵
+							if(rng > unSetrng) then
+								rngSet = TerrainBuilder.GetRandomNumber(100,"test")/100;
+								if(stonesCounts<3)then
+									if (rngSet > (0.25)) then
+									--石头
+										if(isMust == true and terrainType == 0)then
+										--升为丘陵
+											TerrainBuilder.SetTerrainType(adjacentPlot,1);
+										end
+										stonesCounts = stonesCounts+1;
+										ResourceBuilder.SetResourceType(adjacentPlot, 8, 1);
+										print("Food Balancing X: ", adjacentPlot:GetX(), "Food Balancing Y: ", adjacentPlot:GetY(), "Flat land with stones");
+										rngAdd = 0;
+										isAddStore = 1;
+										return true;
+									else
+									--森林
+										if(isMust == true and terrainType == 0)then
+										--升为丘陵
+											TerrainBuilder.SetTerrainType(adjacentPlot,1);
+										end
+										TerrainBuilder.SetFeatureType(adjacentPlot,3);
+										print("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: 森林");
+										rngAdd = 0;
+										isAddStore = -1;
+										return true;
+									end
+								else
+								--森林
+									if(isMust == true and terrainType == 0)then
+									--升为丘陵
+										TerrainBuilder.SetTerrainType(adjacentPlot,1);
+									end
+									TerrainBuilder.SetFeatureType(adjacentPlot,3);
+									print("Prod Balancing X: ", adjacentPlot:GetX(), "Prod Balancing Y: ", adjacentPlot:GetY(), "Added: 森林");
+									rngAdd = 0;
+									return true;
+								end
+							else
+								rngAdd = rngAdd+rngAddBlock;
+							end
+						end
+					end
+				else
+					rngAdd = rngAdd+rngAddBlock;
+				end
+			end
+		end
+	end -- k end loop
 
-    print("AddBonusOneRing false");
-    return false;
+	print("AddBonusOneRing false");
+	return false;
 end
 
 function civAddOneRingFloorsTeamPVP(startPlot,sPlayerLeaderName,sPlayerCivName,isMust)
-    if(startPlot==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerLeaderName==nil)then
-        return functionResultFail;
-    end
-    if(sPlayerCivName==nil)then
-        return functionResultFail;
-    end
-    --获取玩家当前地块数据
-    local tempEval = EvaluateStartingLocation(startPlot);
-    local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
-                     impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust=tempEval[6],food_adjust=tempEval[5],
-                     best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
-    local plotX=majList.plotX;
-    local plotY=majList.plotY;
-    --要求玩家出生地不是海水单元格（排除毛利等）
-    if (Map.GetPlot(plotX,plotY):IsWater() == true) then
-        --是在水上出生 结束补贴一环保底
-        return functionResultFail;
-    end
-    --获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
-    local civFlag=0;
-    if (TeamPVPIsDesertCiv(majList.civ) and majList.desert_start > 0)then
-        civFlag=2;
-        --沙漠文明只补0次
-        return functionResultSuccess;
-    elseif(IsTundraCiv(majList.civ) and majList.snow_start > 0)then
-        civFlag=1;
-        --冻土文明只补0次
-        return functionResultSuccess;
-    elseif (majList.civ == "CIVILIZATION_INCA" or majList.leader == "LEADER_T_ROOSEVELT") then
-        civFlag=3;
-    end
+	if(startPlot==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerLeaderName==nil)then
+		return functionResultFail;
+	end
+	if(sPlayerCivName==nil)then
+		return functionResultFail;
+	end
+	--获取玩家当前地块数据
+	local tempEval = EvaluateStartingLocation(startPlot);
+	local majList = {leader = sPlayerLeaderName, civ = sPlayerCivName, plotX = startPlot:GetX(), plotY = startPlot:GetY(), food_spawn_start = tempEval[5], prod_spawn_start = tempEval[6], culture_spawn_start = tempEval[7], faith_spawn_start = tempEval[8], impassable_start = tempEval[9],water_start = tempEval[10],snow_start = tempEval[11],desert_start = tempEval[12],
+		impassable_inner = tempEval[13],water_inner = tempEval[14],snow_inner = tempEval[15],desert_inner = tempEval[16],impassable_outer = tempEval[17],water_outer = tempEval[18],snow_outer = tempEval[19],desert_outer = tempEval[20],flood = tempEval[21],hill_start = tempEval[22],hill_inner = tempEval[23],prod_adjust = tempEval[6],food_adjust = tempEval[5],
+		best_tile = tempEval[24], best_tile_2 = tempEval[25], food_spawn_inner = tempEval[26], prod_spawn_inner = tempEval[27], best_tile_inner = tempEval[28], best_tile_inner_2 = tempEval[29],plains = tempEval[30]}
+	local plotX = majList.plotX;
+	local plotY = majList.plotY;
+	--要求玩家出生地不是海水单元格（排除毛利等）
+	if (Map.GetPlot(plotX,plotY):IsWater() == true) then
+	--是在水上出生 结束补贴一环保底
+		return functionResultFail;
+	end
+	--获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
+	local civFlag = 0;
+	if (TeamPVPIsDesertCiv(majList.civ) and majList.desert_start > 0)then
+		civFlag = 2;
+		--沙漠文明只补0次
+		return functionResultSuccess;
+	elseif(IsTundraCiv(majList.civ) and majList.snow_start > 0)then
+		civFlag = 1;
+		--冻土文明只补0次
+		return functionResultSuccess;
+	elseif (majList.civ == "CIVILIZATION_INCA" or majList.leader == "LEADER_T_ROOSEVELT") then
+		civFlag = 3;
+	end
 
-    --为玩家增加一环保底
-    local addOneRingResult=false;
-    addOneRingResult = AddBonusOneRing(Map.GetPlot(plotX,plotY),iBalancingThree,civFlag,isMust);
-    --返回结果
-    if(addOneRingResult)then
-        return functionResultSuccess;
-    else
-        return functionResultFalse;
-    end
+	--为玩家增加一环保底
+	local addOneRingResult = false;
+	addOneRingResult = AddBonusOneRing(Map.GetPlot(plotX,plotY),iBalancingThree,civFlag,isMust);
+	--返回结果
+	if(addOneRingResult)then
+		return functionResultSuccess;
+	else
+		return functionResultFalse;
+	end
 end
 
 function TeamPVPIsAdjacentToLandAndNotAdjacent(plot)
-    for direction = 0, 5, 1 do
-        local adjacentPlot = GetAdjacentTiles(plot, direction);
-        if(adjacentPlot~=nil)then
-            --1环有水资源 pass
-            if(((adjacentPlot:GetResourceCount() > 0 and (adjacentPlot:GetResourceType() == 5 or adjacentPlot:GetResourceType() == 3)) or adjacentPlot:GetFeatureType() == g_FEATURE_REEF) and adjacentPlot:IsWater() == true)then
-                return false;
-            end
-        end
+	for direction = 0, 5, 1 do
+		local adjacentPlot = GetAdjacentTiles(plot, direction);
+		if(adjacentPlot~=nil)then
+		--1环有水资源 pass
+			if(((adjacentPlot:GetResourceCount() > 0 and (adjacentPlot:GetResourceType() == 5 or adjacentPlot:GetResourceType() == 3)) or adjacentPlot:GetFeatureType() == g_FEATURE_REEF) and adjacentPlot:IsWater() == true)then
+				return false;
+			end
+		end
 
-    end
+	end
 
-    for direction = 0, 17, 1 do
-        local adjacentPlot = GetAdjacentTiles(plot, direction);
-        if(adjacentPlot~=nil)then
-            --2环有海岸 success
-            if(adjacentPlot:IsCoastalLand())then
-                return true;
-            end
-        end
-    end
-    return false;
+	for direction = 0, 17, 1 do
+		local adjacentPlot = GetAdjacentTiles(plot, direction);
+		if(adjacentPlot~=nil)then
+		--2环有海岸 success
+			if(adjacentPlot:IsCoastalLand())then
+				return true;
+			end
+		end
+	end
+	return false;
 end
 
 function TeamPVPGetAdjacentWaterResourceCount(plot)
-    local count = 0;
+	local count = 0;
 
-    for direction = 0, 5, 1 do
-        local adjacentPlot = GetAdjacentTiles(plot, direction);
-        if(adjacentPlot~=nil)then
-            --1环有水资源 pass
-            if(((adjacentPlot:GetResourceCount() > 0 and (adjacentPlot:GetResourceType() == 5 or adjacentPlot:GetResourceType() == 3)) or adjacentPlot:GetFeatureType() == g_FEATURE_REEF) and adjacentPlot:IsWater() == true)then
-                 count = count+1;
-            end
-        end
-    end
+	for direction = 0, 5, 1 do
+		local adjacentPlot = GetAdjacentTiles(plot, direction);
+		if(adjacentPlot~=nil)then
+		--1环有水资源 pass
+			if(((adjacentPlot:GetResourceCount() > 0 and (adjacentPlot:GetResourceType() == 5 or adjacentPlot:GetResourceType() == 3)) or adjacentPlot:GetFeatureType() == g_FEATURE_REEF) and adjacentPlot:IsWater() == true)then
+				count = count+1;
+			end
+		end
+	end
 
-    print("TeamPVPGetAdjacentWaterResourceCount count:",count);
-    return count;
+	print("TeamPVPGetAdjacentWaterResourceCount count:",count);
+	return count;
 end
 
 function civAddStrategyTeamPVP(eResourceType,startPlot,isForce)
-    print("civAddStrategyTeamPVP start startPlot X:",startPlot:GetX(),";Y:",startPlot:GetY(),";isForce:",isForce,";eResourceType:",eResourceType);
-    if(startPlot==nil or eResourceType==nil or isForce==nil)then
-        return functionResultFail;
-    end
+	print("civAddStrategyTeamPVP start startPlot X:",startPlot:GetX(),";Y:",startPlot:GetY(),";isForce:",isForce,";eResourceType:",eResourceType);
+	if(startPlot==nil or eResourceType==nil or isForce==nil)then
+		return functionResultFail;
+	end
 
-    --判断战略是否存在
-    local bHasResource = FindResource(eResourceType, startPlot);
+	--判断战略是否存在
+	local bHasResource = FindResource(eResourceType, startPlot);
 
-    if(bHasResource)then
-        --战略存在
-        print("civAddStrategyTeamPVP end true");
-        return functionResultSuccess;
-    end
+	if(bHasResource)then
+	--战略存在
+		print("civAddStrategyTeamPVP end true");
+		return functionResultSuccess;
+	end
 
-    local rngAdd = 0;
-    -- 6 12 18 3环
-    for i = 6, 36 do
-        local adjacentPlot = GetAdjacentTiles(startPlot, i);
-        if (adjacentPlot ~= nil) then
-            --随机
-            local rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd);
-            if(rng>50)then
-                local terrainType = adjacentPlot:GetTerrainType();
-                if(isForce == false)then
-                    if(adjacentPlot:GetResourceCount() == 0) and adjacentPlot:IsNaturalWonder() == false then
-                        if(ResourceBuilder.CanHaveResource(adjacentPlot, eResourceType) and adjacentPlot:IsImpassable() == false) then
-                            ResourceBuilder.SetResourceType(adjacentPlot, eResourceType,1);
-                            return functionResultSuccess;
-                        end
-                    end
-                else
-                    --强制设置战略资源马
-                    if(adjacentPlot:GetResourceCount() == 0) and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false and eResourceType == 42 then
-                        if(terrainType == 4 or terrainType == 1 or terrainType == 0 or terrainType == 3)then
-                            --移除地貌
-                            TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                            --如果是丘陵 设置为平原
-                            if(terrainType == 4)then
-                                TerrainBuilder.SetTerrainType(adjacentPlot, 3);
-                            end
-                            if(terrainType == 1)then
-                                TerrainBuilder.SetTerrainType(adjacentPlot, 0);
-                            end
-                            ResourceBuilder.SetResourceType(adjacentPlot, eResourceType,1);
-                            return functionResultSuccess;
-                        end
-                    end
-                    --强制设置战略资源铁
-                    if(adjacentPlot:GetResourceCount() == 0) and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false and eResourceType == 43 then
-                        if(terrainType == 10 or terrainType == 7 or terrainType == 4 or terrainType == 1
-                                or terrainType == 0 or terrainType == 3 or terrainType == 6 or terrainType == 9)then
-                            --移除地貌
-                            TerrainBuilder.SetFeatureType(adjacentPlot,-1);
-                            --如果是平原 设置为丘陵
-                            if(terrainType == 3)then
-                                TerrainBuilder.SetTerrainType(adjacentPlot, 4);
-                            end
-                            if(terrainType == 0)then
-                                TerrainBuilder.SetTerrainType(adjacentPlot, 1);
-                            end
-                            if(terrainType == 9)then
-                                TerrainBuilder.SetTerrainType(adjacentPlot, 10);
-                            end
-                            if(terrainType == 6)then
-                                TerrainBuilder.SetTerrainType(adjacentPlot, 7);
-                            end
-                            ResourceBuilder.SetResourceType(adjacentPlot, eResourceType,1);
-                            return functionResultSuccess;
-                        end
-                    end
-                end
-            else
-                rngAdd = rngAdd + 20;
-            end
-        end
-    end
+	local rngAdd = 0;
+	-- 6 12 18 3环
+	for i = 6, 36 do
+		local adjacentPlot = GetAdjacentTiles(startPlot, i);
+		if (adjacentPlot ~= nil) then
+		--随机
+			local rng = (TerrainBuilder.GetRandomNumber(100,"test")+rngAdd);
+			if(rng>50)then
+				local terrainType = adjacentPlot:GetTerrainType();
+				if(isForce == false)then
+					if(adjacentPlot:GetResourceCount() == 0) and adjacentPlot:IsNaturalWonder() == false then
+						if(ResourceBuilder.CanHaveResource(adjacentPlot, eResourceType) and adjacentPlot:IsImpassable() == false) then
+							ResourceBuilder.SetResourceType(adjacentPlot, eResourceType,1);
+							return functionResultSuccess;
+						end
+					end
+				else
+				--强制设置战略资源马
+					if(adjacentPlot:GetResourceCount() == 0) and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false and eResourceType == 42 then
+						if(terrainType == 4 or terrainType == 1 or terrainType == 0 or terrainType == 3)then
+						--移除地貌
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							--如果是丘陵 设置为平原
+							if(terrainType == 4)then
+								TerrainBuilder.SetTerrainType(adjacentPlot, 3);
+							end
+							if(terrainType == 1)then
+								TerrainBuilder.SetTerrainType(adjacentPlot, 0);
+							end
+							ResourceBuilder.SetResourceType(adjacentPlot, eResourceType,1);
+							return functionResultSuccess;
+						end
+					end
+					--强制设置战略资源铁
+					if(adjacentPlot:GetResourceCount() == 0) and adjacentPlot:IsNaturalWonder() == false and adjacentPlot:IsImpassable() == false and eResourceType == 43 then
+						if(terrainType == 10 or terrainType == 7 or terrainType == 4 or terrainType == 1
+						or terrainType == 0 or terrainType == 3 or terrainType == 6 or terrainType == 9)then
+						--移除地貌
+							TerrainBuilder.SetFeatureType(adjacentPlot,-1);
+							--如果是平原 设置为丘陵
+							if(terrainType == 3)then
+								TerrainBuilder.SetTerrainType(adjacentPlot, 4);
+							end
+							if(terrainType == 0)then
+								TerrainBuilder.SetTerrainType(adjacentPlot, 1);
+							end
+							if(terrainType == 9)then
+								TerrainBuilder.SetTerrainType(adjacentPlot, 10);
+							end
+							if(terrainType == 6)then
+								TerrainBuilder.SetTerrainType(adjacentPlot, 7);
+							end
+							ResourceBuilder.SetResourceType(adjacentPlot, eResourceType,1);
+							return functionResultSuccess;
+						end
+					end
+				end
+			else
+				rngAdd = rngAdd + 20;
+			end
+		end
+	end
 
-    --返回结果
-    return functionResultFalse;
+	--返回结果
+	return functionResultFalse;
 end
 
 function MapHasResource(iResources)
-    local iW, iH = Map.GetGridSize();
-    for k = 0, iH * iW - 1 do
-        local pPlot = Map.GetPlotByIndex(k);
-        if pPlot:GetResourceType() == iResources then
-            return true
-        end
-    end
-    return false
+	local iW, iH = Map.GetGridSize();
+	for k = 0, iH * iW - 1 do
+		local pPlot = Map.GetPlotByIndex(k);
+		if pPlot:GetResourceType() == iResources then
+			return true
+		end
+	end
+	return false
 end

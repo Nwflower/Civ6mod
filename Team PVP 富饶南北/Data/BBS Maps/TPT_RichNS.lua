@@ -29,11 +29,9 @@ local RichNum;
 
 -------------------------------------------------------------------------------
 function BBS_Assign(args)
-	print("BBS_Assign: Injecting Spawn Placement")
+	print("地图：富饶南北出生点分配中")
 	local start_plot_database = {};
-
 	start_plot_database = BBS_AssignStartingPlots.Create(args)
-
 	return start_plot_database
 end
 -------------------------------------------------------------------------------
@@ -52,6 +50,7 @@ function GenerateMap()
 	end
 	
 	--【纪元】
+	-- 纪元将影响地图中丘陵和山脉的比例
 	local world_age = MapConfiguration.GetValue("world_age");
 	if (world_age == 1) then
 		world_age = world_age_new;
@@ -64,27 +63,30 @@ function GenerateMap()
 	end
 
 	--【富饶系数】
+	-- 富饶系数将综合影响地图中地貌/资源/大陆/自然奇观/开局补正
 	RichNum = MapConfiguration.GetValue("RichNum") or 5;
 
 	--【海陆、地形】
+	print("划分海陆");
 	plotTypes = TeamPVPGeneratePlotTypes(world_age);
 	terrainTypes = TeamPVPGenerateTerrainTypes(plotTypes, g_iW, g_iH, g_iFlags, true, temperature);
 	ApplyBaseTerrain(plotTypes, terrainTypes, g_iW, g_iH);
 
 	-- 分配大陆
+	print("划分大陆板块");
 	TeamPVPGenerateContinents(plotTypes);
 
 	AreaBuilder.Recalculate();
 	TerrainBuilder.AnalyzeChokepoints();
 
 	--【丰富大陆边界地形】
-	-- 在大陆边界处增加火山
+	print("在板块交界处增加火山");
 	local iContinentBoundaryPlots = GetContinentBoundaryPlotCount(g_iW, g_iH);
 	TeamPVPAddTerrainFromContinents(plotTypes, terrainTypes, world_age, g_iW, g_iH, iContinentBoundaryPlots);
 	AreaBuilder.Recalculate();
 	TerrainBuilder.AnalyzeChokepoints();
 
-	--【分析降雨量，增加地貌与河流】
+	print("分析降雨量，增加地貌与河流");
 	AddFeatures();
 	
 	print("增加悬崖");
@@ -156,7 +158,7 @@ function RichNSBalance()
 		end
 	end
 
-	-- 如果富饶系数大于等于4，所有人都会有资源屁股
+	-- 如果富饶系数大于等于4，所有人都会有加成资源屁股
 	-- 如果富饶系数大于等于7，所有人都会有奢侈品屁股
 	if RichNum >= 4 then
 		local ChooseResourceClass = 'RESOURCECLASS_BONUS'
@@ -202,7 +204,7 @@ function RichNSBalance()
 					end
 					if not flag then
 						for row in GameInfo.Resource_ValidTerrains() do
-							if GameInfo.Resources[row.ResourceType].ResourceClassType == 'RESOURCECLASS_LUXURY' then
+							if GameInfo.Resources[row.ResourceType].ResourceClassType == ChooseResourceClass then
 								if PlotsHasResource(GameInfo.Resources[row.ResourceType].Index,Plots) then
 									ResourceBuilder.SetResourceType(pStartPlot_i,GameInfo.Resources[row.ResourceType].Index,1);
 									TerrainBuilder.SetTerrainType(pStartPlot_i,GameInfo.Terrains[row.TerrainType].Index);
@@ -215,7 +217,7 @@ function RichNSBalance()
 					end
 					if not flag then
 						for row in GameInfo.Resource_ValidTerrains() do
-							if GameInfo.Resources[row.ResourceType].ResourceClassType == 'RESOURCECLASS_LUXURY' then
+							if GameInfo.Resources[row.ResourceType].ResourceClassType == ChooseResourceClass then
 								if MapHasResource(GameInfo.Resources[row.ResourceType].Index) then
 									ResourceBuilder.SetResourceType(pStartPlot_i,GameInfo.Resources[row.ResourceType].Index,1);
 									TerrainBuilder.SetTerrainType(pStartPlot_i,GameInfo.Terrains[row.TerrainType].Index);
