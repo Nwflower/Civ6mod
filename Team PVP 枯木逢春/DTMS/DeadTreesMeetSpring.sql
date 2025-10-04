@@ -1100,6 +1100,13 @@ INSERT INTO MutuallyExclusiveBuildings(Building, MutuallyExclusiveBuilding)
 VALUES ('BUILDING_THERMAL_BATH', 'BUILDING_ZOO'),
        ('BUILDING_ZOO', 'BUILDING_THERMAL_BATH');
 
+INSERT INTO MutuallyExclusiveBuildings(Building, MutuallyExclusiveBuilding)
+SELECT 'BUILDING_THERMAL_BATH',CivUniqueBuildingType
+FROM BuildingReplaces WHERE ReplacesBuildingType = 'BUILDING_ZOO' AND CivUniqueBuildingType IS NOT 'BUILDING_THERMAL_BATH' UNION
+SELECT CivUniqueBuildingType,'BUILDING_THERMAL_BATH'
+FROM BuildingReplaces WHERE ReplacesBuildingType = 'BUILDING_ZOO' AND CivUniqueBuildingType IS NOT 'BUILDING_THERMAL_BATH';
+
+
 -- 建立 [ICON_Capital] 首都前开拓者无视河流的移动力减益。
 INSERT INTO TraitModifiers (TraitType, ModifierId)
 VALUES ('TRAIT_CIVILIZATION_PEARL_DANUBE',
