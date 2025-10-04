@@ -12,35 +12,16 @@ VALUES -- FE
        ('LOC_NW_DTMS_WONDER_REBALANCE_DESCRIPTION', 'zh_Hans_CN',
         '以金字塔为标准，增强一些较为落后的人造奇观。'),
 
-       -- 瑞典
---        ('LOC_TRAIT_CIVILIZATION_NOBEL_PRIZE_DESCRIPTION', 'zh_Hans_CN',
---         '招募伟人时可获得10点 [ICON_Favor] 外交支持（联机速度下）。图书馆获得两个[ICON_GreatWork_Writing]著作槽位，并在戏剧与诗歌市政后+1 [ICON_GreatWriter] 大作家、+1 [ICON_GreatArtist] 大艺术家和+1 [ICON_GreatMusician] 大音乐家点数。建造学院及其建筑时+70% [ICON_PRODUCTION] 生产力。如瑞典在游戏中，进入工业时代后将增添3项特色世界议会竞赛。'),
-
-       -- 朝鲜
---        ('LOC_TRAIT_LEADER_HWARANG_DESCRIPTION', 'zh_Hans_CN',
---         '[ICON_Governor] 总督在城市中就职后，每次升级（包括首次升级）都将提供+3% [ICON_Culture] 文化值和+2% [ICON_Science] 科技值。政治哲学市政后，拥有 [ICON_Governor] 总督的城市额外+1 [ICON_Culture] 文化值和+1 [ICON_Science] 科技值。'),
 
        -- 伯里克利
---        ('LOC_TRAIT_LEADER_SURROUNDED_BY_GLORY_DESCRIPTION', 'zh_Hans_CN',
---         '每回合的 [ICON_Culture] 文化值+5%。作为宗主国时，每个下辖的城邦使您的 [ICON_Culture] 文化值和 [ICON_Tourism] 旅游业绩+5%。卫城从每个相邻区域+1 [ICON_PRODUCTION] 生产力。'),
---        ('LOC_DISTRICT_ACROPOLIS_ADD_PRODUCTION', 'zh_Hans_CN',
---         '+{1_Num} [ICON_PRODUCTION] 生产力来自相邻区域。'),
+      ('LOC_TRAIT_LEADER_SURROUNDED_BY_GLORY_DESCRIPTION', 'zh_Hans_CN',
+       '每回合的 [ICON_Culture] 文化值+6%。作为宗主国时，每个下辖的城邦使您的 [ICON_Culture] 文化值和 [ICON_Tourism] 旅游业绩+4%。卫城从每个相邻区域+1 [ICON_PRODUCTION] 生产力。'),
+      ('LOC_DISTRICT_ACROPOLIS_ADD_PRODUCTION', 'zh_Hans_CN',
+       '+{1_Num} [ICON_PRODUCTION] 生产力来自相邻区域。'),
 
        -- 印尼
        ('LOC_TRAIT_LEADER_EXALTED_GODDESS_DESCRIPTION', 'zh_Hans_CN',
         '可用 [ICON_FAITH] 信仰值购买海军单位。沿海城市建造圣地时+75% [ICON_PRODUCTION] 生产力。拥有圣地的城市使用 [ICON_FAITH] 信仰值购买海军单位-10%花费。宗教单位上船下船时无移动力消耗。与海岸或湖泊单元格相邻的市中心+2 [ICON_FAITH] 信仰值。'),
-       -- 毛利
-       -- ('LOC_TRAIT_LEADER_KUPES_VOYAGE_DESCRIPTION', 'zh_Hans_CN',
-       -- 宫殿+3 [ICON_HOUSING] 住房与+1 [ICON_AMENITIES] 宜居度。建立首座城市前每回合+3 [ICON_Science] 科技值、+7 [ICON_Gold] 金币值与+1 [ICON_Culture] 文化值。'),
-       -- 努比亚
---        ('LOC_IMPROVEMENT_PYRAMID_DESCRIPTION', 'zh_Hans_CN',
---         '砌砖解锁建造者建造努比亚特色改良设施努比亚金字塔的能力。建在沙漠、沙漠丘陵，草原，平原，丘陵或泛滥平原上。+2 [ICON_Faith] 信仰值， +1 [ICON_Food] 食物。+0.5 [ICON_Housing] 住房。可从相邻区域获得额外产出。如与市中心相邻+1 [ICON_Food] 食物。如与其他任意提供相邻加成的区域相邻，对应产出+2。相邻娱乐中心时为城市+1 [ICON_Amenities] 宜居度，每个城市至多从努比亚金字塔+2 [ICON_Amenities] 宜居度。不能与另一个金字塔相邻。'),
-       -- 刚果
-
---        ('LOC_TRAIT_LEADER_RELIGIOUS_CONVERT_DESCRIPTION', 'zh_Hans_CN',
---         '无法建造圣地区、获得大预言家，或创建宗教。获得刚果信仰的主流宗教的所有信仰加成。每次完成一个姆班赞或剧院广场区时获得一位（城市主流宗教的）使徒。招募首个伟人，或者首次采用更高一级的政体后获得1个 [ICON_GreatWork_Relic] 遗物。所有近战单位在防御远程攻击时+3 [ICON_Strength] 战斗力。'),
---        ('LOC_TRAIT_LEADER_NZINGA_MBANDE_DESCRIPTION', 'zh_Hans_CN',
---         '[ICON_Capital] 首都和与 [ICON_Capital] 首都处于同一大陆的城市+5%除 [ICON_FOOD] 食物外的产出，并且城市发展速率+5%'),
 
        -- 匈牙利
        ('LOC_BUILDING_THERMAL_BATH_DESCRIPTION', 'zh_Hans_CN',
