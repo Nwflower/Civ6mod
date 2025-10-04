@@ -120,7 +120,7 @@ VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF2', 'MODIFIER_
         0, 'REQS_TRAIT_LEADER_NW004_AND_ZZZZ_DEBUFF', NULL);
 INSERT INTO ModifierArguments (ModifierId, Name, Value)
 VALUES ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF2', 'Amount', 1),
-       ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF2', 'YieldType', 'YIELD_PRODUCTION');
+       ('MODIFIER_TRAIT_LEADER_NW004_PRODUCTION_FROM_POLICY_DEBUFF2', 'YieldType', 'YIELD_GOLD');
 
 
 INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
@@ -157,6 +157,33 @@ SELECT PolicyType,
        'MODIFIER_TRAIT_LEADER_NW004_GOLD_FROM_POLICY_DEBUFF'
 FROM Policies
 WHERE GovernmentSlotType = 'SLOT_ECONOMIC';
+
+
+-- 所有区域和建筑需要1点额外的维护费。
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_NW004', 'MODIFIER_TRAIT_LEADER_NW004_ADD_MAINTENCE');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_NW004_ADD_MAINTENCE', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_PER_DISTRICT', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_NW004_ADD_MAINTENCE', 'Amount', '-1'),
+('MODIFIER_TRAIT_LEADER_NW004_ADD_MAINTENCE', 'YieldType', 'YIELD_GOLD');
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) SELECT
+'TRAIT_LEADER_NW004', 'MODIFIER_TRAIT_LEADER_NW004_ADD_MAINTENCE_BUILDING_IN_'||BuildingType
+FROM Buildings WHERE Maintenance > 0;
+
+INSERT INTO Modifiers (ModifierId, ModifierType) SELECT
+'MODIFIER_TRAIT_LEADER_NW004_ADD_MAINTENCE_BUILDING_IN_'||BuildingType, 'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_YIELD_CHANGE'
+FROM Buildings WHERE Maintenance > 0;
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value) SELECT
+'MODIFIER_TRAIT_LEADER_NW004_ADD_MAINTENCE_BUILDING_IN_'||BuildingType, 'Amount', '-1'
+FROM Buildings WHERE Maintenance > 0 UNION SELECT
+'MODIFIER_TRAIT_LEADER_NW004_ADD_MAINTENCE_BUILDING_IN_'||BuildingType, 'BuildingType', BuildingType
+FROM Buildings WHERE Maintenance > 0 UNION SELECT
+'MODIFIER_TRAIT_LEADER_NW004_ADD_MAINTENCE_BUILDING_IN_'||BuildingType, 'YieldType', 'YIELD_GOLD'
+FROM Buildings WHERE Maintenance > 0;
+
 
 
 -- =======================================================
@@ -225,6 +252,24 @@ INSERT INTO Requirements (RequirementId, RequirementType) VALUES
 INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
 ('REQ_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD1', 'BuildingType', 'BUILDING_TAICANG'),
 ('REQ_MODIFIER_TRAIT_LEADER_NW005_ADJUST_PLOT_YIELD3', 'ResourceClassType', 'RESOURCECLASS_STRATEGIC');
+
+-- 没有太仓的城市-15%城市发展率
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_NW005', 'MODIFIER_TRAIT_LEADER_NW004_GROWTH');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_NW004_GROWTH', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_GROWTH', 0, 0, 0, NULL, 'REQS_NW_MODIFIER_TRAIT_LEADER_NW004_GROWTH');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_NW004_GROWTH', 'Amount', '-15');
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('REQS_NW_MODIFIER_TRAIT_LEADER_NW004_GROWTH', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('REQS_NW_MODIFIER_TRAIT_LEADER_NW004_GROWTH', 'REQ_NW_MODIFIER_TRAIT_LEADER_NW004_GROWTH');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType, Inverse) VALUES
+('REQ_NW_MODIFIER_TRAIT_LEADER_NW004_GROWTH', 'REQUIREMENT_CITY_HAS_BUILDING', 1);
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+('REQ_NW_MODIFIER_TRAIT_LEADER_NW004_GROWTH', 'BuildingType', 'BUILDING_TAICANG');
 
 -- =======================================================
 -- 汉

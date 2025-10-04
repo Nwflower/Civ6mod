@@ -45,7 +45,7 @@
 			<Text>寇可往，我亦可往</Text>
 		</Replace>
 		<Replace Tag="LOC_TRAIT_LEADER_NW_JET_LIUCHE_NW005_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>如果在敌方领土开始回合，则 [ICON_MOVEMENT] 移动力+1。骑兵单位+2视野。拥有太仓的城市，战略资源+1 [ICON_FOOD] 食物、+1 [ICON_PRODUCTION] 生产力。</Text>
+			<Text>如果在敌方领土开始回合，则 [ICON_MOVEMENT] 移动力+1。骑兵单位+2视野。拥有太仓的城市，战略资源+1 [ICON_FOOD] 食物、+1 [ICON_PRODUCTION] 生产力。没有太仓的城市-15%城市发展率。</Text>
 		</Replace>
 		<Replace Tag="LOC_ABILITY_NW_JET_LIUCHE_ADD_MOVEMENT_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>开始回合时，+1 [ICON_MOVEMENT] 移动力。</Text>
@@ -73,7 +73,7 @@
 			<Text>骠骑</Text>
 		</Replace>
 		<Replace Tag="LOC_UNIT_NW_BIAOQI_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>刘彻特色单位，替代追猎者，拥有更高的基础花费。掠夺农田、牧场和营地改良设施后回复50血量。可以使用自身的高 [ICON_MOVEMENT] 移动力护送平民单位。</Text>
+			<Text>刘彻特色单位，替代追猎者，拥有更高的基础花费。掠夺牧场和营地改良设施后回复50血量。可以使用自身的高 [ICON_MOVEMENT] 移动力护送平民单位。</Text>
 		</Replace>
 		<Replace Tag="LOC_ABILITY_UNIT_NW_BIAOQI_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>可以使用自身的高 [ICON_MOVEMENT] 移动力护送平民单位。</Text>

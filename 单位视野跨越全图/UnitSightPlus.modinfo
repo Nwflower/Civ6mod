@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="fd77ace4-9f34-5205-2fd2-d2880afabfef" version="1">
+  <Properties>
+    <Name>[COLOR:Civ6Yellow]单位视野全图可见[ENDCOLOR]</Name>
+    <Description>单位视野+999，且可以跨过地形地貌</Description>
+    <Created>1745481858</Created>
+    <Teaser>单位视野+999，且可以跨过地形地貌</Teaser>
+    <Authors>千川白浪</Authors>
+    <CompatibleVersions>1.2,2.0</CompatibleVersions>
+  </Properties>
+  <InGameActions>
+    <UpdateDatabase id="UnitSightPlus_Database">
+      <Properties>
+        <LoadOrder>19999</LoadOrder>
+      </Properties>
+      <File>UnitSightPlus.sql</File>
+    </UpdateDatabase>
+  </InGameActions>
+  <Files>
+    <File>UnitSightPlus.sql</File>
+  </Files>
+</Mod>

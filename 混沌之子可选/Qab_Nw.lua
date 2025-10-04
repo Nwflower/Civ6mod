@@ -6,6 +6,7 @@ print('Qab_Nw loading')
 
 local QAB_1 = GameConfiguration.GetValue('NW_QAB_CONFIG1')
 local QAB_2 = GameConfiguration.GetValue('NW_QAB_CONFIG2')
+local QAB_3 = GameConfiguration.GetValue('NW_QAB_CONFIG3')
 
 function AttachQABModifiers(iPlayer)
     local pPlayer = Players[iPlayer]
@@ -42,11 +43,12 @@ end
 
 function SetPlayerQAB(iPlayer1, iPlayer2)
     if Game:GetProperty("ChaosDone") == nil then
-        if QAB_1 == QAB_2 then
-            AttachQABModifiers(QAB_1)
-        else
-            AttachQABModifiers(QAB_1)
+        AttachQABModifiers(QAB_1)
+        if QAB_1 ~= QAB_2 then
             AttachQABModifiers(QAB_2)
+        end
+        if QAB_1 ~= QAB_3 and QAB_2 ~= QAB_3 then
+            AttachQABModifiers(QAB_3)
         end
         Game:SetProperty("ChaosDone", 1)
     end

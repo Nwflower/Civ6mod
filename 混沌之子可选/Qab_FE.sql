@@ -5,8 +5,9 @@
 
 
 INSERT INTO Parameters(ParameterId,Name,Description,Domain,DefaultValue,ConfigurationGroup,ConfigurationId,GroupId,ChangeableAfterGameStart,SortIndex)VALUES
-('NW_QAB_CONFIG1','混沌之子1','','NW_QAB',1,'Game','NW_QAB_CONFIG1','AdvancedOptions', 0,1001),
-('NW_QAB_CONFIG2','混沌之子2','','NW_QAB',1,'Game','NW_QAB_CONFIG2','AdvancedOptions', 0,1002);
+('NW_QAB_CONFIG1','混沌之子1','手动选择混沌之子。','NW_QAB',1,'Game','NW_QAB_CONFIG1','AdvancedOptions', 0,1001),
+('NW_QAB_CONFIG2','混沌之子2','手动选择混沌之子。','NW_QAB',1,'Game','NW_QAB_CONFIG2','AdvancedOptions', 0,1002),
+('NW_QAB_CONFIG3','混沌之子3','手动选择混沌之子。','NW_QAB',1,'Game','NW_QAB_CONFIG3','AdvancedOptions', 0,1003);
 
 INSERT INTO DomainValues(Domain,Value,Name,Description,SortIndex)VALUES
 ('NW_QAB',1,'1号玩家','',1),
