@@ -143,6 +143,45 @@ DELETE FROM StartBiasResources WHERE CivilizationType='CIVILIZATION_MAYA' AND Re
 DELETE FROM StartBiasResources WHERE CivilizationType='CIVILIZATION_MAYA' AND ResourceType='RESOURCE_SALT';
 DELETE FROM StartBiasResources WHERE CivilizationType='CIVILIZATION_MAYA' AND ResourceType='RESOURCE_IVORY';
 
+--==============================================================================
+--******			自建出生关联表		  	  ******
+--==============================================================================
+
+-- 相同条件下，领袖优先覆盖文明的关联表
+CREATE TABLE IF NOT EXISTS NW_StartBias
+(
+    Type        TEXT    NOT NULL PRIMARY KEY,
+    Flag        INTEGER NOT NULL DEFAULT 0,
+    ActiveTerrains    TEXT,
+    NegativeTerrains  TEXT,
+    ActiveFeatures    TEXT,
+    NegativeFeatures  TEXT,
+    ActiveResources   TEXT,
+    NegativeResources TEXT
+);
+
+INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
+SELECT CivilizationType,
+       1
+FROM StartBiasTerrains
+WHERE TerrainType = 'TERRAIN_TUNDRA'
+   OR TerrainType = 'TERRAIN_TUNDRA_HILLS';
+
+INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
+SELECT CivilizationType,
+       2
+FROM StartBiasTerrains
+WHERE TerrainType = 'TERRAIN_DESERT'
+   OR TerrainType = 'TERRAIN_DESERT_HILLS';
+
+INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
+SELECT CivilizationType,
+       3
+FROM StartBiasTerrains
+WHERE TerrainType IN (SELECT TerrainType FROM Terrains WHERE Mountain = 1) AND Tier = 1;
+
+INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
+VALUES ('LEADER_T_ROOSEVELT',3);
 
 
 --==============================================================================

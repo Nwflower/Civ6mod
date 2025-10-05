@@ -65,9 +65,9 @@ function BBS_ResourceGenerator.Create(args)
         iFrequencyTotalWater = 0;
         iFrequencyStrategicTotal = 0;
         iFrequencyStrategicTotalWater = 0;
-        iTargetPercentage = 25 + RichNum * 1.5;
+        iTargetPercentage = 25 + RichNum * 5;
         iStandardPercentage = 30;
-        iLuxuryPercentage = 18 + RichNum;
+        iLuxuryPercentage = 20 + RichNum * 2;
         iStrategicPercentage = 20;
         iOccurencesPerFrequency = 0;
         iNumWaterLuxuries = 0;
@@ -230,30 +230,23 @@ function BBS_ResourceGenerator:__ValidLuxuryPlots(eContinent)
         local bCanHaveSomeResource = false;
         local pPlot = Map.GetPlotByIndex(plot);
         if (pPlot ~= nil and pPlot:IsWater() == false) then
-
             for iI = 1, iSize do
                 local bIce = false;
-
                 if (IsAdjacentToIce(pPlot:GetX(), pPlot:GetY()) == true) then
                     bIce = true;
                 end
-
                 if (ResourceBuilder.CanHaveResource(pPlot, self.eResourceType[self.aLuxuryType[iI]]) and bIce == false) then
                     row = {};
                     row.MapIndex = plot;
                     row.Score = iBaseScore;
-
                     table.insert(self.aaPossibleLuxLocs[self.aLuxuryType[iI]], row);
                     bCanHaveSomeResource = true;
                 end
             end
-
             if (bCanHaveSomeResource == true) then
                 self.iTotalValidPlots = self.iTotalValidPlots + 1;
             end
-
         end
-
         -- Compute how many of each resource to place
     end
 
@@ -261,14 +254,12 @@ function BBS_ResourceGenerator:__ValidLuxuryPlots(eContinent)
     if (self.iWaterLux == 1 and self.uiStartConfig ~= 3) then
         iNumPlots = iNumPlots / 2;
     end
-
-    self.iOccurencesPerFrequency = self.iTargetPercentage / 100 * iNumPlots * self.iLuxuryPercentage / 100 / self.iLuxuriesPerRegion * 1.2;
+    self.iOccurencesPerFrequency = self.iTargetPercentage / 100 * iNumPlots * self.iLuxuryPercentage / 100 / self.iLuxuriesPerRegion;
 end
 
 ------------------------------------------------------------------------------
 function BBS_ResourceGenerator:__PlaceLuxuryResources(eChosenLux, eContinent)
     -- Go through continent placing the chosen luxuries
-
     plots = Map.GetContinentPlots(eContinent);
 
     local iTotalPlaced = 0;
@@ -276,10 +267,10 @@ function BBS_ResourceGenerator:__PlaceLuxuryResources(eChosenLux, eContinent)
     -- 计算要放多少
     local iNumToPlace = 1;
     if (self.iOccurencesPerFrequency > 1) then
-        iNumToPlace = self.iOccurencesPerFrequency * (0.6 + self.RichNum/3);
+        iNumToPlace = self.iOccurencesPerFrequency;
     end
 
-    print("在下述大陆放置奢侈品: ", eContinent);
+    print("在下述大陆",eContinent,"放置奢侈品: ", eChosenLux, "预计个数",  iNumToPlace);
     -- Score possible locations
     self:__ScoreLuxuryPlots(eChosenLux, eContinent);
 
@@ -292,10 +283,10 @@ function BBS_ResourceGenerator:__PlaceLuxuryResources(eChosenLux, eContinent)
     for iI = 1, iNumToPlace do
         while (index <= #self.aaPossibleLuxLocs[eChosenLux]) do
             local iMapIndex = self.aaPossibleLuxLocs[eChosenLux][index].MapIndex;
-            local iScore = self.aaPossibleLuxLocs[eChosenLux][index].Score;
-
             local pPlot = Map.GetPlotByIndex(iMapIndex);
+            -- 判断奢侈品能否连片出现
             if (__isHaveLuxury(pPlot) == false) then
+                print(iI,":奢侈品: ", eChosenLux, "已放置于", iMapIndex);
                 ResourceBuilder.SetResourceType(pPlot, self.eResourceType[eChosenLux], 1);
                 iTotalPlaced = iTotalPlaced + 1;
                 index = index + 1;
@@ -305,7 +296,6 @@ function BBS_ResourceGenerator:__PlaceLuxuryResources(eChosenLux, eContinent)
             end
         end
     end
-    print("奢侈品: ", eChosenLux, " number placed = ",  iNumToPlace);
 end
 
 ------------------------------------------------------------------------------
@@ -1119,7 +1109,6 @@ function __isHaveLuxury(plot)
         local pPlot = GetAdjacentTiles(plot, i);
         if (pPlot ~= nil) then
             if (pPlot:GetResourceCount() > 0) and pPlot:IsNaturalWonder() == false then
-                -- 10 is citrus, 34 is jeans
                 if ((pPlot:GetResourceType() >= 10 and pPlot:GetResourceType() < 34 and pPlot:GetResourceType() ~= 27 and pPlot:GetResourceType() ~= 28 and pPlot:GetResourceType() ~= 11 and s_type ~= "plains")
                         or (pPlot:GetResourceType() == 14 and pPlot:GetResourceType() == 16 and pPlot:GetResourceType() == 17 and pPlot:GetResourceType() == 26 and pPlot:GetResourceType() == 31 and s_type ~= "plains")
                         or pPlot:GetResourceType() == 53) then

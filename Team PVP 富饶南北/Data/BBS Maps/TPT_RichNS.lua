@@ -65,6 +65,7 @@ function GenerateMap()
 	--【富饶系数】
 	-- 富饶系数将综合影响地图中地貌/资源/大陆/自然奇观/开局补正
 	RichNum = MapConfiguration.GetValue("RichNum") or 5;
+	print("富饶系数", RichNum);
 
 	--【海陆、地形】
 	print("划分海陆");
@@ -175,6 +176,7 @@ function RichNSBalance()
 				print(row.ResourceType,GameInfo.Resources[row.ResourceType].Index,'已记录')
 			end
 		end
+		local tempMajorList = PlayerManager.GetAliveMajorIDs();
 		for i = 1, PlayerManager.GetAliveMajorsCount() do
 			if (PlayerConfigurations[tempMajorList[i]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[tempMajorList[i]]:GetHandicapTypeID() ~= 2021024770) then
 				local pStartPlot_i = Players[tempMajorList[i]]:GetStartingPlot()
