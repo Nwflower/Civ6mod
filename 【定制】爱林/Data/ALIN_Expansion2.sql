@@ -1,0 +1,15 @@
+--	FILE: ALIN_Expansion2.sql
+--  VERSION: 1
+--  Author: Nwflower
+--  Spicial Thanks: Uni
+--	Copyright (c) 2025.
+--	All rights reserved.
+--  DateCreated: 2025/10/3 14:25:12
+--======================================================================
+--  作者： 千川白浪
+--  特别鸣谢： 优妮
+--======================================================================
+
+-- INSERT OR
+-- REPLACE INTO MomentIllustrations(MomentIllustrationType, MomentDataType, GameDataType, Texture) VALUES
+-- ('MOMENT_ILLUSTRATION_UNIQUE_DISTRICT','MOMENT_DATA_DISTRICT','PALACE','Moment_Infrastructure_Wangli.dds');

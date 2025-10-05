@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: ALIN_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/10/3 14:25:12 -->
+<GameData>
+	<LocalizedText>
+
+		<!--Leader-->
+		<Replace Tag="LOC_LEADER_NWALIN_NAME" Language="zh_Hans_CN">
+			<Text>爱林</Text>
+		</Replace>
+		<Replace Tag="LOC_LOADING_INFO_LEADER_NWALIN" Language="zh_Hans_CN">
+			<Text>爱林，后世子民将你奉为女神。胆敢与你为敌、藐视你的权威的人都将受到严惩。无论是家人还是敌人，谁都无法阻拦你前进的脚步。</Text>
+		</Replace>
+
+		<!--TRAIT-->
+		<Replace Tag="LOC_TRAIT_LEADER_NWALIN_NAME" Language="zh_Hans_CN">
+			<Text>爱林</Text>
+		</Replace>
+		<Replace Tag="LOC_TRAIT_LEADER_NWALIN_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>惊艳的沼泽或雨林+1 [ICON_FOOD] 食物。如果城市尚无圣地，则魅力值至少为5的森林+1 [ICON_PRODUCTION] 生产力。如果城市拥有圣地，则惊艳的森林单元格+1[ICON_FAITH]信仰值，土木工程市政后变为+2，保护地球市政后变为+3。单位在沼泽、雨林和森林上开始回合时，+1 [ICON_MOVEMENT] 移动力。</Text>
+		</Replace>
+		<!--City names-->
+		<Replace Tag="LOC_CITY_NAME_HENEI" Language="zh_Hans_CN">
+			<Text>河内</Text>
+		</Replace>
+	</LocalizedText>
+</GameData>

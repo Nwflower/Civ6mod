@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: NewLeader2_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/10/3 11:23:08 -->
+<GameData>
+	<LocalizedText>
+		<!--Leader-->
+		<Row Tag="LOC_LEADER_BASIL_ALT_NAME" Language="zh_Hans_CN">
+			<Text>巴兹尔二世（山海经）</Text>
+		</Row>
+		<Row Tag="LOC_LOADING_INFO_LEADER_BASIL_ALT" Language="zh_Hans_CN">
+			<Text>{LOC_LOADING_INFO_LEADER_BASIL}</Text>
+		</Row>
+
+		<!--TRAIT-->
+		<Row Tag="LOC_TRAIT_LEADER_BASIL_ALT_ZISHI_ALT_NAME" Language="zh_Hans_CN">
+			<Text>生于紫室（山海经）</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_LEADER_BASIL_ALT_ZISHI_ALT_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>建造圣地时+100% [ICON_PRODUCTION] 生产力。创建宗教后所有单位+1 [ICON_Strength] 战斗力。[ICON_TRADEROUTE] 贸易路线、学院及其建筑、剧院广场及其建筑提供的 [ICON_SCIENCE] 科技值和 [ICON_CULTURE] 文化值-100%。生产非平民单位时获得等同于其生产力的10% [ICON_SCIENCE] 科技值、10% [ICON_GOLD] 金币和5% [ICON_CULTURE] 文化值。击败陆地单位时获得等同于其 [ICON_Strength] 战斗力的30% [ICON_SCIENCE] 科技值、30% [ICON_GOLD] 金币和15% [ICON_CULTURE] 文化值（联机速度下）。拥有雇佣兵市政后，跑马场及其建筑才会提供免费的重骑兵单位。</Text>
+		</Row>
+
+		<!--ITEM-->
+		<Row Tag="LOC_UNIT_20251002_NAME" Language="zh_Hans_CN">
+			<Text>新·甲胄骑兵</Text>
+		</Row>
+		<Row Tag="LOC_UNIT_20251002_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>巴兹尔二世（山海经）的特色中世纪单位，替代骑士，解锁于雇佣兵。新·甲胄骑兵1单元格范围内的陆地单位与驻扎的单位战斗时+10 [ICON_Strength] 战斗力，无视敌方兵种克制效果。</Text>
+		</Row>
+		<Row Tag="LOC_ABILITY_UNIT_20251002_NAME" Language="zh_Hans_CN">
+			<Text>令相邻陆地单位与驻扎的单位战斗时+10 [ICON_Strength] 战斗力，无视敌方兵种克制效果。</Text>
+		</Row>
+		<Row Tag="LOC_ABILITY_UNIT_20251002_2_NAME" Language="zh_Hans_CN">
+			<Text>与驻扎的单位战斗时+10 [ICON_Strength] 战斗力，无视敌方兵种克制效果。</Text>
+		</Row>
+		<Row Tag="LOC_20251002_RELIGION_COMBAT_NAME" Language="zh_Hans_CN">
+			<Text>+{1_Num} [ICON_Strength] 战斗力来自已经创建的宗教。</Text>
+		</Row>
+		<Row Tag="LOC_MODIFIER_ABILITY_UNIT_20251002_2_ADD7LI" Language="zh_Hans_CN">
+			<Text>+{1_Num} [ICON_Strength] 战斗力来自无视敌方兵种克制效果。</Text>
+		</Row>
+
+	</LocalizedText>
+</GameData>
