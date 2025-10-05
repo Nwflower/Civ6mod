@@ -15,12 +15,12 @@
 		<Replace Key1="Map" Key2="TPT_RichNSRiver.lua" ParameterId="MapWidth" Name="LOC_MAP_WIDTH_NAME" Description="LOC_MAP_WIDTH_DESC" Domain="MapWidthRange" DefaultValue="-1" ConfigurationGroup="Game" ConfigurationId="MapWidth" Hash="0" GroupId="MapOptions" SortIndex="211"/>
 
 		<!-- 初始道路 -->
-		<Replace Key1="Map" Key2="TPT_RichNS.lua" ParameterId="RouteLevel" Name="LOC_MAP_ROUTE_LEVEL_NAME" Description="LOC_MAP_ROUTE_LEVEL_DESCRIPTION" Domain="Route_Level" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="RouteLevel" GroupId="MapOptions" Hash="0" SortIndex="212"/>
-		<Replace Key1="Map" Key2="TPT_RichNSRiver.lua" ParameterId="RouteLevel" Name="LOC_MAP_ROUTE_LEVEL_NAME" Description="LOC_MAP_ROUTE_LEVEL_DESCRIPTION" Domain="Route_Level" DefaultValue="1" ConfigurationGroup="Map" ConfigurationId="RouteLevel" GroupId="MapOptions" Hash="0" SortIndex="212"/>
+		<Replace Key1="Map" Key2="TPT_RichNS.lua" ParameterId="RouteLevel" Name="LOC_MAP_ROUTE_LEVEL_NAME" Description="LOC_MAP_ROUTE_LEVEL_DESCRIPTION" Domain="Route_Level" DefaultValue="-1" ConfigurationGroup="Map" ConfigurationId="RouteLevel" GroupId="MapOptions" Hash="0" SortIndex="212"/>
+		<Replace Key1="Map" Key2="TPT_RichNSRiver.lua" ParameterId="RouteLevel" Name="LOC_MAP_ROUTE_LEVEL_NAME" Description="LOC_MAP_ROUTE_LEVEL_DESCRIPTION" Domain="Route_Level" DefaultValue="-1" ConfigurationGroup="Map" ConfigurationId="RouteLevel" GroupId="MapOptions" Hash="0" SortIndex="212"/>
 
 		<!-- 富饶系数 -->
-		<Replace Key1="Map" Key2="TPT_RichNS.lua" ParameterId="RichNum" Name="LOC_MAP_RICH_NUM_NAME" Description="LOC_MAP_RICH_NUM_DESC" Domain="RichNumRange" DefaultValue="5" ConfigurationGroup="Map" ConfigurationId="RichNum" Hash="0" GroupId="MapOptions" SortIndex="211"/>
-		<Replace Key1="Map" Key2="TPT_RichNSRiver.lua" ParameterId="RichNum" Name="LOC_MAP_RICH_NUM_NAME" Description="LOC_MAP_RICH_NUM_DESC" Domain="RichNumRange" DefaultValue="5" ConfigurationGroup="Map" ConfigurationId="RichNum" Hash="0" GroupId="MapOptions" SortIndex="211"/>
+		<Replace Key1="Map" Key2="TPT_RichNS.lua" ParameterId="RichNum" Name="LOC_MAP_RICH_NUM_NAME" Description="LOC_MAP_RICH_NUM_DESC" Domain="RichNumRange" DefaultValue="4" ConfigurationGroup="Map" ConfigurationId="RichNum" Hash="0" GroupId="MapOptions" SortIndex="211"/>
+		<Replace Key1="Map" Key2="TPT_RichNSRiver.lua" ParameterId="RichNum" Name="LOC_MAP_RICH_NUM_NAME" Description="LOC_MAP_RICH_NUM_DESC" Domain="RichNumRange" DefaultValue="4" ConfigurationGroup="Map" ConfigurationId="RichNum" Hash="0" GroupId="MapOptions" SortIndex="211"/>
 
 		<!-- 地图特性 -->
 		<Replace Key1="Map" Key2="TPT_RichNS.lua" ParameterId="MapTrait" Name="LOC_MAP_TRAIT_NAME" Description="LOC_MAP_TRAIT_RICHNS_DESCRIPTION" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="MapTrait" GroupId="MapOptions" Hash="0" SortIndex="212"/>
