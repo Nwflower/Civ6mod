@@ -19,7 +19,7 @@ local addJungleCount = 0;
 local addForestCount = 0;
 local addHuntCount = 0;
 local addBananaCount = 0;
-
+local RichNum;
 --静态变量
 local functionResultFalse = "false";
 local functionResultSuccess = "success";
@@ -95,7 +95,7 @@ function BBS_Script(args)
         local startConfig = MapConfiguration.GetValue("start")
         print("Init: Spawntype: ", startConfig, "1 = Standard, 2 = Balanced, 3 = Legendary");
 
-        local RichNum = args.RichNum or 5;
+        RichNum = args.RichNum or 5;
 
         local iBalancingOne = 2;
         local iBalancingTwo = 0;
@@ -103,15 +103,15 @@ function BBS_Script(args)
         local force_remap = true;
         local majList = {}
         local tempEval = {}
-        local minFood = 5;
+        local minFood = 5 + math.floor(RichNum * 0.3);
         local avgFood = 0;
         local maxFood = 0;
-        local minProd = 6;
+        local minProd = 6 + math.floor(RichNum * 0.3);
         local avgProd = 0;
         local maxProd = 0;
         local avgHill = 0;
-        local dispersion = 0.15; --override later
-        local dispersion_2 = 0.075;
+        local dispersion = 0.1 * RichNum; --override later
+        local dispersion_2 = 0.05 * RichNum;
         local count = 0;
         local debug_balancing = false
 
@@ -135,18 +135,17 @@ function BBS_Script(args)
         print("开始计算开局资源补偿")
         if resourcesConfig ~= nil then
             if (resourcesConfig == 1 or resourcesConfig == 2) then
-                iBalancingTwo = math.min(resourcesConfig - 2, 0);
+                iBalancingTwo = math.max(math.floor(RichNum * 0.3), 1);
                 minFood = minFood + resourcesConfig;
-
-                iBalancingOneDeviationNumber = resourcesConfig - 2;--贫瘠\普通
+                iBalancingOneDeviationNumber = math.floor(RichNum * 0.4);--贫瘠\普通
             elseif (resourcesConfig == 3) then
-                iBalancingTwo = 1;
+                iBalancingTwo = 2;
                 minFood = minFood + 3;
                 minProd = minProd + 3;
-                iBalancingOneDeviationNumber = 1;--富有
+                iBalancingOneDeviationNumber = math.floor(RichNum * 0.6);--富有
             else
-                minFood = 9;
-                iBalancingOneDeviationNumber = 0;--普通
+                minFood = 7 + math.floor(RichNum * 0.5);
+                iBalancingOneDeviationNumber = math.floor(RichNum * 0.4);--普通
             end
         end
         print("iBalancingOneDeviationNumber:", iBalancingOneDeviationNumber);
@@ -164,7 +163,7 @@ function BBS_Script(args)
             bBiasFail = true;
         end
 
-        iBalancingThree = 1;
+        iBalancingThree = math.floor(RichNum * 0.4);
         iBalancingFour = 0;
 
         print("地图平衡脚本：初始化完毕");
@@ -173,18 +172,6 @@ function BBS_Script(args)
         print("Init: Global Parameters: City-State Buffer:", GlobalParameters.START_DISTANCE_MINOR_MAJOR_CIVILIZATION)
         print("Init: Global Parameters: Major Civs Buffer:", GlobalParameters.START_DISTANCE_MAJOR_CIVILIZATION - GlobalParameters.START_DISTANCE_RANGE_MAJOR)
 
-        -------------------------------------------------------------------------------------
-        -- Settings: Importing BBS Settings
-        -------------------------------------------------------------------------------------
-        if (iBalancingOne == 1) then
-            dispersion = 0.33;
-        elseif (iBalancingOne == 2) then
-            dispersion = 0.25;
-        elseif (iBalancingOne == 3) then
-            dispersion = 0.10;
-        end
-
-        dispersion = 0.15;
 
         -------------------------------------------------------------------------------------
         -- Settings: Importing Map Variables
@@ -268,10 +255,10 @@ function BBS_Script(args)
         if bBiasFail == true or bBiasFail == false then
             print("BBS分配出生点失败。地图脚本正在检查F社分配出生点脚本是否存在错误")
             for i = 1, major_count do
-                if (PlayerConfigurations[major_table[i]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[major_table[i]]:GetHandicapTypeID() ~= 2021024770 and PlayerConfigurations[major_table[i]]:GetLeaderTypeName() ~= "LEADER_KUPE") then
+                if (PlayerConfigurations[major_table[i]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[major_table[i]]:GetHandicapTypeID() ~= 2021024770 and (not IsSeaStartCiv(PlayerConfigurations[major_table[i]]:GetLeaderTypeName()))) then
                     local pStartPlot_i = Players[major_table[i]]:GetStartingPlot()
                     for j = 1, major_count do
-                        if (PlayerConfigurations[major_table[j]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[major_table[j]]:GetHandicapTypeID() ~= 2021024770 and PlayerConfigurations[major_table[j]]:GetLeaderTypeName() ~= "LEADER_KUPE" and major_table[i] ~= major_table[j]) then
+                        if (PlayerConfigurations[major_table[j]]:GetLeaderTypeName() ~= "LEADER_SPECTATOR" and PlayerConfigurations[major_table[j]]:GetHandicapTypeID() ~= 2021024770 and (not IsSeaStartCiv(PlayerConfigurations[major_table[i]]:GetLeaderTypeName())) and major_table[i] ~= major_table[j]) then
                             local pStartPlot_j = Players[major_table[j]]:GetStartingPlot()
                             local distance = Map.GetPlotDistance(pStartPlot_i:GetIndex(), pStartPlot_j:GetIndex())
                             __Debug("I:", i, "J:", j, "Distance:", distance)
@@ -529,18 +516,17 @@ function BBS_Script(args)
             -- 修复极端山脉开局
             for i = 1, major_count do
                 if (majList[i] ~= nil) then
-					-- 印加以外检查山脉过多的问题
-                    if (majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770 and majList[i].leader ~= "LEADER_PACHACUTI") then
+                    -- 印加以外检查山脉过多的问题
+                    if (majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770 and not IsMountainCiv(majList[i].leader)) then
                         if (((majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) >= 12)
-								or ((majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) >= 8
-								and (majList[i].water_start + majList[i].water_inner + majList[i].water_outer) >= 4)) then
+                                or ((majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) >= 8
+                                and (majList[i].water_start + majList[i].water_inner + majList[i].water_outer) >= 4)) then
                             __Debug("山脉化改造 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ", i, " ", majList[i].leader, majList[i].civ);
                             Terraforming_Mountain(Map.GetPlot(majList[i].plotX, majList[i].plotY), 0)
                         end
                     end
-					-- 印加、文美检查山脉过少的问题
-                    if ((majList[i].leader == "LEADER_PACHACUTI" or majList[i].leader == "LEADER_T_ROOSEVELT")
-							and (majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) < 6) then
+                    -- 印加、文美检查山脉过少的问题
+                    if (IsMountainCiv(majList[i].leader) and (majList[i].impassable_start + majList[i].impassable_inner + majList[i].impassable_outer) < 6) then
                         __Debug("山脉化改造 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ", i, " ", majList[i].leader, majList[i].civ);
                         Terraforming_Mountain(Map.GetPlot(majList[i].plotX, majList[i].plotY), 3)
                     end
@@ -551,7 +537,7 @@ function BBS_Script(args)
             for i = 1, major_count do
                 if (majList[i] ~= nil) then
                     if (majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-                        if (((majList[i].impassable_start + majList[i].water_start) > 4) and majList[i].leader ~= "LEADER_PACHACUTI") then
+                        if (((majList[i].impassable_start + majList[i].water_start) > 4) and not IsMountainCiv(majList[i].leader)) then
                             __Debug("Walled-In Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ", i, " ", majList[i].leader, majList[i].civ);
                             Terraforming_Nuke_Mountain(Map.GetPlot(majList[i].plotX, majList[i].plotY))
                         end
@@ -559,8 +545,8 @@ function BBS_Script(args)
                 end
             end
 
-			-- 倾斜轴线以外的地图修复平原森林缺失
-			-- 在温带，无地貌的平坦单元格将有15%概率生长丘陵树（平原为33%）
+            -- 倾斜轴线以外的地图修复平原森林缺失
+            -- 在温带，无地貌的平坦单元格将有15%概率生长丘陵树（平原为33%）
             if string.lower(mapName) ~= "tilted_axis.lua" then
                 for iPlotIndex = 0, Map.GetPlotCount() - 1, 1 do
                     local rng = TerrainBuilder.GetRandomNumber(100, "test") / 100;
@@ -651,30 +637,30 @@ function BBS_Script(args)
                     local adjacentPlotRice = GetAdjacentTiles(PlotRice, ii);
                     if (adjacentPlotRice ~= nil) then
                         if (adjacentPlotRice:GetResourceCount() > 0) then
-							-- 牛麦子大米玉米
+                            -- 牛麦子大米玉米
                             if (1 == adjacentPlotRice:GetResourceType() or 6 == adjacentPlotRice:GetResourceType() or 9 == adjacentPlotRice:GetResourceType() or 52 == adjacentPlotRice:GetResourceType()) then
                                 addRiceCount = addRiceCount + 1;
                             end
-							-- 羊
+                            -- 羊
                             if (7 == adjacentPlotRice:GetResourceType()) then
                                 addFoodSheepCount = addFoodSheepCount + 1;
                             end
-							-- 鱼
+                            -- 鱼
                             if (adjacentPlotRice:IsWater() == true and adjacentPlotRice:GetResourceCount() > 0 and adjacentPlotRice:GetResourceType() ~= 45) then
                                 resourcesFishCount = resourcesFishCount + 1;
                             end
-							-- 鹿
+                            -- 鹿
                             if (4 == adjacentPlotRice:GetResourceType()) then
                                 addHuntCount = addHuntCount + 1;
                             end
-							-- 香蕉
+                            -- 香蕉
                             if (0 == adjacentPlotRice:GetResourceType()) then
                                 addBananaCount = addBananaCount + 1;
                             end
 
                         end
 
-						-- 雨林森林
+                        -- 雨林森林
                         if (adjacentPlotRice:GetFeatureType() == 2) then
                             addJungleCount = addJungleCount + 1;
                         end
@@ -706,7 +692,7 @@ function BBS_Script(args)
                         -- 先补一次1环内
                         local isMust = false;
                         while (functionCount <= 20) do
-							local functionResult = civAddOneRingFloorsTeamPVP(Map.GetPlot(majList[i].plotX, majList[i].plotY), majList[i].leader, majList[i].civ, isMust);
+                            local functionResult = civAddOneRingFloorsTeamPVP(Map.GetPlot(majList[i].plotX, majList[i].plotY), majList[i].leader, majList[i].civ, isMust);
                             if (functionResult == functionResultFalse) then
                                 functionCount = functionCount + 1;
                                 if (functionCount >= 10) then
@@ -748,7 +734,6 @@ function BBS_Script(args)
                             elseif (IsMountainCiv(majList[i].leader) or IsMountainCiv(majList[i].civ)) then
                                 civFlag = 3;
                             end
-                            --AddBonusBind(Map.GetPlot(majList[i].plotX,majList[i].plotY),iBalancingThree,civFlag,majList[i].civ);
                             local bindFunctionCount = 0;
                             while (bindFunctionCount <= 20) do
                                 functionResult = AddBonusBind(Map.GetPlot(majList[i].plotX, majList[i].plotY), iBalancingThree, civFlag, majList[i].civ);
@@ -764,7 +749,7 @@ function BBS_Script(args)
                 end
             end
 
-			-- 非传奇开局移除过多食物
+            -- 非传奇开局移除过多食物
             if (startConfig ~= 3 and RichNum < 5) then
                 for i = 1, major_count do
                     if (majList[i] ~= nil) then
@@ -856,29 +841,29 @@ function BBS_Script(args)
                         tempEval = EvaluateStartingLocation(startPlot)
                         majList[i].best_tile = math.max(tempEval[24], tempEval[28] * 0.9);
                         majList[i].best_tile_2 = math.max(tempEval[25], tempEval[29] * .9);
-						if (majList[i].civ == "CIVILIZATION_RUSSIA") and tempEval[11] > 4 then
-							majList[i].best_tile = math.max(tempEval[24], tempEval[28]) + 1;
-							majList[i].best_tile_2 = math.max(tempEval[25], tempEval[29]) + 1;
-						elseif (IsTundraCiv(majList[i].civ)) and tempEval[11] > 4 then
-							majList[i].best_tile = math.max(tempEval[24], tempEval[28] * 0.9) + 1;
-							majList[i].best_tile_2 = math.max(tempEval[25], tempEval[29] * 0.9) + 1;
-						elseif (IsDesertCiv(majList[i].civ)) and tempEval[12] > 4 then
+                        if (majList[i].civ == "CIVILIZATION_RUSSIA") and tempEval[11] > 4 then
+                            majList[i].best_tile = math.max(tempEval[24], tempEval[28]) + 1;
+                            majList[i].best_tile_2 = math.max(tempEval[25], tempEval[29]) + 1;
+                        elseif (IsTundraCiv(majList[i].civ)) and tempEval[11] > 4 then
+                            majList[i].best_tile = math.max(tempEval[24], tempEval[28] * 0.9) + 1;
+                            majList[i].best_tile_2 = math.max(tempEval[25], tempEval[29] * 0.9) + 1;
+                        elseif (IsDesertCiv(majList[i].civ)) and tempEval[12] > 4 then
                             majList[i].best_tile = math.max(tempEval[24], tempEval[28] * 0.9) + 0.75;
                             majList[i].best_tile_2 = math.max(tempEval[25], tempEval[29] * 0.9) + 0.75;
-						elseif (GameInfo.Leaders_XP2[majList[i].leader] and GameInfo.Leaders_XP2[majList[i].leader].OceanStart == 1) then
-							-- so Maori doesn't penalized other.
+                        elseif (IsSeaStartCiv(majList[i].leader)) then
+                            -- so Maori doesn't penalized other.
                             majList[i].best_tile = math.max(majList[i].best_tile, 4)
                             majList[i].best_tile_2 = math.max(majList[i].best_tile_2, 4)
                         end
                         __Debug(majList[i].civ, "S1-S2-I1-I2:", tempEval[24], tempEval[25], tempEval[28], tempEval[29], "Best", majList[i].best_tile, "Second", majList[i].best_tile_2)
                         -- 记录最大开局
-						if majList[i].best_tile > max_best_tile_1 then
+                        if majList[i].best_tile > max_best_tile_1 then
                             max_best_tile_1 = majList[i].best_tile
                             max_best_tile_2 = majList[i].best_tile_2
                             best_civ_2 = majList[i].leader
                             best_civ_1 = majList[i].leader
                         end
-						-- 考虑到我们有一个基础的 2:2 城市地块，而不是 2:1
+                        -- 考虑到我们有一个基础的 2:2 城市地块，而不是 2:1
                         if startPlot:GetTerrainType() == 4 then
                             majList[i].best_tile = majList[i].best_tile + 1
                         end
@@ -899,16 +884,16 @@ function BBS_Script(args)
                         if (majList[i].leader ~= "LEADER_SPECTATOR") then
                             if RichNum >= 5 and ((avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2) > 1.0) then
                                 __Debug("Tile balancing: Need to adjust: ", majList[i].leader, "Score:", (majList[i].best_tile + majList[i].best_tile_2), "Missing score:", (avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2))
-                                if (IsMountainCiv(majList[i].civ)) then
-                                    Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 3)
+                                if (IsMountainCiv(majList[i].leader)) then
+                                    Terraforming_Best(Map.GetPlot(majList[i].plotX, majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 3)
                                 elseif (majList[i].civ == "CIVILIZATION_EGYPT") then
-                                    Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 4)
+                                    Terraforming_Best(Map.GetPlot(majList[i].plotX, majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 4)
                                 elseif IsDesertCiv(majList[i].civ) then
-                                    Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 2)
-                                elseif (majList[i].civ == "CIVILIZATION_CANADA" or majList[i].civ == "CIVILIZATION_SUK_TIBET" or majList[i].civ == "CIVILIZATION_RUSSIA") then
-                                    Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 1)
+                                    Terraforming_Best(Map.GetPlot(majList[i].plotX, majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 2)
+                                elseif (IsTundraCiv(majList[i].civ)) then
+                                    Terraforming_Best(Map.GetPlot(majList[i].plotX, majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 1)
                                 else
-                                    Terraforming_Best(Map.GetPlot(majList[i].plotX,majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 0)
+                                    Terraforming_Best(Map.GetPlot(majList[i].plotX, majList[i].plotY), avg_best_tile_1, avg_best_tile_2, avg_best_tile_1 + avg_best_tile_2 - majList[i].best_tile - majList[i].best_tile_2, 0)
                                 end
                             elseif RichNum < 5 and ((majList[i].best_tile + majList[i].best_tile_2) > ((avg_best_tile_1 + avg_best_tile_2) * (1 + dispersion_2))) then
                                 __Debug("Tile balancing: Need to adjust Positive Outliers: ", majList[i].leader, "Score:", (majList[i].best_tile + majList[i].best_tile_2), "Need to Adjust:", math.max(math.floor(majList[i].best_tile + majList[i].best_tile_2 - avg_best_tile_1 - avg_best_tile_2), 1))
@@ -967,29 +952,29 @@ function BBS_Script(args)
                 end
             end
 
-			-- 为所有人开局添加水源
-			for i = 1, major_count do
-				if (majList[i] ~= nil) then
-					if (majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
-						-- Check for freshwater
-						local wplot = Map.GetPlot(majList[i].plotX, majList[i].plotY)
-						if (wplot:IsCoastalLand() == false and wplot:IsWater() == false and wplot:IsRiver() == false and wplot:IsFreshWater() == false) then
-							print("添加淡水 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ", i, " ", majList[i].leader, majList[i].civ);
-							Terraforming_Water(Map.GetPlot(majList[i].plotX, majList[i].plotY));
-							-- 富饶系数如果大于5，所有人开局获得淡水
-						elseif (RichNum >= 5 and wplot:IsRiver() == false) then
-							print("TeamPVP 添加淡水 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ", i, " ", majList[i].leader, majList[i].civ); -- put a print to catch the error in non debug mode
-							Terraforming_Water(Map.GetPlot(majList[i].plotX, majList[i].plotY));
-						end
-					end
-				end
-			end
+            -- 为所有人开局添加水源
+            for i = 1, major_count do
+                if (majList[i] ~= nil) then
+                    if (majList[i].leader ~= "LEADER_SPECTATOR" and PlayerConfigurations[i]:GetHandicapTypeID() ~= 2021024770) then
+                        -- Check for freshwater
+                        local wplot = Map.GetPlot(majList[i].plotX, majList[i].plotY)
+                        if (wplot:IsCoastalLand() == false and wplot:IsWater() == false and wplot:IsRiver() == false and wplot:IsFreshWater() == false) then
+                            print("添加淡水 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ", i, " ", majList[i].leader, majList[i].civ);
+                            Terraforming_Water(Map.GetPlot(majList[i].plotX, majList[i].plotY));
+                            -- 富饶系数如果大于5，所有人开局获得淡水
+                        elseif (RichNum >= 5 and wplot:IsRiver() == false) then
+                            print("TeamPVP 添加淡水 Start X: ", majList[i].plotX, "Start Y: ", majList[i].plotY, "Player: ", i, " ", majList[i].leader, majList[i].civ); -- put a print to catch the error in non debug mode
+                            Terraforming_Water(Map.GetPlot(majList[i].plotX, majList[i].plotY));
+                        end
+                    end
+                end
+            end
 
-			if (bBiasFail == true) then
-				Game:SetProperty("BBS_SAFE_MODE", true)
-			else
-				Game:SetProperty("BBS_SAFE_MODE", false)
-			end
+            if (bBiasFail == true) then
+                Game:SetProperty("BBS_SAFE_MODE", true)
+            else
+                Game:SetProperty("BBS_SAFE_MODE", false)
+            end
         else
             print("BBS Script - Completed - Debug", os.date("%c"));
         end
@@ -1054,7 +1039,6 @@ function Tundra_Resource_Pick()
         end
     end
 end
-
 
 ------------------------------------------------------------------------------------------------------------------------------
 function EvaluateStartingLocation(plot)
@@ -1692,10 +1676,8 @@ function AddBonusFood(plot, intensity, flag, majListCiv)
 
     if (intensity == 0) then
         limit_1 = 0.9;
-    elseif (intensity == 1) then
-        limit_1 = 0.5;
-    elseif (intensity == 2) then
-        limit_1 = 0.25;
+    else
+        limit_1 = 0.5 / intensity;
     end
 
     for k = 0, 1 do
@@ -2164,10 +2146,8 @@ function AddBonusBind(plot, intensity, flag, majListCiv)
 
     if (intensity == 0) then
         limit_1 = 0.9;
-    elseif (intensity == 1) then
-        limit_1 = 0.5;
-    elseif (intensity == 2) then
-        limit_1 = 0.25;
+    else
+        limit_1 = 0.5 / intensity;
     end
 
     for k = 0, 1 do
@@ -2520,10 +2500,8 @@ function AddBonusProd(plot, intensity, flag)
 
     if (intensity == 0) then
         limit_1 = 0.9;
-    elseif (intensity == 1) then
-        limit_1 = 0.75;
-    elseif (intensity == 2) then
-        limit_1 = 0.5;
+    else
+        limit_1 = 0.5 / intensity;
     end
 
     for k = 0, 1 do
@@ -2666,16 +2644,13 @@ function AddHills(plot, intensity, flag, civAddHillTeamPVP)
     --方法变量
     local rngAdd = 0;--成功率附加
     local rngAddBlock = 50;--成功率附加每次失败递增
-
+    intensity = intensity or 1
     if (intensity == 0) then
         limit_1 = 0.9;
         limit_2 = 0.75;
-    elseif (intensity == 1) then
-        limit_1 = 0.33;
-        limit_2 = 0.20;
-    elseif (intensity == 2) then
-        limit_1 = 0.20;
-        limit_2 = 0.10;
+    else
+        limit_1 = 1 / (intensity * 2 + 1);
+        limit_2 = 1 / (intensity * 4 + 1);
     end
 
     for k = 0, 1 do
@@ -2907,7 +2882,6 @@ function Terraforming_Mountain(plot, flag)
                         and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS
                         and rng <= (0.7 + 2 * (i - 6) / 100 + rngMountainAdd / 100)
                         and count <= 2) then
-
                     if adjacentPlot:GetTerrainType() == 0 or adjacentPlot:GetTerrainType() == 1 then
                         TerrainBuilder.SetTerrainType(adjacentPlot, 2);
                     elseif adjacentPlot:GetTerrainType() == 3 or adjacentPlot:GetTerrainType() == 4 then
@@ -2958,7 +2932,6 @@ function Terraforming_Mountain(plot, flag)
                         and adjacentPlot:GetFeatureType() ~= g_FEATURE_FLOODPLAINS_PLAINS
                         and rng <= (0.7 + 2 * (i - 18) / 100 + rngMountainAdd / 100)
                         and count <= 5) then
-
                     if adjacentPlot:GetTerrainType() == 0 or adjacentPlot:GetTerrainType() == 1 then
                         TerrainBuilder.SetTerrainType(adjacentPlot, 2);
                     elseif adjacentPlot:GetTerrainType() == 3 or adjacentPlot:GetTerrainType() == 4 then
@@ -2974,9 +2947,6 @@ function Terraforming_Mountain(plot, flag)
                 end
             end
         end
-    end
-
-    if flag == 3 then
         return
     end
 
@@ -3232,70 +3202,22 @@ function Terraforming_Mountain(plot, flag)
 end
 
 ------------------------------------------------------------------------------
-
 function Terraforming_Polar_Start(plot)
-    -- flag = 0 normal
-    -- flag = 1 tundra civ
-    -- flag = 2 desert civ
-    -- flag = 3 mountain civ
-    local terrainType = plot:GetTerrainType();
-    local featureType = plot:GetFeatureType();
-    local gridWidth, gridHeight = Map.GetGridSize();
     local ContinentNum = nil;
     local ContinentPlots = {};
-
     ContinentNum = plot:GetContinentType()
     ContinentPlots = Map.GetContinentPlots(ContinentNum);
     __Debug("Terraforming Polar Continent", ContinentNum);
-
-    --------------------------------------------------------------------------------------------------------------
-    -- Terraforming Polar Start ----------------------------------------------------------------------------
-    --------------------------------------------------------------------------------------------------------------
-
-    for i, plot in ipairs(ContinentPlots) do
-        if plot ~= nil then
-            local pPlot = Map.GetPlotByIndex(plot)
-            local terrainType = pPlot:GetTerrainType();
-            local featureType = pPlot:GetFeatureType();
-
-            -- Let Tundra warm to Plains
-
-            --[[if (terrainType == 9 or terrainType == 10 or terrainType == 11) and pPlot:IsNaturalWonder() == false then
-				TerrainBuilder.SetTerrainType(pPlot,terrainType - 6);
-				if (pPlot:GetResourceCount() > 0 ) then
-					local resourceType = pPlot:GetResourceType();
-					if (resourceType == 45) then
-						-- Oil requires a Marsh to spawn on Plains
-						TerrainBuilder.SetFeatureType(pPlot,-1);
-						TerrainBuilder.SetFeatureType(pPlot,5);
-						elseif (resourceType == 16) then
-						-- Fur requires a Wood to spawn on Plains
-						TerrainBuilder.SetFeatureType(pPlot,-1);
-						TerrainBuilder.SetFeatureType(pPlot,3);
-						elseif (resourceType == 26) then
-						-- Silver cannot spawn on Plains
-						ResourceBuilder.SetResourceType(pPlot,-1);
-						TerrainBuilder.SetFeatureType(pPlot,3);
-						elseif (resourceType == 4) then
-						-- Deer requires Wood
-						TerrainBuilder.SetFeatureType(pPlot,-1);
-						TerrainBuilder.SetFeatureType(pPlot,3);
-					end
-				end
-			end--]]
-
-            -- Let Snow warm to Tundra
-
-            if (terrainType == 12 or terrainType == 13 or terrainType == 14) then
-                TerrainBuilder.SetTerrainType(pPlot, terrainType - 3);
+    for i, iplot in ipairs(ContinentPlots) do
+        if iplot ~= nil then
+            local pPlot = Map.GetPlotByIndex(iplot)
+            local iTerrain = pPlot:GetTerrainType();
+            if (iTerrain == 12 or iTerrain == 13 or iTerrain == 14) then
+                TerrainBuilder.SetTerrainType(pPlot, iTerrain - 3);
                 print("Let Snow warm to Tundra success");
             end
-
         end
     end
-
-    -- Removing the Ice
-
     for i = 0, 90 do
         adjacentPlot = GetAdjacentTiles(plot, i)
         rng = TerrainBuilder.GetRandomNumber(100, "test") / 100
@@ -3306,7 +3228,6 @@ function Terraforming_Polar_Start(plot)
             end
         end
     end
-
 end
 
 ------------------------------------------------------------------------------
@@ -4339,6 +4260,7 @@ function Terraforming_Flood(plot, intensity)
     -- flag = 1 tundra civ
     -- flag = 2 desert civ
     -- flag = 3 mountain civ
+    intensity = intensity or 1
     local max_water = 0;
     local harborplot_index = nil;
     local iResourcesInDB = 0;
@@ -4348,10 +4270,10 @@ function Terraforming_Flood(plot, intensity)
     local direction = 0;
     local bTerraform = true;
     local limit = 0;
-    local limit_1 = 1;
-    local limit_2 = 1;
-    local limit_3 = 1;
-    local limit_4 = 1;
+    local limit_1 = 0.25 / intensity;
+    local limit_2 = 0.5 / intensity;
+    local limit_3 = 0.75 / intensity;
+    local limit_4 = 1 / intensity;
     local adjacentPlot = nil;
     local adjacentPlot2 = nil;
     local adjacentPlot3 = nil;
@@ -4361,20 +4283,6 @@ function Terraforming_Flood(plot, intensity)
     --------------------------------------------------------------------------------------------------------------
     -- Terraforming Floodplains Start ----------------------------------------------------------------------------
     --------------------------------------------------------------------------------------------------------------
-
-    if (intensity == 1) then
-        limit_1 = 0.25;
-        limit_2 = 0.50;
-        limit_3 = 0.33;
-        limit_4 = 0.66;
-
-    elseif (intensity == 2) then
-        limit_1 = 0.10;
-        limit_2 = 0.25;
-        limit_3 = 0.25;
-        limit_4 = 0.50;
-
-    end
 
     for i = -1, 17 do
         adjacentPlot = GetAdjacentTiles(plot, i);
@@ -4408,6 +4316,7 @@ function Terraforming_Coastal(plot, intensity, post_correction)
     -- flag = 1 tundra civ
     -- flag = 2 desert civ
     -- flag = 3 mountain civ
+    intensity = intensity or 1
     local max_water = 0;
     local harborplot_index = nil;
     local iResourcesInDB = 0;
@@ -4418,16 +4327,15 @@ function Terraforming_Coastal(plot, intensity, post_correction)
     local bTerraform = true;
     local count = 0;
     local limit = 0;
-    local limit_1 = 0.75;
-    local limit_2 = 0.5;
-    local limit_3 = 0.33;
-    local limit_4 = 0.5;
-    local limit_5 = 0.5;
+    local limit_1 = 0.75 / intensity;
+    local limit_2 = 0.5 / intensity;
+    local limit_3 = 0.33 / intensity;
+    local limit_4 = 0.5 / intensity;
+    local limit_5 = 0.5 / intensity;
     local adjacentPlot = nil;
     local adjacentPlot2 = nil;
     local adjacentPlot3 = nil;
     local adjacentPlot4 = nil;
-
 
     --------------------------------------------------------------------------------------------------------------
     -- Terraforming Coastal Start --------------------------------------------------------------------------------
@@ -5713,14 +5621,13 @@ function AddLuxuryStarting(plot, s_type, flag, majListCiv)
     __Debug("Balancing X: ", plotX, "Y: ", plotY, "Failed to add a Luxury");
 
     if (s_type == "food") then
-        return AddBonusFood(plot, iBalancingThree, flag, majListCiv);
+        return AddBonusFood(plot,  math.floor(RichNum * 0.4), flag, majListCiv);
     end
     if (s_type == "prod") then
-        return AddBonusProd(plot, iBalancingThree, flag);
+        return AddBonusProd(plot,  math.floor(RichNum * 0.4), flag);
     end
     return false;
 end
-
 
 -------------------------------------------------------------------------------------------------------
 local FlagsData = { }
@@ -5746,6 +5653,13 @@ end
 ------------------------------------------------------------------------------
 function IsMountainCiv(Type)
     return GetCLFlag(Type) == 3
+end
+------------------------------------------------------------------------------
+function IsSeaStartCiv(Type)
+    if GameInfo.Leaders_XP2[Type] and GameInfo.Leaders_XP2[Type].OceanStart == 1 then
+        return true
+    end
+    return false
 end
 ------------------------------------------------------------------------------
 function IsFloodCiv(civilizationType)
@@ -6412,10 +6326,10 @@ function civAddFoodTeamPVP(startPlot, sPlayerLeaderName, sPlayerCivName, success
     end
     --获取文明标签 0普通文明，1冻土文明，2沙漠文明，3山脉文明
     local civFlag = 0;
-    if GetCLFlag(majList.civ) ~=0 then
+    if GetCLFlag(majList.civ) ~= 0 then
         civFlag = GetCLFlag(majList.civ)
     end
-    if GetCLFlag(majList.leader)~=0 then
+    if GetCLFlag(majList.leader) ~= 0 then
         civFlag = GetCLFlag(majList.civ)
     end
     if civFlag == 1 or civFlag == 2 then
@@ -6460,7 +6374,7 @@ function civAddFoodTeamPVP(startPlot, sPlayerLeaderName, sPlayerCivName, success
     end
     --奢侈没有成功补上，或者未补贴过，补贴一个食物
     if (addFoodResult == false) then
-        addFoodResult = AddBonusFood(Map.GetPlot(plotX, plotY), iBalancingThree, civFlag, majList.civ);
+        addFoodResult = AddBonusFood(Map.GetPlot(plotX, plotY),  math.floor(RichNum * 0.4), civFlag, majList.civ);
     end
     --返回结果
     if (addFoodResult) then
@@ -6565,7 +6479,7 @@ function civAddProdTeamPVP(startPlot, sPlayerLeaderName, sPlayerCivName, success
     end
     --奢侈没有成功补上，或者未补贴过，补贴一个产出
     if (addProdResult == false) then
-        addProdResult = AddBonusProd(Map.GetPlot(plotX, plotY), iBalancingThree, civFlag, majList.civ);
+        addProdResult = AddBonusProd(Map.GetPlot(plotX, plotY),  math.floor(RichNum * 0.4), civFlag, majList.civ);
     end
     --返回结果
     if (addProdResult) then
@@ -6648,9 +6562,9 @@ function civAddHillTeamPVP(startPlot, sPlayerLeaderName, sPlayerCivName, isLucky
         --充足 结束补贴丘陵
         return functionResultSuccess;
     end
-	--不足 准备补贴
+    --不足 准备补贴
     --为玩家增加丘陵
-    local addHillResult = AddHills(Map.GetPlot(plotX, plotY), iBalancingThree, 0, civAddHillTeamPVP);
+    local addHillResult = AddHills(Map.GetPlot(plotX, plotY),  math.floor(RichNum * 0.4), 0, civAddHillTeamPVP);
     --返回结果
     if (addHillResult) then
         return functionResultTrue;
@@ -6691,10 +6605,8 @@ function AddBonusOneRing(plot, intensity, flag, isMust)
 
     if (intensity == 0) then
         limit_1 = 0.9;
-    elseif (intensity == 1) then
-        limit_1 = 0.5;
-    elseif (intensity == 2) then
-        limit_1 = 0.25;
+    else
+        limit_1 = 0.5 / intensity;
     end
 
     for k = 0, 1 do
@@ -6961,6 +6873,7 @@ function civAddOneRingFloorsTeamPVP(startPlot, sPlayerLeaderName, sPlayerCivName
 
     --为玩家增加一环保底
     local addOneRingResult = false;
+    local iBalancingThree =  math.floor(RichNum * 0.4)
     addOneRingResult = AddBonusOneRing(Map.GetPlot(plotX, plotY), iBalancingThree, civFlag, isMust);
     --返回结果
     if (addOneRingResult) then

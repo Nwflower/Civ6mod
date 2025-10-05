@@ -134,13 +134,17 @@ function GenerateMap()
 	});
 
 	print("地图平衡");
-	local Balance = BBS_Script();
+	local Balance = BBS_Script({
+		RichNum= RichNum
+	});
 	AreaBuilder.Recalculate();
 	TerrainBuilder.AnalyzeChokepoints();
 	RichNSBalance();
 
 	print("开始生成道路");
 	DoRoute()
+	AreaBuilder.Recalculate();
+	TerrainBuilder.AnalyzeChokepoints();
 	print("地图：富饶南北生成完毕");
 end
 -------------------------------------------------------------------------------
@@ -187,7 +191,8 @@ function RichNSBalance()
 					local Plots = Map.GetContinentPlots(pStartPlot_i:GetContinentType());
 					if (Resource_ValidTerrainsTable[TerrainType] and #Resource_ValidTerrainsTable[TerrainType]>0) then
 						for _,eResource in ipairs(Resource_ValidTerrainsTable[TerrainType]) do
-							if PlotsHasResource(eResource,Plots) then
+							local iPlot = PlotsHasResource(eResource,Plots)
+							if iPlot > 0 and ResourceBuilder.CanHaveResource(pStartPlot_i,eResource) then
 								-- 这就好办了
 								ResourceBuilder.SetResourceType(pStartPlot_i,eResource,1);
 								flag = true;
@@ -196,34 +201,9 @@ function RichNSBalance()
 						end
 						if not flag then
 							for _,eResource in ipairs(Resource_ValidTerrainsTable[TerrainType]) do
-								if MapHasResource(eResource) then
+								local iPlot = RichNSMapHasResource(eResource)
+								if iPlot > 0 and ResourceBuilder.CanHaveResource(pStartPlot_i,eResource) then
 									ResourceBuilder.SetResourceType(pStartPlot_i,eResource,1);
-									flag = true;
-									break;
-								end
-							end
-						end
-					end
-					if not flag then
-						for row in GameInfo.Resource_ValidTerrains() do
-							if GameInfo.Resources[row.ResourceType].ResourceClassType == ChooseResourceClass then
-								if PlotsHasResource(GameInfo.Resources[row.ResourceType].Index,Plots) then
-									ResourceBuilder.SetResourceType(pStartPlot_i,GameInfo.Resources[row.ResourceType].Index,1);
-									TerrainBuilder.SetTerrainType(pStartPlot_i,GameInfo.Terrains[row.TerrainType].Index);
-									TerrainBuilder.SetFeatureType(pStartPlot_i,-1);
-									flag = true;
-									break;
-								end
-							end
-						end
-					end
-					if not flag then
-						for row in GameInfo.Resource_ValidTerrains() do
-							if GameInfo.Resources[row.ResourceType].ResourceClassType == ChooseResourceClass then
-								if MapHasResource(GameInfo.Resources[row.ResourceType].Index) then
-									ResourceBuilder.SetResourceType(pStartPlot_i,GameInfo.Resources[row.ResourceType].Index,1);
-									TerrainBuilder.SetTerrainType(pStartPlot_i,GameInfo.Terrains[row.TerrainType].Index);
-									TerrainBuilder.SetFeatureType(pStartPlot_i,-1);
 									flag = true;
 									break;
 								end
@@ -240,8 +220,12 @@ function RichNSBalance()
 	-- 修正：RichNum * RichNum/200的沙漠丘陵变为铜
 	-- 修正：RichNum * RichNum/100的石头将变为丘陵
 	-- 修正：RichNum * RichNum/150的空雨林将变为香蕉
+	-- 修正：RichNum * RichNum/150的空沼泽将变为大米
 	-- 修正：RichNum * RichNum/200的空树林将变为鹿
 	-- 修正：RichNum * RichNum/400的空地将变为地脉
+	-- 修正：RichNum * RichNum/300的绿地将变为牛
+	-- 修正：RichNum * RichNum/300的鱼将变为礁石
+	-- 修正：RichNum * RichNum/300的沙漠将变为绿洲
 	local CanHaveLeyLine = false
 	local CanHaveLeyLineIndex;
 	if GameInfo.Resources['RESOURCE_LEY_LINE'] and GameInfo.Resources['RESOURCE_LEY_LINE'].Index ~= nil then
@@ -264,6 +248,15 @@ function RichNSBalance()
 				if pPlot:GetFeatureType() == g_FEATURE_JUNGLE and pPlot:GetResourceType() == -1 and TerrainBuilder.GetRandomNumber(150, "Resource Placement Score Adjust") < RichNum * RichNum then
 					ResourceBuilder.SetResourceType(pPlot,0,1);
 				end
+				if pPlot:GetFeatureType() == g_FEATURE_MARSH and pPlot:GetResourceType() == -1 and TerrainBuilder.GetRandomNumber(150, "Resource Placement Score Adjust") < RichNum * RichNum then
+					ResourceBuilder.SetResourceType(pPlot,6,1);
+				end
+				if pPlot:GetFeatureType() == -1 and pPlot:GetTerrainType() == 0 and pPlot:GetResourceType() == -1 and TerrainBuilder.GetRandomNumber(300, "Resource Placement Score Adjust") < RichNum * RichNum then
+					ResourceBuilder.SetResourceType(pPlot,1,1);
+				end
+				if pPlot:GetFeatureType() == -1 and pPlot:GetResourceType() == 5 and TerrainBuilder.GetRandomNumber(300, "Resource Placement Score Adjust") < RichNum * RichNum then
+					TerrainBuilder.SetFeatureType(pPlot, 28)
+				end
 				if pPlot:GetFeatureType() == g_FEATURE_FOREST and pPlot:GetResourceType() == -1 and TerrainBuilder.GetRandomNumber(200, "Resource Placement Score Adjust") < RichNum * RichNum then
 					ResourceBuilder.SetResourceType(pPlot,4,1);
 				end
@@ -280,10 +273,23 @@ function PlotsHasResource(iResources,Plots)
     for  i, plot in ipairs(Plots) do
 		local pPlot = Map.GetPlotByIndex(plot);
         if pPlot:GetResourceType() == iResources then
-            return true
+            return i
         end
     end
-    return false
+    return -1
+end
+
+-------------------------------------------------------------------------------
+
+function RichNSMapHasResource(iResources)
+    local iW, iH = Map.GetGridSize();
+    for k = 0, iH * iW - 1 do
+        local pPlot = Map.GetPlotByIndex(k);
+        if pPlot:GetResourceType() == iResources then
+            return k
+        end
+    end
+    return -1
 end
 -------------------------------------------------------------------------------
 function TeamPVPGenerateContinents(plotTypes)

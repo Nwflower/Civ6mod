@@ -11,13 +11,14 @@ include "MapUtilities"
 
 ------------------------------------------------------------------------------
 BBS_ResourceGenerator = {};
+local RichNum
 ------------------------------------------------------------------------------
 function BBS_ResourceGenerator.Create(args)
 
     print("In BBS_ResourceGenerator.Create()");
     print("    Placing resources with BBS_Resource");
 
-    local RichNum = args.RichNum or 5;
+    RichNum = args.RichNum or 5;
 
     -- create instance data
     local instance = {
@@ -285,7 +286,7 @@ function BBS_ResourceGenerator:__PlaceLuxuryResources(eChosenLux, eContinent)
             local iMapIndex = self.aaPossibleLuxLocs[eChosenLux][index].MapIndex;
             local pPlot = Map.GetPlotByIndex(iMapIndex);
             -- 判断奢侈品能否连片出现
-            if (__isHaveLuxury(pPlot) == false) then
+            if (__isHaveLuxury(pPlot, eChosenLux) == false) or self.RichNum * 2.5 > iI then
                 print(iI,":奢侈品: ", eChosenLux, "已放置于", iMapIndex);
                 ResourceBuilder.SetResourceType(pPlot, self.eResourceType[eChosenLux], 1);
                 iTotalPlaced = iTotalPlaced + 1;
@@ -405,18 +406,22 @@ function BBS_ResourceGenerator:__SetWaterLuxury(eChosenLux, latitudeMax, latitud
     iW, iH = Map.GetGridSize();
     local iNumToPlace = self.iOccurencesPerFrequency * self.iSeaFrequency[eChosenLux];
     iNumToPlace = iNumToPlace / 2 * (1 + self.RichNum * 0.1);
+    local iPlots = {}
     for x = 0, iW - 1 do
         for y = 0, iH - 1 do
             local i = y * iW + x;
-            local pPlot = Map.GetPlotByIndex(i);
-            if (pPlot ~= nil and pPlot:IsWater() == true and IsAdjacentToIce(pPlot:GetX(), pPlot:GetY()) == false) then
-                local lat = math.abs((iH / 2) - y) / (iH / 2) * 100.0;
-                if (lat < latitudeMax and lat > latitudeMin and iNumber <= iNumToPlace) then
-                    -- 如果奢侈品被放置，那么它返回true并被移除
-                    local bChosen = self:__PlaceWaterLuxury(eChosenLux, pPlot);
-                    if (bChosen == true) then
-                        iNumber = iNumber + 1;
-                    end
+            table.insert(iPlots,i)
+        end
+    end
+    iPlots = GetShuffledCopyOfTable(iPlots)
+    for _,iPlot in ipairs(iPlots) do
+        local pPlot = Map.GetPlotByIndex(iPlot);
+        if (pPlot ~= nil and pPlot:IsWater() == true and IsAdjacentToIce(pPlot:GetX(), pPlot:GetY()) == false) then
+            local lat = math.abs((iH / 2) - iPlot/iW) / (iH / 2) * 100.0;
+            if (lat < latitudeMax and lat > latitudeMin and iNumber <= iNumToPlace) then
+                local bChosen = self:__PlaceWaterLuxury(eChosenLux, pPlot);
+                if (bChosen == true) then
+                    iNumber = iNumber + 1;
                 end
             end
         end
@@ -1042,7 +1047,7 @@ function BBS_ResourceGenerator:__ScoreWaterPlots(iResourceIndex)
 end
 ------------------------------------------------------------------------------
 function BBS_ResourceGenerator:__RemoveOtherDuplicateResources()
-    local shore = self.RichNum * 0.12 + 1;
+    local shore = self.RichNum * 0.12 + 1.25;
     local iW, iH;
     iW, iH = Map.GetGridSize();
     for x = 0, iW - 1 do
@@ -1104,16 +1109,16 @@ function TeamPVPIsAdjacentToLand(plotTypes, iX, iY)
     return false;
 end
 
-function __isHaveLuxury(plot)
+function __isHaveLuxury(plot, eChosenLux)
     for i = 0, 6 do
         local pPlot = GetAdjacentTiles(plot, i);
+        local RCount = 0;
         if (pPlot ~= nil) then
             if (pPlot:GetResourceCount() > 0) and pPlot:IsNaturalWonder() == false then
-                if ((pPlot:GetResourceType() >= 10 and pPlot:GetResourceType() < 34 and pPlot:GetResourceType() ~= 27 and pPlot:GetResourceType() ~= 28 and pPlot:GetResourceType() ~= 11 and s_type ~= "plains")
-                        or (pPlot:GetResourceType() == 14 and pPlot:GetResourceType() == 16 and pPlot:GetResourceType() == 17 and pPlot:GetResourceType() == 26 and pPlot:GetResourceType() == 31 and s_type ~= "plains")
-                        or pPlot:GetResourceType() == 53) then
+                if (pPlot:GetResourceType() == eChosenLux) or RCount >= (1 + RichNum / 3) then
                     return true;
                 end
+                RCount = RCount + 1;
             end
         end
     end
