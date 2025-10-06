@@ -164,15 +164,15 @@ INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
 SELECT CivilizationType,
        1
 FROM StartBiasTerrains
-WHERE TerrainType = 'TERRAIN_TUNDRA'
-   OR TerrainType = 'TERRAIN_TUNDRA_HILLS';
+WHERE TerrainType IN ('TERRAIN_TUNDRA','TERRAIN_TUNDRA_HILLS')
+   AND Tier = 1;
 
 INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
 SELECT CivilizationType,
        2
 FROM StartBiasTerrains
-WHERE TerrainType = 'TERRAIN_DESERT'
-   OR TerrainType = 'TERRAIN_DESERT_HILLS';
+WHERE TerrainType IN ('TERRAIN_DESERT','TERRAIN_DESERT_HILLS')
+   AND Tier = 1;
 
 INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
 SELECT CivilizationType,
