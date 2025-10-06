@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: PDL_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/10/5 12:10:26 -->
+<GameData>
+
+
+    <IconAliases>
+        <Row Name="ICON_LEADER_NW_PDL" OtherName="ICON_LEADER_PEDRO"/>
+    </IconAliases>
+</GameData>

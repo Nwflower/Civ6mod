@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: LWT_Icons.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/29 22:03:38 -->
+<GameData>
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_LEADER_LIWEITA" IconSize="32" Filename="ICON_LEADER_LIWEITA_32"/>
+        <Row Name="ATLAS_ICON_LEADER_LIWEITA" IconSize="45" Filename="ICON_LEADER_LIWEITA_45"/>
+        <Row Name="ATLAS_ICON_LEADER_LIWEITA" IconSize="48" Filename="ICON_LEADER_LIWEITA_48"/>
+        <Row Name="ATLAS_ICON_LEADER_LIWEITA" IconSize="50" Filename="ICON_LEADER_LIWEITA_50"/>
+        <Row Name="ATLAS_ICON_LEADER_LIWEITA" IconSize="55" Filename="ICON_LEADER_LIWEITA_55"/>
+        <Row Name="ATLAS_ICON_LEADER_LIWEITA" IconSize="64" Filename="ICON_LEADER_LIWEITA_64"/>
+        <Row Name="ATLAS_ICON_LEADER_LIWEITA" IconSize="80" Filename="ICON_LEADER_LIWEITA_80"/>
+        <Row Name="ATLAS_ICON_LEADER_LIWEITA" IconSize="256" Filename="ICON_LEADER_LIWEITA_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_LEADER_LIWEITAN" Atlas="ATLAS_ICON_LEADER_LIWEITA" Index="0"/>
+    </IconDefinitions>
+
+	<IconAliases>
+		<Row Name="ICON_CIVILIZATION_NW_DEEPSKY" OtherName="ICON_CIVILIZATION_JAKARTA"/>
+	</IconAliases>
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_BUILDING_20250929" IconSize="32" Filename="ICON_BUILDING_20250929_32"/>
+        <Row Name="ATLAS_ICON_BUILDING_20250929" IconSize="38" Filename="ICON_BUILDING_20250929_38"/>
+        <Row Name="ATLAS_ICON_BUILDING_20250929" IconSize="50" Filename="ICON_BUILDING_20250929_50"/>
+        <Row Name="ATLAS_ICON_BUILDING_20250929" IconSize="80" Filename="ICON_BUILDING_20250929_80"/>
+        <Row Name="ATLAS_ICON_BUILDING_20250929" IconSize="128" Filename="ICON_BUILDING_20250929_128"/>
+        <Row Name="ATLAS_ICON_BUILDING_20250929" IconSize="256" Filename="ICON_BUILDING_20250929_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_BUILDING_20250929" Atlas="ATLAS_ICON_BUILDING_20250929" Index="0"/>
+    </IconDefinitions>
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_UNIT_20250929" IconSize="22" Filename="ICON_UNIT_20250929_22"/>
+        <Row Name="ATLAS_ICON_UNIT_20250929" IconSize="32" Filename="ICON_UNIT_20250929_32"/>
+        <Row Name="ATLAS_ICON_UNIT_20250929" IconSize="38" Filename="ICON_UNIT_20250929_38"/>
+        <Row Name="ATLAS_ICON_UNIT_20250929" IconSize="50" Filename="ICON_UNIT_20250929_50"/>
+        <Row Name="ATLAS_ICON_UNIT_20250929" IconSize="80" Filename="ICON_UNIT_20250929_80"/>
+        <Row Name="ATLAS_ICON_UNIT_20250929" IconSize="256" Filename="ICON_UNIT_20250929_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_UNIT_20250929" Atlas="ATLAS_ICON_UNIT_20250929" Index="0"/>
+    </IconDefinitions>
+
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_IMPROVEMENT_20250930" IconSize="38" Filename="ICON_IMPROVEMENT_20250930_38"/>
+        <Row Name="ATLAS_ICON_IMPROVEMENT_20250930" IconSize="50" Filename="ICON_IMPROVEMENT_20250930_50"/>
+        <Row Name="ATLAS_ICON_IMPROVEMENT_20250930" IconSize="80" Filename="ICON_IMPROVEMENT_20250930_80"/>
+        <Row Name="ATLAS_ICON_IMPROVEMENT_20250930" IconSize="256" Filename="ICON_IMPROVEMENT_20250930_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_IMPROVEMENT_20250930" Atlas="ATLAS_ICON_IMPROVEMENT_20250930" Index="0"/>
+    </IconDefinitions>
+    <IconTextureAtlases>
+        <Row Name="ATLAS_ICON_IMPROVEMENT_20250929" IconSize="38" Filename="ICON_IMPROVEMENT_20250929_38"/>
+        <Row Name="ATLAS_ICON_IMPROVEMENT_20250929" IconSize="50" Filename="ICON_IMPROVEMENT_20250929_50"/>
+        <Row Name="ATLAS_ICON_IMPROVEMENT_20250929" IconSize="80" Filename="ICON_IMPROVEMENT_20250929_80"/>
+        <Row Name="ATLAS_ICON_IMPROVEMENT_20250929" IconSize="256" Filename="ICON_IMPROVEMENT_20250929_256"/>
+    </IconTextureAtlases>
+    <IconDefinitions>
+        <Row Name="ICON_IMPROVEMENT_20250929" Atlas="ATLAS_ICON_IMPROVEMENT_20250929" Index="0"/>
+    </IconDefinitions>
+
+
+</GameData>

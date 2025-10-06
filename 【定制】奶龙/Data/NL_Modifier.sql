@@ -1,0 +1,157 @@
+--  FILE: NL_Modifier.sql
+--  VERSION: 1
+--  Author: Nwflower
+--  Spicial Thanks: Uni
+--  Copyright (c) 2025.
+--      All rights reserved.
+--  DateCreated: 2025/10/6 11:26:46
+
+--============================================================
+-- Lua Support
+--============================================================
+CREATE TABLE IF NOT EXISTS Nwflower_MOD_Traits(
+TraitType TEXT NOT NULL,
+PRIMARY KEY (TraitType),
+FOREIGN KEY (TraitType) REFERENCES Traits (TraitType) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+INSERT OR IGNORE INTO Nwflower_MOD_Traits(TraitType) VALUES
+('TRAIT_CIVILIZATION_MILKD_NW251006'),
+('TRAIT_LEADER_NW251032');
+
+INSERT OR IGNORE INTO TraitModifiers(TraitType,ModifierId)SELECT
+TraitType,				'MODFEAT_TRAIT_PROPERTY_'||TraitType
+FROM Nwflower_MOD_Traits;
+
+INSERT OR IGNORE INTO Modifiers(ModifierId,ModifierType)SELECT
+'MODFEAT_TRAIT_PROPERTY_'||TraitType,			'MODIFIER_PLAYER_ADJUST_PROPERTY'
+FROM Nwflower_MOD_Traits;
+
+INSERT OR IGNORE INTO ModifierArguments(ModifierId,Name,Value)SELECT
+'MODFEAT_TRAIT_PROPERTY_'||TraitType,			'Key',	'PROPERTY_'||TraitType
+FROM Nwflower_MOD_Traits UNION SELECT
+'MODFEAT_TRAIT_PROPERTY_'||TraitType,			'Amount',						1
+FROM Nwflower_MOD_Traits;
+--============================================================
+-- 如果玩家和奶龙拥有相同的主流宗教且不与奶龙交战，则该玩家信仰宗教的城市+2 [ICON_Amenities] 宜居度。如果玩家和奶龙拥有相同的主流宗教但与奶龙交战，则该玩家信仰宗教的城市-10% [ICON_SCIENCE] 科技值、[ICON_CULTURE] 文化值和 [ICON_PRODUCTION] 生产力。
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_NW251032', 'MODIFIER_TRAIT_LEADER_NW251032_DEBUFF1_ATTACH');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_NW251032_DEBUFF1_ATTACH', 'MODIFIER_ALL_PLAYERS_ATTACH_MODIFIER', 0, 0, 0, NULL, 'REQS_NL_WAR_NOT_TEAM_AND_SAM_RELI');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_NW251032_DEBUFF1_ATTACH', 'ModifierId', 'MODIFIER_TRAIT_LEADER_NW251032_DEBUFF1');
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('REQS_NL_WAR_NOT_TEAM_AND_SAM_RELI', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('REQS_NL_WAR_NOT_TEAM_AND_SAM_RELI', 'REQ_NL_SAM_RELIGION'),
+('REQS_NL_WAR_NOT_TEAM_AND_SAM_RELI', 'REQ_NW_NL_WAR'),
+('REQS_NL_WAR_NOT_TEAM_AND_SAM_RELI', 'REQ_NW_NL_NOT_TEAM');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType, Inverse) VALUES
+('REQ_NL_SAM_RELIGION', 'REQUIREMENT_PLAYER_IS_SAME_RELIGION', 0),
+('REQ_NW_NL_WAR', 'REQUIREMENT_PLAYER_IS_AT_WAR', 0),
+('REQ_NW_NL_NOT_TEAM', 'REQUIREMENT_PLAYER_IS_TEAM_MEMBER', 1);
+
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_NW251032_DEBUFF1', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER', 0, 0, 0, NULL, 'CITY_FOLLOWS_RELIGION_REQUIREMENTS');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_NW251032_DEBUFF1', 'Amount', '-15,-15,-15'),
+('MODIFIER_TRAIT_LEADER_NW251032_DEBUFF1', 'YieldType', 'YIELD_SCIENCE,YIELD_CULTURE,YIELD_PRODUCTION');
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_NW251032', 'MODIFIER_TRAIT_LEADER_NW251032_AMEN_ATTACH');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_NW251032_AMEN_ATTACH', 'MODIFIER_ALL_PLAYERS_ATTACH_MODIFIER', 0, 0, 0, NULL, 'REQS_NL_WAR_IS_TEAM_AND_SAM_RELI');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_NW251032_AMEN_ATTACH', 'ModifierId', 'MODIFIER_TRAIT_LEADER_NW251032_AMEN');
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('REQS_NL_WAR_IS_TEAM_AND_SAM_RELI', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('REQS_NL_WAR_IS_TEAM_AND_SAM_RELI', 'REQ_NL_SAM_RELIGION'),
+('REQS_NL_WAR_IS_TEAM_AND_SAM_RELI', 'REQ_NW_NL_IS_TEAM');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType, Inverse) VALUES
+('REQ_NW_NL_IS_TEAM', 'REQUIREMENT_PLAYER_IS_TEAM_MEMBER', 0);
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_NW251032', 'MODIFIER_TRAIT_LEADER_NW251032_AMEN');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_NW251032_AMEN', 'MODIFIER_PLAYER_CITIES_ADJUST_POLICY_AMENITY', 0, 0, 0, NULL, 'CITY_FOLLOWS_RELIGION_REQUIREMENTS');
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_NW251032_AMEN', 'Amount', '2');
+
+
+--============================================================
+-- 圣地+1 [ICON_HOUSING] 住房、建造时+50% [ICON_PRODUCTION] 生产力。无相邻加成的圣地+2 [ICON_GOLD] 金币，辉煌圣地+2 [ICON_SCIENCE] 科技值。
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_MILKD_NW251006', 'MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_PRODUCTION');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_PRODUCTION', 'MODIFIER_PLAYER_CITIES_ADJUST_DISTRICT_PRODUCTION', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_PRODUCTION', 'Amount', '50'),
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_PRODUCTION', 'DistrictType', 'DISTRICT_HOLY_SITE');
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_MILKD_NW251006', 'MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_HOUSING');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_HOUSING', 'MODIFIER_PLAYER_DISTRICTS_ADJUST_HOUSING', 0, 0, 0, NULL, 'DISTRICT_IS_HOLY_SITE');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_HOUSING', 'Amount', '1');
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_MILKD_NW251006', 'MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_GOLD');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_GOLD', 'MODIFIER_PLAYER_DISTRICTS_ADJUST_YIELD_CHANGE', 0, 0, 0, NULL, 'REQS_NW_HOLY_SITE_IS_NO_ADJACENT');
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_GOLD', 'Amount', 2),
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_GOLD', 'YieldType', 'YIELD_GOLD');
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('REQS_NW_HOLY_SITE_IS_NO_ADJACENT', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('REQS_NW_HOLY_SITE_IS_NO_ADJACENT', 'REQ_NW_HOLY_SITE_IS_NO_ADJACENT'),
+('REQS_NW_HOLY_SITE_IS_NO_ADJACENT', 'REQUIRES_DISTRICT_IS_HOLY_SITE');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType, Inverse) VALUES
+('REQ_NW_HOLY_SITE_IS_NO_ADJACENT', 'REQUIREMENT_CITY_HAS_HIGH_ADJACENCY_DISTRICT', 1);
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+('REQ_NW_HOLY_SITE_IS_NO_ADJACENT', 'Amount', '1'),
+('REQ_NW_HOLY_SITE_IS_NO_ADJACENT', 'DistrictType', 'DISTRICT_HOLY_SITE'),
+('REQ_NW_HOLY_SITE_IS_NO_ADJACENT', 'YieldType', 'YIELD_FAITH');
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_MILKD_NW251006', 'MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_SCIENCE');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_SCIENCE', 'MODIFIER_PLAYER_DISTRICTS_ADJUST_YIELD_CHANGE', 0, 0, 0, NULL, 'REQS_NW_HOLY_SITE_IS_3_ADJACENT');
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_SCIENCE', 'Amount', 2),
+('MODIFIER_TRAIT_CIVILIZATION_MILKD_NW251006_HOLY_SCIENCE', 'YieldType', 'YIELD_SCIENCE');
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('REQS_NW_HOLY_SITE_IS_3_ADJACENT', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('REQS_NW_HOLY_SITE_IS_3_ADJACENT', 'REQ_NW_HOLY_SITE_IS_3_ADJACENT'),
+('REQS_NW_HOLY_SITE_IS_3_ADJACENT', 'REQUIRES_DISTRICT_IS_HOLY_SITE');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType, Inverse) VALUES
+('REQ_NW_HOLY_SITE_IS_3_ADJACENT', 'REQUIREMENT_CITY_HAS_HIGH_ADJACENCY_DISTRICT', 0);
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+('REQ_NW_HOLY_SITE_IS_3_ADJACENT', 'Amount', 3),
+('REQ_NW_HOLY_SITE_IS_3_ADJACENT', 'DistrictType', 'DISTRICT_HOLY_SITE'),
+('REQ_NW_HOLY_SITE_IS_3_ADJACENT', 'YieldType', 'YIELD_FAITH');

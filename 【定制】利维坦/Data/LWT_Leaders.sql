@@ -1,35 +1,35 @@
---	FILE: LLR_Leader.sql
+--	FILE: LWT_Leader.sql
 --  VERSION: 1
 --  Author: Nwflower
 --  Spicial Thanks: Uni
 --	Copyright (c) 2025.
 --	All rights reserved.
---  DateCreated: 2025/10/5 12:10:26
+--  DateCreated: 2025/9/29 22:03:38
 --======================================================================
 --  作者： 千川白浪
 --  特别鸣谢： 优妮
 --======================================================================
 
 INSERT INTO Types (Type, Kind)
-Values ('LEADER_NW_LLR', 'KIND_LEADER'),
-       ('TRAIT_LEADER_NW251004', 'KIND_TRAIT');
+Values ('LEADER_LIWEITAN', 'KIND_LEADER'),
+       ('TRAIT_LEADER_LWT', 'KIND_TRAIT');
 
 INSERT INTO Leaders (LeaderType, Name, InheritFrom, Sex, SceneLayers)
-Values ('LEADER_NW_LLR', 'LOC_LEADER_NW_LLR_NAME', 'LEADER_DEFAULT', 'Male', 4);
+Values ('LEADER_LIWEITAN', 'LOC_LEADER_LIWEITAN_NAME', 'LEADER_DEFAULT', 'Male', 4);
 
 INSERT INTO LeaderQuotes (LeaderType, Quote)
-VALUES ('LEADER_NW_LLR', 'LOC_LEADER_NW_LLR_QUOTE');
+VALUES ('LEADER_LIWEITAN', 'LOC_LEADER_LIWEITAN_QUOTE');
 
 INSERT INTO LoadingInfo(LeaderType, ForegroundImage, BackgroundImage, PlayDawnOfManAudio, LeaderText)
-VALUES ('LEADER_NW_LLR', 'LEADER_SHAKA_NEUTRAL', 'LEADER_SHAKA_BACKGROUND', 1,
-        'LOC_LOADING_INFO_LEADER_NW_LLR');
+VALUES ('LEADER_LIWEITAN', 'LOADING_LEADER_LIWEITA', 'LEADER_VICTORIA_ALT_BACKGROUND', 1,
+        'LOC_LOADING_INFO_LEADER_LIWEITAN');
 
 INSERT INTO DiplomacyInfo (Type, BackgroundImage)
-VALUES ('LEADER_NW_LLR', 'LEADER_SHAKA_BACKGROUND');
+VALUES ('LEADER_LIWEITAN', 'LEADER_LIWEITAN_BACKGROUND');
 
 INSERT INTO Traits (TraitType, Name, Description)
-VALUES ('TRAIT_LEADER_NW251004', 'LOC_TRAIT_LEADER_NW_LLR_NW251004_NAME',
-        'LOC_TRAIT_LEADER_NW_LLR_NW251004_DESCRIPTION');
+VALUES ('TRAIT_LEADER_LWT', 'LOC_TRAIT_LEADER_LIWEITAN_LWT_NAME',
+        'LOC_TRAIT_LEADER_LIWEITAN_LWT_DESCRIPTION');
 
 INSERT INTO LeaderTraits (LeaderType, TraitType)
-VALUES ('LEADER_NW_LLR', 'TRAIT_LEADER_NW251004');
+VALUES ('LEADER_LIWEITAN', 'TRAIT_LEADER_LWT');

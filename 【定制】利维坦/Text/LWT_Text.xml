@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: LWT_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/9/29 22:03:38 -->
+<GameData>
+	<LocalizedText>
+		<!--Civ-->
+		<Row Tag="LOC_CIVILIZATION_NW_DEEPSKY_NAME" Language="zh_Hans_CN">
+			<Text>深空之眼</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_NW_DEEPSKY_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>深空之眼逆潮</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_NW_DEEPSKY_ADJECTIVE" Language="zh_Hans_CN">
+			<Text>深空之眼的</Text>
+		</Row>
+
+
+		<!--Leader-->
+		<Row Tag="LOC_LEADER_LIWEITAN_NAME" Language="zh_Hans_CN">
+			<Text>利维坦</Text>
+		</Row>
+		<Row Tag="LOC_LOADING_INFO_LEADER_LIWEITAN" Language="zh_Hans_CN">
+			<Text>即便是再喜欢群居的企鹅，总有一天也要独自穿越雪原。总是记得师父叮嘱的利维坦，在面对视骸塞壬所带来的危机时，内心从未如此坚定过一她将逆潮而上，而如今她将承担更沉重艰巨的责任，带领所有信任自己的国民走向未来，也许不安但也要走下去也为了不知在何处的师傅见证自己的成长</Text>
+		</Row>
+
+		<Row Tag="LOC_LEADER_LIWEITAN_QUOTE" Language="zh_Hans_CN">
+			<Text>等见到师傅就让她看看我在这里抓到的超大怪鲨鱼</Text>
+		</Row>
+		
+		<!--TRAIT-->
+		<Row Tag="LOC_TRAIT_LEADER_LIWEITAN_LWT_NAME" Language="zh_Hans_CN">
+			<Text>利维坦</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_LEADER_LIWEITAN_LWT_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>初始解锁造船术。海岸和海洋单元格+2 [ICON_FOOD] 食物，湖泊+1 [ICON_FOOD] 食物。建造者可以消耗劳动次数加速奇观原始建造进程的20%。</Text>
+		</Row>
+
+		<Row Tag="LOC_TRAIT_CIVILIZATION_NW_DEEPSKY_NICHAO_NAME" Language="zh_Hans_CN">
+			<Text>逆潮乐园</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_CIVILIZATION_NW_DEEPSKY_NICHAO_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>城市不会产生厌战情绪。每座奇观为所有城市提供1 [ICON_Amenities] 宜居度。每位公民+1 [ICON_PRODUCTION] 生产力但额外消耗0.5 [ICON_FOOD] 食物。城市每有一个专业化区域，每位公民就会额外+1 [ICON_PRODUCTION] 生产力但额外消耗0.5 [ICON_FOOD] 食物。若城市拥有充足电力供给，每位公民就会额外+1 [ICON_PRODUCTION] 生产力但额外消耗0.5 [ICON_FOOD] 食物。占领城市时，首都获得1个免费的商人并+1 [ICON_TRADEROUTE] 贸易路线容量。当您占领一个蛮族哨站时，您会获得部落村庄奖励，以及 [ICON_Gold] 金币。 [ICON_TRADEROUTE] 贸易路线+1 [ICON_FOOD] 食物。国际贸易路线从目的地的每座专业化区域中获得+1 [ICON_GOLD] 金币。</Text>
+		</Row>
+
+		<!--ITEM-->
+		<Row Tag="LOC_UNIT_20250929_NAME" Language="zh_Hans_CN">
+			<Text>鲨兵</Text>
+		</Row>
+		<Row Tag="LOC_UNIT_20250929_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>深空之眼逆潮特色单位。无法主动生产。防御时+100[ICON_Strength]攻击力。建立城市或建成军营时获得一个免费的鲨兵。每次死亡时，首都将获得一个新的鲨兵，并且所有单位+1 [ICON_MOVEMENT] 移动力，远程单位额外+1 [ICON_RANGE] 射程。</Text>
+		</Row>
+		<Row Tag="LOC_MODIFIER_TRAIT_UNIT_20250929_COMBAT" Language="zh_Hans_CN">
+			<Text>+{Property} 来自防御。</Text>
+		</Row>
+
+		<Row Tag="LOC_BUILDING_20250929_NAME" Language="zh_Hans_CN">
+			<Text>鲨碑</Text>
+		</Row>
+		<Row Tag="LOC_BUILDING_20250929_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>深空之眼逆潮特色建筑，代替纪念碑。+4 [ICON_FAITH] 信仰、+1 [ICON_CULTURE] 文化。城市中的沙堡改良设施+6 [ICON_FAITH] 信仰值，其他特色改良设施+2 [ICON_FAITH] 信仰值。如果城市拥有主流宗教，则九个单元格外的其他城市每回合-5点忠诚度。</Text>
+		</Row>
+		<Row Tag="LOC_IMPROVEMENT_20250929_NAME" Language="zh_Hans_CN">
+			<Text>沙堡</Text>
+		</Row>
+		<Row Tag="LOC_IMPROVEMENT_20250929_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>解锁建造者建造深空之眼逆潮特色改良设施沙堡的能力。[NEWLINE][NEWLINE]+2[ICON_HOUSING]住房。提供高额的产出。进驻单位+4防御力并自动获得2回合的驻扎加成。可以建造在所有可通行的陆地单元格。</Text>
+		</Row>
+		<Row Tag="LOC_IMPROVEMENT_20250930_NAME" Language="zh_Hans_CN">
+			<Text>鲨浮标</Text>
+		</Row>
+		<Row Tag="LOC_IMPROVEMENT_20250930_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>解锁建造者建造深空之眼逆潮特色改良设施鲨浮标的能力。[NEWLINE][NEWLINE]为区域提供大量相邻加成。无法建造在另一个鲨浮标旁边。可以建造在海岸、湖泊和海洋单元格中。</Text>
+		</Row>
+
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_1" Language="zh_Hans_CN" Text="海洋训养基地"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_2" Language="zh_Hans_CN" Text="休息室"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_3" Language="zh_Hans_CN" Text="食堂"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_4" Language="zh_Hans_CN" Text="观光区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_5" Language="zh_Hans_CN" Text="表演区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_6" Language="zh_Hans_CN" Text="A1区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_7" Language="zh_Hans_CN" Text="A2区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_8" Language="zh_Hans_CN" Text="A3区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_9" Language="zh_Hans_CN" Text="A4区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_10" Language="zh_Hans_CN" Text="B1区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_11" Language="zh_Hans_CN" Text="B2区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_12" Language="zh_Hans_CN" Text="B3区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_13" Language="zh_Hans_CN" Text="B4区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_14" Language="zh_Hans_CN" Text="C1区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_15" Language="zh_Hans_CN" Text="C2区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_16" Language="zh_Hans_CN" Text="C3区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_17" Language="zh_Hans_CN" Text="C4区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_18" Language="zh_Hans_CN" Text="D1区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_19" Language="zh_Hans_CN" Text="D2区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_20" Language="zh_Hans_CN" Text="D3区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_21" Language="zh_Hans_CN" Text="D4区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_22" Language="zh_Hans_CN" Text="E1区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_23" Language="zh_Hans_CN" Text="E2区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_24" Language="zh_Hans_CN" Text="E3区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_25" Language="zh_Hans_CN" Text="E4区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_26" Language="zh_Hans_CN" Text="F1区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_27" Language="zh_Hans_CN" Text="F2区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_28" Language="zh_Hans_CN" Text="F3区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_29" Language="zh_Hans_CN" Text="F4区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_30" Language="zh_Hans_CN" Text="G1区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_31" Language="zh_Hans_CN" Text="G2区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_32" Language="zh_Hans_CN" Text="G3区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_33" Language="zh_Hans_CN" Text="G4区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_34" Language="zh_Hans_CN" Text="H1区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_35" Language="zh_Hans_CN" Text="H2区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_36" Language="zh_Hans_CN" Text="H3区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_37" Language="zh_Hans_CN" Text="H4区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_38" Language="zh_Hans_CN" Text="J1区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_39" Language="zh_Hans_CN" Text="J2区"/>
+		<InsertOrIgnore Tag="LOC_CITY_NAME_CIVILIZATION_NW_DEEPSKY_40" Language="zh_Hans_CN" Text="J3区"/>
+	</LocalizedText>
+</GameData>

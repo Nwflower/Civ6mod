@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: NL_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/10/6 11:26:46 -->
+<GameData>
+	<LocalizedText>
+		<!--Civ-->
+		<Row Tag="LOC_CIVILIZATION_MILKD_NAME" Language="zh_Hans_CN">
+			<Text>奶龙</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_MILKD_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>奶龙帝国</Text>
+		</Row>
+		<Row Tag="LOC_CIVILIZATION_MILKD_ADJECTIVE" Language="zh_Hans_CN">
+			<Text>奶龙的</Text>
+		</Row>
+
+
+		<!--Leader-->
+		<Row Tag="LOC_LEADER_MILKL_NAME" Language="zh_Hans_CN">
+			<Text>奶龙</Text>
+		</Row>
+		<Row Tag="LOC_LOADING_INFO_LEADER_MILKL" Language="zh_Hans_CN">
+			<Text>奶龙奶龙奶龙奶龙奶龙奶龙奶龙奶龙</Text>
+		</Row>
+
+		<!--TRAIT-->
+		<Row Tag="LOC_TRAIT_LEADER_MILKL_NW251032_NAME" Language="zh_Hans_CN">
+			<Text>奶龙</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_LEADER_MILKL_NW251032_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>如果玩家和奶龙拥有相同的主流宗教且不与奶龙交战，则该玩家信仰宗教的城市+2 [ICON_Amenities] 宜居度。如果玩家和奶龙拥有相同的主流宗教但与奶龙交战，则该玩家信仰宗教的城市-15% [ICON_SCIENCE] 科技值、[ICON_CULTURE] 文化值和 [ICON_PRODUCTION] 生产力。</Text>
+		</Row>
+
+		<Row Tag="LOC_TRAIT_CIVILIZATION_MILKD_NW251006_NAME" Language="zh_Hans_CN">
+			<Text>糖龙</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_CIVILIZATION_MILKD_NW251006_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>圣地+1 [ICON_HOUSING] 住房、建造时+50% [ICON_PRODUCTION] 生产力。无相邻加成的圣地+2 [ICON_GOLD] 金币，辉煌圣地+2 [ICON_SCIENCE] 科技值。</Text>
+		</Row>
+
+		<!--ITEM-->
+		<Row Tag="LOC_UNIT_QZJ_NL_NAME" Language="zh_Hans_CN">
+			<Text>奶龙</Text>
+		</Row>
+		<Row Tag="LOC_UNIT_QZJ_NL_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>奶龙文明特色单位。法典市政后获得一个免费的奶龙。国家劳动力市政后，建立的每座城市立即获得一个奶龙。拥有1点劳动力，可以在任意陆地单元格建造“黄桃罐头工厂”。</Text>
+		</Row>
+
+		<Row Tag="LOC_UNIT_QZJ_NLDD_NAME" Language="zh_Hans_CN">
+			<Text>奶龙大帝</Text>
+		</Row>
+		<Row Tag="LOC_UNIT_QZJ_NLDD_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>奶龙特色单位，解锁于法典。没有奶龙大帝时可以使用60 [ICON_GOLD] 金币购买特色单位“奶龙大帝”。解锁马镫、印刷术和膛线科技后+1 [ICON_MOVEMENT] 移动力。解锁合成材料科技后无视地形地貌带来的移动力减益。奶龙大帝击杀敌方文明或城邦的单位时，奶龙的宗教将传播到附近的城市。从每2座信奉奶龙宗教的外国城市获得1点 [ICON_Strength] 战斗力。</Text>
+		</Row>
+		<Row Tag="LOC_MODIFIER_ABILITY_UNIT_QZJ_NLDD_COMBAT" Language="zh_Hans_CN">
+			<Text>+{Property} [ICON_Strength] 战斗力来自信奉奶龙宗教的外国城市。</Text>
+		</Row>
+
+		<Row Tag="LOC_UNIT_XIAOQI_NAME" Language="zh_Hans_CN">
+			<Text>小七</Text>
+		</Row>
+		<Row Tag="LOC_UNIT_XIAOQI_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>随技艺解锁的特色伟人单位。拥有3点视野、4点 [ICON_MOVEMENT] 移动力。</Text>
+		</Row>
+
+		<Row Tag="LOC_IMPROVEMENT_HTGTGC_NAME" Language="zh_Hans_CN">
+			<Text>黄桃罐头工厂</Text>
+		</Row>
+		<Row Tag="LOC_IMPROVEMENT_HTGTGC_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>解锁奶龙建造奶龙特色改良设施黄桃罐头工厂的能力。[NEWLINE][NEWLINE]+1 [ICON_GOLD] 金币、+1 [ICON_FAITH] 信仰值。该改良设施无视一切建造条件。拥有“黄桃罐头工厂”的城市获得+1 [ICON_GreatProphet] 大预言家点数。建成时对相邻单元格释放文化炸弹。如城市在奶龙文化炸弹的攻击下失去单元格，则奶龙的主流宗教将成为此城的主流宗教。</Text>
+		</Row>
+
+		<!--City names-->
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_1" Language="zh_Hans_CN" Text="奶龙之乡"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_2" Language="zh_Hans_CN" Text="奶龙乐园"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_3" Language="zh_Hans_CN" Text="奶龙工厂"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_4" Language="zh_Hans_CN" Text="龙乳之渊"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_5" Language="zh_Hans_CN" Text="奶焰之庭"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_6" Language="zh_Hans_CN" Text="奶息之森"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_7" Language="zh_Hans_CN" Text="糖龙圣都"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_8" Language="zh_Hans_CN" Text="先辈子弟"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_9" Language="zh_Hans_CN" Text="糖哺原乡"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_10" Language="zh_Hans_CN" Text="糖乳圣庭"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_11" Language="zh_Hans_CN" Text="仙剑奇鸭"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_12" Language="zh_Hans_CN" Text="陈天的玄"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_13" Language="zh_Hans_CN" Text="糖酪丘陵"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_14" Language="zh_Hans_CN" Text="奶龙之都"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_15" Language="zh_Hans_CN" Text="奶息之港"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_16" Language="zh_Hans_CN" Text="奶龙云堡"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_17" Language="zh_Hans_CN" Text="奶龙啵啵"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_18" Language="zh_Hans_CN" Text="奶龙光屿"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_19" Language="zh_Hans_CN" Text="奶龙星谷"/>
+		<InsertOrIgnore Tag="LOC_CIVILIZATION_MILKD_CITY_NAME_20" Language="zh_Hans_CN" Text="奶龙甜湾"/>
+
+	</LocalizedText>
+</GameData>

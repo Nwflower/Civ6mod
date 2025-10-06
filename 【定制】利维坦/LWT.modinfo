@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="d1f2f6c0-2da5-4ee0-85f0-0b62d4ba6e32" version="1">
+  <Properties>
+    <Name>LOC_LIWEITAN_MOD_TITLE</Name>
+    <Description>LOC_LIWEITAN_MOD_DESCRIPTION</Description>
+    <Created>1759628724</Created>
+    <Teaser>LOC_LIWEITAN_MOD_TEASER</Teaser>
+    <Authors>LOC_LIWEITAN_MOD_AUTHORS</Authors>
+    <CompatibleVersions>2.0</CompatibleVersions>
+  </Properties>
+  <References>
+    <Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall" />
+    <Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion: Gathering Storm" />
+  </References>
+  <ActionCriteria>
+    <Criteria id="LWT">
+      <LeaderPlayable>Players:StandardPlayers::LEADER_LIWEITAN,StandardPlayers::LEADER_LIWEITAN,Players:Expansion1_Players::LEADER_LIWEITAN,Players:Expansion2_Players::LEADER_LIWEITAN</LeaderPlayable>
+      <RuleSetInUse>RULESET_STANDARD,RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="LWT_Expansion1">
+      <LeaderPlayable>Players:Expansion1_Players::LEADER_LIWEITAN</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_1</RuleSetInUse>
+    </Criteria>
+    <Criteria id="LWT_Expansion2">
+      <LeaderPlayable>Players:Expansion2_Players::LEADER_LIWEITAN</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="SecretSocieties">
+      <ConfigurationValueMatches>
+        <Group>Game</Group>
+        <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+  </ActionCriteria>
+  <FrontEndActions>
+    <UpdateDatabase id="LWTSettings">
+      <File>Data/LWT_Config.sql</File>
+    </UpdateDatabase>
+    <UpdateArt id="LWTSettingsArt">
+      <File>LOC_LIWEITAN_MOD_TITLE.dep</File>
+    </UpdateArt>
+    <UpdateColors id="LWTColors">
+      <File>Data/LWT_Colors.sql</File>
+    </UpdateColors>
+    <UpdateText id="LWTSettingsText">
+      <File>Text/LWT_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="LWTSettingsIcons">
+      <File>Data/LWT_Icons.xml</File>
+    </UpdateIcons>
+  </FrontEndActions>
+  <InGameActions>
+    <ImportFiles id="LWT_ImportFiles">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT</Criteria>
+      <File>Import/NwflowerMODCore.lua</File>
+    </ImportFiles>
+    <UpdateArt id="LWTArt">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT</Criteria>
+      <File>LOC_LIWEITAN_MOD_TITLE.dep</File>
+    </UpdateArt>
+    <UpdateDatabase id="LWTGameplay">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT</Criteria>
+      <File>Data/LWT_Buildings.sql</File>
+      <File>Data/LWT_Civilizations.sql</File>
+      <File>Data/LWT_Distrcits.sql</File>
+      <File>Data/LWT_Improvement.sql</File>
+      <File>Data/LWT_Leaders.sql</File>
+      <File>Data/LWT_Modifier.sql</File>
+      <File>Data/LWT_Units.sql</File>
+    </UpdateDatabase>
+    <UpdateColors id="LWTColors">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT</Criteria>
+      <File>Data/LWT_Colors.sql</File>
+    </UpdateColors>
+    <UpdateDatabase id="LWTGameplay_XP1">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT_Expansion1</Criteria>
+      <File>Data/LWT_Expansion1.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="LWTGameplay_XP2">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT_Expansion2</Criteria>
+      <File>Data/LWT_Expansion2.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="LWT_SecretSocieties_MODE">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>SecretSocieties</Criteria>
+      <File>Data/LWT_SecretSocieties_MODE.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="LWT_Text">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT</Criteria>
+      <File>Text/LWT_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="LWT_Icons">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT</Criteria>
+      <File>Data/LWT_Icons.xml</File>
+    </UpdateIcons>
+    <UpdateLogitechARX id="LWT_ARX">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT</Criteria>
+    </UpdateLogitechARX>
+    <UpdateAudio id="LWT_Audio">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT</Criteria>
+      <File>Platforms/Windows/Audio/LWT_Banks.ini</File>
+    </UpdateAudio>
+    <AddGameplayScripts id="LWT_AddGameplayScripts">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>LWT</Criteria>
+      <File>Script/LWT_Script.lua</File>
+    </AddGameplayScripts>
+  </InGameActions>
+  <LocalizedText>
+    <File>Text/LWT_PackageText.xml</File>
+  </LocalizedText>
+  <Files>
+    <File>ArtDefs/Buildings.artdef</File>
+    <File>ArtDefs/Civilizations.artdef</File>
+    <File>ArtDefs/Cultures.artdef</File>
+    <File>ArtDefs/Districts.artdef</File>
+    <File>ArtDefs/FallbackLeaders.artdef</File>
+    <File>ArtDefs/Improvements.artdef</File>
+    <File>ArtDefs/Landmarks.artdef</File>
+    <File>ArtDefs/Overlay.artdef</File>
+    <File>ArtDefs/StrategicView.artdef</File>
+    <File>ArtDefs/Units.artdef</File>
+    <File>Data/LWT_Buildings.sql</File>
+    <File>Data/LWT_Civilizations.sql</File>
+    <File>Data/LWT_Colors.sql</File>
+    <File>Data/LWT_Config.sql</File>
+    <File>Data/LWT_Distrcits.sql</File>
+    <File>Data/LWT_Expansion1.sql</File>
+    <File>Data/LWT_Expansion2.sql</File>
+    <File>Data/LWT_Icons.xml</File>
+    <File>Data/LWT_Improvement.sql</File>
+    <File>Data/LWT_Leaders.sql</File>
+    <File>Data/LWT_Modifier.sql</File>
+    <File>Data/LWT_SecretSocieties_MODE.sql</File>
+    <File>Data/LWT_Units.sql</File>
+    <File>Import/NwflowerMODCore.lua</File>
+    <File>LOC_LIWEITAN_MOD_TITLE.dep</File>
+    <File>Platforms/Windows/Audio/LWT_Banks.ini</File>
+    <File>Platforms/Windows/BLPs/LeaderFallbacks.blp</File>
+    <File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Loyalty_Overlay_NWDeepSKy</File>
+    <File>Platforms/Windows/BLPs/SHARED_DATA/TEXTURE_Loyalty_Pressure_NWDeepSKy</File>
+    <File>Platforms/Windows/BLPs/strategicview/strategicview_uilenses.blp</File>
+    <File>Platforms/Windows/BLPs/UILensAssets.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Icons.blp</File>
+    <File>Platforms/Windows/BLPs/UI/PrideMoments.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Shell_Loading.blp</File>
+    <File>Platforms/Windows/BLPs/UI_LeaderScenes.blp</File>
+    <File>Script/LWT_Script.lua</File>
+    <File>Text/LWT_PackageText.xml</File>
+    <File>Text/LWT_Text.xml</File>
+  </Files>
+</Mod>

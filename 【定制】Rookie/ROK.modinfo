@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="e95b0a16-f7c3-4511-89f4-3e83c045a7d2" version="1">
+  <Properties>
+    <Name>LOC_ROK_MOD_TITLE</Name>
+    <Description>LOC_ROK_MOD_DESCRIPTION</Description>
+    <Created>1759641120</Created>
+    <Teaser>LOC_ROK_MOD_TEASER</Teaser>
+    <Authors>LOC_ROK_MOD_AUTHORS</Authors>
+    <CompatibleVersions>2.0</CompatibleVersions>
+  </Properties>
+  <References>
+    <Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall" />
+    <Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion: Gathering Storm" />
+  </References>
+  <ActionCriteria>
+    <Criteria id="ROK">
+      <LeaderPlayable>Players:StandardPlayers::LEADER_NW_ROK,StandardPlayers::LEADER_NW_ROK,Players:Expansion1_Players::LEADER_NW_ROK,Players:Expansion2_Players::LEADER_NW_ROK</LeaderPlayable>
+      <RuleSetInUse>RULESET_STANDARD,RULESET_EXPANSION_1,RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="ROK_Expansion1">
+      <LeaderPlayable>Players:Expansion1_Players::LEADER_NW_ROK</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_1</RuleSetInUse>
+    </Criteria>
+    <Criteria id="ROK_Expansion2">
+      <LeaderPlayable>Players:Expansion2_Players::LEADER_NW_ROK</LeaderPlayable>
+      <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+    </Criteria>
+    <Criteria id="SecretSocieties">
+      <ConfigurationValueMatches>
+        <Group>Game</Group>
+        <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+        <Value>1</Value>
+      </ConfigurationValueMatches>
+    </Criteria>
+  </ActionCriteria>
+  <FrontEndActions>
+    <UpdateDatabase id="ROKSettings">
+      <File>Data/ROK_Config.sql</File>
+    </UpdateDatabase>
+    <UpdateArt id="ROKSettingsArt">
+      <File>ROK.dep</File>
+    </UpdateArt>
+    <UpdateColors id="ROKColors">
+      <File>Data/ROK_Colors.sql</File>
+    </UpdateColors>
+    <UpdateText id="ROKSettingsText">
+      <File>Text/ROK_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="ROKSettingsIcons">
+      <File>Data/ROK_Icons.xml</File>
+    </UpdateIcons>
+  </FrontEndActions>
+  <InGameActions>
+    <ImportFiles id="ROK_ImportFiles">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK</Criteria>
+      <File>Import/NwflowerMODCore.lua</File>
+    </ImportFiles>
+    <UpdateArt id="ROKArt">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK</Criteria>
+      <File>ROK.dep</File>
+    </UpdateArt>
+    <UpdateDatabase id="ROKGameplay">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK</Criteria>
+      <File>Data/ROK_Buildings.sql</File>
+      <File>Data/ROK_Civilizations.sql</File>
+      <File>Data/ROK_Distrcits.sql</File>
+      <File>Data/ROK_Improvement.sql</File>
+      <File>Data/ROK_Leaders.sql</File>
+      <File>Data/ROK_Modifier.sql</File>
+      <File>Data/ROK_Units.sql</File>
+    </UpdateDatabase>
+    <UpdateColors id="ROKColors">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK</Criteria>
+      <File>Data/ROK_Colors.sql</File>
+    </UpdateColors>
+    <UpdateDatabase id="ROKGameplay_XP1">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK_Expansion1</Criteria>
+      <File>Data/ROK_Expansion1.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="ROKGameplay_XP2">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK_Expansion2</Criteria>
+      <File>Data/ROK_Expansion2.sql</File>
+    </UpdateDatabase>
+    <UpdateDatabase id="ROK_SecretSocieties_MODE">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>SecretSocieties</Criteria>
+      <File>Data/ROK_SecretSocieties_MODE.sql</File>
+    </UpdateDatabase>
+    <UpdateText id="ROK_Text">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK</Criteria>
+      <File>Text/ROK_Text.xml</File>
+    </UpdateText>
+    <UpdateIcons id="ROK_Icons">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK</Criteria>
+      <File>Data/ROK_Icons.xml</File>
+    </UpdateIcons>
+    <UpdateLogitechARX id="ROK_ARX">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK</Criteria>
+    </UpdateLogitechARX>
+    <UpdateAudio id="ROK_Audio">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK</Criteria>
+      <File>Platforms/Windows/Audio/ROK_Banks.ini</File>
+    </UpdateAudio>
+    <AddGameplayScripts id="ROK_AddGameplayScripts">
+      <Properties>
+        <LoadOrder>16796</LoadOrder>
+      </Properties>
+      <Criteria>ROK</Criteria>
+      <File>Script/ROK_Script.lua</File>
+    </AddGameplayScripts>
+  </InGameActions>
+  <LocalizedText>
+    <File>Text/ROK_PackageText.xml</File>
+  </LocalizedText>
+  <Files>
+    <File>ArtDefs/Buildings.artdef</File>
+    <File>ArtDefs/Civilizations.artdef</File>
+    <File>ArtDefs/Cultures.artdef</File>
+    <File>ArtDefs/Districts.artdef</File>
+    <File>ArtDefs/FallbackLeaders.artdef</File>
+    <File>ArtDefs/Improvements.artdef</File>
+    <File>ArtDefs/Leaders.artdef</File>
+    <File>ArtDefs/Overlay.artdef</File>
+    <File>ArtDefs/StrategicView.artdef</File>
+    <File>ArtDefs/Units.artdef</File>
+    <File>Data/ROK_Buildings.sql</File>
+    <File>Data/ROK_Civilizations.sql</File>
+    <File>Data/ROK_Colors.sql</File>
+    <File>Data/ROK_Config.sql</File>
+    <File>Data/ROK_Distrcits.sql</File>
+    <File>Data/ROK_Expansion1.sql</File>
+    <File>Data/ROK_Expansion2.sql</File>
+    <File>Data/ROK_Icons.xml</File>
+    <File>Data/ROK_Improvement.sql</File>
+    <File>Data/ROK_Leaders.sql</File>
+    <File>Data/ROK_Modifier.sql</File>
+    <File>Data/ROK_SecretSocieties_MODE.sql</File>
+    <File>Data/ROK_Units.sql</File>
+    <File>ROK.dep</File>
+    <File>Platforms/Windows/Audio/ROK_Banks.ini</File>
+    <File>Platforms/Windows/BLPs/LeaderFallbacks.blp</File>
+    <File>Platforms/Windows/BLPs/strategicview/strategicview_uilenses.blp</File>
+    <File>Platforms/Windows/BLPs/UILensAssets.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Icons.blp</File>
+    <File>Platforms/Windows/BLPs/UI/PrideMoments.blp</File>
+    <File>Platforms/Windows/BLPs/UI/Shell_Loading.blp</File>
+    <File>Platforms/Windows/BLPs/UI_LeaderScenes.blp</File>
+    <File>Text/ROK_PackageText.xml</File>
+    <File>Text/ROK_Text.xml</File>
+  </Files>
+</Mod>

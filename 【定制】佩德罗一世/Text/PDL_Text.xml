@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- FILE: PDL_Text.xml -->
+<!-- VERSION: 1 -->
+<!-- Author: Nwflower -->
+<!-- Spicial Thanks: Uni -->
+<!-- Copyright (c) 2025. -->
+<!-- All rights reserved. -->
+<!-- DateCreated: 2025/10/5 12:10:26 -->
+<GameData>
+	<LocalizedText>
+
+		<!--Leader-->
+		<Row Tag="LOC_LEADER_NW_PDL_NAME" Language="zh_Hans_CN">
+			<Text>佩德罗一世</Text>
+		</Row>
+		<Row Tag="LOC_LOADING_INFO_LEADER_NW_PDL" Language="zh_Hans_CN">
+			<Text>{LOC_LOADING_INFO_LEADER_SHAKA}</Text>
+		</Row>
+
+		<!--TRAIT-->
+		<Row Tag="LOC_TRAIT_LEADER_NW_PDL_NW251004_NAME" Language="zh_Hans_CN">
+			<Text>漂流人间</Text>
+		</Row>
+		<Row Tag="LOC_TRAIT_LEADER_NW_PDL_NW251004_DESCRIPTION" Language="zh_Hans_CN">
+			<Text>位于雨林的单位+2 [ICON_Strength] 战斗力。街头狂欢节+2 [ICON_FOOD]食物、+1[ICON_HOUSING]住房。</Text>
+		</Row>
+
+		<Row Tag="LOC_PDL_COMBAT_FROM_JUNGLE" Language="zh_Hans_CN">
+			<Text>+{1_Num} [ICON_Strength] 战斗力来自雨林（漂流人间）。</Text>
+		</Row>
+
+		<Row Tag="LOC_CITY_NAME_BXLY" Language="zh_Hans_CN">
+			<Text>巴西利亚</Text>
+		</Row>
+	</LocalizedText>
+</GameData>
