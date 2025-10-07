@@ -238,7 +238,7 @@ SELECT 'UNIT_QZJ_NLDD',                 -- 类型
        EnabledByReligion,               -- 是否需要信条解锁
        TrackReligion,                   -- 是否记录该单位信仰的宗教
        DisasterCharges,                 -- 制造灾害次数
-       UseMaxMeleeTrainedStrength,      -- 使用最大近战攻击力
+       1,      -- 使用最大近战攻击力
        ImmediatelyName,                 -- 是否需要在出现后立刻命名
        CanEarnExperience                -- 是否能获得经验
 FROM Units
