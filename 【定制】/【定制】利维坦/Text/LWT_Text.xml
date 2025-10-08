@@ -54,8 +54,8 @@
 		<Row Tag="LOC_UNIT_20250929_DESCRIPTION" Language="zh_Hans_CN">
 			<Text>深空之眼逆潮特色单位。无法主动生产。每次获得一个该单位，所有单位+3 [ICON_Strength] 战斗力。建立城市或建成军营时获得一个免费的鲨兵。每次死亡时，首都将获得一个新的鲨兵，并且所有单位+1 [ICON_MOVEMENT] 移动力，远程单位额外+1 [ICON_RANGE] 射程。</Text>
 		</Row>
-		<Row Tag="LOC_MODIFIER_TRAIT_UNIT_20250929_COMBAT" Language="zh_Hans_CN">
-			<Text>+{Property} 来自防御。</Text>
+		<Row Tag="LOC_MODIFIER_TRAIT_UNIT_20250929_ADD_COMBAT" Language="zh_Hans_CN">
+			<Text>+{Property} 来自获得过的鲨兵。</Text>
 		</Row>
 
 		<Row Tag="LOC_BUILDING_20250929_NAME" Language="zh_Hans_CN">
