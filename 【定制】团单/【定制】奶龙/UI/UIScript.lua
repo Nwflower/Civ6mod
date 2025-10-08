@@ -18,10 +18,10 @@ function onCityReligionChanged(playerID,cityID,eVisibility, city)
 		end
 	end
 	local NumReligion = 0 ;
-	local kPlayers = PlayerManager.GetAliveMajors()
-	for _, m_pPlayer in ipairs(kPlayers) do
-		if m_pPlayer:GetID() ~= playerID then
-			local pCities = m_pPlayer:GetCities();
+	local iPlayers = PlayerManager.GetAliveIDs()
+	for _, m_pPlayer in ipairs(iPlayers) do
+		if m_pPlayer ~= m_iCurrentPlayerID then
+			local pCities = Players[m_pPlayer]:GetCities();
 			for _, pCity in pCities:Members() do
 				local pCityReligionID = pCity:GetReligion():GetMajorityReligion();
 				if pCityReligionID ~= nil and pCityReligionID == i_LocalReligion then
@@ -41,9 +41,26 @@ function onCityReligionChanged(playerID,cityID,eVisibility, city)
 	end
 end
 
+
+function OnImprovementChanged(iX,iY,improvementType, improvementOwner,resource, isPillaged, isWorked)
+	if isPillaged and improvementType then
+		for loop, pUnit in ipairs(Units.GetUnitsInPlot(Map.GetPlot(iX, iY))) do
+			if(pUnit ~= nil) then
+				if pUnit:GetOwner() == m_iCurrentPlayerID and GameInfo.Units[pUnit:GetType()].UnitType == "UNIT_QZJ_NLDD" then
+					UI.RequestPlayerOperation(m_iCurrentPlayerID, PlayerOperations.EXECUTE_SCRIPT, {
+						OnStart = "Nw_NL_GetDamage",
+						iUnit = pUnit:GetID()
+					});
+				end
+			end
+		end
+	end
+end
+
 function Initialize()
 	if m_pCurrentPlayer:GetProperty('PROPERTY_TRAIT_CIVILIZATION_MILKD_NW251006') then
     	Events.CityReligionChanged.Add( onCityReligionChanged );
+		Events.ImprovementChanged.Add(OnImprovementChanged);
 		print('TRAIT_CIVILIZATION_MILKD_NW251006 Success.')
 	end
 end

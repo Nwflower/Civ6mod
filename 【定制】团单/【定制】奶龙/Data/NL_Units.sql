@@ -154,12 +154,12 @@ VALUES ('UNIT_QZJ_NLDD', 'KIND_UNIT');
 INSERT INTO TypeTags(Type, Tag)
 SELECT 'UNIT_QZJ_NLDD', Tag
 FROM TypeTags
-WHERE Type = 'UNIT_WARRIOR';
+WHERE Type = 'UNIT_VAMPIRE';
 
 INSERT INTO UnitAiInfos(UnitType, AiType)
 SELECT 'UNIT_QZJ_NLDD', AiType
 FROM UnitAiInfos
-WHERE UnitType = 'UNIT_WARRIOR';
+WHERE UnitType = 'UNIT_VAMPIRE';
 
 -- 单位是否替代原型单位
 
@@ -200,13 +200,13 @@ SELECT 'UNIT_QZJ_NLDD',                 -- 类型
        ExtractsArtifacts,               -- 是否可以挖掘文物。
        'LOC_UNIT_QZJ_NLDD_DESCRIPTION', -- 描述文本
        Flavor,
-       CanCapture,                      -- 可以俘虏平民单位
-       CanRetreatWhenCaptured,          -- 被俘虏时传送回最近城市
+       0,                      -- 可以俘虏平民单位
+       1,          -- 被俘虏时传送回最近城市
        'TRAIT_UNIT_QZJ_NLDD',           -- 绑定特性
        AllowBarbarians,                 -- 允许蛮族生成
        CostProgressionModel,            -- 涨价方式 NO_COST_PROGRESSION不涨价
        CostProgressionParam1,           -- 涨价参数 COST_PROGRESSION_GAME_PROGRESS按游戏进程涨价 CostProgressionParam1填最终（即全科技/市政后的）价格百分比 COST_PROGRESSION_PREVIOUS_COPIES按已有数量涨价 CostProgressionParam1填每一个涨价的数量
-       PromotionClass,                  -- 单位的晋升树，指向UnitPromotionClasses表的PromotionClassType列。
+       'PROMOTION_CLASS_VAMPIRE',                  -- 单位的晋升树，指向UnitPromotionClasses表的PromotionClassType列。
        InitialLevel,                    -- 单位的初始等级，1是没有初始升级，2是附赠1级初始升级，以此类推。
        NumRandomChoices,                -- 单位升级时从所有升级里随机抽出的数量
        NULL,                      -- 前置科技
@@ -239,12 +239,15 @@ SELECT 'UNIT_QZJ_NLDD',                 -- 类型
        TrackReligion,                   -- 是否记录该单位信仰的宗教
        DisasterCharges,                 -- 制造灾害次数
        1,      -- 使用最大近战攻击力
-       ImmediatelyName,                 -- 是否需要在出现后立刻命名
-       CanEarnExperience                -- 是否能获得经验
+       1,                 -- 是否需要在出现后立刻命名
+       0                -- 是否能获得经验
 FROM Units
 WHERE UnitType = 'UNIT_WARRIOR';
 
-
+INSERT INTO UnitRetreats_XP1 (UnitRetreatType, UnitType, BuildingType)
+VALUES ('UNIT_RETREAT_VAMPIRE_TO_CAPITAL','UNIT_QZJ_NLDD', 'BUILDING_PALACE');
+INSERT INTO TypeProperties (Name, Type, Value)
+VALUES ('IGNORE_PLAYER_STAT_MAX_STRENGTH','UNIT_QZJ_NLDD', 1);
 INSERT INTO Units_XP2 (UnitType, CanFormMilitaryFormation)
 VALUES ('UNIT_QZJ_NLDD', 0);
 
@@ -268,6 +271,10 @@ INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, Ow
 ('MODFEAT_ABILITY_UNIT_QZJ_NLDD_FAILSAFE', 'MODIFIER_PLAYER_UNIT_BUILD_DISABLED', 0, 0, 0, NULL, NULL);
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
 ('MODFEAT_ABILITY_UNIT_QZJ_NLDD_FAILSAFE', 'UnitType', 'UNIT_QZJ_NLDD');
+
+
+INSERT INTO UnitAbilityModifiers (UnitAbilityType, ModifierId) VALUES
+('ABILITY_UNIT_QZJ_NLDD', 'DEPREDATION_BONUS_ADVANCED_PILLAGING');
 
 INSERT OR IGNORE INTO RequirementSets(RequirementSetId, RequirementSetType)
 SELECT 'NW_PLAYER_HAS_' || TechnologyType, 'REQUIREMENTSET_TEST_ALL'

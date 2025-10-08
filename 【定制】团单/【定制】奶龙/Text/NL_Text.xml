@@ -33,14 +33,20 @@
 			<Text>奶龙</Text>
 		</Row>
 		<Row Tag="LOC_TRAIT_LEADER_MILKL_NW251032_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>如果玩家和奶龙拥有相同的主流宗教且不与奶龙交战，则该玩家信仰宗教的城市+2 [ICON_Amenities] 宜居度。如果玩家和奶龙拥有相同的主流宗教但与奶龙交战，则该玩家信仰宗教的城市-15% [ICON_SCIENCE] 科技值、[ICON_CULTURE] 文化值和 [ICON_PRODUCTION] 生产力。</Text>
+			<Text>创建宗教后，拥有主流宗教的城市+1 [ICON_Amenities] 宜居度。当有至少5座国外城市信仰奶龙的宗教，未与奶龙交战的所有城市+5% [ICON_PRODUCTION] 生产力，与奶龙交战的所有城市-5% [ICON_PRODUCTION] 生产力。当有至少12座国外城市信仰奶龙的宗教，未与奶龙交战的所有城市+5% [ICON_SCIENCE] 科技值和 [ICON_CULTURE] 文化值，与奶龙交战的所有城市-5% [ICON_SCIENCE] 科技值和 [ICON_CULTURE] 文化值。</Text>
+		</Row>
+		<Row Tag="LOC_BUILDING_5_CITY_FOLLOWS_NL_RELIGION" Language="zh_Hans_CN">
+			<Text>已有5座城市信仰奶龙的宗教</Text>
+		</Row>
+		<Row Tag="LOC_BUILDING_12_CITY_FOLLOWS_NL_RELIGION" Language="zh_Hans_CN">
+			<Text>已有12座城市信仰奶龙的宗教</Text>
 		</Row>
 
 		<Row Tag="LOC_TRAIT_CIVILIZATION_MILKD_NW251006_NAME" Language="zh_Hans_CN">
 			<Text>糖龙</Text>
 		</Row>
 		<Row Tag="LOC_TRAIT_CIVILIZATION_MILKD_NW251006_DESCRIPTION" Language="zh_Hans_CN">
-			<Text>圣地+1 [ICON_HOUSING] 住房、建造时+50% [ICON_PRODUCTION] 生产力。无相邻加成的圣地+2 [ICON_GOLD] 金币，辉煌圣地+2 [ICON_SCIENCE] 科技值。</Text>
+			<Text>圣地+1 [ICON_HOUSING] 住房、建造时+50% [ICON_PRODUCTION] 生产力。无相邻加成的圣地+2 [ICON_GOLD] 金币，辉煌圣地+2 [ICON_SCIENCE] 科技值。[NEWLINE][NEWLINE]出生关联：T1海岸，T3河流。</Text>
 		</Row>
 
 		<!--ITEM-->

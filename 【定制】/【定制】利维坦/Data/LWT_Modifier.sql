@@ -205,9 +205,8 @@ INSERT INTO Requirements (RequirementId, RequirementType) VALUES
 
 INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
 ('TRAIT_LEADER_LWT', 'MODIFIER_TRAIT_LEADER_LWT_WONDER_PERCENT');
-
 INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
 ('MODIFIER_TRAIT_LEADER_LWT_WONDER_PERCENT', 'MODIFIER_PLAYER_ADJUST_UNIT_WONDER_PERCENT', 0, 0, 0, NULL, NULL);
-
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
 ('MODIFIER_TRAIT_LEADER_LWT_WONDER_PERCENT', 'Amount', '20');
+UPDATE UnitCommands SET MaxEra = -1 WHERE CommandType = 'UNITCOMMAND_WONDER_PRODUCTION';

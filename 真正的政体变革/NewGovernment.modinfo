@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mod id="d2a7e909-410b-4999-4a44-61f365300000" version="1">
     <Properties>
-        <Name>[COLOR:Civ6Yellow]更丰富的政体[ENDCOLOR]</Name>
-        <Description>游戏内的政体不太合理，二级政体到三级政体的时间过长，本MOD调整了部分政体</Description>
+        <Name>LOC_MOD_GOVERNMENT_NAME</Name>
+        <Description>LOC_MOD_GOVERNMENT_DESC体</Description>
         <Created>1745481858</Created>
-        <Teaser>政体调整</Teaser>
-        <Authors>千川白浪</Authors>
+        <Teaser>LOC_MOD_GOVERNMENT_DESC</Teaser>
+        <Authors>LOC_MOD_GOVERNMENT_AUTHORS</Authors>
         <CompatibleVersions>1.2,2.0</CompatibleVersions>
     </Properties>
     <ActionCriteria>
@@ -13,6 +13,20 @@
             <ModInUse>521b8777-0977-4859-a5ee-3e411a732e5c</ModInUse>
         </Criteria>
     </ActionCriteria>
+      <LocalizedText>
+        <Text id="LOC_MOD_GOVERNMENT_NAME">
+          <en_US>[COLOR:Civ6Yellow]More Government[ENDCOLOR]</en_US>
+          <zh_Hans_CN>[COLOR:Civ6Yellow]更丰富的政体[ENDCOLOR]</zh_Hans_CN>
+        </Text>
+        <Text id="LOC_MOD_GOVERNMENT_DESC">
+          <en_US>In game settings, players may activate the Celebration Mode, which grants brand new experience with regards to [ICON_Amenities] Amenities and [ICON_CelebrationHappiness] Happiness. This game mode is inspired by Celebrations and other mechanisms of Sid Meier's Civilization VII.</en_US>
+          <zh_Hans_CN>不再被原版政体节奏束缚，8 种政体覆盖扩张、经济、军事、科技等全维度需求，让你的每一局文明征程，都有全新战略方向！现在加载 MOD，开启属于你的专属政体时代！</zh_Hans_CN>
+        </Text>
+        <Text id="LOC_MOD_GOVERNMENT_AUTHORS">
+          <en_US>Nwflower,xXiKillYouXX</en_US>
+          <zh_Hans_CN>千川白浪，xXiKillYouXX</zh_Hans_CN>
+        </Text>
+      </LocalizedText>
     <FrontEndActions>
         <UpdateText id="NewGovernment">
             <Properties>
@@ -27,6 +41,8 @@
                 <LoadOrder>100000002</LoadOrder>
             </Properties>
             <File>NewGovernment_Text.sql</File>
+            <File>NewGovernment_Text_English.sql</File>
+            <File>NewGovernment_Text_Spanish.sql</File>
         </UpdateText>
         <UpdateDatabase id="NewGovernment">
             <Properties>
@@ -50,5 +66,7 @@
         <File>NewGovernment.sql</File>
         <File>NewGovernment_ICON.sql</File>
         <File>NewGovernment_Text.sql</File>
+        <File>NewGovernment_Text_English.sql</File>
+        <File>NewGovernment_Text_Spanish.sql</File>
     </Files>
 </Mod>

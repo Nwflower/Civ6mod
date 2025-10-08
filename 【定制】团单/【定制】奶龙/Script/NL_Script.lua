@@ -26,21 +26,48 @@ end
 
 function NaiLongPP(iPlayer, Param)
     local NumReligion = Param.NumReligion
+	print('NaiLongPP:信仰奶龙宗教的外国城市数量：', NumReligion)
     local pPlayer = Players[iPlayer]
     pPlayer:SetProperty("NL_PP", NumReligion)
 	for i, unit in pPlayer:GetUnits():Members() do
 		local unitInfo = GameInfo.Units[unit:GetType()];
     	local unitTypeName = unitInfo.UnitType;
         if unitTypeName == "UNIT_QZJ_NLDD" then
-            unit:SetProperty("ABILITY_UNIT_QZJ_NLDD_ASSASSIN", math.floor(NumReligion/2))
+            unit:SetProperty("ABILITY_UNIT_QZJ_NLDD", math.floor(NumReligion/2))
             break
         end
 	end
+	if NumReligion >= 5 then
+		NaiLongBT(iPlayer,  {
+			OnStart = 'NaiLongBT',
+			NumReligion = NumReligion
+		})
+	end
 end
+
+function NaiLongBT(iPlayer, Param)
+    local NumReligion = Param.NumReligion
+    local pPlayer = Players[iPlayer]
+	local pCity = pPlayer:GetCities():GetCapitalCity()
+	if not pCity then return end
+	print('NaiLongBT:信仰奶龙宗教的外国城市数量：', NumReligion)
+	if NumReligion >= 5 then
+		pCity:GetBuildQueue():CreateBuilding(GameInfo.Buildings['BUILDING_5_CITY_FOLLOWS_NL_RELIGION'].Index)
+	elseif NumReligion >= 12 then
+		pCity:GetBuildQueue():CreateBuilding(GameInfo.Buildings['BUILDING_12_CITY_FOLLOWS_NL_RELIGION'].Index)
+	end
+end
+
+function Nw_NL_GetDamage(iPlayer, Params)
+	local pUnit = UnitManager.GetUnit(iPlayer, Params.iUnit);
+    pUnit:ChangeDamage(-50)
+end
+
 
 function initialize()
     Events.CivicCompleted.Add( OnCivicCompleted );
     GameEvents.NaiLongPP.Add(NaiLongPP);
+	GameEvents.Nw_NL_GetDamage.Add(Nw_NL_GetDamage)
 end
 
 Events.LoadScreenClose.Add(initialize);

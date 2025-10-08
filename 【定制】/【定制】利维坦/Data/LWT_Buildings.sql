@@ -137,32 +137,3 @@ INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
 ('REQ_PLOT_HAS_IMPROVEMENT_20250929', 'ImprovementType', 'IMPROVEMENT_20250929');
 
 
--- 如果城市至少有1个沙堡且拥有主流宗教，则九个单元格外的其他城市每回合-5点忠诚度。
-INSERT INTO BuildingModifiers (BuildingType, ModifierId) VALUES
-('BUILDING_20250929', 'MODIFIER_BUILDING_20250929_IDENTY');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
-('MODIFIER_BUILDING_20250929_IDENTY', 'MODIFIER_NW_ALL_CITYS_ADJUST_IDENTITY_PER_TURN', 0, 0, 0, 'CITY_HAS_SHABAO_AND_RELIGION', 'REQS_CITY_IN_9PLOT');
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER_BUILDING_20250929_IDENTY', 'Amount', '-5');
-
--- Custom ModifierType
-INSERT INTO Types (Type, Kind) VALUES
-('MODIFIER_NW_ALL_CITYS_ADJUST_IDENTITY_PER_TURN', 'KIND_MODIFIER');
-INSERT INTO DynamicModifiers (ModifierType, CollectionType, EffectType) VALUES
-('MODIFIER_NW_ALL_CITYS_ADJUST_IDENTITY_PER_TURN', 'COLLECTION_ALL_CITIES', 'EFFECT_ADJUST_CITY_IDENTITY_PER_TURN');
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
-('CITY_HAS_SHABAO_AND_RELIGION', 'REQUIREMENTSET_TEST_ALL'),
-('REQS_CITY_IN_9PLOT', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
-('CITY_HAS_SHABAO_AND_RELIGION', 'REQ_05C6QZGF'),
-('REQS_CITY_IN_9PLOT', 'REQ_CITY_IN_9PLOT');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType,Inverse) VALUES
-('REQ_05C6QZGF', 'REQUIREMENT_CITY_FOLLOWS_RELIGION',0),
-('REQ_CITY_IN_9PLOT', 'REQUIREMENT_PLOT_ADJACENT_TO_OWNER',1);
-INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
-('REQ_CITY_IN_9PLOT', 'MaxDistance', '9'),
-('REQ_CITY_IN_9PLOT', 'MinDistance', '0');
-
-
