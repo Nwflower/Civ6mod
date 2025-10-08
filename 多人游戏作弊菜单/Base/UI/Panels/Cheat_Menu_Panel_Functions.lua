@@ -147,7 +147,7 @@ function ChangePopulation()
 	if pCity ~= nil and pPlayer:IsHuman() then
 		UI.RequestPlayerOperation(pPlayer, PlayerOperations.EXECUTE_SCRIPT, {
 			OnStart = "ChangePopulation",
-			City = pCity:GetID()
+			iCity = pCity:GetID()
 		});
 	end
 end

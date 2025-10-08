@@ -99,7 +99,7 @@ function ChangeFaith(playerID)
 end
 function ChangePopulation(playerID, params)
     local pPlayer = Players[playerID]
-    local pCity = pPlayer:GetCities():FindID(params.CityID)
+    local pCity = pPlayer:GetCities():FindID(params.iCity)
     if pCity ~= nil then
         pCity:ChangePopulation(1);
     end
