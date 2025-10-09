@@ -41,4 +41,4 @@ SELECT 'Players:Expansion2_Players',
         Name,
         Description,
         SortIndex
-FROM PlayerItems WHERE Type = 'LEADER_SHAKA';
+FROM PlayerItems WHERE LeaderType = 'LEADER_SHAKA';
