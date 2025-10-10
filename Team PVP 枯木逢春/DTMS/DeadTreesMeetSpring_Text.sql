@@ -12,6 +12,15 @@ VALUES -- FE
        ('LOC_NW_DTMS_WONDER_REBALANCE_DESCRIPTION', 'zh_Hans_CN',
         '以金字塔为标准，增强一些较为落后的人造奇观。'),
 
+       -- 文秦
+      ('LOC_TRAIT_LEADER_QIN_NAME', 'zh_Hans_CN',
+       '千古一帝'),
+
+       -- 武秦
+      ('LOC_TRAIT_LEADER_QIN_ALT_NAME', 'zh_Hans_CN',
+       '山河秦制'),
+      ('LOC_TRAIT_LEADER_QIN_ALT_DESCRIPTION', 'zh_Hans_CN',
+       '可晋升的近战攻击单位在击败敌方单位后有几率将其俘获为军事工程师。除非拥有军事工程学科技，否则军事工程师的使用次数-1。所有近战攻击单位+1 [ICON_Strength] 战斗力，若解锁“防御战术”市政，则提升至+2 [ICON_Strength] 战斗力。'),
 
        -- 伯里克利
       ('LOC_TRAIT_LEADER_SURROUNDED_BY_GLORY_DESCRIPTION', 'zh_Hans_CN',
@@ -57,7 +66,7 @@ VALUES -- FE
 
        -- 文美
        ('LOC_TRAIT_LEADER_ANTIQUES_AND_PARKS_DESCRIPTION', 'zh_Hans_CN',
-        '首次建成保护区时，[ICON_CAPITAL] 首都获得一个免费的自然学家。拥有国家公园的城市单元格+1魅力值。神秘主义市政后，惊艳单元格+1 [ICON_SCIENCE] 科技值，相邻保护区的未改良惊艳单元格+1 [ICON_PRODUCTION] 生产力。无视前置市政要求，可以在相邻保护区的单元格上栽种树林。'),
+        '首次建成保护区时，[ICON_CAPITAL] 首都获得一个免费的自然学家。拥有国家公园的城市单元格+1魅力值。神秘主义市政后，未改良惊艳单元格+1 [ICON_SCIENCE] 科技值，相邻山脉则额外+1 [ICON_PRODUCTION] 生产力。无视前置市政要求，可以在相邻保护区的单元格上栽种树林。'),
        ('LOC_ABILITY_NW_CANNOT_PLANT_FOREST_BUT_ADJACENT_PRESERVE_DESCRIPTION', 'zh_Hans_CN',
         '可以在相邻保护区的单元格上栽种树林。'),
 
@@ -89,4 +98,30 @@ VALUES -- FE
         '拥有写作和法典后解锁剧院广场。剧院广场从奢侈品单元格获得标准相邻加成，戏剧与诗歌市政后翻倍。可在拥有剧院广场区域的任意城市中开展“宫廷盛会”项目。建造剧院广场及其建筑时+45% [ICON_PRODUCTION] 生产力。'),
        ('LOC_TRAIT_LEADER_MAGNIFICENCES_THEATER', 'zh_Hans_CN',
         '+{1_Num} [ICON_CULTURE]文化值来自相邻的奢侈品单元格。');
+
+
+
+
+-----------------------------------------------------------------------  魔女环境下伟人修改  -----------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS TeamPVPGPN(
+    Tag TEXT NOT NULL PRIMARY KEY ,
+    Text  TEXT
+);
+INSERT OR REPLACE INTO TeamPVPGPN(Tag, Text) VALUES
+('LOC_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_NAME','千川白浪'),
+('LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_CHAPTER_HISTORY_PARA_1','金牌成就'),
+('LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_CHAPTER_HISTORY_PARA_2','作为炼金系列模组的官方主创Modder，创作了众多魔女环境下的好评如潮的模组。他在未来又能创作出哪些模组？让我们拭目以待。'),
+('LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_CHAPTER_HISTORY_PARA_3',''),
+('LOC_GREATWORK_BACH_1_NAME','世界歧路'),
+('LOC_GREATWORK_BACH_2_NAME','枯木逢春');
+
+INSERT OR REPLACE INTO LocalizedText(Tag,Language,Text)SELECT
+Tag,'zh_Hans_CN',Text
+FROM TeamPVPGPN WHERE EXISTS (
+    SELECT 1
+    FROM LocalizedText
+    WHERE Tag = 'LOC_GREAT_PERSON_INDIVIDUAL_IMHOTEPI_NAME'
+      AND Text = '号码菌'
+);
+
 

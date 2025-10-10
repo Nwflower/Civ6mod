@@ -17,7 +17,7 @@ INSERT INTO LocalizedText (Language, Tag, Text) VALUES
 
 -- Districts
 ('zh_Hans_CN', 'LOC_DISTRICT_SIQI_D0007_NAME', '阿巴斯港'),
-('zh_Hans_CN', 'LOC_DISTRICT_SIQI_D0007_DESCRIPTION', '取代 “港口” 的特色区域，建造成本为原港口的 60%；相邻市中心从常规的+3[ICON_Gold]变为+2[ICON_Gold]；额外提供+1 [ICON_GreatProphet] 大预言家点数；每与1个圣地相邻，可获得+1 [ICON_Gold] 金币和+1 [ICON_Culture] 文化；完成“神学”后额外 + 1 相邻加成，完成“归正会”后再+1相邻加成。拥有阿巴斯港的城市，建造 “圣地” 时 [ICON_PRODUCTION] 生产力 + 50%；且圣地自身额外 + 1 [ICON_PRODUCTION] 生产力。'),
+('zh_Hans_CN', 'LOC_DISTRICT_SIQI_D0007_DESCRIPTION', '取代 “港口” 的特色区域，建造成本为原港口的 50%；相邻市中心从常规的+3[ICON_Gold]变为+2[ICON_Gold]；额外提供+1 [ICON_GreatProphet] 大预言家点数；每与1个圣地相邻，可获得+1 [ICON_Gold] 金币和+1 [ICON_Culture] 文化；完成“神学”后额外 + 1 相邻加成，完成“归正会”后再+1相邻加成。拥有阿巴斯港的城市，建造 “圣地” 时 [ICON_PRODUCTION] 生产力 + 50%；且圣地自身额外 + 1 [ICON_PRODUCTION] 生产力。'),
 ('zh_Hans_CN', 'LOC_TRAIT_DISTRICT_SIQI_D0007_NAME', '{LOC_DISTRICT_SIQI_D0007_NAME}'),
 ('zh_Hans_CN', 'LOC_TRAIT_DISTRICT_SIQI_D0007_DESCRIPTION', '{LOC_DISTRICT_SIQI_D0007_DESCRIPTION}'),
 ('zh_Hans_CN', 'LOC_SIQI_DISTRICT_SIQI_D0007_ADJACENCY_FAITH', '+{1_num}[ICON_Gold]金币来自每个相邻的圣地。'),

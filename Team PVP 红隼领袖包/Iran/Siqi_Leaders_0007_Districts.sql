@@ -56,7 +56,7 @@ INSERT INTO Districts (
     PrereqCivic,
     Coast,
     'LOC_DISTRICT_SIQI_D0007_DESCRIPTION',
-    Cost*0.6,
+    Cost*0.5,
     RequiresPlacement,
     RequiresPopulation,
     NoAdjacentCity,
