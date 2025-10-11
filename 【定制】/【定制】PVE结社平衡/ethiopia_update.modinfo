@@ -7,16 +7,7 @@
     <CompatibleVersions>2.0</CompatibleVersions>
   </Properties>
   <ActionCriteria>
-    <Criteria id="Ethiopia_Mode_Expansion1">
-      <RuleSetInUse>RULESET_EXPANSION_1</RuleSetInUse>
-      <ConfigurationValueMatches>
-        <Group>Game</Group>
-        <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
-        <Value>1</Value>
-      </ConfigurationValueMatches>
-    </Criteria>
-    <Criteria id="Ethiopia_Mode_Expansion2">
-      <RuleSetInUse>RULESET_EXPANSION_2</RuleSetInUse>
+    <Criteria id="Ethiopia_Mode">
       <ConfigurationValueMatches>
         <Group>Game</Group>
         <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
@@ -39,27 +30,15 @@
     </UpdateText>
   </FrontEndActions>
   <InGameActions>
-    <UpdateDatabase id="GamePlayEthiopia" criteria="Ethiopia_Mode_Expansion1">
+    <UpdateDatabase id="GamePlayEthiopia" criteria="Ethiopia_Mode">
       <Properties>
-        <LoadOrder>1000</LoadOrder>
+        <LoadOrder>1000000</LoadOrder>
       </Properties>
       <File>ethiopia_update.sql</File>
     </UpdateDatabase>
-    <UpdateText id="TextEthiopia" criteria="Ethiopia_Mode_Expansion1">
+    <UpdateText id="TextEthiopia" criteria="Ethiopia_Mode">
        <Properties>
-        <LoadOrder>1000</LoadOrder>
-       </Properties>
-      <File>ethiopia_update_text.sql</File>
-    </UpdateText>
-    <UpdateDatabase id="GamePlayEthiopia" criteria="Ethiopia_Mode_Expansion2">
-      <Properties>
-        <LoadOrder>1000</LoadOrder>
-      </Properties>
-      <File>ethiopia_update.sql</File>
-    </UpdateDatabase>
-    <UpdateText id="TextEthiopia" criteria="Ethiopia_Mode_Expansion2">
-       <Properties>
-        <LoadOrder>1000</LoadOrder>
+        <LoadOrder>1000000</LoadOrder>
        </Properties>
       <File>ethiopia_update_text.sql</File>
     </UpdateText>

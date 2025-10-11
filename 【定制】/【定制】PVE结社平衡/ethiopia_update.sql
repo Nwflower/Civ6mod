@@ -667,3 +667,44 @@ INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
 
 
 DELETE FROM TraitModifiers WHERE ModifierId = 'MINOR_CIV_NALANDA_FREE_TECHNOLOGY' AND TraitType = 'MINOR_CIV_NALANDA_TRAIT';
+
+UPDATE GlobalParameters SET Value = 20 WHERE Name = 'TRADE_ROUTE_BASE_RANGE';
+UPDATE GlobalParameters SET Value = 20 WHERE Name = 'TRADE_ROUTE_LAND_RANGE_REFUEL';
+UPDATE GlobalParameters SET Value = 40 WHERE Name = 'TRADE_ROUTE_WATER_RANGE_REFUEL';
+UPDATE GlobalParameters SET Value = 10 WHERE Name = 'TRADE_ROUTE_TURN_DURATION_BASE';
+
+
+-- 占1个单元格的自然奇观，无法通行，表现为山脉。为相邻单元格+1 [ICON_FOOD] 食物、+1 [ICON_PRODUCTION] 生产力、+3 [ICON_GOLD] 金币。
+INSERT OR REPLACE INTO Feature_AdjacentYields
+(FeatureType,								YieldType,					YieldChange)
+VALUES
+    ('FEATURE_CERRO_DE_POTOSI',						'YIELD_FOOD',				1),
+    ('FEATURE_MOTLATSE_CANYON',						'YIELD_FOOD',				1),
+    ('FEATURE_RORAIMA',						'YIELD_FOOD',				1),
+    ('FEATURE_TSINGY',						'YIELD_FOOD',				2),
+    ('FEATURE_KAILASH',						'YIELD_FOOD',				1),
+    ('FEATURE_KAILASH',						'YIELD_PRODUCTION',				1),
+    ('FEATURE_VESUVIUS',						'YIELD_FOOD',				1),
+    ('FEATURE_VESUVIUS',						'YIELD_FAITH',				1),
+    ('FEATURE_KRAKATOA',						'YIELD_FOOD',				1),
+    ('FEATURE_KRAKATOA',						'YIELD_PRODUCTION',				1);
+
+-- 占1个单元格的自然奇观，表现为礁石。提供+3 [ICON_SCIENCE] 科技值、+3 [ICON_FOOD] 食物、+2 [ICON_PRODUCTION] 生产力、+1 [ICON_GOLD] 金币。若文明拥有至少1个该奇观单元格，则渔船+2 [ICON_GOLD] 金币。
+UPDATE ModifierArguments SET Value = 2 WHERE ModifierId = 'MODIFIER_FEATURE_BIOLUMINESCENT_BAY_BOAT_SCIENCE' AND Name = 'Amount';
+UPDATE ModifierArguments SET Value = 3 WHERE ModifierId = 'MODIFIER_FEATURE_KAILASH_CULTURE_CITIES' AND Name = 'Amount';
+
+INSERT OR REPLACE INTO Feature_YieldChanges
+(FeatureType,								YieldType,					YieldChange)
+VALUES
+    ('FEATURE_BIOLUMINESCENT_BAY',				'YIELD_GOLD',				1),
+    ('FEATURE_BIOLUMINESCENT_BAY',				'YIELD_PRODUCTION',				2),
+    ('FEATURE_BIOLUMINESCENT_BAY',				'YIELD_FOOD',				3),
+    ('FEATURE_BIOLUMINESCENT_BAY',				'YIELD_SCIENCE',			3),
+    ('FEATURE_CHOCOLATEHILLS',				'YIELD_SCIENCE',			2),
+    ('FEATURE_CHOCOLATEHILLS',				'YIELD_PRODUCTION',			3),
+    ('FEATURE_CHOCOLATEHILLS',				'YIELD_FOOD',			3),
+    ('FEATURE_PANTANAL',				'YIELD_PRODUCTION',			3),
+    ('FEATURE_SALAR_DE_UYUNI',				'YIELD_FOOD',			2),
+    ('FEATURE_SALAR_DE_UYUNI',				'YIELD_GOLD',			5),
+    ('FEATURE_UBSUNUR_HOLLOW',				'YIELD_FOOD',			3),
+    ('FEATURE_UBSUNUR_HOLLOW',				'YIELD_FAITH',			4);

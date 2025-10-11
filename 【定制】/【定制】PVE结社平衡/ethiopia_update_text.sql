@@ -37,6 +37,33 @@ VALUES -- 吸血鬼
        ('zh_Hans_CN', 'LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_4_DESCRIPTION',
         '在工业时代解锁。解锁“秘术研究”。此城市项目在进行时将提供 [ICON_GOLD] 金币。完成时，其将根据城市中的地脉数量提供 [ICON_GreatPerson] 伟人点数和 [ICON_SCIENCE] 科技值。'),
 
+       ('zh_Hans_CN', 'LOC_FEATURE_KAILASH_DESCRIPTION',
+        '占1个单元格的自然奇观，无法通行，表现为山脉。为相邻单元格+1 [ICON_FOOD] 食物、+1 [ICON_Production] 生产力、+1 [ICON_Faith] 信仰、+1 [ICON_CULTURE] 文化。若文明拥有至少1个该奇观单元格，则每座信奉您 [ICON_RELIGION] 宗教的外国城市+3 [ICON_CULTURE] 文化值。'),
+       ('zh_Hans_CN', 'LOC_FEATURE_SALAR_DE_UYUNI_DESCRIPTION',
+        '占4个单元格的自然奇观。提供+2 [ICON_FOOD] 食物、+2 [ICON_SCIENCE] 科技值、+2 [ICON_PRODUCTION] 生产力、+5 [ICON_GOLD] 金币。为商业中心提供大量相邻加成。'),
+       ('zh_Hans_CN', 'LOC_FEATURE_UBSUNUR_HOLLOW_DESCRIPTION',
+        '占4个单元格的自然奇观，表现为沼泽。提供+4 [ICON_FAITH] 信仰值、+3 [ICON_FOOD] 食物、+2 [ICON_PRODUCTION] 生产力。'),
+
+       ('zh_Hans_CN', 'LOC_FEATURE_KRAKATOA_DESCRIPTION',
+        '占1个单元格的自然奇观，无法通行，表现为火山。为相邻单元格+1 [ICON_FOOD] 食物、+1 [ICON_Production] 生产力、+2 [ICON_SCIENCE] 科技值。喷发时为相邻单元格提供产出，但会造成 [ICON_Citizen] 人口减少。其固定为活跃状态。'),
+       ('zh_Hans_CN', 'LOC_FEATURE_VESUVIUS_DESCRIPTION',
+        '占1个单元格且无法通行，无法通行，表现为火山。向相邻单元格提供+1 [ICON_FOOD] 食物、+1 [ICON_Production] 生产力、+1 [ICON_FAITH] 信仰值。喷发时为相邻单元格提供大量产出，但会造成大量 [ICON_Citizen] 人口减少。其固定为活跃状态。'),
+
+
+       ('zh_Hans_CN', 'LOC_FEATURE_MOTLATSE_CANYON_DESCRIPTION',
+        '占4个单元格的自然奇观，无法通行。为相邻单元格+1 [ICON_FOOD] 食物、+1 [ICON_CULTURE] 文化值、+1 [ICON_FAITH] 信仰值。'),
+       ('zh_Hans_CN', 'LOC_FEATURE_TSINGY_DESCRIPTION',
+        '占1个单元格的自然奇观，无法通行。为邻近单元格+2 [ICON_FOOD] 食物、+1 [ICON_Culture] 文化值和+1 [ICON_Science] 科技值。'),
+       ('zh_Hans_CN', 'LOC_FEATURE_CHOCOLATEHILLS_DESCRIPTION',
+        '占4个单元格的自然奇观，提供+3 [ICON_Food] 食物、+3 [ICON_Production] 生产力、+2 [ICON_Science] 科技值。'),
+       ('zh_Hans_CN', 'LOC_FEATURE_RORAIMA_DESCRIPTION',
+        '占4个单元格的自然奇观，无法通行。为相邻单元格+1 [ICON_FOOD] 食物、+1 [ICON_FAITH] 信仰值、+1 [ICON_SCIENCE] 科技值。'),
+       ('zh_Hans_CN', 'LOC_FEATURE_PANTANAL_DESCRIPTION',
+        '占4个单元格的自然奇观。提供+2 [ICON_Food] 食物、+3 [ICON_Production] 生产力、+2 [ICON_Science] 科技值、+2 [ICON_Culture] 文化值。'),
+       ('zh_Hans_CN', 'LOC_FEATURE_CERRO_DE_POTOSI_DESCRIPTION',
+        '占1个单元格的自然奇观，无法通行，表现为山脉。为相邻单元格+1 [ICON_FOOD] 食物、+1 [ICON_PRODUCTION] 生产力、+3 [ICON_GOLD] 金币。'),
+       ('zh_Hans_CN', 'LOC_FEATURE_BIOLUMINESCENT_BAY_DESCRIPTION',
+        '占1个单元格的自然奇观，表现为礁石。提供+3 [ICON_SCIENCE] 科技值、+3 [ICON_FOOD] 食物、+2 [ICON_PRODUCTION] 生产力、+1 [ICON_GOLD] 金币。若文明拥有至少1个该奇观单元格，则渔船+2 [ICON_GOLD] 金币。'),
        ('zh_Hans_CN', 'TRAIT_LEADER_MAJOR_CIV_ADD_20',
         '青山一道同风雨'),
        ('zh_Hans_CN', 'LOC_LEADER_TRAIT_NALANDA_DESCRIPTION',
@@ -44,6 +71,10 @@ VALUES -- 吸血鬼
         ('zh_Hans_CN', 'LOC_IMPROVEMENT_MAHAVIHARA_DESCRIPTION','解锁建造者建造大寺的能力。[NEWLINE][NEWLINE]+2 [ICON_SCIENCE] 科技值、+1 [Icon_Housing] 住房。每与1座圣地区域相邻，则+1 [ICON_Faith] 信仰值；每与1座学院区域相邻，则+1 [ICON_Science] 科技值。研究完“科学理论”之后，每与1座学院相邻则额外+1 [Icon_Science] 科技值。玩家建成大寺时将随机获得一项科技，通过这种方式，至多获得三项科技。必须建在平坦地貌上，不能与其他大寺相邻。'),
         ('zh_Hans_CN',	'LOC_GAME_REALISM_DESCRIPTION',
 		'设置自然灾害强度。在0（频率最低、强度最弱）到8（频率最高、强度最高）之间进行选择。注意：如灾难等级大于3，严重的火山喷发可能会对2个格位外的单元格造成破坏。'		);
+
+
+
+
 REPLACE INTO LocalizedText(Language, Tag, Text)
 VALUES ('zh_Hans_CN', 'LOC_MOD_PVESAB_DES', '  ·每次触发随机解锁多个结社 结社总督可以提前解锁[NEWLINE]
 ·地脉变多 可以修建矿山 可以移除和覆盖但是提供的加成会消失[NEWLINE]
