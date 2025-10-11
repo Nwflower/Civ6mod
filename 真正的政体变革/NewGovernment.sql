@@ -110,7 +110,7 @@ INSERT INTO GovernmentModifiers (GovernmentType, ModifierId) VALUES
 INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
 ('MODIFIER_GOVERNMENT_FENFENG_MINI_PLOT_COST', 'MODIFIER_PLAYER_CITIES_ADJUST_PLOT_PURCHASE_COST', 0, 0, 0, NULL, NULL);
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER_GOVERNMENT_FENFENG_MINI_PLOT_COST', 'Amount', '20');
+('MODIFIER_GOVERNMENT_FENFENG_MINI_PLOT_COST', 'Amount', '-20');
 
 INSERT INTO Governments_XP2(GovernmentType, Favor) SELECT
 'GOVERNMENT_FENFENG',Favor + 1
