@@ -687,11 +687,18 @@ VALUES
     ('FEATURE_VESUVIUS',						'YIELD_FOOD',				1),
     ('FEATURE_VESUVIUS',						'YIELD_FAITH',				1),
     ('FEATURE_KRAKATOA',						'YIELD_FOOD',				1),
-    ('FEATURE_KRAKATOA',						'YIELD_PRODUCTION',				1);
+    ('FEATURE_KRAKATOA',						'YIELD_PRODUCTION',				1),
+    ('FEATURE_DEVILSTOWER',						'YIELD_FOOD',				1),
+    ('FEATURE_DEVILSTOWER',						'YIELD_FAITH',				1),
+    ('FEATURE_DEVILSTOWER',						'YIELD_GOLD',				1),
+    ('FEATURE_DEVILSTOWER',						'YIELD_SCIENCE',				1),
+    ('FEATURE_DEVILSTOWER',						'YIELD_CULTURE',				1),
+    ('FEATURE_DEVILSTOWER',						'YIELD_PRODUCTION',				1);
 
 -- 占1个单元格的自然奇观，表现为礁石。提供+3 [ICON_SCIENCE] 科技值、+3 [ICON_FOOD] 食物、+2 [ICON_PRODUCTION] 生产力、+1 [ICON_GOLD] 金币。若文明拥有至少1个该奇观单元格，则渔船+2 [ICON_GOLD] 金币。
 UPDATE ModifierArguments SET Value = 2 WHERE ModifierId = 'MODIFIER_FEATURE_BIOLUMINESCENT_BAY_BOAT_SCIENCE' AND Name = 'Amount';
 UPDATE ModifierArguments SET Value = 3 WHERE ModifierId = 'MODIFIER_FEATURE_KAILASH_CULTURE_CITIES' AND Name = 'Amount';
+UPDATE ModifierArguments SET Value = 'YIELD_FAITH' WHERE ModifierId = 'MODIFIER_FEATURE_KAILASH_CULTURE_CITIES' AND Name = 'YieldType';
 
 INSERT OR REPLACE INTO Feature_YieldChanges
 (FeatureType,								YieldType,					YieldChange)
@@ -708,3 +715,5 @@ VALUES
     ('FEATURE_SALAR_DE_UYUNI',				'YIELD_GOLD',			5),
     ('FEATURE_UBSUNUR_HOLLOW',				'YIELD_FOOD',			3),
     ('FEATURE_UBSUNUR_HOLLOW',				'YIELD_FAITH',			4);
+
+UPDATE Units SET BaseMoves = 3 WHERE UnitType = 'UNIT_SETTLER';

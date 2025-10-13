@@ -38,7 +38,7 @@ VALUES -- 吸血鬼
         '在工业时代解锁。解锁“秘术研究”。此城市项目在进行时将提供 [ICON_GOLD] 金币。完成时，其将根据城市中的地脉数量提供 [ICON_GreatPerson] 伟人点数和 [ICON_SCIENCE] 科技值。'),
 
        ('zh_Hans_CN', 'LOC_FEATURE_KAILASH_DESCRIPTION',
-        '占1个单元格的自然奇观，无法通行，表现为山脉。为相邻单元格+1 [ICON_FOOD] 食物、+1 [ICON_Production] 生产力、+1 [ICON_Faith] 信仰、+1 [ICON_CULTURE] 文化。若文明拥有至少1个该奇观单元格，则每座信奉您 [ICON_RELIGION] 宗教的外国城市+3 [ICON_CULTURE] 文化值。'),
+        '占1个单元格的自然奇观，无法通行，表现为山脉。为相邻单元格+1 [ICON_FOOD] 食物、+1 [ICON_Production] 生产力、+1 [ICON_Faith] 信仰、+1 [ICON_CULTURE] 文化。若文明拥有至少1个该奇观单元格，则每座信奉您 [ICON_RELIGION] 宗教的外国城市+3 [ICON_FAITH] 信仰值。'),
        ('zh_Hans_CN', 'LOC_FEATURE_SALAR_DE_UYUNI_DESCRIPTION',
         '占4个单元格的自然奇观。提供+2 [ICON_FOOD] 食物、+2 [ICON_SCIENCE] 科技值、+2 [ICON_PRODUCTION] 生产力、+5 [ICON_GOLD] 金币。为商业中心提供大量相邻加成。'),
        ('zh_Hans_CN', 'LOC_FEATURE_UBSUNUR_HOLLOW_DESCRIPTION',
@@ -50,6 +50,8 @@ VALUES -- 吸血鬼
         '占1个单元格且无法通行，无法通行，表现为火山。向相邻单元格提供+1 [ICON_FOOD] 食物、+1 [ICON_Production] 生产力、+1 [ICON_FAITH] 信仰值。喷发时为相邻单元格提供大量产出，但会造成大量 [ICON_Citizen] 人口减少。其固定为活跃状态。'),
 
 
+       ('zh_Hans_CN', 'LOC_FEATURE_DEVILSTOWER_DESCRIPTION',
+        '占1个单元格且无法通行的自然奇观，为相邻单元格+1 [ICON_Food] 食物、+1 [ICON_Production] 生产力、+1 [ICON_FAITH] 信仰值、+1 [ICON_CULTURE] 文化值、+1 [ICON_Science] 科技值、+1 [ICON_GOLD] 金币。'),
        ('zh_Hans_CN', 'LOC_FEATURE_MOTLATSE_CANYON_DESCRIPTION',
         '占4个单元格的自然奇观，无法通行。为相邻单元格+1 [ICON_FOOD] 食物、+1 [ICON_CULTURE] 文化值、+1 [ICON_FAITH] 信仰值。'),
        ('zh_Hans_CN', 'LOC_FEATURE_TSINGY_DESCRIPTION',
