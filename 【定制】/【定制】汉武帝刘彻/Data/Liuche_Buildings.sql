@@ -24,10 +24,10 @@ SELECT 'BUILDING_YAN_MARKET',
        PrereqTech,
        PrereqCivic,
        90,
-       MaxPlayerInstances,
-       MaxWorldInstances,
-       Capital,
-       PrereqDistrict,
+       MaxPlayerInstances,  -- 玩家最大个数
+       MaxWorldInstances,  -- 世界上最多存在个数
+       Capital, -- 宫殿属性
+       PrereqDistrict,  -- 前置区域
        AdjacentDistrict,
        'LOC_BUILDING_YAN_MARKET_DESCRIPTION',
        RequiresPlacement,
