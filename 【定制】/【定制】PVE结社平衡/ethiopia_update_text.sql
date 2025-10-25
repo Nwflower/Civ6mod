@@ -71,8 +71,28 @@ VALUES -- 吸血鬼
        ('zh_Hans_CN', 'LOC_LEADER_TRAIT_NALANDA_DESCRIPTION',
         '您的建造者现在可以建造大寺改良设施。[NEWLINE][NEWLINE]+2 [ICON_SCIENCE] 科技值、+1 [Icon_Housing] 住房。每与1座圣地区域相邻，则+1 [ICON_Faith] 信仰值；每与1座学院区域相邻，则+1 [ICON_Science] 科技值。研究完“科学理论”之后，每与1座学院相邻则额外+1 [Icon_Science] 科技值。玩家建成大寺时将随机获得一项科技，通过这种方式，至多获得三项科技。必须建在平坦地貌上，不能与其他大寺相邻。'),
         ('zh_Hans_CN', 'LOC_IMPROVEMENT_MAHAVIHARA_DESCRIPTION','解锁建造者建造大寺的能力。[NEWLINE][NEWLINE]+2 [ICON_SCIENCE] 科技值、+1 [Icon_Housing] 住房。每与1座圣地区域相邻，则+1 [ICON_Faith] 信仰值；每与1座学院区域相邻，则+1 [ICON_Science] 科技值。研究完“科学理论”之后，每与1座学院相邻则额外+1 [Icon_Science] 科技值。玩家建成大寺时将随机获得一项科技，通过这种方式，至多获得三项科技。必须建在平坦地貌上，不能与其他大寺相邻。'),
-        ('zh_Hans_CN',	'LOC_GAME_REALISM_DESCRIPTION',
-		'设置自然灾害强度。在0（频率最低、强度最弱）到8（频率最高、强度最高）之间进行选择。注意：如灾难等级大于3，严重的火山喷发可能会对2个格位外的单元格造成破坏。'		);
+        ('zh_Hans_CN',	'LOC_GOVERNOR_PROMOTION_CARDINAL_CITADEL_OF_GOD_DESCRIPTION',
+		'城市拥有圣地时，每回合产生+2 [ICON_GreatProphet] 大预言家点数。15个单元格内每个拥有圣地的城市为该城市+2 [ICON_Faith] 信仰值。'),
+        ('zh_Hans_CN',	'LOC_GOVERNOR_PROMOTION_MERCHANT_CURATOR_DESCRIPTION',
+		'城市中艺术、音乐和著作巨作提供的 [ICON_Tourism] 旅游业绩+100%。此城市中的每个区域+1 [ICON_Housing] 住房。'),
+        ('zh_Hans_CN',	'LOC_GOVERNOR_PROMOTION_EDUCATOR_EUREKA_DESCRIPTION',
+		'城市生产单位、区域、建筑时+20% [ICON_PRODUCTION] 生产力。城市中的工作坊+2 [ICON_PRODUCTION] 生产力，工厂+4 [ICON_PRODUCTION] 生产力，发电厂+7 [ICON_PRODUCTION] 生产力，+4 [ICON_POWER] 电力。'),
+        ('zh_Hans_CN',	'LOC_GOVERNOR_PROMOTION_EDUCATOR_SPACE_INITIATIVE_DESCRIPTION',
+		'{LOC_GOVERNOR_PROMOTION_WATER_WORKS_DESCRIPTION}'),
+        ('zh_Hans_CN',	'LOC_GOVERNOR_PROMOTION_AMBASSADOR_FOREIGN_INVESTOR_DESCRIPTION',
+		'每级市政广场建筑+2 [ICON_FOOD] 食物、+2 [ICON_PRODUCTION] 生产力、+1 [ICON_Favor] 外交支持、+1 [ICON_InfluencePerTurn] 影响力点数。'),
+        ('zh_Hans_CN',	'LOC_LEADER_TRAIT_CHINGUETTI_DESCRIPTION',
+		' [ICON_TradeRoute] 贸易路线提供的 [ICON_FAITH] 信仰值 +3，神学和归正会后分别再 +3。'),
+        ('zh_Hans_CN',	'LOC_GOVERNOR_PROMOTION_REINFORCED_INFRASTRUCTURE_DESCRIPTION',
+		'为该城市的火山土与泛滥平原+1 [ICON_PRODUCTION] 生产力。该城市的改良设施、建筑和区域将免疫自然灾害影响。该城市额外+10% [ICON_PRODUCTION] 生产力。'),
+        ('zh_Hans_CN',	'LOC_GOVERNOR_PROMOTION_EDUCATOR_LIBRARIAN_DESCRIPTION',
+		'城市每回合产出的 [ICON_Science] 科技值+3、+15%。'),
+        ('zh_Hans_CN',	'LOC_GOVERNOR_PROMOTION_RESOURCE_MANAGER_EXPEDITION_DESCRIPTION',
+		'城市的 [ICON_Food] 食物增长+20%。以此处为终点的 [ICON_TradeRoute] 国内贸易路线+1 [ICON_Food] 食物、+2 [ICON_PRODUCTION] 生产力。'),
+        ('zh_Hans_CN',	'LOC_GOVERNOR_PROMOTION_PARKS_RECREATION_DESCRIPTION',
+		'解锁“政治哲学”市政后可以在平地上建造市立公园。每个城市仅限建造一座。+3 [ICON_SCIENCE] 科技值、+2 [ICON_Culture] 文化值、+2 [ICON_HOUSING] 住房、+1 [ICON_Amenities] 宜居度和+2魅力。'),
+        ('zh_Hans_CN',	'LOC_GOVERNOR_PROMOTION_AMBASSADOR_AFFLUENCE_DESCRIPTION',
+		'{LOC_GOV_PROMO_LIME_TEO_OWL_EMISSARY_HEGEMONY_DESC}');
 
 
 

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+    <LocalizedText>
+        <Replace Tag="LOC_MAP_CTK_RichNS" Language="zh_Hans_CN">
+            <Text>[COLOR:ResGoldLabelCS]CTK 富饶南北[ENDCOLOR]</Text>
+        </Replace>
+        <Replace Tag="LOC_MAP_CTK_RichNSRiver" Language="zh_Hans_CN">
+            <Text>[COLOR:ResGoldLabelCS]CTK 千河南北[ENDCOLOR]</Text>
+        </Replace>
+
+        <Replace Tag="LOC_MAP_WIDTH_NAME" Language="zh_Hans_CN">
+            <Text>地图宽度调整</Text>
+        </Replace>
+        <Replace Tag="LOC_MAP_WIDTH_DESC" Language="zh_Hans_CN">
+            <Text>地图越窄，玩家距离更近。</Text>
+        </Replace>
+
+        <Replace Tag="LOC_MAP_RICH_NUM_NAME" Language="zh_Hans_CN">
+            <Text>地图富饶系数</Text>
+        </Replace>
+        <Replace Tag="LOC_MAP_RICH_NUM_DESC" Language="zh_Hans_CN">
+            <Text>富饶系数越高，地图的资源将更丰富。推荐设置为3-5。</Text>
+        </Replace>
+
+        <Replace Tag="LOC_MAP_ROUTE_LEVEL_NAME" Language="zh_Hans_CN">
+            <Text>地图道路等级</Text>
+        </Replace>
+        <Replace Tag="LOC_MAP_ROUTE_LEVEL_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>自动生成的道路等级</Text>
+        </Replace>
+        <Replace Tag="LOC_MAP_ROUTE_RAILROAD_NAME" Language="zh_Hans_CN">
+            <Text>铁路</Text>
+        </Replace>
+        <Replace Tag="LOC_ROUTE_NOT_ROAD_NAME" Language="zh_Hans_CN">
+            <Text>无道路</Text>
+        </Replace>
+
+
+        <Replace Tag="BBS_RIDGE_RF_NAME" language="zh_Hans_CN">
+            <Text>标准山脉(推荐)</Text>
+        </Replace>
+        <Replace Tag="BBS_RIDGE_RF_DESC" language="zh_Hans_CN">
+            <Text>标准山脉(推荐)</Text>
+        </Replace>
+        <Replace Tag="BBS_RIDGE_VLESS_NAME" language="zh_Hans_CN">
+            <Text>更多山脉</Text>
+        </Replace>
+        <Replace Tag="BBS_RIDGE_VLESS_DESC" language="zh_Hans_CN">
+            <Text>更多山脉</Text>
+        </Replace>
+        <Replace Tag="BBS_SRESOURCES_MORE_NAME" Language="zh_Hans_CN">
+            <Text>标准战略(推荐)</Text>
+        </Replace>
+        <Replace Tag="BBS_SRESOURCES_MORE_DESC" Language="zh_Hans_CN">
+            <Text>标准战略(推荐)</Text>
+        </Replace>
+        <Replace Tag="BBS_SRESOURCES_MUCHMORE_NAME" Language="zh_Hans_CN">
+            <Text>更多战略</Text>
+        </Replace>
+        <Replace Tag="BBS_SRESOURCES_MUCHMORE_DESC" Language="zh_Hans_CN">
+            <Text>更多战略</Text>
+        </Replace>
+        <Replace Tag="BBS_SRESOURCES_NORMAL_NAME" Language="zh_Hans_CN">
+            <Text>较少战略</Text>
+        </Replace>
+        <Replace Tag="BBS_SRESOURCES_NORMAL_DESC" Language="zh_Hans_CN">
+            <Text>较少战略</Text>
+        </Replace>
+        <Replace Tag="BBS_Team_Spawn_NORMAL_NAME" language="zh_Hans_CN">
+            <Text>随机出生地(推荐)</Text>
+        </Replace>
+        <Replace Tag="BBS_Team_Spawn_NORMAL_DESC" language="zh_Hans_CN">
+            <Text>玩家随机出生在各个地点</Text>
+        </Replace>
+        <Replace Tag="BBS_Team_Spawn_EW_NAME" language="zh_Hans_CN">
+            <Text>东西出生点</Text>
+        </Replace>
+        <Replace Tag="BBS_Team_Spawn_EW_DESC" language="zh_Hans_CN">
+            <Text>出生点分为东边和西边，同一队的玩家更容易出生在同一边。</Text>
+        </Replace>
+        <Replace Tag="BBS_Team_Spawn_NS_NAME" language="zh_Hans_CN">
+            <Text>南北出生点</Text>
+        </Replace>
+        <Replace Tag="BBS_Team_Spawn_NS_DESC" language="zh_Hans_CN">
+            <Text>出生点分为南边和北边，同一队的玩家更容易出生在同一边。</Text>
+        </Replace>
+        <Replace Tag="LOC_GAME_BBS_RIDGE_NAME" language="zh_Hans_CN">
+            <Text>山脉</Text>
+        </Replace>
+        <Replace Tag="LOC_GAME_BBS_SRESOURCES_NAME" Language="zh_Hans_CN">
+            <Text>战略资源</Text>
+        </Replace>
+        <Replace Tag="LOC_BBS_Team_Spawn_NAME" language="zh_Hans_CN">
+            <Text>出生地</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_DUEL_NAME" Language="zh_Hans_CN">
+            <Text>决斗(推荐2人)</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_FOURE_NAME" Language="zh_Hans_CN">
+            <Text>微小(推荐4人)</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_TINY_NAME" Language="zh_Hans_CN">
+            <Text>极小(推荐6人)</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_SMALL_NAME" Language="zh_Hans_CN">
+            <Text>较小(推荐8人)</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_STANDARD_NAME" Language="zh_Hans_CN">
+            <Text>标准(推荐10人)</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_LARGE_NAME" Language="zh_Hans_CN">
+            <Text>较大(推荐12人)</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_HUGE_NAME" Language="zh_Hans_CN">
+            <Text>极大(推荐14人)</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_HUGE_16_NAME" Language="zh_Hans_CN">
+            <Text>巨大(推荐16人)</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_HUGE_18_NAME" Language="zh_Hans_CN">
+            <Text>最大(推荐18人)</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_DUEL_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>供2名玩家混战使用的决斗地图。</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_FOURE_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>供4名玩家混战使用的小型地图。</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_TINY_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>供6名玩家混战使用的小型地图。</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_SMALL_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>供8名玩家混战使用的中型地图。</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_STANDARD_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>供10名玩家混战使用的中型地图。</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_LARGE_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>供12名玩家混战使用的大型地图。</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_HUGE_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>供14名玩家混战使用的大型地图。</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_HUGE_16_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>供16名玩家混战使用的大型地图。</Text>
+        </Replace>
+        <Replace Tag="LOC_MAPSIZE_HUGE_18_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>供18名玩家混战使用的大型地图。</Text>
+        </Replace>
+
+		<!--大陆重命名-->
+        <Replace Tag="LOC_CONTINENT_AFRICA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>非洲</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_AMASIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>北美洲</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_AMERICA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>拉丁美洲</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_ANTARCTICA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>南极洲</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_ARCTICA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>北极大陆</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_ASIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>东亚</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_ASIAMERICA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>亚美大陆</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_ATLANTICA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>大西洋州</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_ATLANTIS_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>亚特兰蒂斯</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_AUSTRALIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>澳大利亚</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_AVALONIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>西西伯利亚</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_AZANIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>东西伯利亚</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_BALTICA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>南亚</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_CIMMERIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>东南亚</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_COLUMBIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>中亚</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_CONGO_CRATON_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>中东</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_EURAMERICA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>北欧</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_EUROPE_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>中欧</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_GONDWANA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>东欧</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_KALAHARIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>西欧</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_KAZAKHSTANIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>南欧</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_KERNORLAND_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>地中海</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_KUMARI_KANDAM_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>北非</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_LAURASIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>南非</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_LAURENTIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>东非</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_LEMURIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>西非</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_MU_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>中非</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_NENA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>中西伯利亚</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_NORTH_AMERICA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>南美洲</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_NOVOPANGAEA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>中美洲</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_NUNA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>马达加斯加</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_OCEANIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>大洋洲</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_PANGAEA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>千川</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_PANGAEA_ULTIMA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>伊比利亚</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_PANNOTIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>罗地</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_RODINIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>寒武纪</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_SIBERIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>格陵兰</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_SOUTH_AMERICA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>南美洲</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_TERRA_AUSTRALIS_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>震旦纪</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_UR_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>温带</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_VAALBARA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>亚热带</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_VENDIAN_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>热带</Text>
+        </Replace>
+        <Replace Tag="LOC_CONTINENT_ZEALANDIA_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>亚寒带</Text>
+        </Replace>
+    </LocalizedText>
+</GameData>

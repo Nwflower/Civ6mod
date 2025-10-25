@@ -24,7 +24,7 @@
     </UpdateDatabase>
     <UpdateText id="TextEthiopiaMOD">
        <Properties>
-        <LoadOrder>1000</LoadOrder>
+        <LoadOrder>100000005</LoadOrder>
        </Properties>
       <File>ethiopia_update_text.sql</File>
     </UpdateText>
@@ -38,7 +38,7 @@
     </UpdateDatabase>
     <UpdateText id="TextEthiopia" criteria="Ethiopia_Mode">
        <Properties>
-        <LoadOrder>1000000</LoadOrder>
+        <LoadOrder>100000005</LoadOrder>
        </Properties>
       <File>ethiopia_update_text.sql</File>
     </UpdateText>

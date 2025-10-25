@@ -4,13 +4,26 @@ INTO LocalizedText
     (Tag, Language, Text)
 VALUES -- FE
        ('LOC_NW_DTMS_NATUREWONDER_REBALANCE_NAME', 'zh_Hans_CN',
-        '[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 自然奇观逢春'),
+        '[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 山河重塑'),
        ('LOC_NW_DTMS_NATUREWONDER_REBALANCE_DESCRIPTION', 'zh_Hans_CN',
-        '以罗赖马山为标准，增强一些较为落后的自然奇观。'),
-       ('LOC_NW_DTMS_WONDER_REBALANCE_NAME', 'zh_Hans_CN',
-        '[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 人造奇观逢春'),
-       ('LOC_NW_DTMS_WONDER_REBALANCE_DESCRIPTION', 'zh_Hans_CN',
-        '以金字塔为标准，增强一些较为落后的人造奇观。'),
+        '增强一些强度较低的自然奇观。'),
+       ('LOC_NW_DTMS_RELIGION_REBALANCE_NAME', 'zh_Hans_CN',
+        '[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 宗教改革'),
+       ('LOC_NW_DTMS_RELIGION_REBALANCE_DESCRIPTION', 'zh_Hans_CN',
+        '重新设计宗教信条。'),
+
+       -- 大哥伦比亚
+      ('LOC_TRAIT_CIVILIZATION_EJERCITO_PATRIOTA_DESCRIPTION', 'zh_Hans_CN',
+       '在总指挥2个单元格范围内开始回合时，建造者和其他的总指挥单位+1 [ICON_MOVEMENT] 移动力。升级单位不会结束其回合。'),
+      ('LOC_ABILITY_UNIT_COMANDANTE_GENERAL_DESCRIPTION', 'zh_Hans_CN',
+       '2个单元格内的总指挥和建造者开始回合时+1 [ICON_MOVEMENT] 移动力。升级单位不会结束其回合。'),
+       -- 朝鲜
+      ('LOC_TRAIT_CIVILIZATION_THREE_KINGDOMS_NAME', 'zh_Hans_CN',
+       '三个太阳的传说'),
+      ('LOC_TRAIT_CIVILIZATION_THREE_KINGDOMS_DESCRIPTION', 'zh_Hans_CN',
+       '每与一座书院区域相邻，矿山则+1 [ICON_SCIENCE] 科技值。当农场与书院区域相邻时+1 [ICON_GOLD] 金币，此外每与一座书院区域相邻时，农场还可以再获得+1 [ICON_GOLD] 金币。城市中每位 [ICON_Citizen] 公民每回合提供的忠诚度-1。在黄金或英雄时代初期设置着力点时，除原有加成外还将获得提高时代得分的普通时代加成。如城市忠诚度已达最高，产出的 [ICON_CULTURE] 文化值和 [ICON_PRODUCTION] 生产力+5%。遭受的进攻性间谍的行动效果下降1级。'),
+       ('LOC_ABILITY_NW_CX_LOW_SPY_LEVEL_DESCRIPTION', 'zh_Hans_CN',
+        '进攻性间谍的行动效果下降1级。'),
 
        -- 文秦
       ('LOC_TRAIT_LEADER_QIN_NAME', 'zh_Hans_CN',
@@ -30,7 +43,9 @@ VALUES -- FE
 
        -- 印尼
        ('LOC_TRAIT_LEADER_EXALTED_GODDESS_DESCRIPTION', 'zh_Hans_CN',
-        '可用 [ICON_FAITH] 信仰值购买海军单位。沿海城市建造圣地时+75% [ICON_PRODUCTION] 生产力。拥有圣地的城市使用 [ICON_FAITH] 信仰值购买海军单位-10%花费。宗教单位上船下船时无移动力消耗。与海岸或湖泊单元格相邻的市中心+2 [ICON_FAITH] 信仰值。'),
+        '沿海城市建造圣地时+80% [ICON_PRODUCTION] 生产力。相邻圣地的港口的相邻加成也提供 [ICON_FAITH] 信仰值。可以-15%的花费用 [ICON_FAITH] 信仰值购买海军单位。宗教单位上船下船时无移动力消耗。与海岸或湖泊单元格相邻的市中心+2 [ICON_FAITH] 信仰值。'),
+       ('LOC_TRAIT_CIVILIZATION_INDONESIA_NUSANTARA_DESCRIPTION', 'zh_Hans_CN',
+        '海岸和湖泊单元格可为圣地提供标准相邻加成，为学院、工业区和剧院广场提供少量相邻加成。如与海岸或湖泊单元格相邻，娱乐中心+1 [ICON_AMENITIES] 宜居度。'),
 
        -- 匈牙利
        ('LOC_BUILDING_THERMAL_BATH_DESCRIPTION', 'zh_Hans_CN',
