@@ -1,9 +1,9 @@
 -- 每次触发随机解锁多个结社 结社总督可以提前解锁 升级效果不隐藏
 UPDATE GovernorPromotionConditions
-SET EarliestGameEra='ERA_RENAISSANCE'
+SET EarliestGameEra='ERA_MEDIEVAL'
 WHERE GovernorPromotionType LIKE '%_3';
 UPDATE GovernorPromotionConditions
-SET EarliestGameEra='ERA_INDUSTRIAL'
+SET EarliestGameEra='ERA_RENAISSANCE'
 WHERE GovernorPromotionType LIKE '%_4';
 UPDATE GovernorPromotionConditions
 SET HiddenWithoutPrereqs = 0
@@ -1116,91 +1116,12 @@ VALUES ('MODIFIER_GOVERNOR_PROMOTION_MERCHANT_CURATOR_HOUSING', 'Amount', '1');
 -----------------------------------------------------------------------------------------------------------------
 -- 欣盖提
 
-DELETE
-FROM TraitModifiers
-WHERE TraitType = 'MINOR_CIV_CHINGUETTI_TRAIT';
+UPDATE ModifierArguments SET Value = 3 WHERE Name = 'Amount' AND ModifierId  IN (
+    'CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_REFORMED_CHURCH',
+    'CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_THEOLOGY',
+    'CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_BASE'
+);
 
--- base +2
-INSERT OR
-REPLACE INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('MINOR_CIV_CHINGUETTI_TRAIT', 'CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_BASE_GIVER');
-
-INSERT OR
-REPLACE INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                        SubjectRequirementSetId)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_BASE_GIVER', 'MODIFIER_ALL_PLAYERS_ATTACH_MODIFIER', 0, 0, 0, NULL,
-        'PLAYER_IS_SUZERAIN');
-
-INSERT OR
-REPLACE INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_BASE_GIVER', 'ModifierId',
-        'CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_BASE');
-
-INSERT OR
-REPLACE INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                        SubjectRequirementSetId)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_BASE', 'MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_YIELD', 0, 0, 0, NULL,
-        NULL);
-
-INSERT OR
-REPLACE INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_BASE', 'Amount', '3'),
-       ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_BASE', 'YieldType', 'YIELD_FAITH');
-
--- theology +2
-INSERT OR
-REPLACE INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('MINOR_CIV_CHINGUETTI_TRAIT', 'CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_THEOLOGY_GIVER');
-
-INSERT OR
-REPLACE INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                        SubjectRequirementSetId)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_THEOLOGY_GIVER', 'MODIFIER_ALL_PLAYERS_ATTACH_MODIFIER', 0, 0,
-        0, NULL, 'PLAYER_IS_SUZERAIN');
-
-INSERT OR
-REPLACE INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_THEOLOGY_GIVER', 'ModifierId',
-        'CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_THEOLOGY');
-
-INSERT OR
-REPLACE INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                        SubjectRequirementSetId)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_THEOLOGY', 'MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_YIELD', 0, 0, 0,
-        'BBG_UTILS_PLAYER_HAS_CIVIC_THEOLOGY_REQSET', NULL);
-
-INSERT OR
-REPLACE INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_THEOLOGY', 'Amount', '3'),
-       ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_THEOLOGY', 'YieldType', 'YIELD_FAITH');
-
-
---
-INSERT OR
-REPLACE INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('MINOR_CIV_CHINGUETTI_TRAIT', 'CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_REFORMED_CHURCH_GIVER');
-
-INSERT OR
-REPLACE INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                        SubjectRequirementSetId)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_REFORMED_CHURCH_GIVER', 'MODIFIER_ALL_PLAYERS_ATTACH_MODIFIER',
-        0, 0, 0, NULL, 'PLAYER_IS_SUZERAIN');
-
-INSERT OR
-REPLACE INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_REFORMED_CHURCH_GIVER', 'ModifierId',
-        'CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_REFORMED_CHURCH');
-
-INSERT OR
-REPLACE INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                        SubjectRequirementSetId)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_REFORMED_CHURCH', 'MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_YIELD',
-        0, 0, 0, 'BBG_UTILS_PLAYER_HAS_CIVIC_REFORMED_CHURCH_REQSET', NULL);
-
-INSERT OR
-REPLACE INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_REFORMED_CHURCH', 'Amount', '3'),
-       ('CCB_MINOR_CIV_CHINGUETTI_UNIQUE_INFLUENCE_CIVIC_REFORMED_CHURCH', 'YieldType', 'YIELD_FAITH');
 
 
 -----------------------------------------------------------------------------------------------------------------

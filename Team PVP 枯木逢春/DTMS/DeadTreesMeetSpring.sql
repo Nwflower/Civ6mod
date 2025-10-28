@@ -141,19 +141,19 @@ FROM Civics;
 
 
 -- 玩家拥有某建筑
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
+INSERT OR IGNORE INTO RequirementSets (RequirementSetId, RequirementSetType)
 SELECT 'NW_PLAYER_HAS_' || BuildingType,
        'REQUIREMENTSET_TEST_ALL'
 FROM Buildings;
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId)
 SELECT 'NW_PLAYER_HAS_' || BuildingType,
        'REQ_NW_PLAYER_HAS_' || BuildingType
 FROM Buildings;
-INSERT INTO Requirements (RequirementId, RequirementType)
+INSERT OR IGNORE INTO Requirements (RequirementId, RequirementType)
 SELECT 'REQ_NW_PLAYER_HAS_' || BuildingType,
        'REQUIREMENT_PLAYER_HAS_BUILDING'
 FROM Buildings;
-INSERT INTO RequirementArguments (RequirementId, Name, Value)
+INSERT OR IGNORE INTO RequirementArguments (RequirementId, Name, Value)
 SELECT 'REQ_NW_PLAYER_HAS_' || BuildingType,
        'BuildingType',
        BuildingType
@@ -641,6 +641,7 @@ VALUES ('MODFEAT_NW_WENMEI_BUILDER_DISABLE_PLANT_FOREST', 'MODTYPE_NW_WENMEI_BUI
 INSERT INTO ModifierArguments (ModifierId, Name, Value)
 VALUES ('MODFEAT_NW_WENMEI_BUILDER_DISABLE_PLANT_FOREST', 'OperationType', 'UNITOPERATION_PLANT_FOREST'),
        ('MODFEAT_NW_WENMEI_BUILDER_DISABLE_PLANT_FOREST', 'Available', '0');
+
 INSERT INTO Types (Type, Kind)
 VALUES ('MODTYPE_NW_WENMEI_BUILDER_DISABLE_OPERATION', 'KIND_MODIFIER');
 INSERT INTO DynamicModifiers (ModifierType, CollectionType, EffectType)
@@ -1018,7 +1019,7 @@ VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_SHORES', 'Ignore', 1);
 
 DELETE
 FROM TraitModifiers
-WHERE TraitType = 'TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP'
+WHERE TraitType = 'TRAIT_LEADER_DIVINE_WIND'
   AND ModifierId IN ('TRAIT_BOOST_ENCAMPMENT_PRODUCTION',
                      'TRAIT_BOOST_HOLY_SITE_PRODUCTION',
                      'TRAIT_BOOST_THEATER_DISTRICT_PRODUCTION',
