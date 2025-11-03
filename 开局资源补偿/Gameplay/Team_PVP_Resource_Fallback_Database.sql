@@ -40,10 +40,6 @@ SELECT 'UNIT_RESOURCE_ENGINEER',
 FROM UnitAiInfos
 WHERE UnitType = 'UNIT_MILITARY_ENGINEER';
 
--- 单位是否替代原型单位
--- INSERT INTO UnitReplaces (civuniqueunittype, replacesunittype) VALUES
--- ('UNIT_RESOURCE_ENGINEER','UNIT_MILITARY_ENGINEER');
-
 -- 单位定义
 INSERT INTO Units(UnitType, Name, BaseSightRange, BaseMoves, Combat, RangedCombat, Range, Bombard, Domain,
                   FormationClass, Cost, PopulationCost, FoundCity, FoundReligion, MakeTradeRoute, EvangelizeBelief,

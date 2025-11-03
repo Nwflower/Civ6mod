@@ -7,39 +7,51 @@ VALUES -- FE
         '[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 山河重塑'),
        ('LOC_NW_DTMS_NATUREWONDER_REBALANCE_DESCRIPTION', 'zh_Hans_CN',
         '增强一些强度较低的自然奇观。'),
-       ('LOC_NW_DTMS_RELIGION_REBALANCE_NAME', 'zh_Hans_CN',
-        '[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 宗教改革'),
-       ('LOC_NW_DTMS_RELIGION_REBALANCE_DESCRIPTION', 'zh_Hans_CN',
-        '重新设计宗教信条。'),
+
+       -- 阿兹特克
+       ('LOC_TRAIT_LEADER_GIFTS_FOR_TLATOANI_DESCRIPTION', 'zh_Hans_CN',
+        '其领土中的奢侈品资源为额外2座城市提供1点 [ICON_Amenities] 宜居度。单位从单元格的每点魅力值获得+1 [ICON_Strength] 战斗力，至多通过这种方式+5 [ICON_Strength] 战斗力。'),
+       ('LOC_ABILITY_NW_AZTK_DESCRIPTION', 'zh_Hans_CN',
+        '从单元格的每点魅力值获得+1 [ICON_Strength] 战斗力，至多通过这种方式+5 [ICON_Strength] 战斗力。'),
+       ('LOC_MODIFIER_ABILITY_NW_AZTK_ADD_COMBAT', 'zh_Hans_CN',
+        '+{Property} [ICON_Strength] 战斗力来自单元格魅力值。'),
+
+       -- 瑞典
+       ('LOC_TRAIT_LEADER_KRISTINA_AUTO_THEME_DESCRIPTION', 'zh_Hans_CN',
+        '全部槽位填满时，拥有3个或以上巨作槽位的建筑和2个或以上巨作槽位的奇观可自动获得主题。图书馆拥有2个 [ICON_GreatWork_Writing] 著作类巨作槽位。大学额外提供+1 [ICON_GreatWriter] 大作家点数、+1 [ICON_GreatArtist] 大艺术家点数和+1 [ICON_GreatMusician] 大音乐家点数。可在市政广场中建造女王图书馆。'),
+       ('LOC_TRAIT_CIVILIZATION_NOBEL_PRIZE_DESCRIPTION', 'zh_Hans_CN',
+        '瑞典招募伟人时可获得10点 [ICON_Favor] 外交支持（联机速度下）。学院建筑提供的 [ICON_PRODUCTION] 生产力等于其固定产出50%的基础 [ICON_SCIENCE] 科技值、工作坊+2 [ICON_SCIENCE] 科技值，并在建造工业、学院区域和建筑时+35% [ICON_PRODUCTION] 生产力。如瑞典在游戏中，进入工业时代后将增添3项特色世界议会竞赛。'),
+       ('LOC_BUILDING_QUEENS_BIBLIOTHEQUE_DESCRIPTION', 'zh_Hans_CN',
+        '瑞典特色建筑。该建筑可以放置2个 [ICON_GreatWork_WRITING] 著作、4个 [ICON_GreatWork_Landscape] 艺术巨作。'),
 
        -- 大哥伦比亚
-      ('LOC_TRAIT_CIVILIZATION_EJERCITO_PATRIOTA_DESCRIPTION', 'zh_Hans_CN',
-       '在总指挥2个单元格范围内开始回合时，建造者和其他的总指挥单位+1 [ICON_MOVEMENT] 移动力。升级单位不会结束其回合。'),
-      ('LOC_ABILITY_UNIT_COMANDANTE_GENERAL_DESCRIPTION', 'zh_Hans_CN',
-       '2个单元格内的总指挥和建造者开始回合时+1 [ICON_MOVEMENT] 移动力。升级单位不会结束其回合。'),
+       ('LOC_TRAIT_CIVILIZATION_EJERCITO_PATRIOTA_DESCRIPTION', 'zh_Hans_CN',
+        '在总指挥2个单元格范围内开始回合时，建造者和其他的总指挥单位+1 [ICON_MOVEMENT] 移动力。升级单位不会结束其回合。'),
+       ('LOC_ABILITY_UNIT_COMANDANTE_GENERAL_DESCRIPTION', 'zh_Hans_CN',
+        '2个单元格内的总指挥和建造者开始回合时+1 [ICON_MOVEMENT] 移动力。升级单位不会结束其回合。'),
        -- 朝鲜
-      ('LOC_TRAIT_CIVILIZATION_THREE_KINGDOMS_NAME', 'zh_Hans_CN',
-       '三个太阳的传说'),
-      ('LOC_TRAIT_CIVILIZATION_THREE_KINGDOMS_DESCRIPTION', 'zh_Hans_CN',
-       '每与一座书院区域相邻，矿山则+1 [ICON_SCIENCE] 科技值。当农场与书院区域相邻时+1 [ICON_GOLD] 金币，此外每与一座书院区域相邻时，农场还可以再获得+1 [ICON_GOLD] 金币。城市中每位 [ICON_Citizen] 公民每回合提供的忠诚度-1。在黄金或英雄时代初期设置着力点时，除原有加成外还将获得提高时代得分的普通时代加成。如城市忠诚度已达最高，产出的 [ICON_CULTURE] 文化值和 [ICON_PRODUCTION] 生产力+5%。遭受的进攻性间谍的行动效果下降1级。'),
+       ('LOC_TRAIT_CIVILIZATION_THREE_KINGDOMS_NAME', 'zh_Hans_CN',
+        '三个太阳的传说'),
+       ('LOC_TRAIT_CIVILIZATION_THREE_KINGDOMS_DESCRIPTION', 'zh_Hans_CN',
+        '每与一座书院区域相邻，矿山则+1 [ICON_SCIENCE] 科技值。当农场与书院区域相邻时+1 [ICON_GOLD] 金币，此外每与一座书院区域相邻时，农场还可以再获得+1 [ICON_GOLD] 金币。城市中每位 [ICON_Citizen] 公民每回合提供的忠诚度-1。在黄金或英雄时代初期设置着力点时，除原有加成外还将获得提高时代得分的普通时代加成。如城市忠诚度已达最高，产出的 [ICON_CULTURE] 文化值和 [ICON_PRODUCTION] 生产力+5%。遭受的进攻性间谍的行动效果下降1级。'),
        ('LOC_ABILITY_NW_CX_LOW_SPY_LEVEL_DESCRIPTION', 'zh_Hans_CN',
         '进攻性间谍的行动效果下降1级。'),
 
        -- 文秦
-      ('LOC_TRAIT_LEADER_QIN_NAME', 'zh_Hans_CN',
-       '千古一帝'),
+       ('LOC_TRAIT_LEADER_QIN_NAME', 'zh_Hans_CN',
+        '千古一帝'),
 
        -- 武秦
-      ('LOC_TRAIT_LEADER_QIN_ALT_NAME', 'zh_Hans_CN',
-       '山河秦制'),
-      ('LOC_TRAIT_LEADER_QIN_ALT_DESCRIPTION', 'zh_Hans_CN',
-       '可晋升的近战攻击单位在击败敌方单位后有几率将其俘获为军事工程师。除非拥有军事工程学科技，否则军事工程师的使用次数-1。所有近战攻击单位+1 [ICON_Strength] 战斗力，若解锁“防御战术”市政，则提升至+2 [ICON_Strength] 战斗力。'),
+       ('LOC_TRAIT_LEADER_QIN_ALT_NAME', 'zh_Hans_CN',
+        '山河秦制'),
+       ('LOC_TRAIT_LEADER_QIN_ALT_DESCRIPTION', 'zh_Hans_CN',
+        '可晋升的近战攻击单位在击败敌方单位后有几率将其俘获为军事工程师。除非拥有军事工程学科技，否则军事工程师的使用次数-1。所有近战攻击单位+1 [ICON_Strength] 战斗力，若解锁“防御战术”市政，则提升至+2 [ICON_Strength] 战斗力。'),
 
        -- 伯里克利
-      ('LOC_TRAIT_LEADER_SURROUNDED_BY_GLORY_DESCRIPTION', 'zh_Hans_CN',
-       '每回合的 [ICON_Culture] 文化值+6%。作为宗主国时，每个下辖的城邦使您的 [ICON_Culture] 文化值和 [ICON_Tourism] 旅游业绩+4%。卫城从每个相邻区域+1 [ICON_PRODUCTION] 生产力。'),
-      ('LOC_DISTRICT_ACROPOLIS_ADD_PRODUCTION', 'zh_Hans_CN',
-       '+{1_Num} [ICON_PRODUCTION] 生产力来自相邻区域。'),
+       ('LOC_TRAIT_LEADER_SURROUNDED_BY_GLORY_DESCRIPTION', 'zh_Hans_CN',
+        '每回合的 [ICON_Culture] 文化值+6%。作为宗主国时，每个下辖的城邦使您的 [ICON_Culture] 文化值和 [ICON_Tourism] 旅游业绩+4%。卫城从每个相邻区域+1 [ICON_PRODUCTION] 生产力。'),
+       ('LOC_DISTRICT_ACROPOLIS_ADD_PRODUCTION', 'zh_Hans_CN',
+        '+{1_Num} [ICON_PRODUCTION] 生产力来自相邻区域。'),
 
        -- 印尼
        ('LOC_TRAIT_LEADER_EXALTED_GODDESS_DESCRIPTION', 'zh_Hans_CN',
@@ -87,7 +99,7 @@ VALUES -- FE
 
        -- 武美
        ('LOC_TRAIT_LEADER_ROOSEVELT_COROLLARY_ROUGH_RIDER_DESCRIPTION', 'zh_Hans_CN',
-        '[ICON_CAPITAL] 首都所在大陆上的单位从市政广场及其建筑获得+1 [ICON_Strength] 战斗力；[ICON_CAPITAL] 首都所在大陆以外的单位从外交区及其建筑获得+1 [ICON_Strength] 战斗力。建成市政广场和外交区后，+1 [ICON_TradeRoute] 贸易路线容量。如与城邦之间存在 [ICON_TradeRoute] 贸易路线，派往此处的1位 [ICON_Envoy] 使者将视为2位。人文主义市政后，额外获得一个通配符槽位。军事学后获得特色单位“莽骑兵”。'),
+        '[ICON_CAPITAL] 首都所在大陆上的单位从市政广场及其建筑获得+1 [ICON_Strength] 战斗力；[ICON_CAPITAL] 首都所在大陆以外的单位从外交区及其建筑获得+1 [ICON_Strength] 战斗力。市政广场及外交区各提供+1 [ICON_TradeRoute] 贸易路线容量。如与城邦之间存在 [ICON_TradeRoute] 贸易路线，派往此处的1位 [ICON_Envoy] 使者将视为2位。人文主义市政后，额外获得一个通配符槽位。军事学后解锁特色单位“莽骑兵”。'),
 
        ('LOC_PROMOTION_COMBAT_HOME_CONTINENT_DESCRIPTION', 'zh_Hans_CN',
         '+{Property} 来着罗斯福推论（同大陆）。'),
@@ -115,28 +127,31 @@ VALUES -- FE
         '+{1_Num} [ICON_CULTURE]文化值来自相邻的奢侈品单元格。');
 
 
-
-
 -----------------------------------------------------------------------  魔女环境下伟人修改  -----------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS TeamPVPGPN(
-    Tag TEXT NOT NULL PRIMARY KEY ,
-    Text  TEXT
+CREATE TABLE IF NOT EXISTS TeamPVPGPN
+(
+    Tag  TEXT NOT NULL PRIMARY KEY,
+    Text TEXT
 );
-INSERT OR REPLACE INTO TeamPVPGPN(Tag, Text) VALUES
-('LOC_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_NAME','千川白浪'),
-('LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_CHAPTER_HISTORY_PARA_1','金牌成就'),
-('LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_CHAPTER_HISTORY_PARA_2','作为炼金系列模组的官方主创Modder，创作了众多魔女环境下的好评如潮的模组。他在未来又能创作出哪些模组？让我们拭目以待。'),
-('LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_CHAPTER_HISTORY_PARA_3',''),
-('LOC_GREATWORK_BACH_1_NAME','世界歧路'),
-('LOC_GREATWORK_BACH_2_NAME','枯木逢春');
+INSERT OR
+REPLACE INTO TeamPVPGPN(Tag, Text)
+VALUES ('LOC_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_NAME', '千川白浪'),
+       ('LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_CHAPTER_HISTORY_PARA_1', '金牌成就'),
+       ('LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_CHAPTER_HISTORY_PARA_2',
+        '作为炼金系列模组的官方主创Modder，创作了众多魔女环境下的好评如潮的模组。他在未来又能创作出哪些模组？让我们拭目以待。'),
+       ('LOC_PEDIA_GREATPEOPLE_PAGE_GREAT_PERSON_INDIVIDUAL_JOHANN_SEBASTIAN_BACH_CHAPTER_HISTORY_PARA_3', ''),
+       ('LOC_GREATWORK_BACH_1_NAME', '世界歧路'),
+       ('LOC_GREATWORK_BACH_2_NAME', '枯木逢春');
 
-INSERT OR REPLACE INTO LocalizedText(Tag,Language,Text)SELECT
-Tag,'zh_Hans_CN',Text
-FROM TeamPVPGPN WHERE EXISTS (
-    SELECT 1
-    FROM LocalizedText
-    WHERE Tag = 'LOC_GREAT_PERSON_INDIVIDUAL_IMHOTEPI_NAME'
-      AND Text = '号码菌'
-);
+INSERT OR
+REPLACE INTO LocalizedText(Tag, Language, Text)
+SELECT Tag,
+       'zh_Hans_CN',
+       Text
+FROM TeamPVPGPN
+WHERE EXISTS (SELECT 1
+              FROM LocalizedText
+              WHERE Tag = 'LOC_GREAT_PERSON_INDIVIDUAL_IMHOTEPI_NAME'
+                AND Text = '号码菌');
 
 

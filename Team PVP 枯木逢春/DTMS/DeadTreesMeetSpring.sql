@@ -159,6 +159,25 @@ SELECT 'REQ_NW_PLAYER_HAS_' || BuildingType,
        BuildingType
 FROM Buildings;
 
+-- 城市拥有某建筑
+INSERT OR IGNORE INTO RequirementSets (RequirementSetId, RequirementSetType)
+SELECT 'NW_CITY_HAS_' || BuildingType,
+       'REQUIREMENTSET_TEST_ALL'
+FROM Buildings;
+INSERT OR IGNORE INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+SELECT 'NW_CITY_HAS_' || BuildingType,
+       'REQ_NW_CITY_HAS_' || BuildingType
+FROM Buildings;
+INSERT OR IGNORE INTO Requirements (RequirementId, RequirementType)
+SELECT 'REQ_NW_CITY_HAS_' || BuildingType,
+       'REQUIREMENT_CITY_HAS_BUILDING'
+FROM Buildings;
+INSERT OR IGNORE INTO RequirementArguments (RequirementId, Name, Value)
+SELECT 'REQ_NW_CITY_HAS_' || BuildingType,
+       'BuildingType',
+       BuildingType
+FROM Buildings;
+
 -- 玩家是某指定领袖
 INSERT OR IGNORE INTO RequirementSets(RequirementSetId, RequirementSetType)
 SELECT 'NW_PLAYER_IS_' || LeaderType, 'REQUIREMENTSET_TEST_ANY'
@@ -317,190 +336,9 @@ INSERT OR IGNORE INTO RequirementArguments (RequirementId, Name, Value)
 VALUES ('REQUIRES_PLOT_HAS_GRASS_FLOODPLAINS', 'FeatureType', 'FEATURE_FLOODPLAINS_GRASSLAND'),
        ('REQUIRES_PLOT_HAS_PLAINS_FLOODPLAINS', 'FeatureType', 'FEATURE_FLOODPLAINS_PLAINS');
 
-
 -- =============================================================
--- 文德 德国 路德维希二世
--- 市中心和每个专业化区域为该城的奇观+4% [ICON_PRODUCTION] 生产力。最多16%。
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_LUDWIG', 'MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION'),
-       ('TRAIT_LEADER_LUDWIG', 'MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION1'),
-       ('TRAIT_LEADER_LUDWIG', 'MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION2'),
-       ('TRAIT_LEADER_LUDWIG', 'MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION3');
-INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION', 'MODIFIER_PLAYER_CITIES_ADJUST_WONDER_PRODUCTION', NULL),
-       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION1', 'MODIFIER_PLAYER_CITIES_ADJUST_WONDER_PRODUCTION',
-        'REQS_NW_DIS1'),
-       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION2', 'MODIFIER_PLAYER_CITIES_ADJUST_WONDER_PRODUCTION',
-        'REQS_NW_DIS2'),
-       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION3', 'MODIFIER_PLAYER_CITIES_ADJUST_WONDER_PRODUCTION',
-        'REQS_NW_DIS3');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION', 'Amount', '4'),
-       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION1', 'Amount', '4'),
-       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION2', 'Amount', '4'),
-       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION3', 'Amount', '4');
+-- AMERICA	美国
 
-
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
-VALUES ('REQS_NW_DIS1', 'REQUIREMENTSET_TEST_ALL'),
-       ('REQS_NW_DIS2', 'REQUIREMENTSET_TEST_ALL'),
-       ('REQS_NW_DIS3', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
-VALUES ('REQS_NW_DIS1', 'REQ_NW_DIS1'),
-       ('REQS_NW_DIS2', 'REQ_NW_DIS2'),
-       ('REQS_NW_DIS3', 'REQ_NW_DIS3');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType)
-VALUES ('REQ_NW_DIS1', 'REQUIREMENT_CITY_HAS_X_SPECIALTY_DISTRICTS'),
-       ('REQ_NW_DIS2', 'REQUIREMENT_CITY_HAS_X_SPECIALTY_DISTRICTS'),
-       ('REQ_NW_DIS3', 'REQUIREMENT_CITY_HAS_X_SPECIALTY_DISTRICTS');
-INSERT INTO RequirementArguments (RequirementId, Name, Value)
-VALUES ('REQ_NW_DIS1', 'Amount', 1),
-       ('REQ_NW_DIS2', 'Amount', 2),
-       ('REQ_NW_DIS3', 'Amount', 3);
-
--- =============================================================
--- 埃塞俄比亚
--- 单位在丘陵上时+1视野，军事单位额外+3 [ICON_STRENGTH] 战斗力，平民单位+1 [ICON_MOVEMENT] 移动力。
-
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_MENELIK', 'MODIFIER_TRAIT_LEADER_MENELIK_SIGHT');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_SIGHT', 'MODIFIER_NW_PLAYER_UNITS_ADJUST_SIGHT', 0, 0, 0, NULL,
-        'REQS_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_SIGHT', 'Amount', '1');
-
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
-VALUES ('REQS_NW_PLOT_IS_HILLS', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
-VALUES ('REQS_NW_PLOT_IS_HILLS', 'REQ_NW_PLOT_IS_HILLS');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType)
-VALUES ('REQ_NW_PLOT_IS_HILLS', 'REQUIREMENT_PLOT_IS_HILLS');
-
--- Custom ModifierType
-INSERT INTO Types (Type, Kind)
-VALUES ('MODIFIER_NW_PLAYER_UNITS_ADJUST_SIGHT', 'KIND_MODIFIER');
-INSERT INTO DynamicModifiers (ModifierType, CollectionType, EffectType)
-VALUES ('MODIFIER_NW_PLAYER_UNITS_ADJUST_SIGHT', 'COLLECTION_PLAYER_UNITS', 'EFFECT_ADJUST_UNIT_SIGHT');
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_MENELIK', 'MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT', 'MODIFIER_PLAYER_UNITS_ADJUST_MOVEMENT', 0, 0, 0, NULL,
-        'REQS_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT', 'Amount', '1');
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
-VALUES ('REQS_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
-VALUES ('REQS_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT', 'REQ_NW_PLOT_IS_HILLS'),
-       ('REQS_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT', 'REQ_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT2');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType)
-VALUES ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT2', 'REQUIREMENT_UNIT_TAG_MATCHES');
-INSERT INTO RequirementArguments (RequirementId, Name, Value)
-VALUES ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT2', 'Tag', 'CLASS_LANDCIVILIAN');
-
-
--- 科摩罗扩散
-UPDATE Units
-SET BaseSightRange = 2
-WHERE UnitType = 'UNIT_ETHIOPIAN_OROMO_CAVALRY';
-
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_MENELIK', 'MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'MODIFIER_NW_PLAYER_UNITS_ADJUST_SIGHT', 0, 0, 0, NULL,
-        'REQS_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'Amount', '1');
-
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
-VALUES ('REQS_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
-VALUES ('REQS_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'REQ_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType)
-VALUES ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'REQUIREMENT_UNIT_PROMOTION_CLASS_MATCHES');
-INSERT INTO RequirementArguments (RequirementId, Name, Value)
-VALUES ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'UnitPromotionClass', 'PROMOTION_CLASS_LIGHT_CAVALRY');
-
--- =============================================================
--- 格鲁吉亚
-UPDATE Buildings
-SET PrereqTech='TECH_MINING'
-WHERE BuildingType = 'BUILDING_TSIKHE';
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS', 'MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT',
-        'MODIFIER_PLAYER_CITIES_GRANT_CHEAPEST_BUILDING_IN_CITY', 0, 0, 0, 'NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS',
-        NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT', 'Amount', '1');
-
--- =============================================================
--- 阿拉伯
-INSERT INTO Types(Type, Kind)
-VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'KIND_BUILDING');
-INSERT INTO Buildings(BuildingType, Name, Cost, InternalOnly, MustPurchase)
-VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'LOC_BUILDING_NW_ALBERT_HOLY_CITY_NAME', 1, 1, 1);
-
-
--- 圣城训练的宗教单位具有一次额外的传教次数。
-INSERT INTO BuildingModifiers (BuildingType, ModifierId)
-VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_RELIGIOUS_SPREADS');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_RELIGIOUS_SPREADS', 'MODIFIER_SINGLE_CITY_RELIGIOUS_SPREADS', 0, 1, 0,
-        NULL, 'MOSQUE_RELIGIOUS_UNIT');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_RELIGIOUS_SPREADS', 'Amount', '1');
-
--- +1 [ICON_TRADEROUTE] 贸易路线容量。
-INSERT INTO BuildingModifiers (BuildingType, ModifierId)
-VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY', 'MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_CAPACITY', 0, 0, 0, NULL,
-        NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY', 'Amount', '1');
-
-
--- 连接到阿拉伯圣城的 [ICON_TRADEROUTE] 国际贸易路线为起源城市+2 [ICON_GOLD] 金币，为阿拉伯+2 [ICON_FAITH] 信仰值。
-INSERT INTO BuildingModifiers (BuildingType, ModifierId)
-VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS',
-        'MODIFIER_SINGLE_CITY_ADJUST_TRADE_ROUTE_YIELD_TO_OTHERS', 0, 0, 0, NULL, NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS', 'Amount', '2'),
-       ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS', 'Domestic', '0'),
-       ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS', 'YieldType', 'YIELD_GOLD');
-
-INSERT INTO BuildingModifiers (BuildingType, ModifierId)
-VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS',
-        'MODIFIER_SINGLE_CITY_ADJUST_TRADE_ROUTE_YIELD_FROM_OTHERS', 0, 0, 0, NULL, NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'Amount', '2'),
-       ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'Domestic', '0'),
-       ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'YieldType', 'YIELD_FAITH');
-
--- =============================================================
 -- 文美
 UPDATE ModifierArguments
 SET Value='1'
@@ -664,7 +502,7 @@ VALUES ('REQ_NW_PLAYER_HAS_NOT_CIVIC_CONSERVATION', 'CivicType', 'CIVIC_CONSERVA
        ('REQ_NW_UNIT_NOT_ADJACENT_PRESERVE', 'DistrictType', 'DISTRICT_PRESERVE'),
        ('REQ_NW_UNIT_NOT_ADJACENT_PRESERVE', 'MaxRange', '1'),
        ('REQ_NW_UNIT_NOT_ADJACENT_PRESERVE', 'MinRange', '1');
--- =============================================================
+----------------------------------------------------------------------------------
 -- 武美
 UPDATE ModifierArguments
 SET Name  = 'Key',
@@ -739,10 +577,851 @@ VALUES ('NW_DISTRICT_IS_DISTRICT_DIPLOMATIC_QUARTER_OR_DISTRICT_GOVERNMENT',
        ('NW_DISTRICT_IS_DISTRICT_DIPLOMATIC_QUARTER_OR_DISTRICT_GOVERNMENT',
         'NW_DISTRICT_IS_DISTRICT_DIPLOMATIC_QUARTER_REQUIREMENT');
 
+-- =============================================================
+-- ARABIA	阿拉伯
+
+INSERT INTO Types(Type, Kind)
+VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'KIND_BUILDING');
+INSERT INTO Buildings(BuildingType, Name, Cost, InternalOnly, MustPurchase)
+VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'LOC_BUILDING_NW_ALBERT_HOLY_CITY_NAME', 1, 1, 1);
+
+
+-- 圣城训练的宗教单位具有一次额外的传教次数。
+INSERT INTO BuildingModifiers (BuildingType, ModifierId)
+VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_RELIGIOUS_SPREADS');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_RELIGIOUS_SPREADS', 'MODIFIER_SINGLE_CITY_RELIGIOUS_SPREADS', 0, 1, 0,
+        NULL, 'MOSQUE_RELIGIOUS_UNIT');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_RELIGIOUS_SPREADS', 'Amount', '1');
+
+-- +1 [ICON_TRADEROUTE] 贸易路线容量。
+INSERT INTO BuildingModifiers (BuildingType, ModifierId)
+VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY', 'MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_CAPACITY', 0, 0, 0, NULL,
+        NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_CAPACITY', 'Amount', '1');
+
+
+-- 连接到阿拉伯圣城的 [ICON_TRADEROUTE] 国际贸易路线为起源城市+2 [ICON_GOLD] 金币，为阿拉伯+2 [ICON_FAITH] 信仰值。
+INSERT INTO BuildingModifiers (BuildingType, ModifierId)
+VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS',
+        'MODIFIER_SINGLE_CITY_ADJUST_TRADE_ROUTE_YIELD_TO_OTHERS', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS', 'Amount', '2'),
+       ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS', 'Domestic', '0'),
+       ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_TO_OTHERS', 'YieldType', 'YIELD_GOLD');
+
+INSERT INTO BuildingModifiers (BuildingType, ModifierId)
+VALUES ('BUILDING_NW_ALBERT_HOLY_CITY', 'MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS',
+        'MODIFIER_SINGLE_CITY_ADJUST_TRADE_ROUTE_YIELD_FROM_OTHERS', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'Amount', '2'),
+       ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'Domestic', '0'),
+       ('MODIFIER_BUILDING_NW_ALBERT_HOLY_CITY_TRADE_ROUTE_YIELD_FROM_OTHERS', 'YieldType', 'YIELD_FAITH');
+-- =============================================================
+-- AUSTRALIA	澳大利亚
+-- =============================================================
+-- AZTEC	阿兹特克
+DELETE FROM TraitModifiers WHERE TraitType = 'TRAIT_LEADER_GIFTS_FOR_TLATOANI' AND ModifierId = 'TRAIT_FALLBABYLON_COMBAT_BONUS';
+
+-- 单元格的每点魅力值为单位+1 [ICON_Strength] 战斗力，通过这种方式，至多+5 [ICON_Strength] 战斗力
+INSERT INTO TraitModifiers(TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_GIFTS_FOR_TLATOANI', 'MODIFIER_TRAIT_LEADER_GIFTS_FOR_TLATOANI_OWNER_UNIT_GRANT_ABILITY');
+INSERT INTO Modifiers(ModifierId, ModifierType)
+VALUES ('MODIFIER_TRAIT_LEADER_GIFTS_FOR_TLATOANI_OWNER_UNIT_GRANT_ABILITY', 'MODIFIER_PLAYER_UNITS_GRANT_ABILITY');
+INSERT INTO ModifierArguments(ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_GIFTS_FOR_TLATOANI_OWNER_UNIT_GRANT_ABILITY', 'AbilityType',
+        'ABILITY_NW_AZTK');
+
+INSERT INTO Types (Type, Kind)
+VALUES ('ABILITY_NW_AZTK', 'KIND_ABILITY');
+INSERT INTO TypeTags (Type, Tag)
+VALUES ('ABILITY_NW_AZTK', 'CLASS_ALL_UNITS');
+INSERT INTO UnitAbilities (UnitAbilityType, Name, Description, Inactive)
+VALUES ('ABILITY_NW_AZTK',
+        'LOC_TRAIT_LEADER_GIFTS_FOR_TLATOANI_NAME',
+        'LOC_ABILITY_NW_AZTK_DESCRIPTION',
+        1);
+
+INSERT INTO UnitAbilityModifiers (UnitAbilityType, ModifierId)
+VALUES ('ABILITY_NW_AZTK', 'MODIFIER_ABILITY_NW_AZTK_ADD_COMBAT');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_ABILITY_NW_AZTK_ADD_COMBAT', 'MODIFIER_UNIT_ADJUST_COMBAT_STRENGTH', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_ABILITY_NW_AZTK_ADD_COMBAT', 'Key', 'TRAIT_LEADER_GIFTS_FOR_TLATOANI'),
+       ('MODIFIER_ABILITY_NW_AZTK_ADD_COMBAT', 'Max', '5');
+INSERT INTO ModifierStrings (ModifierId, Context, Text) VALUES
+('MODIFIER_ABILITY_NW_AZTK_ADD_COMBAT', 'Preview', 'LOC_MODIFIER_ABILITY_NW_AZTK_ADD_COMBAT');
+
+CREATE TEMPORARY TABLE IF NOT EXISTS TEMP_AZTK_APPEAL
+(
+    number INT NOT NULL,
+    PRIMARY KEY (number)
+);
+INSERT INTO TEMP_AZTK_APPEAL (number)
+WITH x AS
+         (SELECT 1 AS id
+          UNION ALL
+          SELECT id + 1 AS id
+          FROM x
+          WHERE id < 5)
+SELECT *
+FROM x;
+
+INSERT INTO UnitAbilityModifiers (UnitAbilityType, ModifierId)
+SELECT 'ABILITY_DANHENGPT_GEORIOS',
+       'MODIFIER_ABILITY_DANHENGPT_GEORIOS_ADD_PROPERTY_WHEN_APPEAL_' || number
+FROM TEMP_AZTK_APPEAL;
+INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId)
+SELECT 'MODIFIER_ABILITY_DANHENGPT_GEORIOS_ADD_PROPERTY_WHEN_APPEAL_' || number,
+       'MODIFIER_UNIT_ADJUST_PROPERTY',
+       'REQS_NW_PLOT_HAS_APPEAL_' || number
+FROM TEMP_AZTK_APPEAL;
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+SELECT 'MODIFIER_ABILITY_DANHENGPT_GEORIOS_ADD_PROPERTY_WHEN_APPEAL_' || number,
+       'Key',
+       'TRAIT_LEADER_NW_DANHENGPT_GEORIOS'
+FROM TEMP_AZTK_APPEAL
+UNION
+SELECT 'MODIFIER_ABILITY_DANHENGPT_GEORIOS_ADD_PROPERTY_WHEN_APPEAL_' || number,
+       'Amount',
+       1
+FROM TEMP_AZTK_APPEAL;
+
+-- =============================================================
+-- BABYLON_STK	巴比伦
+-- =============================================================
+-- BRAZIL	巴西
+-- =============================================================
+-- BYZANTIUM	拜占庭
+-- =============================================================
+-- CANADA	加拿大
+-- =============================================================
+-- CHINA	中国
+
+-- 武秦
+INSERT INTO ModifierArguments (ModifierId , Name , Value)
+VALUES ('WU_QINSHIHUANG_JINZHAN_ZHUAREN_MODIFIER' , 'UnitType' , 'UNIT_MILITARY_ENGINEER');
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_QIN', 'MODIFIER_TRAIT_LEADER_QIN_ME_JIAN_CHAGE');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_QIN_ME_JIAN_CHAGE', 'MODIFIER_PLAYER_UNITS_ADJUST_BUILDER_CHARGES', 0, 1, 1, 'NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING', 'NW_UNIT_IS_MILITARY_ENGINEER');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_QIN_ME_JIAN_CHAGE', 'Amount', '-1');
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('NW_UNIT_IS_MILITARY_ENGINEER', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('NW_UNIT_IS_MILITARY_ENGINEER', 'REQUIREMENT_NW_UNIT_IS_MILITARY_ENGINEER');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType) VALUES
+('REQUIREMENT_NW_UNIT_IS_MILITARY_ENGINEER', 'REQUIREMENT_UNIT_TYPE_MATCHES');
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+('REQUIREMENT_NW_UNIT_IS_MILITARY_ENGINEER', 'UnitType', 'UNIT_MILITARY_ENGINEER');
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING', 'REQ_NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType, Inverse) VALUES
+('REQ_NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING', 'REQUIREMENT_PLAYER_HAS_TECHNOLOGY', 1);
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+('REQ_NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING', 'TechnologyType', 'TECH_MILITARY_ENGINEERING');
+
+-- =============================================================
+-- CREE	克里
+-- =============================================================
+-- EGYPT	埃及
+-- =============================================================
+-- ENGLAND	英国
+
+INSERT INTO Types (Type, Kind)
+VALUES ('MODIFIER_NW_CAPITAL_GRANT_GREAT_PERSON_CLASS_IN_CITY', 'KIND_MODIFIER');
+INSERT INTO DynamicModifiers (ModifierType, CollectionType, EffectType)
+VALUES ('MODIFIER_NW_CAPITAL_GRANT_GREAT_PERSON_CLASS_IN_CITY', 'COLLECTION_PLAYER_CAPITAL_CITY',
+        'EFFECT_GRANT_GREAT_PERSON_CLASS_IN_CITY');
+
+UPDATE Modifiers
+SET ModifierType = 'MODIFIER_NW_CAPITAL_GRANT_GREAT_PERSON_CLASS_IN_CITY'
+WHERE ModifierId = 'TRAIT_BONUS_GREAT_PROPHET_POINT_D';
+UPDATE ModifierArguments
+SET Value = 3
+WHERE ModifierId = 'ELEANOR_DOUBLE_SCULPTURE_S1'
+  AND Name = 'YieldChange';
+
+DELETE
+FROM TraitModifiers
+WHERE TraitType = 'TRAIT_LEADER_ELEANOR_LOYALTY'
+  AND ModifierId = 'TRAIT_EXTRA_PALACE_SLOTS_AILINUO';
+
+-- =============================================================
+-- ETHIOPIA	埃塞俄比亚
+-- 单位在丘陵上时+1视野，军事单位额外+3 [ICON_STRENGTH] 战斗力，平民单位+1 [ICON_MOVEMENT] 移动力。
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_MENELIK', 'MODIFIER_TRAIT_LEADER_MENELIK_SIGHT');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_SIGHT', 'MODIFIER_NW_PLAYER_UNITS_ADJUST_SIGHT', 0, 0, 0, NULL,
+        'REQS_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_SIGHT', 'Amount', '1');
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
+VALUES ('REQS_NW_PLOT_IS_HILLS', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+VALUES ('REQS_NW_PLOT_IS_HILLS', 'REQ_NW_PLOT_IS_HILLS');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType)
+VALUES ('REQ_NW_PLOT_IS_HILLS', 'REQUIREMENT_PLOT_IS_HILLS');
+
+-- Custom ModifierType
+INSERT INTO Types (Type, Kind)
+VALUES ('MODIFIER_NW_PLAYER_UNITS_ADJUST_SIGHT', 'KIND_MODIFIER');
+INSERT INTO DynamicModifiers (ModifierType, CollectionType, EffectType)
+VALUES ('MODIFIER_NW_PLAYER_UNITS_ADJUST_SIGHT', 'COLLECTION_PLAYER_UNITS', 'EFFECT_ADJUST_UNIT_SIGHT');
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_MENELIK', 'MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT', 'MODIFIER_PLAYER_UNITS_ADJUST_MOVEMENT', 0, 0, 0, NULL,
+        'REQS_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT', 'Amount', '1');
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
+VALUES ('REQS_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+VALUES ('REQS_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT', 'REQ_NW_PLOT_IS_HILLS'),
+       ('REQS_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT', 'REQ_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT2');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType)
+VALUES ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT2', 'REQUIREMENT_UNIT_TAG_MATCHES');
+INSERT INTO RequirementArguments (RequirementId, Name, Value)
+VALUES ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_MOVEMENT2', 'Tag', 'CLASS_LANDCIVILIAN');
+
+-- 科摩罗扩散
+UPDATE Units
+SET BaseSightRange = 2
+WHERE UnitType = 'UNIT_ETHIOPIAN_OROMO_CAVALRY';
+
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_MENELIK', 'MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'MODIFIER_NW_PLAYER_UNITS_ADJUST_SIGHT', 0, 0, 0, NULL,
+        'REQS_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'Amount', '1');
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
+VALUES ('REQS_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+VALUES ('REQS_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'REQ_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType)
+VALUES ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'REQUIREMENT_UNIT_PROMOTION_CLASS_MATCHES');
+INSERT INTO RequirementArguments (RequirementId, Name, Value)
+VALUES ('REQ_MODIFIER_TRAIT_LEADER_MENELIK_SIGHT2', 'UnitPromotionClass', 'PROMOTION_CLASS_LIGHT_CAVALRY');
+
+-- =============================================================
+-- FRANCE	法国
+
+-- 埃莉诺（法国）
+-- 巨作+3 [ICON_Science] 科技值，并对9个单元格内的外国城市施加3点忠诚度压力。
+-- 因忠诚度而叛乱的城市，如其每回合对埃莉诺的忠诚度最高，则会直接加入埃莉诺的文明。
+-- 埃莉诺的宫殿额外获得一个任意槽位。
+-- 埃莉诺在建造剧院建筑、区域时+25% [ICON_PRODUCTION] 生产力。
+-- 若解锁“戏剧与诗歌”市政，则获得一名免费的 [ICON_GreatWriter] 大作家。
+-- 招募伟人时随机获得两项 [ICON_CivicBoosted] 鼓舞。
+
+DELETE
+FROM TraitModifiers
+WHERE TraitType = 'TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP'
+  AND ModifierId IN ('TRAIT_BONUS_GREAT_PROPHET_POINT_c',
+                     'AIFA_CHENGBAO_JIA1JINBI_TEAM_PVP',
+                     'TRAIT_EXTRA_PALACE_SLOTS_AILINUO');
+
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP',
+        'MODIFIER_TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP_CIVIC_BOOST');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP_CIVIC_BOOST',
+        'MODIFIER_PLAYER_GRANT_RANDOM_CIVIC_BOOST_GOODY_HUT', 0, 0, 0, 'NW_PLAYER_HAS_CIVIC_DRAMA_POETRY', NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP_CIVIC_BOOST', 'Amount', '2');
+
+INSERT INTO TraitModifiers(TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP', 'TRAIT_BONUS_GREAT_PROPHET_POINT_D');
+
+
+-- 金法
+-- 解锁写作时也解锁剧院广场。剧院广场从相邻奢侈品资源获得大量相邻加成。可在拥有剧院广场区域的任意城市中开展“宫廷盛会”项目。建造剧院广场建筑时+70%生产力。
+-- 删除原效果
+DELETE
+FROM TraitModifiers
+WHERE TraitType = 'TRAIT_LEADER_MAGNIFICENCES'
+  AND ModifierId = 'MAGNIFICENCES_CULTURE_LUXURY_ADJACENT_TO_THEATER_SQUARE_OR_CHATEAU';
+
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_MAGNIFICENCES', 'MODIFIER_TRAIT_LEADER_MAGNIFICENCES_DIS');
+INSERT INTO Modifiers (ModifierId, ModifierType, OwnerRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_MAGNIFICENCES_DIS', 'MODIFIER_PLAYER_ADJUST_DISTRICT_UNLOCK',
+        'NW_PLAYER_HAS_TECH_WRITING');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_MAGNIFICENCES_DIS', 'DistrictType', 'DISTRICT_THEATER'),
+       ('MODIFIER_TRAIT_LEADER_MAGNIFICENCES_DIS', 'CivicType', 'CIVIC_CODE_OF_LAWS');
+
+UPDATE ModifierArguments
+SET Value = 45
+WHERE ModifierId = 'THEATER_BUILDING_PRODUCTION_BONUS_MEDIQI'
+  AND Name = 'Amount';
+UPDATE ModifierArguments
+SET Value = 45
+WHERE ModifierId = 'TRAIT_GANGKOU_AQUEDUCT_PRODUCTION_MEIDIQI2'
+  AND Name = 'Amount';
+
+INSERT INTO Adjacency_YieldChanges(ID, Description, YieldType, AdjacentResourceClass, YieldChange, PrereqCivic,
+                                   ObsoleteCivic)
+VALUES ('TRAIT_LEADER_MAGNIFICENCES_THEATER', 'LOC_TRAIT_LEADER_MAGNIFICENCES_THEATER', 'YIELD_CULTURE',
+        'RESOURCECLASS_LUXURY', 2, 'CIVIC_DRAMA_POETRY', NULL),
+       ('TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW', 'LOC_TRAIT_LEADER_MAGNIFICENCES_THEATER', 'YIELD_CULTURE',
+        'RESOURCECLASS_LUXURY', 1, NULL, 'CIVIC_DRAMA_POETRY');
+INSERT INTO District_Adjacencies(DistrictType, YieldChangeId)
+VALUES ('DISTRICT_THEATER', 'TRAIT_LEADER_MAGNIFICENCES_THEATER'),
+       ('DISTRICT_THEATER', 'TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW');
+
+INSERT OR IGNORE INTO ExcludedAdjacencies(TraitType, YieldChangeId)
+SELECT DISTINCT TraitType, 'TRAIT_LEADER_MAGNIFICENCES_THEATER'
+FROM LeaderTraits WHERE LeaderType NOT LIKE 'LEADER\_MINOR\_CIV\_%' ESCAPE '\'
+GROUP BY TraitType
+UNION
+SELECT DISTINCT TraitType, 'TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW'
+FROM LeaderTraits WHERE LeaderType NOT LIKE 'LEADER\_MINOR\_CIV\_%' ESCAPE '\'
+GROUP BY TraitType;
+DELETE
+FROM ExcludedAdjacencies
+WHERE YieldChangeId IN ('TRAIT_LEADER_MAGNIFICENCES_THEATER', 'TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW')
+  AND TraitType IN (SELECT TraitType FROM LeaderTraits WHERE LeaderType = 'LEADER_CATHERINE_DE_MEDICI_ALT');
+
+-- 兼容新加入的特性
+CREATE TRIGGER Nw_GoldFrance_District_Adjacencies
+    AFTER INSERT
+    ON LeaderTraits
+    WHEN NEW.LeaderType NOT LIKE 'LEADER\_MINOR\_CIV\_%' ESCAPE '\'
+BEGIN
+    INSERT OR
+        IGNORE
+    INTO ExcludedAdjacencies(TraitType, YieldChangeId)
+    VALUES (NEW.TraitType, 'TRAIT_LEADER_MAGNIFICENCES_THEATER'),
+           (NEW.TraitType, 'TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW');
+
+    DELETE
+    FROM ExcludedAdjacencies
+    WHERE YieldChangeId IN ('TRAIT_LEADER_MAGNIFICENCES_THEATER', 'TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW')
+      AND TraitType IN (SELECT TraitType FROM LeaderTraits WHERE LeaderType = 'LEADER_CATHERINE_DE_MEDICI_ALT');
+END;
+
+-- =============================================================
+-- GAUL	高卢
+-- =============================================================
+-- GEORGIA	格鲁吉亚
+
+UPDATE Buildings
+SET PrereqTech='TECH_MINING'
+WHERE BuildingType = 'BUILDING_TSIKHE';
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS', 'MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT',
+        'MODIFIER_PLAYER_CITIES_GRANT_CHEAPEST_BUILDING_IN_CITY', 0, 0, 0, 'NW_PLAYER_HAS_CIVIC_DEFENSIVE_TACTICS',
+        NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER__TRAIT_CIVILIZATION_GOLDEN_AGE_QUESTS_BUILDING_GRANT', 'Amount', '1');
+-- =============================================================
+-- GERMANY	德国
+-- 文德 路德维希二世
+-- 市中心和每个专业化区域为该城的奇观+4% [ICON_PRODUCTION] 生产力。最多16%。
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_LUDWIG', 'MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION'),
+       ('TRAIT_LEADER_LUDWIG', 'MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION1'),
+       ('TRAIT_LEADER_LUDWIG', 'MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION2'),
+       ('TRAIT_LEADER_LUDWIG', 'MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION3');
+INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION', 'MODIFIER_PLAYER_CITIES_ADJUST_WONDER_PRODUCTION', NULL),
+       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION1', 'MODIFIER_PLAYER_CITIES_ADJUST_WONDER_PRODUCTION',
+        'REQS_NW_DIS1'),
+       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION2', 'MODIFIER_PLAYER_CITIES_ADJUST_WONDER_PRODUCTION',
+        'REQS_NW_DIS2'),
+       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION3', 'MODIFIER_PLAYER_CITIES_ADJUST_WONDER_PRODUCTION',
+        'REQS_NW_DIS3');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION', 'Amount', '4'),
+       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION1', 'Amount', '4'),
+       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION2', 'Amount', '4'),
+       ('MODIFIER_TRAIT_LEADER_LUDWIG_ADD_WONDER_PRODUCTION3', 'Amount', '4');
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
+VALUES ('REQS_NW_DIS1', 'REQUIREMENTSET_TEST_ALL'),
+       ('REQS_NW_DIS2', 'REQUIREMENTSET_TEST_ALL'),
+       ('REQS_NW_DIS3', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+VALUES ('REQS_NW_DIS1', 'REQ_NW_DIS1'),
+       ('REQS_NW_DIS2', 'REQ_NW_DIS2'),
+       ('REQS_NW_DIS3', 'REQ_NW_DIS3');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType)
+VALUES ('REQ_NW_DIS1', 'REQUIREMENT_CITY_HAS_X_SPECIALTY_DISTRICTS'),
+       ('REQ_NW_DIS2', 'REQUIREMENT_CITY_HAS_X_SPECIALTY_DISTRICTS'),
+       ('REQ_NW_DIS3', 'REQUIREMENT_CITY_HAS_X_SPECIALTY_DISTRICTS');
+INSERT INTO RequirementArguments (RequirementId, Name, Value)
+VALUES ('REQ_NW_DIS1', 'Amount', 1),
+       ('REQ_NW_DIS2', 'Amount', 2),
+       ('REQ_NW_DIS3', 'Amount', 3);
+-- =============================================================
+-- GRAN_COLOMBIA	大哥伦比亚
+
+DELETE FROM TraitModifiers WHERE ModifierId = 'TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT' AND TraitType = 'TRAIT_CIVILIZATION_EJERCITO_PATRIOTA';
+
+DELETE FROM TypeTags WHERE Type = 'ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT';
+
+INSERT INTO Types (Type, Kind)
+VALUES ('ABILITY_UNIT_COMANDANTE_GENERAL', 'KIND_ABILITY');
+INSERT INTO Tags (Tag, Vocabulary)
+VALUES ('CLASS_COMANDANTE_GENERAL', 'ABILITY_CLASS');
+INSERT INTO TypeTags (Type, Tag)
+VALUES ('UNIT_COMANDANTE_GENERAL', 'CLASS_COMANDANTE_GENERAL'),
+       ('ABILITY_UNIT_COMANDANTE_GENERAL', 'CLASS_COMANDANTE_GENERAL'),
+       ('ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT', 'CLASS_BUILDER'),
+       ('ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT', 'CLASS_COMANDANTE_GENERAL');
+INSERT INTO UnitAbilities (UnitAbilityType, Name, Description, Inactive)
+VALUES ('ABILITY_UNIT_COMANDANTE_GENERAL',
+        'LOC_UNIT_COMANDANTE_GENERAL_NAME',
+        'LOC_ABILITY_UNIT_COMANDANTE_GENERAL_DESCRIPTION',
+        0 -- 该单位能力是否默认隐藏。为1时需要使用Modifier授予
+       );
+
+UPDATE ModifierArguments SET Value=1 WHERE ModifierId='EJERCITO_PATRIOTA_EXTRA_MOVEMENT' and Name='Amount';
+
+INSERT INTO UnitAbilityModifiers (UnitAbilityType, ModifierId) VALUES
+('ABILITY_UNIT_COMANDANTE_GENERAL', 'MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'MODIFIER_PLAYER_UNITS_GRANT_ABILITY', 0, 0, 0, NULL, 'REQS_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'AbilityType', 'ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT');
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('REQS_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('REQS_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'REQ_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType) VALUES
+('REQ_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'REQUIREMENT_PLOT_ADJACENT_TO_OWNER');
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+('REQ_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'MaxDistance', '2'),
+('REQ_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'MinDistance', '1');
 
 
 -- =============================================================
--- 苏格兰
+-- GREECE	希腊
+-- 伯利克里
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_SURROUNDED_BY_GLORY', 'MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION', 'MODIFIER_PLAYER_CITIES_DISTRICT_ADJACENCY', 0, 0,
+        0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION', 'Amount', 1),
+       ('MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION', 'Description', 'LOC_DISTRICT_ACROPOLIS_ADD_PRODUCTION'),
+       ('MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION', 'DistrictType', 'DISTRICT_ACROPOLIS'),
+       ('MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION', 'YieldType', 'YIELD_PRODUCTION');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId)
+SELECT 'NW_MODIFIER_PERICLES_SUZ_' || LeaderType,
+       'MODIFIER_PLAYER_ADJUST_TOURISM',
+       'NW_PLAYER_IS_SUZERAIN_OF_' || LeaderType || '_REQUIREMENTS'
+FROM Leaders
+WHERE InheritFrom IN
+      ('LEADER_MINOR_CIV_CULTURAL', 'LEADER_MINOR_CIV_INDUSTRIAL', 'LEADER_MINOR_CIV_MILITARISTIC',
+       'LEADER_MINOR_CIV_RELIGIOUS', 'LEADER_MINOR_CIV_SCIENTIFIC', 'LEADER_MINOR_CIV_TRADE');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+SELECT 'NW_MODIFIER_PERICLES_SUZ_' || LeaderType, 'Amount', 4
+FROM Leaders
+WHERE InheritFrom IN
+      ('LEADER_MINOR_CIV_CULTURAL', 'LEADER_MINOR_CIV_INDUSTRIAL', 'LEADER_MINOR_CIV_MILITARISTIC',
+       'LEADER_MINOR_CIV_RELIGIOUS', 'LEADER_MINOR_CIV_SCIENTIFIC', 'LEADER_MINOR_CIV_TRADE');
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+SELECT 'TRAIT_LEADER_SURROUNDED_BY_GLORY', 'NW_MODIFIER_PERICLES_SUZ_' || LeaderType
+FROM Leaders
+WHERE InheritFrom IN
+      ('LEADER_MINOR_CIV_CULTURAL', 'LEADER_MINOR_CIV_INDUSTRIAL', 'LEADER_MINOR_CIV_MILITARISTIC',
+       'LEADER_MINOR_CIV_RELIGIOUS', 'LEADER_MINOR_CIV_SCIENTIFIC', 'LEADER_MINOR_CIV_TRADE');
+
+-- =============================================================
+-- HUNGARY	匈牙利
+
+-- 改动：银行业而非自然历史解锁匈牙利特色建筑温泉浴场
+UPDATE Buildings
+SET PrereqTech  = NULL,
+    PrereqCivic = 'CIVIC_MOBILIZATION'
+WHERE BuildingType = 'BUILDING_THERMAL_BATH';
+
+-- 新增：温泉浴场不替代动物园，但不能建造在已有动物园或其替代建筑的娱乐中心中
+DELETE
+FROM BuildingReplaces
+WHERE CivUniqueBuildingType = 'BUILDING_THERMAL_BATH';
+INSERT INTO MutuallyExclusiveBuildings(Building, MutuallyExclusiveBuilding)
+VALUES ('BUILDING_THERMAL_BATH', 'BUILDING_ZOO'),
+       ('BUILDING_ZOO', 'BUILDING_THERMAL_BATH');
+
+INSERT INTO MutuallyExclusiveBuildings(Building, MutuallyExclusiveBuilding)
+SELECT 'BUILDING_THERMAL_BATH',CivUniqueBuildingType
+FROM BuildingReplaces WHERE ReplacesBuildingType = 'BUILDING_ZOO' AND CivUniqueBuildingType IS NOT 'BUILDING_THERMAL_BATH' UNION
+SELECT CivUniqueBuildingType,'BUILDING_THERMAL_BATH'
+FROM BuildingReplaces WHERE ReplacesBuildingType = 'BUILDING_ZOO' AND CivUniqueBuildingType IS NOT 'BUILDING_THERMAL_BATH';
+
+
+-- 建立 [ICON_Capital] 首都前开拓者无视河流的移动力减益。
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_CIVILIZATION_PEARL_DANUBE',
+        'NW_TRAIT_CIVILIZATION_PEARL_DANUBE_GRANT_ABILITY_NW_PD_UNIT_SETTLE');
+INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId)
+VALUES ('NW_TRAIT_CIVILIZATION_PEARL_DANUBE_GRANT_ABILITY_NW_PD_UNIT_SETTLE', 'MODIFIER_PLAYER_UNITS_GRANT_ABILITY', 'PLAYER_HAS_NO_CITIES');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('NW_TRAIT_CIVILIZATION_PEARL_DANUBE_GRANT_ABILITY_NW_PD_UNIT_SETTLE', 'AbilityType',
+        'ABILITY_NW_PD_UNIT_SETTLE');
+
+INSERT INTO Types(Type, Kind)
+VALUES ('ABILITY_NW_PD_UNIT_SETTLE', 'KIND_ABILITY');
+INSERT INTO TypeTags(Type, Tag)
+VALUES ('ABILITY_NW_PD_UNIT_SETTLE', 'CLASS_SETTLER');
+INSERT INTO UnitAbilities(UnitAbilityType, Inactive, Name, Description)
+VALUES ('ABILITY_NW_PD_UNIT_SETTLE', 1, 'LOC_ABILITY_NW_PD_UNIT_SETTLE_NAME', 'LOC_ABILITY_NW_PD_UNIT_SETTLE_NAME');
+INSERT INTO UnitAbilityModifiers(UnitAbilityType, ModifierId)
+VALUES ('ABILITY_NW_PD_UNIT_SETTLE', 'ABILITY_NW_JP_UNIT_SETTLE_IGNORE_RIVERS');
+
+
+
+-- =============================================================
+-- INCA	印加
+-- =============================================================
+-- INDIA	印度
+-- =============================================================
+-- INDONESIA	印度尼西亚
+
+-- 删除：戎克船-25%信仰值花费
+-- 新增：沿海城市建造圣地+80%生产力。圣地从相邻海岸和礁石获得标准相邻加成，与相邻圣地的区域提供等同于其相邻加成的 [ICON_FAITH] 信仰值。可以-15%的花费用 [ICON_FAITH] 信仰值购买海军单位。
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_EXALTED_GODDESS', 'MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HALF_HOLYSITE');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HALF_HOLYSITE', 'MODIFIER_PLAYER_CITIES_ADJUST_DISTRICT_PRODUCTION', 0,
+        0, 0, NULL, 'PLOT_IS_COASTAL_LAND_REQUIREMENTS');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HALF_HOLYSITE', 'Amount', 80),
+       ('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HALF_HOLYSITE', 'DistrictType', 'DISTRICT_HOLY_SITE');
+
+
+UPDATE ModifierArguments SET Value = 1 WHERE Name = 'TilesRequired' AND ModifierId = 'TRAIT_NUSANTARA_COAST_HOLY_SITE';
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_EXALTED_GODDESS', 'MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HARBOR_GOLD_TO_FAITH');
+INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HARBOR_GOLD_TO_FAITH', 'MODIFIER_PLAYER_DISTRICTS_ADJUST_YIELD_BASED_ON_ADJACENCY_BONUS', 'REQS_NW_PLOT_NEXT_HOLY_SITE');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HARBOR_GOLD_TO_FAITH', 'DistrictType', 'DISTRICT_HARBOR'),
+('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HARBOR_GOLD_TO_FAITH', 'YieldTypeToGrant', 'YIELD_FAITH'),
+('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HARBOR_GOLD_TO_FAITH', 'YieldTypeToMirror', 'YIELD_GOLD');
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
+('REQS_NW_PLOT_NEXT_HOLY_SITE', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
+('REQS_NW_PLOT_NEXT_HOLY_SITE', 'REQ_NW_PLOT_NEXT_HOLY_SITE'),
+('REQS_NW_PLOT_NEXT_HOLY_SITE', 'REQUIRES_DISTRICT_IS_HARBOR');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType) VALUES
+('REQ_NW_PLOT_NEXT_HOLY_SITE', 'REQUIREMENT_PLOT_ADJACENT_DISTRICT_TYPE_MATCHES');
+INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
+('REQ_NW_PLOT_NEXT_HOLY_SITE', 'DistrictType', 'DISTRICT_HOLY_SITE'),
+('REQ_NW_PLOT_NEXT_HOLY_SITE', 'MaxRange', '1'),
+('REQ_NW_PLOT_NEXT_HOLY_SITE', 'MinRange', '1');
+
+UPDATE TraitModifiers
+SET TraitType = 'TRAIT_LEADER_EXALTED_GODDESS'
+WHERE ModifierId = 'BUY_RONGKECHUAN_ZHEKOU'
+  AND TraitType = 'TRAIT_CIVILIZATION_INDONESIA_NUSANTARA';
+UPDATE Modifiers
+SET ModifierType           = 'MODIFIER_PLAYER_CITIES_ADJUST_UNITS_PURCHASE_COST',
+    SubjectRequirementSetId = NULL
+WHERE ModifierId = 'BUY_RONGKECHUAN_ZHEKOU';
+
+UPDATE ModifierArguments
+SET Name = 'UnitDomain', Value = 'DOMAIN_SEA'
+WHERE ModifierId = 'BUY_RONGKECHUAN_ZHEKOU'
+  AND Name = 'UnitType';
+UPDATE ModifierArguments
+SET Value = 15
+WHERE ModifierId = 'BUY_RONGKECHUAN_ZHEKOU'
+  AND Name = 'Amount';
+
+-- =============================================================
+-- JAPAN	日本
+
+-- 第一回合移民+1速、无视地形地貌
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_CIVILIZATION_ADJACENT_DISTRICTS',
+        'NW_TRAIT_CIVILIZATION_ADJACENT_DISTRICTS_GRANT_ABILITY_NW_JP_UNIT_SETTLE');
+INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId)
+VALUES ('NW_TRAIT_CIVILIZATION_ADJACENT_DISTRICTS_GRANT_ABILITY_NW_JP_UNIT_SETTLE',
+        'MODIFIER_PLAYER_UNITS_GRANT_ABILITY', 'REQS_NW_GAME_IS_1TURN');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('NW_TRAIT_CIVILIZATION_ADJACENT_DISTRICTS_GRANT_ABILITY_NW_JP_UNIT_SETTLE', 'AbilityType',
+        'ABILITY_NW_JP_UNIT_SETTLE');
+
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
+VALUES ('REQS_NW_GAME_IS_1TURN', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+VALUES ('REQS_NW_GAME_IS_1TURN', 'REQ_NW_GAME_IS_1TURN');
+INSERT INTO Requirements (RequirementId, RequirementType, Inverse)
+VALUES ('REQ_NW_GAME_IS_1TURN', 'REQUIREMENT_GAME_TURN_ATLEAST', 1);
+INSERT INTO RequirementArguments (RequirementId, Name, Value)
+VALUES ('REQ_NW_GAME_IS_1TURN', 'MinGameTurn', 1);
+
+INSERT INTO Types(Type, Kind)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE', 'KIND_ABILITY');
+INSERT INTO TypeTags(Type, Tag)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE', 'CLASS_SETTLER');
+INSERT INTO UnitAbilities(UnitAbilityType, Inactive, Name, Description)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE', 1, 'LOC_ABILITY_NW_JP_UNIT_SETTLE_NAME', 'LOC_ABILITY_NW_JP_UNIT_SETTLE_NAME');
+INSERT INTO UnitAbilityModifiers(UnitAbilityType, ModifierId)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE', 'ABILITY_NW_JP_UNIT_SETTLE_IGNORE_TERRAIN_COST'),
+       ('ABILITY_NW_JP_UNIT_SETTLE', 'ABILITY_NW_JP_UNIT_SETTLE_IGNORE_RIVERS'),
+       ('ABILITY_NW_JP_UNIT_SETTLE', 'ABILITY_NW_JP_UNIT_SETTLE_ADD_MOVE'),
+       ('ABILITY_NW_JP_UNIT_SETTLE', 'ABILITY_NW_JP_UNIT_SETTLE_IGNORE_SHORES');
+
+INSERT INTO Modifiers(ModifierId, ModifierType)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_TERRAIN_COST', 'MODIFIER_PLAYER_UNIT_ADJUST_IGNORE_TERRAIN_COST');
+INSERT INTO ModifierArguments(ModifierId, Name, Value)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_TERRAIN_COST', 'Ignore', 1),
+       ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_TERRAIN_COST', 'Type', 'ALL');
+INSERT INTO Modifiers(ModifierId, ModifierType)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_RIVERS', 'MODIFIER_PLAYER_UNIT_ADJUST_IGNORE_RIVERS');
+INSERT INTO ModifierArguments(ModifierId, Name, Value)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_RIVERS', 'Ignore', 1);
+INSERT INTO Modifiers(ModifierId, ModifierType)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE_ADD_MOVE', 'MODIFIER_PLAYER_UNIT_ADJUST_MOVEMENT');
+INSERT INTO ModifierArguments(ModifierId, Name, Value)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE_ADD_MOVE', 'Amount', 1);
+INSERT INTO Modifiers(ModifierId, ModifierType)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_SHORES', 'MODIFIER_PLAYER_UNIT_ADJUST_IGNORE_SHORES');
+INSERT INTO ModifierArguments(ModifierId, Name, Value)
+VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_SHORES', 'Ignore', 1);
+------------------------------------------------------------------------------
+-- 北条
+-- 如果 [ICON_CAPITAL] 首都建于相邻海岸的陆地单元格，则所有城市建造港口时+80% [ICON_PRODUCTION] 生产力。如果 [ICON_CAPITAL] 首都不相邻海岸，则所有城市建造商业中心时+70% [ICON_PRODUCTION] 生产力。
+DELETE
+FROM TraitModifiers
+WHERE TraitType = 'TRAIT_LEADER_DIVINE_WIND'
+  AND ModifierId IN ('TRAIT_BOOST_ENCAMPMENT_PRODUCTION',
+                     'TRAIT_BOOST_HOLY_SITE_PRODUCTION',
+                     'TRAIT_BOOST_THEATER_DISTRICT_PRODUCTION',
+                     'TRAIT_HURRICANE_PREVENTION_CAT_4',
+                     'TRAIT_HURRICANE_PREVENTION_CAT_5',
+                     'TRAIT_HURRICANE_DOUBLE_DAMAGE_CAT_4',
+                     'TRAIT_HURRICANE_DOUBLE_DAMAGE_CAT_5');
+
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_DIVINE_WIND', 'MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO_ATTACH');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO_ATTACH', 'MODIFIER_PLAYER_CAPITAL_CITY_ATTACH_MODIFIER', 0, 0, 0,
+        NULL, 'PLOT_IS_COASTAL_LAND_REQUIREMENTS');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO_ATTACH', 'ModifierId',
+        'MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO');
+
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_DIVINE_WIND', 'MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO_ATTACH');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO_ATTACH',
+        'MODIFIER_PLAYER_CAPITAL_CITY_ATTACH_MODIFIER', 0, 0, 0, NULL, 'REQS_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO_ATTACH', 'ModifierId',
+        'MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO');
+
+INSERT INTO TraitModifiers (TraitType, ModifierId)
+VALUES ('TRAIT_LEADER_DIVINE_WIND', 'MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO_ATTACH');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO_ATTACH',
+        'MODIFIER_PLAYER_CAPITAL_CITY_ATTACH_MODIFIER', 0, 0, 0, NULL, 'REQS_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS');
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO_ATTACH', 'ModifierId',
+        'MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO');
+
+-- Custom ModifierType
+INSERT INTO Types (Type, Kind)
+VALUES ('MODIFIER_PLAYER_CAPITAL_CITY_ATTACH_MODIFIER', 'KIND_MODIFIER');
+INSERT INTO DynamicModifiers (ModifierType, CollectionType, EffectType)
+VALUES ('MODIFIER_PLAYER_CAPITAL_CITY_ATTACH_MODIFIER', 'COLLECTION_PLAYER_CAPITAL_CITY', 'EFFECT_ATTACH_MODIFIER');
+
+-- RequirementSets
+INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
+VALUES ('REQS_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS', 'REQUIREMENTSET_TEST_ALL');
+INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
+VALUES ('REQS_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS', 'REQ_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS');
+-- Requirements
+INSERT INTO Requirements (RequirementId, RequirementType, Inverse)
+VALUES ('REQ_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS', 'REQUIREMENT_PLOT_IS_COASTAL_LAND', 1);
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO', 'MODIFIER_PLAYER_CITIES_ADJUST_DISTRICT_PRODUCTION', 0, 0, 0,
+        NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO', 'Amount', 80),
+       ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO', 'DistrictType', 'DISTRICT_HARBOR');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO',
+        'MODIFIER_PLAYER_CITIES_ADJUST_DISTRICT_PRODUCTION', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO', 'Amount', 55),
+       ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO', 'DistrictType', 'DISTRICT_COMMERCIAL_HUB');
+
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
+                       SubjectRequirementSetId)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO', 'MODIFIER_PLAYER_CITIES_ADJUST_DISTRICT_PRODUCTION',
+        0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value)
+VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO', 'Amount', 55),
+       ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO', 'DistrictType', 'DISTRICT_HOLY_SITE');
+
+-- =============================================================
+-- KHMER	高棉
+-- =============================================================
+-- KONGO	刚果
+-- =============================================================
+-- KOREA	朝鲜
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_THREE_KINGDOMS', 'MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_CITIZEN_LOW_IDENTITY');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_CITIZEN_LOW_IDENTITY', 'MODIFIER_PLAYER_CITIES_ADJUST_IDENTITY_PER_CITIZEN', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_CITIZEN_LOW_IDENTITY', 'Amount', '-1');
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_THREE_KINGDOMS', 'MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_ALLOW_COMMEMORATION_QUEST_COUNT');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_ALLOW_COMMEMORATION_QUEST_COUNT', 'MODIFIER_PLAYER_ADJUST_PLAYER_ALWAYS_ALLOW_COMMEMORATION_QUEST_COUNT', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_ALLOW_COMMEMORATION_QUEST_COUNT', 'Amount', '1');
+
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_THREE_KINGDOMS', 'MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_FL_CITY_YILED');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_FL_CITY_YILED', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER', 0, 0, 0, NULL, 'OBJECT_IS_6_TILES_FROM_CAPITAL_REQUIREMENTS');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_FL_CITY_YILED', 'Amount', '5,5'),
+('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_FL_CITY_YILED', 'YieldType', 'YIELD_CULTURE,YIELD_PRODUCTION');
+
+
+-- 为境内的间谍-1行动效果
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_THREE_KINGDOMS', 'MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_SPY');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_SPY', 'MODIFIER_ALL_UNITS_GRANT_ABILITY', 0, 0, 0, NULL, 'COSSACK_PLOT_IS_OWNER_OR_ADJACENT_REQUIREMENTS');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_SPY', 'AbilityType', 'ABILITY_NW_CX_LOW_SPY_LEVEL');
+
+INSERT INTO Types (Type, Kind)
+VALUES ('ABILITY_NW_CX_LOW_SPY_LEVEL', 'KIND_ABILITY');
+INSERT INTO TypeTags (Type, Tag)
+VALUES ('ABILITY_NW_CX_LOW_SPY_LEVEL', 'CLASS_SPY');
+INSERT INTO UnitAbilities (UnitAbilityType, Name, Inactive, Description)
+VALUES ('ABILITY_NW_CX_LOW_SPY_LEVEL', 'LOC_TRAIT_CIVILIZATION_THREE_KINGDOMS_NAME', 1,
+        'LOC_ABILITY_NW_CX_LOW_SPY_LEVEL_DESCRIPTION');
+
+
+INSERT INTO UnitAbilityModifiers (UnitAbilityType, ModifierId) SELECT
+'ABILITY_NW_CX_LOW_SPY_LEVEL', 'MODIFIER_ABILITY_NW_CX_LOW_SPY_LEVEL_'||OperationType
+FROM UnitOperations WHERE Offensive = 1;
+
+INSERT INTO Modifiers (ModifierId, ModifierType) SELECT
+'MODIFIER_ABILITY_NW_CX_LOW_SPY_LEVEL_'||OperationType, 'MODIFIER_PLAYER_UNIT_ADJUST_SPY_OPERATION_CHANCE'
+FROM UnitOperations WHERE Offensive = 1;
+
+INSERT INTO ModifierArguments (ModifierId, Name, Value) SELECT
+'MODIFIER_ABILITY_NW_CX_LOW_SPY_LEVEL_'||OperationType, 'Amount', '-1'
+FROM UnitOperations WHERE Offensive = 1 UNION SELECT
+'MODIFIER_ABILITY_NW_CX_LOW_SPY_LEVEL_'||OperationType, 'Offensive', '1'
+FROM UnitOperations WHERE Offensive = 1 UNION SELECT
+'MODIFIER_ABILITY_NW_CX_LOW_SPY_LEVEL_'||OperationType, 'OperationType', OperationType
+FROM UnitOperations WHERE Offensive = 1;
+
+-- =============================================================
+-- MACEDON	马其顿
+-- =============================================================
+-- MALI	马里
+-- =============================================================
+-- MAORI	毛利
+-- =============================================================
+-- MAPUCHE	马普切
+-- =============================================================
+-- MAYA	玛雅
+-- =============================================================
+-- MONGOLIA	蒙古
+-- =============================================================
+-- NETHERLANDS	荷兰
+-- =============================================================
+-- NORWAY	挪威
+-- =============================================================
+-- NUBIA	努比亚
+-- =============================================================
+-- OTTOMAN	奥斯曼
+-- =============================================================
+-- PERSIA	波斯
+-- =============================================================
+-- PHOENICIA	腓尼基
+-- =============================================================
+-- POLAND	波兰
+-- =============================================================
+-- PORTUGAL	葡萄牙
+-- =============================================================
+-- ROME	罗马
+-- =============================================================
+-- RUSSIA	俄罗斯
+-- =============================================================
+-- SCOTLAND	苏格兰
+
 CREATE TABLE NW_SUGELAN_AMENITIES
 (
     PopulationThreshold INTEGER PRIMARY KEY,
@@ -843,533 +1522,117 @@ FROM ImprovementModifiers
 WHERE ImprovementType = 'IMPROVEMENT_GOLF_COURSE'
   AND ModifierID = 'GOLFCOURSE_AMENITIES';
 -- =============================================================
--- 埃莉诺（英国）
-INSERT INTO Types (Type, Kind)
-VALUES ('MODIFIER_NW_CAPITAL_GRANT_GREAT_PERSON_CLASS_IN_CITY', 'KIND_MODIFIER');
-INSERT INTO DynamicModifiers (ModifierType, CollectionType, EffectType)
-VALUES ('MODIFIER_NW_CAPITAL_GRANT_GREAT_PERSON_CLASS_IN_CITY', 'COLLECTION_PLAYER_CAPITAL_CITY',
-        'EFFECT_GRANT_GREAT_PERSON_CLASS_IN_CITY');
-
-UPDATE Modifiers
-SET ModifierType = 'MODIFIER_NW_CAPITAL_GRANT_GREAT_PERSON_CLASS_IN_CITY'
-WHERE ModifierId = 'TRAIT_BONUS_GREAT_PROPHET_POINT_D';
-UPDATE ModifierArguments
-SET Value = 3
-WHERE ModifierId = 'ELEANOR_DOUBLE_SCULPTURE_S1'
-  AND Name = 'YieldChange';
-
-DELETE
-FROM TraitModifiers
-WHERE TraitType = 'TRAIT_LEADER_ELEANOR_LOYALTY'
-  AND ModifierId = 'TRAIT_EXTRA_PALACE_SLOTS_AILINUO';
-
+-- SCYTHIA	斯基泰
 -- =============================================================
--- 埃莉诺（法国）
--- 巨作+3 [ICON_Science] 科技值，并对9个单元格内的外国城市施加3点忠诚度压力。
--- 因忠诚度而叛乱的城市，如其每回合对埃莉诺的忠诚度最高，则会直接加入埃莉诺的文明。
--- 埃莉诺的宫殿额外获得一个任意槽位。
--- 埃莉诺在建造剧院建筑、区域时+25% [ICON_PRODUCTION] 生产力。
--- 若解锁“戏剧与诗歌”市政，则获得一名免费的 [ICON_GreatWriter] 大作家。
--- 招募伟人时随机获得两项 [ICON_CivicBoosted] 鼓舞。
-
-DELETE
-FROM TraitModifiers
-WHERE TraitType = 'TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP'
-  AND ModifierId IN ('TRAIT_BONUS_GREAT_PROPHET_POINT_c',
-                     'AIFA_CHENGBAO_JIA1JINBI_TEAM_PVP',
-                     'TRAIT_EXTRA_PALACE_SLOTS_AILINUO');
-
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP',
-        'MODIFIER_TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP_CIVIC_BOOST');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP_CIVIC_BOOST',
-        'MODIFIER_PLAYER_GRANT_RANDOM_CIVIC_BOOST_GOODY_HUT', 0, 0, 0, 'NW_PLAYER_HAS_CIVIC_DRAMA_POETRY', NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP_CIVIC_BOOST', 'Amount', '2');
-
-INSERT INTO TraitModifiers(TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP', 'TRAIT_BONUS_GREAT_PROPHET_POINT_D');
-
+-- SPAIN	西班牙
 -- =============================================================
--- 金法
--- 解锁写作时也解锁剧院广场。剧院广场从相邻奢侈品资源获得大量相邻加成。可在拥有剧院广场区域的任意城市中开展“宫廷盛会”项目。建造剧院广场建筑时+70%生产力。
--- 删除原效果
-DELETE
-FROM TraitModifiers
-WHERE TraitType = 'TRAIT_LEADER_MAGNIFICENCES'
-  AND ModifierId = 'MAGNIFICENCES_CULTURE_LUXURY_ADJACENT_TO_THEATER_SQUARE_OR_CHATEAU';
-
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_MAGNIFICENCES', 'MODIFIER_TRAIT_LEADER_MAGNIFICENCES_DIS');
-INSERT INTO Modifiers (ModifierId, ModifierType, OwnerRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_MAGNIFICENCES_DIS', 'MODIFIER_PLAYER_ADJUST_DISTRICT_UNLOCK',
-        'NW_PLAYER_HAS_TECH_WRITING');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_MAGNIFICENCES_DIS', 'DistrictType', 'DISTRICT_THEATER'),
-       ('MODIFIER_TRAIT_LEADER_MAGNIFICENCES_DIS', 'CivicType', 'CIVIC_CODE_OF_LAWS');
-
-UPDATE ModifierArguments
-SET Value = 45
-WHERE ModifierId = 'THEATER_BUILDING_PRODUCTION_BONUS_MEDIQI'
-  AND Name = 'Amount';
-UPDATE ModifierArguments
-SET Value = 45
-WHERE ModifierId = 'TRAIT_GANGKOU_AQUEDUCT_PRODUCTION_MEIDIQI2'
-  AND Name = 'Amount';
-
-INSERT INTO Adjacency_YieldChanges(ID, Description, YieldType, AdjacentResourceClass, YieldChange, PrereqCivic,
-                                   ObsoleteCivic)
-VALUES ('TRAIT_LEADER_MAGNIFICENCES_THEATER', 'LOC_TRAIT_LEADER_MAGNIFICENCES_THEATER', 'YIELD_CULTURE',
-        'RESOURCECLASS_LUXURY', 2, 'CIVIC_DRAMA_POETRY', NULL),
-       ('TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW', 'LOC_TRAIT_LEADER_MAGNIFICENCES_THEATER', 'YIELD_CULTURE',
-        'RESOURCECLASS_LUXURY', 1, NULL, 'CIVIC_DRAMA_POETRY');
-INSERT INTO District_Adjacencies(DistrictType, YieldChangeId)
-VALUES ('DISTRICT_THEATER', 'TRAIT_LEADER_MAGNIFICENCES_THEATER'),
-       ('DISTRICT_THEATER', 'TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW');
-
-INSERT OR IGNORE INTO ExcludedAdjacencies(TraitType, YieldChangeId)
-SELECT DISTINCT TraitType, 'TRAIT_LEADER_MAGNIFICENCES_THEATER'
-FROM LeaderTraits WHERE LeaderType NOT LIKE 'LEADER\_MINOR\_CIV\_%' ESCAPE '\'
-GROUP BY TraitType
-UNION
-SELECT DISTINCT TraitType, 'TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW'
-FROM LeaderTraits WHERE LeaderType NOT LIKE 'LEADER\_MINOR\_CIV\_%' ESCAPE '\'
-GROUP BY TraitType;
-DELETE
-FROM ExcludedAdjacencies
-WHERE YieldChangeId IN ('TRAIT_LEADER_MAGNIFICENCES_THEATER', 'TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW')
-  AND TraitType IN (SELECT TraitType FROM LeaderTraits WHERE LeaderType = 'LEADER_CATHERINE_DE_MEDICI_ALT');
-
--- 兼容新加入的特性
-CREATE TRIGGER Nw_GoldFrance_District_Adjacencies
-    AFTER INSERT
-    ON LeaderTraits
-    WHEN NEW.LeaderType NOT LIKE 'LEADER\_MINOR\_CIV\_%' ESCAPE '\'
-BEGIN
-    INSERT OR
-        IGNORE
-    INTO ExcludedAdjacencies(TraitType, YieldChangeId)
-    VALUES (NEW.TraitType, 'TRAIT_LEADER_MAGNIFICENCES_THEATER'),
-           (NEW.TraitType, 'TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW');
-
-    DELETE
-    FROM ExcludedAdjacencies
-    WHERE YieldChangeId IN ('TRAIT_LEADER_MAGNIFICENCES_THEATER', 'TRAIT_LEADER_MAGNIFICENCES_THEATER_LOW')
-      AND TraitType IN (SELECT TraitType FROM LeaderTraits WHERE LeaderType = 'LEADER_CATHERINE_DE_MEDICI_ALT');
-END;
-
+-- SUMERIA	苏美尔
 -- =============================================================
--- 日本
--- 第一回合移民+1速、无视地形地貌
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_CIVILIZATION_ADJACENT_DISTRICTS',
-        'NW_TRAIT_CIVILIZATION_ADJACENT_DISTRICTS_GRANT_ABILITY_NW_JP_UNIT_SETTLE');
-INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId)
-VALUES ('NW_TRAIT_CIVILIZATION_ADJACENT_DISTRICTS_GRANT_ABILITY_NW_JP_UNIT_SETTLE',
-        'MODIFIER_PLAYER_UNITS_GRANT_ABILITY', 'REQS_NW_GAME_IS_1TURN');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('NW_TRAIT_CIVILIZATION_ADJACENT_DISTRICTS_GRANT_ABILITY_NW_JP_UNIT_SETTLE', 'AbilityType',
-        'ABILITY_NW_JP_UNIT_SETTLE');
-
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
-VALUES ('REQS_NW_GAME_IS_1TURN', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
-VALUES ('REQS_NW_GAME_IS_1TURN', 'REQ_NW_GAME_IS_1TURN');
-INSERT INTO Requirements (RequirementId, RequirementType, Inverse)
-VALUES ('REQ_NW_GAME_IS_1TURN', 'REQUIREMENT_GAME_TURN_ATLEAST', 1);
-INSERT INTO RequirementArguments (RequirementId, Name, Value)
-VALUES ('REQ_NW_GAME_IS_1TURN', 'MinGameTurn', 1);
-
-INSERT INTO Types(Type, Kind)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE', 'KIND_ABILITY');
-INSERT INTO TypeTags(Type, Tag)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE', 'CLASS_SETTLER');
-INSERT INTO UnitAbilities(UnitAbilityType, Inactive, Name, Description)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE', 1, 'LOC_ABILITY_NW_JP_UNIT_SETTLE_NAME', 'LOC_ABILITY_NW_JP_UNIT_SETTLE_NAME');
-INSERT INTO UnitAbilityModifiers(UnitAbilityType, ModifierId)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE', 'ABILITY_NW_JP_UNIT_SETTLE_IGNORE_TERRAIN_COST'),
-       ('ABILITY_NW_JP_UNIT_SETTLE', 'ABILITY_NW_JP_UNIT_SETTLE_IGNORE_RIVERS'),
-       ('ABILITY_NW_JP_UNIT_SETTLE', 'ABILITY_NW_JP_UNIT_SETTLE_ADD_MOVE'),
-       ('ABILITY_NW_JP_UNIT_SETTLE', 'ABILITY_NW_JP_UNIT_SETTLE_IGNORE_SHORES');
-
-INSERT INTO Modifiers(ModifierId, ModifierType)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_TERRAIN_COST', 'MODIFIER_PLAYER_UNIT_ADJUST_IGNORE_TERRAIN_COST');
-INSERT INTO ModifierArguments(ModifierId, Name, Value)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_TERRAIN_COST', 'Ignore', 1),
-       ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_TERRAIN_COST', 'Type', 'ALL');
-INSERT INTO Modifiers(ModifierId, ModifierType)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_RIVERS', 'MODIFIER_PLAYER_UNIT_ADJUST_IGNORE_RIVERS');
-INSERT INTO ModifierArguments(ModifierId, Name, Value)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_RIVERS', 'Ignore', 1);
-INSERT INTO Modifiers(ModifierId, ModifierType)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE_ADD_MOVE', 'MODIFIER_PLAYER_UNIT_ADJUST_MOVEMENT');
-INSERT INTO ModifierArguments(ModifierId, Name, Value)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE_ADD_MOVE', 'Amount', 1);
-INSERT INTO Modifiers(ModifierId, ModifierType)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_SHORES', 'MODIFIER_PLAYER_UNIT_ADJUST_IGNORE_SHORES');
-INSERT INTO ModifierArguments(ModifierId, Name, Value)
-VALUES ('ABILITY_NW_JP_UNIT_SETTLE_IGNORE_SHORES', 'Ignore', 1);
-
-
--- =============================================================
--- 北条
--- 如果 [ICON_CAPITAL] 首都建于相邻海岸的陆地单元格，则所有城市建造港口时+80% [ICON_PRODUCTION] 生产力。如果 [ICON_CAPITAL] 首都不相邻海岸，则所有城市建造商业中心时+70% [ICON_PRODUCTION] 生产力。
-
-DELETE
-FROM TraitModifiers
-WHERE TraitType = 'TRAIT_LEADER_DIVINE_WIND'
-  AND ModifierId IN ('TRAIT_BOOST_ENCAMPMENT_PRODUCTION',
-                     'TRAIT_BOOST_HOLY_SITE_PRODUCTION',
-                     'TRAIT_BOOST_THEATER_DISTRICT_PRODUCTION',
-                     'TRAIT_HURRICANE_PREVENTION_CAT_4',
-                     'TRAIT_HURRICANE_PREVENTION_CAT_5',
-                     'TRAIT_HURRICANE_DOUBLE_DAMAGE_CAT_4',
-                     'TRAIT_HURRICANE_DOUBLE_DAMAGE_CAT_5');
-
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_DIVINE_WIND', 'MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO_ATTACH');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO_ATTACH', 'MODIFIER_PLAYER_CAPITAL_CITY_ATTACH_MODIFIER', 0, 0, 0,
-        NULL, 'PLOT_IS_COASTAL_LAND_REQUIREMENTS');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO_ATTACH', 'ModifierId',
-        'MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO');
-
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_DIVINE_WIND', 'MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO_ATTACH');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO_ATTACH',
-        'MODIFIER_PLAYER_CAPITAL_CITY_ATTACH_MODIFIER', 0, 0, 0, NULL, 'REQS_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO_ATTACH', 'ModifierId',
-        'MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO');
-
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_DIVINE_WIND', 'MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO_ATTACH');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO_ATTACH',
-        'MODIFIER_PLAYER_CAPITAL_CITY_ATTACH_MODIFIER', 0, 0, 0, NULL, 'REQS_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO_ATTACH', 'ModifierId',
-        'MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO');
+-- SWEDEN	瑞典
+-- 北方的弥涅耳瓦
+-- 图书馆拥有2个著作类巨作槽位。学院二级建筑额外提供+1大作家点数、+1大艺术家点数和+1大音乐家点数
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_LEADER_KRISTINA_AUTO_THEME', 'MODIFIER_TRAIT_LEADER_KRISTINA_AUTO_THEME_EXTRA_GREAT_WORK_SLOTS_LIB');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('MODIFIER_TRAIT_LEADER_KRISTINA_AUTO_THEME_EXTRA_GREAT_WORK_SLOTS_LIB', 'MODIFIER_PLAYER_CITIES_ADJUST_EXTRA_GREAT_WORK_SLOTS', 0, 0, 0, NULL, NULL);
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('MODIFIER_TRAIT_LEADER_KRISTINA_AUTO_THEME_EXTRA_GREAT_WORK_SLOTS_LIB', 'Amount', 2),
+('MODIFIER_TRAIT_LEADER_KRISTINA_AUTO_THEME_EXTRA_GREAT_WORK_SLOTS_LIB', 'BuildingType', 'BUILDING_LIBRARY'),
+('MODIFIER_TRAIT_LEADER_KRISTINA_AUTO_THEME_EXTRA_GREAT_WORK_SLOTS_LIB', 'GreatWorkSlotType', 'GREATWORKSLOT_WRITING');
 
 -- Custom ModifierType
-INSERT INTO Types (Type, Kind)
-VALUES ('MODIFIER_PLAYER_CAPITAL_CITY_ATTACH_MODIFIER', 'KIND_MODIFIER');
-INSERT INTO DynamicModifiers (ModifierType, CollectionType, EffectType)
-VALUES ('MODIFIER_PLAYER_CAPITAL_CITY_ATTACH_MODIFIER', 'COLLECTION_PLAYER_CAPITAL_CITY', 'EFFECT_ATTACH_MODIFIER');
+INSERT INTO Types (Type, Kind) VALUES
+('MODIFIER_NW_PLAYER_CAPITAL_ADJUST_EXTRA_GREAT_WORK_SLOTS', 'KIND_MODIFIER');
+INSERT INTO DynamicModifiers (ModifierType, CollectionType, EffectType) VALUES
+('MODIFIER_NW_PLAYER_CAPITAL_ADJUST_EXTRA_GREAT_WORK_SLOTS', 'COLLECTION_PLAYER_CAPITAL_CITY', 'EFFECT_ADJUST_EXTRA_GREAT_WORK_SLOTS');
 
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType)
-VALUES ('REQS_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId)
-VALUES ('REQS_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS', 'REQ_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType, Inverse)
-VALUES ('REQ_NW_PLOT_NOTS_COASTAL_LAND_REQUIREMENTS', 'REQUIREMENT_PLOT_IS_COASTAL_LAND', 1);
-
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO', 'MODIFIER_PLAYER_CITIES_ADJUST_DISTRICT_PRODUCTION', 0, 0, 0,
-        NULL, NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO', 'Amount', 80),
-       ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_HARBOR_PRO', 'DistrictType', 'DISTRICT_HARBOR');
-
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO',
-        'MODIFIER_PLAYER_CITIES_ADJUST_DISTRICT_PRODUCTION', 0, 0, 0, NULL, NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO', 'Amount', 55),
-       ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_COMMERCIAL_HUB_PRO', 'DistrictType', 'DISTRICT_COMMERCIAL_HUB');
-
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO', 'MODIFIER_PLAYER_CITIES_ADJUST_DISTRICT_PRODUCTION',
-        0, 0, 0, NULL, NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO', 'Amount', 55),
-       ('MODIFIER_TRAIT_LEADER_DIVINE_WIND_DISTRICT_HOLY_SITE_PRO', 'DistrictType', 'DISTRICT_HOLY_SITE');
-
-
--- =============================================================
--- 匈牙利
--- 改动：银行业而非自然历史解锁匈牙利特色建筑温泉浴场
-UPDATE Buildings
-SET PrereqTech  = NULL,
-    PrereqCivic = 'CIVIC_MOBILIZATION'
-WHERE BuildingType = 'BUILDING_THERMAL_BATH';
-
--- 新增：温泉浴场不替代动物园，但不能建造在已有动物园或其替代建筑的娱乐中心中
-DELETE
-FROM BuildingReplaces
-WHERE CivUniqueBuildingType = 'BUILDING_THERMAL_BATH';
-INSERT INTO MutuallyExclusiveBuildings(Building, MutuallyExclusiveBuilding)
-VALUES ('BUILDING_THERMAL_BATH', 'BUILDING_ZOO'),
-       ('BUILDING_ZOO', 'BUILDING_THERMAL_BATH');
-
-INSERT INTO MutuallyExclusiveBuildings(Building, MutuallyExclusiveBuilding)
-SELECT 'BUILDING_THERMAL_BATH',CivUniqueBuildingType
-FROM BuildingReplaces WHERE ReplacesBuildingType = 'BUILDING_ZOO' AND CivUniqueBuildingType IS NOT 'BUILDING_THERMAL_BATH' UNION
-SELECT CivUniqueBuildingType,'BUILDING_THERMAL_BATH'
-FROM BuildingReplaces WHERE ReplacesBuildingType = 'BUILDING_ZOO' AND CivUniqueBuildingType IS NOT 'BUILDING_THERMAL_BATH';
-
-
--- 建立 [ICON_Capital] 首都前开拓者无视河流的移动力减益。
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_CIVILIZATION_PEARL_DANUBE',
-        'NW_TRAIT_CIVILIZATION_PEARL_DANUBE_GRANT_ABILITY_NW_PD_UNIT_SETTLE');
-INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId)
-VALUES ('NW_TRAIT_CIVILIZATION_PEARL_DANUBE_GRANT_ABILITY_NW_PD_UNIT_SETTLE', 'MODIFIER_PLAYER_UNITS_GRANT_ABILITY', 'PLAYER_HAS_NO_CITIES');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('NW_TRAIT_CIVILIZATION_PEARL_DANUBE_GRANT_ABILITY_NW_PD_UNIT_SETTLE', 'AbilityType',
-        'ABILITY_NW_PD_UNIT_SETTLE');
-
-INSERT INTO Types(Type, Kind)
-VALUES ('ABILITY_NW_PD_UNIT_SETTLE', 'KIND_ABILITY');
-INSERT INTO TypeTags(Type, Tag)
-VALUES ('ABILITY_NW_PD_UNIT_SETTLE', 'CLASS_SETTLER');
-INSERT INTO UnitAbilities(UnitAbilityType, Inactive, Name, Description)
-VALUES ('ABILITY_NW_PD_UNIT_SETTLE', 1, 'LOC_ABILITY_NW_PD_UNIT_SETTLE_NAME', 'LOC_ABILITY_NW_PD_UNIT_SETTLE_NAME');
-INSERT INTO UnitAbilityModifiers(UnitAbilityType, ModifierId)
-VALUES ('ABILITY_NW_PD_UNIT_SETTLE', 'ABILITY_NW_JP_UNIT_SETTLE_IGNORE_RIVERS');
-
-
--- =============================================================
--- 印尼
--- 删除：戎克船-25%信仰值花费
--- 新增：沿海城市建造圣地+80%生产力。圣地从相邻海岸和礁石获得标准相邻加成，与相邻圣地的区域提供等同于其相邻加成的 [ICON_FAITH] 信仰值。可以-15%的花费用 [ICON_FAITH] 信仰值购买海军单位。
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_EXALTED_GODDESS', 'MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HALF_HOLYSITE');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HALF_HOLYSITE', 'MODIFIER_PLAYER_CITIES_ADJUST_DISTRICT_PRODUCTION', 0,
-        0, 0, NULL, 'PLOT_IS_COASTAL_LAND_REQUIREMENTS');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HALF_HOLYSITE', 'Amount', 80),
-       ('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HALF_HOLYSITE', 'DistrictType', 'DISTRICT_HOLY_SITE');
-
-
-UPDATE ModifierArguments SET Value = 1 WHERE Name = 'TilesRequired' AND ModifierId = 'TRAIT_NUSANTARA_COAST_HOLY_SITE';
-
-INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-('TRAIT_LEADER_EXALTED_GODDESS', 'MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HARBOR_GOLD_TO_FAITH');
-INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId) VALUES
-('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HARBOR_GOLD_TO_FAITH', 'MODIFIER_PLAYER_DISTRICTS_ADJUST_YIELD_BASED_ON_ADJACENCY_BONUS', 'REQS_NW_PLOT_NEXT_HOLY_SITE');
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HARBOR_GOLD_TO_FAITH', 'DistrictType', 'DISTRICT_HARBOR'),
-('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HARBOR_GOLD_TO_FAITH', 'YieldTypeToGrant', 'YIELD_FAITH'),
-('MODIFIER_TRAIT_LEADER_EXALTED_GODDESS_HARBOR_GOLD_TO_FAITH', 'YieldTypeToMirror', 'YIELD_GOLD');
-
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
-('REQS_NW_PLOT_NEXT_HOLY_SITE', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
-('REQS_NW_PLOT_NEXT_HOLY_SITE', 'REQ_NW_PLOT_NEXT_HOLY_SITE'),
-('REQS_NW_PLOT_NEXT_HOLY_SITE', 'REQUIRES_DISTRICT_IS_HARBOR');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType) VALUES
-('REQ_NW_PLOT_NEXT_HOLY_SITE', 'REQUIREMENT_PLOT_ADJACENT_DISTRICT_TYPE_MATCHES');
-INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
-('REQ_NW_PLOT_NEXT_HOLY_SITE', 'DistrictType', 'DISTRICT_HOLY_SITE'),
-('REQ_NW_PLOT_NEXT_HOLY_SITE', 'MaxRange', '1'),
-('REQ_NW_PLOT_NEXT_HOLY_SITE', 'MinRange', '1');
-
-UPDATE TraitModifiers
-SET TraitType = 'TRAIT_LEADER_EXALTED_GODDESS'
-WHERE ModifierId = 'BUY_RONGKECHUAN_ZHEKOU'
-  AND TraitType = 'TRAIT_CIVILIZATION_INDONESIA_NUSANTARA';
-UPDATE Modifiers
-SET ModifierType           = 'MODIFIER_PLAYER_CITIES_ADJUST_UNITS_PURCHASE_COST',
-    SubjectRequirementSetId = NULL
-WHERE ModifierId = 'BUY_RONGKECHUAN_ZHEKOU';
-
-UPDATE ModifierArguments
-SET Name = 'UnitDomain', Value = 'DOMAIN_SEA'
-WHERE ModifierId = 'BUY_RONGKECHUAN_ZHEKOU'
-  AND Name = 'UnitType';
-UPDATE ModifierArguments
-SET Value = 15
-WHERE ModifierId = 'BUY_RONGKECHUAN_ZHEKOU'
-  AND Name = 'Amount';
-
--- =============================================================
--- 伯利克里
-
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-VALUES ('TRAIT_LEADER_SURROUNDED_BY_GLORY', 'MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId,
-                       SubjectRequirementSetId)
-VALUES ('MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION', 'MODIFIER_PLAYER_CITIES_DISTRICT_ADJACENCY', 0, 0,
-        0, NULL, NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-VALUES ('MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION', 'Amount', 1),
-       ('MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION', 'Description', 'LOC_DISTRICT_ACROPOLIS_ADD_PRODUCTION'),
-       ('MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION', 'DistrictType', 'DISTRICT_ACROPOLIS'),
-       ('MODIFIER_TRAIT_LEADER_SURROUNDED_BY_GLORY_ADD_PRODUCTION', 'YieldType', 'YIELD_PRODUCTION');
-
-INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId)
-SELECT 'NW_MODIFIER_PERICLES_SUZ_' || LeaderType,
-       'MODIFIER_PLAYER_ADJUST_TOURISM',
-       'NW_PLAYER_IS_SUZERAIN_OF_' || LeaderType || '_REQUIREMENTS'
-FROM Leaders
-WHERE InheritFrom IN
-      ('LEADER_MINOR_CIV_CULTURAL', 'LEADER_MINOR_CIV_INDUSTRIAL', 'LEADER_MINOR_CIV_MILITARISTIC',
-       'LEADER_MINOR_CIV_RELIGIOUS', 'LEADER_MINOR_CIV_SCIENTIFIC', 'LEADER_MINOR_CIV_TRADE');
-INSERT INTO ModifierArguments (ModifierId, Name, Value)
-SELECT 'NW_MODIFIER_PERICLES_SUZ_' || LeaderType, 'Amount', 4
-FROM Leaders
-WHERE InheritFrom IN
-      ('LEADER_MINOR_CIV_CULTURAL', 'LEADER_MINOR_CIV_INDUSTRIAL', 'LEADER_MINOR_CIV_MILITARISTIC',
-       'LEADER_MINOR_CIV_RELIGIOUS', 'LEADER_MINOR_CIV_SCIENTIFIC', 'LEADER_MINOR_CIV_TRADE');
-INSERT INTO TraitModifiers (TraitType, ModifierId)
-SELECT 'TRAIT_LEADER_SURROUNDED_BY_GLORY', 'NW_MODIFIER_PERICLES_SUZ_' || LeaderType
-FROM Leaders
-WHERE InheritFrom IN
-      ('LEADER_MINOR_CIV_CULTURAL', 'LEADER_MINOR_CIV_INDUSTRIAL', 'LEADER_MINOR_CIV_MILITARISTIC',
-       'LEADER_MINOR_CIV_RELIGIOUS', 'LEADER_MINOR_CIV_SCIENTIFIC', 'LEADER_MINOR_CIV_TRADE');
-
--- =============================================================
--- 武秦
-INSERT INTO ModifierArguments (ModifierId , Name , Value)
-VALUES ('WU_QINSHIHUANG_JINZHAN_ZHUAREN_MODIFIER' , 'UnitType' , 'UNIT_MILITARY_ENGINEER');
-
-
-INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-('TRAIT_LEADER_QIN', 'MODIFIER_TRAIT_LEADER_QIN_ME_JIAN_CHAGE');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
-('MODIFIER_TRAIT_LEADER_QIN_ME_JIAN_CHAGE', 'MODIFIER_PLAYER_UNITS_ADJUST_BUILDER_CHARGES', 0, 1, 1, 'NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING', 'NW_UNIT_IS_MILITARY_ENGINEER');
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER_TRAIT_LEADER_QIN_ME_JIAN_CHAGE', 'Amount', '-1');
-
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
-('NW_UNIT_IS_MILITARY_ENGINEER', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
-('NW_UNIT_IS_MILITARY_ENGINEER', 'REQUIREMENT_NW_UNIT_IS_MILITARY_ENGINEER');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType) VALUES
-('REQUIREMENT_NW_UNIT_IS_MILITARY_ENGINEER', 'REQUIREMENT_UNIT_TYPE_MATCHES');
-INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
-('REQUIREMENT_NW_UNIT_IS_MILITARY_ENGINEER', 'UnitType', 'UNIT_MILITARY_ENGINEER');
-
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
-('NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
-('NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING', 'REQ_NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType, Inverse) VALUES
-('REQ_NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING', 'REQUIREMENT_PLAYER_HAS_TECHNOLOGY', 1);
-INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
-('REQ_NW_PLAYER_HAS_NOT_TECH_MILITARY_ENGINEERING', 'TechnologyType', 'TECH_MILITARY_ENGINEERING');
-
-
--- =============================================================
--- 朝鲜
-
-INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-('TRAIT_CIVILIZATION_THREE_KINGDOMS', 'MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_CITIZEN_LOW_IDENTITY');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
-('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_CITIZEN_LOW_IDENTITY', 'MODIFIER_PLAYER_CITIES_ADJUST_IDENTITY_PER_CITIZEN', 0, 0, 0, NULL, NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_CITIZEN_LOW_IDENTITY', 'Amount', '-1');
-
-INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-('TRAIT_CIVILIZATION_THREE_KINGDOMS', 'MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_ALLOW_COMMEMORATION_QUEST_COUNT');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
-('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_ALLOW_COMMEMORATION_QUEST_COUNT', 'MODIFIER_PLAYER_ADJUST_PLAYER_ALWAYS_ALLOW_COMMEMORATION_QUEST_COUNT', 0, 0, 0, NULL, NULL);
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_ALLOW_COMMEMORATION_QUEST_COUNT', 'Amount', '1');
-
-
-INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-('TRAIT_CIVILIZATION_THREE_KINGDOMS', 'MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_FL_CITY_YILED');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
-('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_FL_CITY_YILED', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_YIELD_MODIFIER', 0, 0, 0, NULL, 'OBJECT_IS_6_TILES_FROM_CAPITAL_REQUIREMENTS');
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_FL_CITY_YILED', 'Amount', '5,5'),
-('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_FL_CITY_YILED', 'YieldType', 'YIELD_CULTURE,YIELD_PRODUCTION');
-
-
--- 为境内的间谍-1行动效果
-INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-('TRAIT_CIVILIZATION_THREE_KINGDOMS', 'MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_SPY');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
-('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_SPY', 'MODIFIER_ALL_UNITS_GRANT_ABILITY', 0, 0, 0, NULL, 'COSSACK_PLOT_IS_OWNER_OR_ADJACENT_REQUIREMENTS');
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER_TRAIT_CIVILIZATION_THREE_KINGDOMS_SPY', 'AbilityType', 'ABILITY_NW_CX_LOW_SPY_LEVEL');
-
-INSERT INTO Types (Type, Kind)
-VALUES ('ABILITY_NW_CX_LOW_SPY_LEVEL', 'KIND_ABILITY');
-INSERT INTO TypeTags (Type, Tag)
-VALUES ('ABILITY_NW_CX_LOW_SPY_LEVEL', 'CLASS_SPY');
-INSERT INTO UnitAbilities (UnitAbilityType, Name, Inactive, Description)
-VALUES ('ABILITY_NW_CX_LOW_SPY_LEVEL', 'LOC_TRAIT_CIVILIZATION_THREE_KINGDOMS_NAME', 1,
-        'LOC_ABILITY_NW_CX_LOW_SPY_LEVEL_DESCRIPTION');
-
-
-INSERT INTO UnitAbilityModifiers (UnitAbilityType, ModifierId) SELECT
-'ABILITY_NW_CX_LOW_SPY_LEVEL', 'MODIFIER_ABILITY_NW_CX_LOW_SPY_LEVEL_'||OperationType
-FROM UnitOperations WHERE Offensive = 1;
-
-INSERT INTO Modifiers (ModifierId, ModifierType) SELECT
-'MODIFIER_ABILITY_NW_CX_LOW_SPY_LEVEL_'||OperationType, 'MODIFIER_PLAYER_UNIT_ADJUST_SPY_OPERATION_CHANCE'
-FROM UnitOperations WHERE Offensive = 1;
-
+INSERT INTO TraitModifiers (TraitType, ModifierId) SELECT
+'TRAIT_LEADER_KRISTINA_AUTO_THEME', 'MODIFIER_TRAIT_LEADER_KRISTINA_AUTO_THEME_EXTRA_GPP_'||GreatPersonClassType
+FROM GreatPersonClasses WHERE DistrictType = 'DISTRICT_THEATER';
+INSERT INTO Modifiers (ModifierId, ModifierType, SubjectRequirementSetId) SELECT
+'MODIFIER_TRAIT_LEADER_KRISTINA_AUTO_THEME_EXTRA_GPP_'||GreatPersonClassType, 'MODIFIER_PLAYER_CITIES_ADJUST_GREAT_PERSON_POINT', 'NW_CITY_HAS_BUILDING_UNIVERSITY'
+FROM GreatPersonClasses WHERE DistrictType = 'DISTRICT_THEATER';
 INSERT INTO ModifierArguments (ModifierId, Name, Value) SELECT
-'MODIFIER_ABILITY_NW_CX_LOW_SPY_LEVEL_'||OperationType, 'Amount', '-1'
-FROM UnitOperations WHERE Offensive = 1 UNION SELECT
-'MODIFIER_ABILITY_NW_CX_LOW_SPY_LEVEL_'||OperationType, 'Offensive', '1'
-FROM UnitOperations WHERE Offensive = 1 UNION SELECT
-'MODIFIER_ABILITY_NW_CX_LOW_SPY_LEVEL_'||OperationType, 'OperationType', OperationType
-FROM UnitOperations WHERE Offensive = 1;
+'MODIFIER_TRAIT_LEADER_KRISTINA_AUTO_THEME_EXTRA_GPP_'||GreatPersonClassType, 'Amount', 1
+FROM GreatPersonClasses WHERE DistrictType = 'DISTRICT_THEATER' UNION SELECT
+'MODIFIER_TRAIT_LEADER_KRISTINA_AUTO_THEME_EXTRA_GPP_'||GreatPersonClassType, 'GreatPersonClassType', GreatPersonClassType
+FROM GreatPersonClasses WHERE DistrictType = 'DISTRICT_THEATER';
 
+-- TRAIT_CIVILIZATION_NOBEL_PRIZE
+-- 删除：伟人点
+DELETE FROM TraitModifiers WHERE TraitType = 'TRAIT_CIVILIZATION_NOBEL_PRIZE' AND ModifierId IN ('TRAIT_GREAT_SCIENTIST_UNIVERSITY_MODIFIER','TRAIT_GREAT_ENGINEER_FACTORY_MODIFIER');
+-- 学院建筑提供的生产力等于其固定产出50%的基础科技值、工作坊+2科技值
+-- Modder只需要写代码就行了，平衡组要考虑的可就多了
+-- TM的直接拿我世界歧路的机制改改数值就上了
+-- TM的我抄我自己
+
+INSERT INTO TraitModifiers(TraitType, ModifierId)
+SELECT 'TRAIT_CIVILIZATION_NOBEL_PRIZE',
+       'NW_NP_SCIENCE2PRODUCTION_' || b.BuildingType
+FROM Buildings b JOIN Building_YieldChanges bc ON bc.BuildingType = b.BuildingType
+WHERE b.PrereqDistrict = 'DISTRICT_CAMPUS'
+  AND b.TraitType IS NULL
+  AND bc.YieldType = 'YIELD_SCIENCE'
+  AND bc.YieldChange > 0;
+
+INSERT INTO Modifiers(ModifierId, ModifierType)
+SELECT 'NW_NP_SCIENCE2PRODUCTION_' || b.BuildingType,
+       'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_YIELD_CHANGE'
+FROM Buildings b JOIN Building_YieldChanges bc ON bc.BuildingType = b.BuildingType
+WHERE b.PrereqDistrict = 'DISTRICT_CAMPUS'
+  AND b.TraitType IS NULL
+  AND bc.YieldType = 'YIELD_SCIENCE'
+  AND bc.YieldChange > 0;
+
+INSERT OR IGNORE INTO ModifierArguments(ModifierId, Name, Value)
+SELECT 'NW_NP_SCIENCE2PRODUCTION_' || b.BuildingType,
+       'BuildingType',
+       b.BuildingType
+FROM Buildings b JOIN Building_YieldChanges bc ON bc.BuildingType = b.BuildingType
+WHERE b.PrereqDistrict = 'DISTRICT_CAMPUS'
+  AND b.TraitType IS NULL
+  AND bc.YieldType = 'YIELD_SCIENCE'
+  AND bc.YieldChange > 0
+UNION
+SELECT 'NW_NP_SCIENCE2PRODUCTION_' || b.BuildingType,
+       'Amount',
+       bc.YieldChange / 2
+FROM Buildings b JOIN Building_YieldChanges bc ON bc.BuildingType = b.BuildingType
+WHERE b.PrereqDistrict = 'DISTRICT_CAMPUS'
+  AND b.TraitType IS NULL
+  AND bc.YieldType = 'YIELD_SCIENCE'
+  AND bc.YieldChange > 0
+UNION
+SELECT 'NW_NP_SCIENCE2PRODUCTION_' || b.BuildingType,
+       'YieldType',
+       'YIELD_PRODUCTION'
+FROM Buildings b JOIN Building_YieldChanges bc ON bc.BuildingType = b.BuildingType
+WHERE b.PrereqDistrict = 'DISTRICT_CAMPUS'
+  AND b.TraitType IS NULL
+  AND bc.YieldType = 'YIELD_SCIENCE'
+  AND bc.YieldChange > 0;
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_NOBEL_PRIZE', 'NW_NP_PRODUCTION2SCIENCE_BUILDING_WORKSHOP');
+INSERT INTO Modifiers (ModifierId, ModifierType) VALUES
+('NW_NP_PRODUCTION2SCIENCE_BUILDING_WORKSHOP', 'MODIFIER_PLAYER_CITIES_ADJUST_BUILDING_YIELD_CHANGE');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('NW_NP_PRODUCTION2SCIENCE_BUILDING_WORKSHOP', 'Amount', '2'),
+('NW_NP_PRODUCTION2SCIENCE_BUILDING_WORKSHOP', 'BuildingType', 'BUILDING_WORKSHOP'),
+('NW_NP_PRODUCTION2SCIENCE_BUILDING_WORKSHOP', 'YieldType', 'YIELD_SCIENCE');
+
+-- 女王图书馆
+-- 该建筑可以放置2个 [ICON_GreatWork_WRITING] 著作、4个 [ICON_GreatWork_Landscape] 艺术巨作。
+DELETE FROM Building_GreatWorks WHERE BuildingType = 'BUILDING_QUEENS_BIBLIOTHEQUE';
+INSERT INTO Building_GreatWorks(BuildingType,GreatWorkSlotType,NumSlots)VALUES
+('BUILDING_QUEENS_BIBLIOTHEQUE','GREATWORKSLOT_WRITING',2),
+('BUILDING_QUEENS_BIBLIOTHEQUE','GREATWORKSLOT_ART',4);
 
 -- =============================================================
--- 大哥伦比亚
-DELETE FROM TraitModifiers WHERE ModifierId = 'TRAIT_EJERCITO_PATRIOTA_EXTRA_MOVEMENT' AND TraitType = 'TRAIT_CIVILIZATION_EJERCITO_PATRIOTA';
+-- VIETNAM	越南
+-- =============================================================
+-- ZULU	祖鲁
+-- =============================================================
 
-DELETE FROM TypeTags WHERE Type = 'ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT';
 
-INSERT INTO Types (Type, Kind)
-VALUES ('ABILITY_UNIT_COMANDANTE_GENERAL', 'KIND_ABILITY');
-INSERT INTO Tags (Tag, Vocabulary)
-VALUES ('CLASS_COMANDANTE_GENERAL', 'ABILITY_CLASS');
-INSERT INTO TypeTags (Type, Tag)
-VALUES ('UNIT_COMANDANTE_GENERAL', 'CLASS_COMANDANTE_GENERAL'),
-       ('ABILITY_UNIT_COMANDANTE_GENERAL', 'CLASS_COMANDANTE_GENERAL'),
-       ('ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT', 'CLASS_BUILDER'),
-       ('ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT', 'CLASS_COMANDANTE_GENERAL');
-INSERT INTO UnitAbilities (UnitAbilityType, Name, Description, Inactive)
-VALUES ('ABILITY_UNIT_COMANDANTE_GENERAL',
-        'LOC_UNIT_COMANDANTE_GENERAL_NAME',
-        'LOC_ABILITY_UNIT_COMANDANTE_GENERAL_DESCRIPTION',
-        0 -- 该单位能力是否默认隐藏。为1时需要使用Modifier授予
-       );
 
-UPDATE ModifierArguments SET Value=1 WHERE ModifierId='EJERCITO_PATRIOTA_EXTRA_MOVEMENT' and Name='Amount';
-
-INSERT INTO UnitAbilityModifiers (UnitAbilityType, ModifierId) VALUES
-('ABILITY_UNIT_COMANDANTE_GENERAL', 'MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL');
-INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
-('MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'MODIFIER_PLAYER_UNITS_GRANT_ABILITY', 0, 0, 0, NULL, 'REQS_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL');
-INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'AbilityType', 'ABILITY_EJERCITO_PATRIOTA_EXTRA_MOVEMENT');
--- RequirementSets
-INSERT INTO RequirementSets (RequirementSetId, RequirementSetType) VALUES
-('REQS_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'REQUIREMENTSET_TEST_ALL');
-INSERT INTO RequirementSetRequirements (RequirementSetId, RequirementId) VALUES
-('REQS_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'REQ_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL');
--- Requirements
-INSERT INTO Requirements (RequirementId, RequirementType) VALUES
-('REQ_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'REQUIREMENT_PLOT_ADJACENT_TO_OWNER');
-INSERT INTO RequirementArguments (RequirementId, Name, Value) VALUES
-('REQ_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'MaxDistance', '2'),
-('REQ_MODIFIER_GRANT_ABILITY_UNIT_COMANDANTE_GENERAL', 'MinDistance', '1');
