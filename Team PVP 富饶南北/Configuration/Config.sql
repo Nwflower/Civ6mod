@@ -181,7 +181,8 @@ FROM StartBiasTerrains
 WHERE TerrainType IN (SELECT TerrainType FROM Terrains WHERE Mountain = 1) AND Tier = 1;
 
 INSERT OR IGNORE INTO NW_StartBias(Type, Flag)
-VALUES ('LEADER_T_ROOSEVELT',3);
+VALUES ('LEADER_T_ROOSEVELT',3),
+       ('LEADER_PACHACUTI',3);
 
 
 --==============================================================================

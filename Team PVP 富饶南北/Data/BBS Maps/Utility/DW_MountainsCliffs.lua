@@ -8,7 +8,9 @@ include "MapEnums.lua"
 
 -------------------------------------------------------------------------------------------
 function ApplyTectonics(args, plotTypes)
-	local args = args or {};
+	args = args or {};
+	local RichNum = args.RichNum or 4;
+
 	local adjustment = args.world_age or 2; -- Default to 4 Billion Years old.
 	--
 	--
@@ -53,14 +55,16 @@ function ApplyTectonics(args, plotTypes)
 	hillsFrac:BuildRidges(numPlates, iFlags, blendRidge, blendFract);
 	mountainsFrac:BuildRidges(numPlates, peaks_ridge_flags, blendRidge, blendFract);
 
+	local HightModify =  (10 + 0.05*RichNum);
 	-- Get height values for plot types
-	local iHillsBottom1 = hillsFrac:GetHeight(hillsBottom1);
-	local iHillsTop1 = hillsFrac:GetHeight(hillsTop1);
-	local iHillsBottom2 = hillsFrac:GetHeight(hillsBottom2);
-	local iHillsTop2 = hillsFrac:GetHeight(hillsTop2);
+	local iHillsBottom1 = hillsFrac:GetHeight(hillsBottom1)
+	local iHillsTop1 = hillsFrac:GetHeight(hillsTop1)
+	local iHillsBottom2 = hillsFrac:GetHeight(hillsBottom2)
+	local iHillsTop2 = hillsFrac:GetHeight(hillsTop2)
+
 	local iHillsClumps = mountainsFrac:GetHeight(hillsClumps);
-	local iHillsNearMountains = mountainsFrac:GetHeight(hillsNearMountains);
-	local iMountainThreshold = mountainsFrac:GetHeight(mountains);
+	local iHillsNearMountains = mountainsFrac:GetHeight(hillsNearMountains)
+	local iMountainThreshold = mountainsFrac:GetHeight(mountains)
 	local iPassThreshold = hillsFrac:GetHeight(hillsNearMountains);
 
 	-- Get height values for tectonic islands
@@ -69,17 +73,6 @@ function ApplyTectonics(args, plotTypes)
 	local iMountain97 = mountainsFrac:GetHeight(97);
 	local iMountain95 = mountainsFrac:GetHeight(95);
 
-	--[[ Activate printout for debugging only.
-	print("-"); print("--- Tectonics Readout ---");
-	print("- World Age Setting:", world_age);
-	print("- Mountain Threshold:", mountains);
-	print("- Foot Hills Threshold:", hillsNearMountains);
-	print("- Clumps of Hills %:", hillsClumps);
-	print("- Loose Hills %:", 4 * adjustment);
-	print("- Tectonic Plate Count:", numPlates);
-	print("- Tectonic Islands?", tectonic_islands);
-	print("- - - - - - - - - - - - - - - - -");
-	]]--
 
 	-- Main loop
 	for x = 0, args.iW - 1 do
@@ -129,14 +122,12 @@ function ApplyTectonics(args, plotTypes)
 			local i = y * args.iW + x + 1;
 			if(plotTypes[i] == g_PLOT_TYPE_MOUNTAIN  and AdjacentToWater(x,y,plotTypes) == true) then
 				local iRandomRemoval = TerrainBuilder.GetRandomNumber(10, "Coastal Mountain Removal");
-
 				if(iRandomRemoval < 6 ) then
 					plotTypes[i] = g_PLOT_TYPE_HILLS;
 				else
 					plotTypes[i] = g_PLOT_TYPE_MOUNTAIN;
 				end
-				
-				--print("Removed. X: ", x, " Y: ", y);
+
 			elseif(plotTypes[i] == g_PLOT_TYPE_HILLS  and AdjacentToWater(x,y,plotTypes) == true) then
 				local iRandomRemoval = TerrainBuilder.GetRandomNumber(10, "Coastal Hill Removal");
 
@@ -145,8 +136,6 @@ function ApplyTectonics(args, plotTypes)
 				else
 					plotTypes[i] = g_PLOT_TYPE_HILLS;
 				end
-				
-				--print("Removed. X: ", x, " Y: ", y);
 			end
 		end
 	end

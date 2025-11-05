@@ -66,9 +66,9 @@ function BBS_ResourceGenerator.Create(args)
         iFrequencyTotalWater = 0;
         iFrequencyStrategicTotal = 0;
         iFrequencyStrategicTotalWater = 0;
-        iTargetPercentage = 25 + RichNum * 5;
+        iTargetPercentage = 25 + RichNum * 3.8;
         iStandardPercentage = 30;
-        iLuxuryPercentage = 20 + RichNum * 2;
+        iLuxuryPercentage = 18 + RichNum * 1.8;
         iStrategicPercentage = 20;
         iOccurencesPerFrequency = 0;
         iNumWaterLuxuries = 0;
@@ -94,6 +94,10 @@ function BBS_ResourceGenerator.Create(args)
         aWaterResourcePlacementOrder = {},
         aPeakEra = {},
     };
+
+    if instance.iTargetPercentage <= 5 and RichNum >= -8 then
+        instance.iTargetPercentage = 5
+    end
 
     -- initialize instance data
     instance:__InitResourceData()
@@ -266,7 +270,7 @@ function BBS_ResourceGenerator:__PlaceLuxuryResources(eChosenLux, eContinent)
     local iTotalPlaced = 0;
 
     -- 计算要放多少
-    local iNumToPlace = 1;
+    local iNumToPlace = 0;
     if (self.iOccurencesPerFrequency > 1) then
         iNumToPlace = self.iOccurencesPerFrequency;
     end

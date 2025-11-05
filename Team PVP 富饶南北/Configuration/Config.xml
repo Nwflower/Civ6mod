@@ -23,8 +23,8 @@
 		<Replace Key1="Map" Key2="TPT_RichNSRiver.lua" ParameterId="RichNum" Name="LOC_MAP_RICH_NUM_NAME" Description="LOC_MAP_RICH_NUM_DESC" Domain="RichNumRange" DefaultValue="4" ConfigurationGroup="Map" ConfigurationId="RichNum" Hash="0" GroupId="MapOptions" SortIndex="211"/>
 
 		<!-- 地图特性 -->
-		<Replace Key1="Map" Key2="TPT_RichNS.lua" ParameterId="MapTrait" Name="LOC_MAP_TRAIT_NAME" Description="LOC_MAP_TRAIT_RICHNS_DESCRIPTION" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="MapTrait" GroupId="MapOptions" Hash="0" SortIndex="212"/>
-		<Replace Key1="Map" Key2="TPT_RichNSRiver.lua" ParameterId="MapTrait" Name="LOC_MAP_TRAIT_NAME" Description="LOC_MAP_TRAIT_RICHNS_RIVER_DESCRIPTION" Domain="bool" DefaultValue="1" ConfigurationGroup="Game" ConfigurationId="MapTrait" GroupId="MapOptions" Hash="0" SortIndex="212"/>
+		<Replace Key1="Map" Key2="TPT_RichNS.lua" ParameterId="MapTrait" Name="LOC_MAP_TRAIT_NAME" Description="LOC_MAP_TRAIT_RICHNS_DESCRIPTION" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="MapTrait" GroupId="MapOptions" Hash="0" SortIndex="212"/>
+		<Replace Key1="Map" Key2="TPT_RichNSRiver.lua" ParameterId="MapTrait" Name="LOC_MAP_TRAIT_NAME" Description="LOC_MAP_TRAIT_RICHNS_RIVER_DESCRIPTION" Domain="bool" DefaultValue="0" ConfigurationGroup="Game" ConfigurationId="MapTrait" GroupId="MapOptions" Hash="0" SortIndex="212"/>
 
 		<!-- 通用设置 山脉、战略、出生点 -->
 		<Replace ParameterId="BBS_SRESOURCES" Name="LOC_GAME_BBS_SRESOURCES_NAME" Description="LOC_GAME_BBS_SRESOURCES_DESC" Domain="StratResDomain" DefaultValue="0" ConfigurationGroup="Map" ConfigurationId="BBSStratRes" GroupId="MapOptions" SupportsSinglePlayer="0" SortIndex="230" />
@@ -74,7 +74,7 @@
 	</DomainValues>
 	<DomainRanges>
 		<Replace Domain="MapWidthRange" MinimumValue="-3" MaximumValue="2"/>
-		<Replace Domain="RichNumRange" MinimumValue="-2" MaximumValue="10"/>
+		<Replace Domain="RichNumRange" MinimumValue="-10" MaximumValue="10"/>
 	</DomainRanges>
 	<MapSizes>
 		<!-- Standard Map Sizes -->

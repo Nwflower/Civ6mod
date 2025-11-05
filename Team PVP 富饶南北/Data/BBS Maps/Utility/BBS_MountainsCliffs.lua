@@ -8,11 +8,9 @@ include "MapEnums.lua"
 
 -------------------------------------------------------------------------------------------
 function ApplyTectonics(args, plotTypes)
-	local args = args or {};
+	args = args or {};
 	local adjustment = args.world_age or 2; -- Default to 4 Billion Years old.
 	print("adjustment",adjustment)
-	--
-	--
 	local extra_mountains = args.extra_mountains or 0;
 	print("extra_mountains",extra_mountains)
 	local grain_amount = args.grain_amount or 3;
@@ -35,9 +33,7 @@ function ApplyTectonics(args, plotTypes)
 	elseif adjustment > 3 then 
 		adjust_plates = adjust_plates * 1.5;
 	end
-	--
-	-- Set values for hills and mountains according to World Age chosen by user.
-	-- Apply adjustment to hills and peaks settings.
+
 	local hillsBottom1 = 28 - adjustment;
 	local hillsTop1 = 28 + adjustment;
 	local hillsBottom2 = 72 - adjustment;
@@ -47,31 +43,8 @@ function ApplyTectonics(args, plotTypes)
 	--local mountains = 0
 	local mountains = 97 - adjustment - extra_mountains;
 
-	-- Hills and Mountains handled differently according to map size
---	local WorldSizeTypes = {};
---	for row in GameInfo.Worlds() do
-	--	WorldSizeTypes[row.Type] = row.ID;
---	end
---	local sizekey = Map.GetWorldSize();
-	-- Fractal Grains
---local sizevalues = {
-	-- 	[WorldSizeTypes.WORLDSIZE_DUEL]     = 3,
-	-- 	[WorldSizeTypes.WORLDSIZE_TINY]     = 3,
-	-- 	[WorldSizeTypes.WORLDSIZE_SMALL]    = 4,
-	-- 	[WorldSizeTypes.WORLDSIZE_STANDARD] = 4,
-	-- 	[WorldSizeTypes.WORLDSIZE_LARGE]    = 5,
-	-- 	[WorldSizeTypes.WORLDSIZE_HUGE]		= 5
-	-- }; 
+	local RichNum = args.RichNum or 4;
 	local grain = 3;
-	-- Tectonics Plate Counts
-	--local platevalues = {
-	-- 	[WorldSizeTypes.WORLDSIZE_DUEL]		= 6,
-	-- 	[WorldSizeTypes.WORLDSIZE_TINY]     = 9,
-	-- 	[WorldSizeTypes.WORLDSIZE_SMALL]    = 12,
-	-- 	[WorldSizeTypes.WORLDSIZE_STANDARD] = 18,
-	-- 	[WorldSizeTypes.WORLDSIZE_LARGE]    = 24,
-	-- 	[WorldSizeTypes.WORLDSIZE_HUGE]     = 30
-	-- }; 
 	local numPlates = 9;
 	-- Add in any plate count modifications passed in from the map script.
 	numPlates = numPlates * adjust_plates;
@@ -85,14 +58,15 @@ function ApplyTectonics(args, plotTypes)
 	mountainsFrac:BuildRidges(numPlates, peaks_ridge_flags, blendRidge, blendFract);
 
 	-- Get height values for plot types
-	local iHillsBottom1 = hillsFrac:GetHeight(hillsBottom1);
-	local iHillsTop1 = hillsFrac:GetHeight(hillsTop1);
-	local iHillsBottom2 = hillsFrac:GetHeight(hillsBottom2);
-	local iHillsTop2 = hillsFrac:GetHeight(hillsTop2);
+	print('BBSMC:RichNum', RichNum)
+	local iHillsBottom1 = hillsFrac:GetHeight(hillsBottom1) * (10 + 0.05*RichNum);
+	local iHillsTop1 = hillsFrac:GetHeight(hillsTop1) * (10 + 0.05*RichNum);
+	local iHillsBottom2 = hillsFrac:GetHeight(hillsBottom2) * (10 + 0.05*RichNum);
+	local iHillsTop2 = hillsFrac:GetHeight(hillsTop2) * (10 + 0.05*RichNum);
 	local iHillsClumps = mountainsFrac:GetHeight(hillsClumps);
-	local iHillsNearMountains = mountainsFrac:GetHeight(hillsNearMountains);
-	local iMountainThreshold = mountainsFrac:GetHeight(mountains);
-	local iPassThreshold = hillsFrac:GetHeight(hillsNearMountains);
+	local iHillsNearMountains = mountainsFrac:GetHeight(hillsNearMountains) * (10 + 0.05*RichNum);
+	local iMountainThreshold = mountainsFrac:GetHeight(mountains) * (10 + 0.05*RichNum);
+	local iPassThreshold = hillsFrac:GetHeight(hillsNearMountains) * (10 + 0.05*RichNum);
 	
 	-- More Passage in Ridge
 	if (MapConfiguration.GetValue("BBSRidge") == 1) then
@@ -115,17 +89,6 @@ function ApplyTectonics(args, plotTypes)
 	local iMountain97 = mountainsFrac:GetHeight(97);
 	local iMountain95 = mountainsFrac:GetHeight(95);
 
-	--[[ Activate printout for debugging only.
-	print("-"); print("--- Tectonics Readout ---");
-	print("- World Age Setting:", world_age);
-	print("- Mountain Threshold:", mountains);
-	print("- Foot Hills Threshold:", hillsNearMountains);
-	print("- Clumps of Hills %:", hillsClumps);
-	print("- Loose Hills %:", 4 * adjustment);
-	print("- Tectonic Plate Count:", numPlates);
-	print("- Tectonic Islands?", tectonic_islands);
-	print("- - - - - - - - - - - - - - - - -");
-	]]--
 
 	-- Main loop
 	local count = 0

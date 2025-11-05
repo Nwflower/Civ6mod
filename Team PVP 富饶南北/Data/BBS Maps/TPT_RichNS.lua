@@ -267,6 +267,30 @@ function RichNSBalance()
 		end
 	end
 
+	-- 如果富饶系数小于-4，大部分丘陵将变为平地
+	-- 如果富饶系数小于-7，大部分地貌将被移除
+	if RichNum <= -4 then
+		print('RichNum <= -4')
+		for i = 0, g_iH - 1 do
+			for j = 0, g_iW - 1 do
+				local pPlot = Map.GetPlotByIndex(j * g_iH + i);
+				if pPlot:IsHills() and TerrainBuilder.GetRandomNumber(120, "Resource Placement Score Adjust") < RichNum * RichNum then
+					TerrainBuilder.SetTerrainType(pPlot, pPlot:GetTerrainType() - 1)
+				end
+			end
+		end
+	end
+	if RichNum <= -7 then
+		print('RichNum <= -7')
+		for i = 0, g_iH - 1 do
+			for j = 0, g_iW - 1 do
+				local pPlot = Map.GetPlotByIndex(j * g_iH + i);
+				if pPlot:GetFeatureType() ~= -1 and pPlot:GetResourceType() == -1 and pPlot:IsNaturalWonder() == false and TerrainBuilder.GetRandomNumber(1200, "Resource Placement Score Adjust") < - RichNum * RichNum * RichNum then
+					TerrainBuilder.SetFeatureType(pPlot, -1)
+				end
+			end
+		end
+	end
 end
 -------------------------------------------------------------------------------
 function PlotsHasResource(iResources,Plots)
@@ -408,6 +432,7 @@ function TeamPVPGeneratePlotTypes(world_age)
 	args.blendFract = 1;
 	args.extra_mountains = (2 + ( 3 - world_age)) * 2;
 	args.tectonic_islands = tectonic_islands;
+	args.RichNum = RichNum;
 	mountainRatio = (24 + ( 3 - world_age)) * 2;--15
 	plotTypes = ApplyTectonics(args, plotTypes);
 	plotTypes = AddLonelyMountains(plotTypes, mountainRatio);
@@ -422,7 +447,6 @@ function TeamPVPGeneratePlotTypes(world_age)
 	for x = 0, g_iW - 1 do
 		for y = 0, g_iH - 1 do
 			local i = y * g_iW + x;
-			-- 705: First, clean up the rare case of a non mountain plot surrounded by mountains
 			if(plotTypes[i] == g_PLOT_TYPE_LAND or plotTypes[i] == g_PLOT_TYPE_HILLS) then
 				local mountainCount = 0;
 				for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -434,7 +458,6 @@ function TeamPVPGeneratePlotTypes(world_age)
 						end
 					end
 				end
-				
 				if(mountainCount > 1) then -- surrounded by mountains 相邻山大于
 					for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
 						local rChance = 1 + TerrainBuilder.GetRandomNumber(6, "Add pass - LUA Pangaea");
@@ -451,12 +474,8 @@ function TeamPVPGeneratePlotTypes(world_age)
 			end
 			
 			-- 705: 详细的丘陵和山脉通过，盘古大陆版本创建较少的丘陵
-			-- Add extra hills in vast flatlands
-			-- Change hills into mountains or flat land in vast hilly areas
-			
 			local rChance = TerrainBuilder.GetRandomNumber(6, "Add hills - LUA Mixed Continents");
 			local mountainsAllowed = g_iH / (6 - world_age);
-			
 			if(plotDataIsCoastal[i] == false) then
 				local hillCount = 0;
 				for direction = 0, DirectionTypes.NUM_DIRECTION_TYPES - 1, 1 do
@@ -468,7 +487,7 @@ function TeamPVPGeneratePlotTypes(world_age)
 						end
 					end
 				end
-				if(hillCount < rChance - 2 and plotTypes[i] == g_PLOT_TYPE_LAND) then
+				if(hillCount < rChance -2 + RichNum / 3 and plotTypes[i] == g_PLOT_TYPE_LAND) then
 					plotTypes[i] = g_PLOT_TYPE_HILLS;
 					hillsAdded = hillsAdded + 2;
 				elseif(hillCount > rChance + 1 and mountainsAdded < mountainsAllowed) then
@@ -599,7 +618,7 @@ function AddFeatures()
 	-- 雨林比例
 	args.iJunglePercent = 18 + RichNum;
 	-- 森林比例
-	args.iForestPercent = 16 + RichNum * 1.5;
+	args.iForestPercent = 16 + RichNum * 1.6;
 	-- 沼泽比例
 	args.iMarshPercent = 4 - RichNum / 3;
 	-- 绿洲比例
