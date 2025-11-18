@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="3cfbc742-30f5-480f-a938-e7b71f160d4e" version="1">
+    <!--496051bd-5c6b-44a9-84c0-518666b5073b 8e0c569a-67f7-4614-a9c9-49ffdadc1e77 -->
+    <Properties>
+        <Name>Team PVP Balanced mod 结社 3.93</Name>
+        <Description>文明6PVP组队群平衡mod
+            TeamPVPMod更新内容
+            ------------------
+            1.镀金船厂：250锤-》290锤
+            ------------------
+            1.3级吸血鬼：提供1座吸血鬼城堡-》2座（2级共1座，3级共3座，4级共4座）
+            ------------------
+            1.镀金船厂：根据港口金币相邻加锤不再吃政策卡翻倍，290锤-》250锤，基础+1食物-》+1食物1生产力
+            2.镀金宝库：240锤-》210锤
+            ----------------
+            1.吸血鬼城堡：修复不同玩家视角查看吸血鬼城堡收益不同的问题（原版BUG），这个问题曾会导致重载（如有问题可及时提交）
+            2.吸血鬼：可以从死亡的蛮族处获得最高+10战斗力提升-》无法从死亡的蛮族处获得战斗力提升。修复文本描述。
+            ----------------
+            1.结社：现在开启结社Mod会默认勾选打开结社模式（号码菌工具箱）
+            ----------------
+            1.夜莺3级：间谍容量+2-》+1
+            2.吸血鬼城堡：移除获得周围单元格产出的能力。新增解锁每个可建造数量时，立即为首都提供+12食物、生产力
+            ----------------
+            1.吸血鬼城堡：移除吸血鬼城堡解锁时首都直接获得产出（上次更新内容）。新增
+            吸血鬼城堡只能位于国内建造，吸血鬼城堡单元格的产出将提供至首都（恢复原版），吸血鬼城堡基础+9食物、+5生产力，相邻每个丘陵、树林、雨林、牧场、采石场、种植园、营地、渔船、矿山、伐木场、奢侈品资源、加成资源、战略资源都获得+1生产力，若相邻有产出的特色区域获得+1同类型的产出，若是金币则+2。（有产出的特色区域仅包括学院、圣地、工业、商业、剧院、港口，及上述区域的文明特色区域）
+            ----------------
+            感谢各位大大反馈的各类问题~
+            不清楚开哪些Mod的大大，可以进“红魔族首席魔法师”的创意工坊的“合集”分类下订阅“推荐合集”
+        </Description>
+        <Created>1601530138</Created>
+        <Teaser>Team PVP Balanced mod 结社 3.85</Teaser>
+        <CompatibleVersions>1.2,2.0</CompatibleVersions>
+    </Properties>
+    <ActionCriteria>
+        <Criteria id="SecretSocieties">
+            <ConfigurationValueMatches>
+                <Group>Game</Group>
+                <ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+                <Value>1</Value>
+            </ConfigurationValueMatches>
+        </Criteria>
+    </ActionCriteria>
+    <FrontEndActions>
+        <UpdateArt id="NewAction">
+            <File>Buildings.artdef</File>
+        </UpdateArt>
+        <UpdateText id="NewAction">
+            <Properties>
+                <LoadOrder>2000000</LoadOrder>
+            </Properties>
+            <File>Stringtext.xml</File>
+        </UpdateText>
+        <UpdateDatabase id="Config_SECRETSOCIETIES">
+            <Properties>
+                <LoadOrder>5</LoadOrder>
+            </Properties>
+            <File>Config/GameConfig_SECRETSOCIETIES.xml</File>
+        </UpdateDatabase>
+    </FrontEndActions>
+    <InGameActions>
+        <UpdateDatabase id="Gameplay">
+            <Properties>
+                <LoadOrder>2500000</LoadOrder>
+            </Properties>
+            <Criteria>SecretSocieties</Criteria>
+            <File>Build_shipYard.xml</File>
+        </UpdateDatabase>
+        <UpdateDatabase id="Gameplay2">
+            <Properties>
+                <LoadOrder>2500000</LoadOrder>
+            </Properties>
+            <Criteria>SecretSocieties</Criteria>
+            <File>secretSocieties.sql</File>
+        </UpdateDatabase>
+        <UpdateIcons id="UpdateIcons">
+            <Properties>
+                <LoadOrder>2000</LoadOrder>
+            </Properties>
+            <File>icons.xml</File>
+        </UpdateIcons>
+        <UpdateText id="NewAction">
+            <Properties>
+                <LoadOrder>2000000</LoadOrder>
+            </Properties>
+            <Criteria>SecretSocieties</Criteria>
+            <File>Stringtext.xml</File>
+        </UpdateText>
+    </InGameActions>
+    <Files>
+        <File>Buildings.artdef</File>
+        <File>Build_shipYard.xml</File>
+        <File>secretSocieties.sql</File>
+        <File>Stringtext.xml</File>
+        <File>icons.xml</File>
+        <File>Config/GameConfig_SECRETSOCIETIES.xml</File>
+    </Files>
+</Mod>

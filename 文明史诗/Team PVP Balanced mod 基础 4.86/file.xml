@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Mod id="58f3abf8-8074-44d9-bae2-bd1bab701843" version="2.98">
+<!--49894617-9e56-4485-a2dd-934e5d379cfc  ef74465f-d31d-4a2a-8305-75067ce59fe9
+需要Steam提示下载完成后再进入游戏
+相同名称不同版本的Mod只能启用一个
+关注带图片的Mod，均为常用Mod
+-->
+
+  <Properties>
+  <Name>Team PVP Balanced mod 基础 4.86</Name>
+  <Description>[icon_You]文明6PVP组队群平衡mod
+[NEWLINE][NEWLINE][icon_You]感谢大家的支持~各位大大订阅了顺手点个赞吧~
+[NEWLINE][NEWLINE][icon_You]因Mod需要经常更新 评论区回复会被刷掉，故如有问题可以私信我。
+[NEWLINE][NEWLINE][icon_You]本Mod运行需要除凯撒外的全DLC
+[NEWLINE][NEWLINE][icon_You]单机玩家需要将Mod保存至本地，该Mod更新时会删除原Mod
+[NEWLINE][NEWLINE][icon_You]Mod更新内容大多能在文明百科内找到，但也有一些百科内无法显示，例如：
+[NEWLINE]1.时代科文惩罚20%-》25%
+[NEWLINE]2.陆地单位可以在港口科技下海
+[NEWLINE]3.零件规格化要求科技之一 钢铁-》膛线
+[NEWLINE]4.港口的前置科技不再要求占星术
+[NEWLINE]5.所有城市初始宜居度为0，而不是-1
+[NEWLINE]6.灾害不再杀死平民单位，摧毁改良
+[NEWLINE]7.区域建筑专家产出增加
+[NEWLINE]8.无水城市比原来+1住房
+[NEWLINE]9.钢铁不再赠送城墙
+[NEWLINE]10.海油可以提前开发
+[NEWLINE]11.间谍的递增锤更低，间谍在逃跑时+2等级
+[NEWLINE]12.奇观火山比原来的活跃度更低，但不低于普通火山，约减少20%~30%
+[NEWLINE]13.投石车类型的兵种对海军近战时+5战斗力
+[NEWLINE]14.黄金时代中的“自由探索”、“圣地大科”、“造船厂”的收益不再对翻倍卡有效
+[NEWLINE]15.地热、礁石对学院相邻仅为+1
+[NEWLINE]16.大幅度降低风灾害造成的损毁几率，小幅度降低洪水灾害造成的损毁几率
+[NEWLINE]17.陨石不再获取重骑兵单位，而是近战单位
+[NEWLINE]18.中世纪城墙不再免疫破城槌效果、文艺复兴城墙不再免疫攻城塔效果（依旧免疫破城槌）,格鲁吉亚特色城墙依旧免疫破城槌、攻城塔
+[NEWLINE]19.测量师、总务官、外交官总督5回合就职-》3回合
+[NEWLINE]20.宣战后不能和解（300回合后和解）
+
+[NEWLINE]Sorry, mod only supports Chinese for the time being
+
+[NEWLINE][NEWLINE][icon_You]TeamPVPMod近期更新内容
+[NEWLINE]------------------
+[NEWLINE]1.苏美尔金字塔：优化文字描述，新增后期属性描述
+[NEWLINE]2.波斯庭院：修复描述魅力错误的文本
+[NEWLINE]3.摩艾石像：修复城邦中对摩艾石像描述 与摩艾石像本身描述不一致的问题
+[NEWLINE]4.努比亚弓箭手：修复描述战斗力错误的文本，实际基础战斗力低于弓箭手，但描述中为高于，实际为加上文明对弓箭手增益后，才高于弓箭手
+[NEWLINE]5.瑞典：修复建筑加速实际只对2级建筑生效、并且不对炼金建筑生效的bug。工业、学院区域及建筑加速45%-》30%，并且能对炼金建筑生效
+[NEWLINE]6.马其顿：移除 雇佣军解锁击杀单位获得大将军点。新增 解锁雇佣军后获得大将军点数时额外获得20%，当解锁民族主义后，提升至额外获得35%
+[NEWLINE]7.码头：修复描述提供回合战略时，资源类型错误的文本问题
+[NEWLINE]8.荣誉：新增炼金杯伟人荣誉
+[NEWLINE]------------------
+[NEWLINE]1.马其顿：解锁雇佣军后获得大将军点数时额外获得20%，当解锁民族主义后，提升至额外获得35%-》35%/50%（优化文本，标注除项目外伟人点）
+[NEWLINE]2.瑞典：学院、工业区域、建筑加速30%-》35%
+[NEWLINE]3.印尼：移除礁石无法为印尼学院提供科技增益。解锁行政部门甘榜屋+1锤-》解锁封建主义
+[NEWLINE]4.荷兰：解锁公会圩田+1锤-》解锁行政部门
+[NEWLINE]5.凯撒：解锁“封建主义”市政后加成提升至+2-》+3。解锁“人文主义”市政后加成提升至+3-》+4
+[NEWLINE]6.印加：水渠建造速度100%-》150%，侦查兵经验增益70%-》100%。游戏进入中世纪后山脉额外+2 生产力-》古典+1锤，中世纪再+1锤
+[NEWLINE]7.文阿拉伯：解锁“占星术”后每回合+1大预言家点数--》解锁“法典”后每回合+1大预言家点数
+[NEWLINE]8.拉二：新增建造纪念碑时+35%生产力
+[NEWLINE]9.武阿拉伯：军营+3信仰-〉军营+3信仰，军营中的每个建筑+1信仰
+[NEWLINE]10.波兰：纺织会馆 120锤-》100锤
+[NEWLINE]11.文美：新增雨林不减魅力，类巴西效果
+[NEWLINE]------------------
+[NEWLINE]1.主力军团：17力-》14力，和克里猴子同费同力
+[NEWLINE]2.文本描述问题修复：美国莽骑兵、欣盖缇、西班牙征服者
+[NEWLINE]3.新波斯：攻击生命全满的单位时+3战斗力-〉攻击生命全满的单位时+3战斗力，解锁行政部门后，提升至+4战斗力
+[NEWLINE]4.格鲁吉亚：新增游戏开始便激活“砌砖”科技尤里卡
+[NEWLINE]------------------
+[NEWLINE]1.茶叶：+1科技-》+1生产力、1科技。绑定草原丘陵-〉草原
+[NEWLINE]2.盐：+1食物+1金-》+1食物+1生产力+1金
+[NEWLINE]3.恩惠女神：+1生产力-》+1生产力、+1金币
+[NEWLINE]4.丰稷女神：烟草、染料、熏香、珍珠+1食物,其改良后额外提供+2金币--》熏香、珍珠、烟草、染料+1食物,改良后额外+1生产力、+2金币
+[NEWLINE]5.优化文本：朝鲜书院、万神殿资源类型的描述
+[NEWLINE]------------------
+[NEWLINE]感谢各位大大反馈的各类问题~
+[NEWLINE]不清楚开哪些Mod的大大，可以进“红魔族首席魔法师”的创意工坊的“合集”分类下订阅“推荐合集”
+[NEWLINE]不清楚开如何使用Mod的大大，可以看下这篇文章
+[NEWLINE][icon_You]https://www.bilibili.com/read/cv20290517?spm_id_from=333.999.0.0 </Description>
+  <Teaser>
+Team PVP Balanced mod 基础
+  </Teaser>
+  <Authors>红魔族首席魔法师</Authors>
+  <SpecialThanks>致敬BBG,BBS,号码菌,zpMod</SpecialThanks>
+    <CompatibleVersions>2.0</CompatibleVersions>
+   </Properties>
+   
+<FrontEndActions>
+  <ImportFiles id="FrontEnd">
+      <Properties>
+        <LoadOrder>9999</LoadOrder>
+      </Properties>
+    <File>stagingroom.lua</File>
+  </ImportFiles>
+    <UpdateText id="UpdateText">
+      <Properties>
+        <LoadOrder>2000</LoadOrder>
+      </Properties>
+      <File>Stringtext.xml</File>
+    </UpdateText>
+    <UpdateDatabase id="FrontEndActionsUpdateDatabase">
+      <Properties>
+        <LoadOrder>20000</LoadOrder>
+      </Properties>
+      <File>frontEndDatabase.sql</File>
+  </UpdateDatabase>
+    <UpdateIcons id="UpdateIcons">
+      <Properties>
+        <LoadOrder>2000</LoadOrder>
+      </Properties>
+      <File>icons.xml</File>
+    </UpdateIcons>
+  <UpdateArt id="UpdateArt">
+      <File>Team PVP Balanced mod.dep</File>
+    </UpdateArt>
+</FrontEndActions>
+
+
+  
+<InGameActions>
+    <AddUserInterfaces id="xxx">
+        <Properties>
+            <LoadOrder>100</LoadOrder>
+            <Context>InGame</Context>
+        </Properties>
+        <File>Close_PantheonChooser.xml</File>
+    </AddUserInterfaces>
+    <AddGameplayScripts id="bbg_core_script">
+      <File>bbg_script.lua</File>
+    </AddGameplayScripts>
+   <AddGameplayScripts id="InGameActionsAddGameplayScripts">
+    <File>exploits/culture_fix.lua</File>
+  </AddGameplayScripts>
+  <!-- <ReplaceUIScript id="BuilderChargesUnitFlagManager">
+      <Properties>
+        <LoadOrder>666</LoadOrder>
+        <LuaContext>UnitFlagManager</LuaContext>
+        <LuaReplace>UnitFlagManager_BuilderCharges.lua</LuaReplace>
+      </Properties>
+  </ReplaceUIScript>
+  <ImportFiles id="BuilderChargesUnitFlagManager_Import">
+      <File>UnitFlagManager_BuilderCharges.lua</File>
+  </ImportFiles> -->
+  <UpdateArt id="InGameActionsUpdateArt">
+      <File>Team PVP Balanced mod.dep</File>
+    </UpdateArt>
+  
+  <UpdateText id="InGameActionsUpdateText">
+      <Properties>
+        <LoadOrder>3000000</LoadOrder>
+      </Properties>
+      <File>Stringtext.xml</File>
+    </UpdateText>
+    <UpdateDatabase id="InGameActionsUpdateDatabase">
+      <Properties>
+        <LoadOrder>20000</LoadOrder>
+      </Properties>
+      <File>civs_sql.sql</File>
+      <File>civs.xml</File>
+    <File>wonders_sql.sql</File>
+     <File>2.67_sql.sql</File>
+    <File>2.81_sql.sql</File>
+    <File>3.09_sql.sql</File>
+    <File>KublaiKhan_Vietnam.sql</File>
+    <File>updataFourMonth.sql</File>
+     <File>huangjinshidai.sql</File>
+    </UpdateDatabase>
+    <UpdateIcons id="InGameActionsUpdateIcons">
+      <Properties>
+        <LoadOrder>2000</LoadOrder>
+      </Properties>
+      <File>icons.xml</File>
+    </UpdateIcons>
+</InGameActions>
+   <Files>
+    <File>civs.xml</File>
+    <File>Stringtext.xml</File>
+    <File>civs_sql.sql</File>
+    <File>wonders_sql.sql</File>
+    <File>2.67_sql.sql</File>
+    <File>2.81_sql.sql</File>
+    <File>3.09_sql.sql</File>
+    <File>frontEndDatabase.sql</File>
+    <File>KublaiKhan_Vietnam.sql</File>
+    <File>updataFourMonth.sql</File>
+    <File>huangjinshidai.sql</File>
+    <File>icons.xml</File>
+    <File>Team PVP Balanced mod.dep</File>
+    <File>exploits/culture_fix.lua</File>
+    <File>stagingroom.lua</File>
+    <File>bbg_script.lua</File>
+    <File>Close_PantheonChooser.xml</File>
+    <File>Close_PantheonChooser.lua</File>
+    <!-- <File>UnitFlagManager_BuilderCharges.lua</File> -->
+  </Files>
+</Mod>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mod id="5ae72daa-fffe-4c91-b76e-fbe5777946ff" version="1">
+    <!--496051bd-5c6b-44a9-84c0-518666b5073b 8e0c569a-67f7-4614-a9c9-49ffdadc1e77 -->
+    <Properties>
+        <Name>Team PVP Balanced mod 行业 1.01</Name>
+        <Description>文明6PVP组队群平衡mod</Description>
+        <Created>1601530138</Created>
+        <Teaser></Teaser>
+        <CompatibleVersions>1.2,2.0</CompatibleVersions>
+    </Properties>
+    <ActionCriteria>
+        <Criteria id="Monopolies">
+            <ConfigurationValueMatches>
+                <Group>Game</Group>
+                <ConfigurationId>GAMEMODE_MONOPOLIES</ConfigurationId>
+                <Value>1</Value>
+            </ConfigurationValueMatches>
+        </Criteria>
+    </ActionCriteria>
+    <FrontEndActions>
+        <UpdateText id="NewAction">
+            <Properties>
+                <LoadOrder>3000000</LoadOrder>
+            </Properties>
+            <File>Stringtext.xml</File>
+        </UpdateText>
+    </FrontEndActions>
+    <InGameActions>
+        <UpdateDatabase id="Gameplay">
+            <Properties>
+                <LoadOrder>3000000</LoadOrder>
+            </Properties>
+            <Criteria>Monopolies</Criteria>
+            <File>Monopolies.sql</File>
+        </UpdateDatabase>
+        <UpdateText id="NewAction">
+            <Properties>
+                <LoadOrder>3000000</LoadOrder>
+            </Properties>
+            <Criteria>Monopolies</Criteria>
+            <File>Stringtext.xml</File>
+        </UpdateText>
+    </InGameActions>
+    <Files>
+        <File>Monopolies.sql</File>
+        <File>Stringtext.xml</File>
+    </Files>
+</Mod>

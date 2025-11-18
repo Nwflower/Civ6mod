@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+    <!-- Almost all gameplay types should first be added to the types table. -->
+    <!-- This serves as a central way to reference any type -->
+    <Types>
+        <Delete Type="CIVILIZATION_AUCKLAND" Kind="KIND_CIVILIZATION"/>
+        <Delete Type="CIVILIZATION_BOLOGNA" Kind="KIND_CIVILIZATION"/>
+    </Types>
+    <Resources>
+        <Update>
+            <Where ResourceType="RESOURCE_FISH"/>
+            <Set SeaFrequency="22"/>
+        </Update>
+        <Update>
+            <Where ResourceType="RESOURCE_CRABS"/>
+            <Set SeaFrequency="18"/>
+        </Update>
+    </Resources>
+    <Resource_YieldChanges>
+        <Update>
+            <Where ResourceType="RESOURCE_CRABS" YieldType="YIELD_GOLD"/>
+            <Set YieldChange="1"/>
+        </Update>
+        <Update>
+            <Where ResourceType="RESOURCE_OLIVES" YieldType="YIELD_GOLD"/>
+            <Set YieldChange="3"/>
+        </Update>
+        <Row ResourceType="RESOURCE_TURTLES" YieldType="YIELD_FOOD" YieldChange="1"/>
+        <Row ResourceType="RESOURCE_JADE" YieldType="YIELD_PRODUCTION" YieldChange="1"/>
+        <Row ResourceType="RESOURCE_CRABS" YieldType="YIELD_PRODUCTION" YieldChange="1"/>
+        <Row ResourceType="RESOURCE_MERCURY" YieldType="YIELD_PRODUCTION" YieldChange="1"/>
+        <Row ResourceType="RESOURCE_PEARLS" YieldType="YIELD_FOOD" YieldChange="1"/>
+        <Row ResourceType="RESOURCE_SILVER" YieldType="YIELD_PRODUCTION" YieldChange="1"/>
+        <Row ResourceType="RESOURCE_INCENSE" YieldType="YIELD_FOOD" YieldChange="1"/>
+        <Row ResourceType="RESOURCE_INCENSE" YieldType="YIELD_PRODUCTION" YieldChange="1"/>
+        <Update>
+            <Where ResourceType="RESOURCE_INCENSE" YieldType="YIELD_FAITH"/>
+            <Set YieldChange="1"/>
+        </Update>
+    </Resource_YieldChanges>
+    <Resource_ValidTerrains>
+        <Delete ResourceType="RESOURCE_AMBER" TerrainType="TERRAIN_COAST"/>
+    </Resource_ValidTerrains>
+    <!-- 信条商业女神 -->
+    <Types>
+        <Row Type="BELIEF_GODDESS_OF_COMMERCE" Kind="KIND_BELIEF"/>
+    </Types>
+    <Beliefs>
+        <Row BeliefType="BELIEF_GODDESS_OF_COMMERCE" Name="LOC_BELIEF_GODDESS_OF_COMMERCE_NAME" Description="LOC_BELIEF_GODDESS_OF_COMMERCE_DESCRIPTION" BeliefClassType="BELIEF_CLASS_PANTHEON"/>
+    </Beliefs>
+    <Modifiers>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_SLOT</ModifierId>
+            <ModifierType>MODIFIER_ALL_PLAYERS_ATTACH_MODIFIER</ModifierType>
+            <SubjectRequirementSetId>PLAYER_HAS_PANTHEON_REQUIREMENTS</SubjectRequirementSetId>
+        </Row>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_SLOT_MODIFIER</ModifierId>
+            <ModifierType>MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_CAPACITY</ModifierType>
+        </Row>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_GOLD</ModifierId>
+            <ModifierType>MODIFIER_ALL_PLAYERS_ATTACH_MODIFIER</ModifierType>
+            <SubjectRequirementSetId>PLAYER_HAS_PANTHEON_REQUIREMENTS</SubjectRequirementSetId>
+        </Row>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_GOLD_MODIFIER</ModifierId>
+            <ModifierType>MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_YIELD</ModifierType>
+        </Row>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_FAITH</ModifierId>
+            <ModifierType>MODIFIER_ALL_PLAYERS_ATTACH_MODIFIER</ModifierType>
+            <SubjectRequirementSetId>PLAYER_HAS_PANTHEON_REQUIREMENTS</SubjectRequirementSetId>
+        </Row>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_FAITH_MODIFIER</ModifierId>
+            <ModifierType>MODIFIER_PLAYER_ADJUST_TRADE_ROUTE_YIELD</ModifierType>
+        </Row>
+    </Modifiers>
+    <ModifierArguments>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_SLOT</ModifierId>
+            <Name>ModifierId</Name>
+            <Value>GODDESS_OF_COMMERCE_TRADE_ROUTE_SLOT_MODIFIER</Value>
+        </Row>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_SLOT_MODIFIER</ModifierId>
+            <Name>Amount</Name>
+            <Value>1</Value>
+        </Row>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_GOLD</ModifierId>
+            <Name>ModifierId</Name>
+            <Value>GODDESS_OF_COMMERCE_TRADE_ROUTE_GOLD_MODIFIER</Value>
+        </Row>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_GOLD_MODIFIER</ModifierId>
+            <Name>YieldType</Name>
+            <Value>YIELD_GOLD</Value>
+        </Row>
+        <Row>
+            <ModifierId>GODDESS_OF_COMMERCE_TRADE_ROUTE_GOLD_MODIFIER</ModifierId>
+            <Name>Amount</Name>
+            <Value>1</Value>
+        </Row>
+    </ModifierArguments>
+    <BeliefModifiers>
+        <Row BeliefType="BELIEF_GODDESS_OF_COMMERCE">
+            <ModifierID>GODDESS_OF_COMMERCE_TRADE_ROUTE_SLOT</ModifierID>
+        </Row>
+        <Row BeliefType="BELIEF_GODDESS_OF_COMMERCE">
+            <ModifierID>GODDESS_OF_COMMERCE_TRADE_ROUTE_GOLD</ModifierID>
+        </Row>
+    </BeliefModifiers>
+    <Improvement_YieldChanges>
+        <Row ImprovementType="IMPROVEMENT_ZIGGURAT" YieldType="YIELD_FOOD" YieldChange="0"/>
+    </Improvement_YieldChanges>
+    <!-- 西班牙 -->
+    <ModifierArguments>
+        <Update>
+            <Where ModifierId="CONQUISTADOR_SPECIFIC_UNIT_COMBAT" Name="Amount"/>
+            <Set Value="3"/>
+        </Update>
+    </ModifierArguments>
+    <!--村庄-->
+    <GoodyHutSubTypes>
+        <Update>
+            <Where GoodyHut="GOODYHUT_FAITH" SubTypeGoodyHut="GOODYHUT_SMALL_FAITH"/>
+            <Set Turn="0"/>
+        </Update>
+        <Update>
+            <Where GoodyHut="GOODYHUT_MILITARY" SubTypeGoodyHut="GOODYHUT_HEAL"/>
+            <Set Weight="0"/>
+        </Update>
+        <Delete GoodyHut="GOODYHUT_DIPLOMACY" SubTypeGoodyHut="GOODYHUT_GOVERNOR_TITLE" Description="LOC_GOODYHUT_DIPLOMACY_GOVERNOR_TITLE_DESCRIPTION" Weight="15" Turn="30" ModifierID="GOODY_DIPLOMACY_GRANT_GOVERNOR_TITLE"/>
+        <Delete GoodyHut="GOODYHUT_DIPLOMACY" SubTypeGoodyHut="GOODYHUT_ENVOY" Description="LOC_GOODYHUT_DIPLOMACY_ENVOY_DESCRIPTION" Weight="40" ModifierID="GOODY_DIPLOMACY_GRANT_ENVOY"/>
+        <Delete GoodyHut="GOODYHUT_SURVIVORS" SubTypeGoodyHut="GOODYHUT_GRANT_BUILDER" Description="LOC_GOODYHUT_SURVIVORS_GRANT_UNIT_DESCRIPTION" Weight="35" MinOneCity="true" RequiresUnit="true" ModifierID="GOODY_SURVIVORS_GRANT_BUILDER"/>
+    </GoodyHutSubTypes>
+</GameData>

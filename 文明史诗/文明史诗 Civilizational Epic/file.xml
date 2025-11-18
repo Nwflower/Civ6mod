@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+        <!-- 正式版 -->
+<Mod id="00000000-0000-0000-0000-167965900010" version="153">
+    <Properties>
+        <Name>Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.53</Name>
+        <Created>1757737153</Created>
+        <Teaser>Team PVP Balanced mod 枯木逢春</Teaser>
+        <Authors>[COLOR:DiplomaticLabelCS]千川白浪[ENDCOLOR]</Authors>
+        <SpecialThanks>枯木逢春平衡组</SpecialThanks>
+        <CompatibleVersions>1.2,2.0</CompatibleVersions>
+    </Properties>
+    <Dependencies>
+        <Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="Expansion: Gathering Storm"/>
+        <Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall"/>
+    </Dependencies>
+    <FrontEndActions>
+        <!-- CE -->
+        <UpdateDatabase id="CivilizationalEpic">
+            <Properties>
+                <LoadOrder>20005</LoadOrder>
+            </Properties>
+            <File>CE_FE.sql</File>
+        </UpdateDatabase>
+        <UpdateText id="CivilizationalEpic">
+            <Properties>
+                <LoadOrder>20005</LoadOrder>
+            </Properties>
+            <File>CE_Text.sql</File>
+        </UpdateText>
+    </FrontEndActions>
+    <InGameActions>
+        <!-- CE -->
+        <UpdateDatabase id="CivilizationalEpic_Database">
+            <Properties>
+                <LoadOrder>20005</LoadOrder>
+            </Properties>
+            <File>CE.sql</File>
+        </UpdateDatabase>
+        <UpdateText id="UpdateText">
+            <Properties>
+                <LoadOrder>3000005</LoadOrder>
+            </Properties>
+            <File>CE_Text.sql</File>
+        </UpdateText>
+        <AddGameplayScripts id="CivilizationalEpic">
+            <Properties>
+                <LoadOrder>500</LoadOrder>
+            </Properties>
+            <File>CE_Script.lua</File>
+        </AddGameplayScripts>
+        <AddUserInterfaces id="CivilizationalEpic">
+            <Properties>
+                <Context>InGame</Context>
+                <LoadOrder>500</LoadOrder>
+            </Properties>
+            <File>CE_UIScript.xml</File>
+        </AddUserInterfaces>
+    </InGameActions>
+    <Files>
+        <!-- CE -->
+        <File>CE.sql</File>
+        <File>CE_FE.sql</File>
+        <File>CE_Text.sql</File>
+        <File>CE_Script.lua</File>
+        <File>CE_UIScript.lua</File>
+        <File>CE_UIScript.xml</File>
+    </Files>
+</Mod>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<GameData>
+	<IconDefinitions>
+		<!-- 
+		        <Row Name="ICON_UNIT_LONGSWORDSMAN"         Atlas="ICON_ATLAS_UNITS" Index="34"/>	
+        <Row Name="ICON_UNIT_LONGSWORDSMAN_FOW"     Atlas="ICON_ATLAS_UNITS_FOW" Index="34"/> 
+		-->
+		
+		<Row Name="ICON_BELIEF_SHIPHERDER_PATH" Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="9"/>
+		<Row Name="ICON_BELIEF_GOD_OF_THE_SUN" Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="8"/>
+		<Row Name="ICON_BELIEF_GODDESS_OF_THE_MOON" Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="7"/>
+		<Row Name="ICON_BELIEF_GODDESS_OF_COMMERCE" Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="13"/>	
+
+        <Row Name="ICON_UNIT_GALLERY_GALLEY"                   Atlas="ICON_ATLAS_UNITS" Index="27"/>
+        <Row Name="ICON_UNIT_GALLERY_GALLEY_FOW"                   Atlas="ICON_ATLAS_UNITS_FOW" Index="27"/>
+
+
+        <Row Name="ICON_BELIEF_Technology"             Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="11"/>
+        <Row Name="ICON_BELIEF_Rain_God"         Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="27"/>
+        <Row Name="ICON_BELIEF_Goddess_Of_Grace"               Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="26"/>
+        <!-- <Row Name="ICON_BELIEF_Fengguan_Goddess"               Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="26"/> -->
+        <Row Name="ICON_BELIEF_Brilliant_Light"                Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="5"/>
+        <Row Name="ICON_BELIEF_Ceremony_Send_Birds"             Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="19"/>
+
+        <Row Name="ICON_BELIEF_GODDESS_OF_Dragon_Prayer_Ceremony"             Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="26"/>
+        <Row Name="ICON_BELIEF_Divine_Fishing_Ceremony"             Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="3"/>
+        <Row Name="ICON_BELIEF_Master_of_Ming_Dao"             Atlas="ICON_ATLAS_EXPANSION_2_BELIEFS_PATHEON" Index="0"/>
+
+        <Replace Name="ICON_BELIEF_GODDESS_OF_THE_HARVEST"             Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="10"/>
+        <Row Name="ICON_BELIEF_GODDESS_OF_THE_FENGJI"             Atlas="ICON_ATLAS_BELIEFS_PATHEON" Index="6"/>
+        
+        
+	</IconDefinitions>
+</GameData>

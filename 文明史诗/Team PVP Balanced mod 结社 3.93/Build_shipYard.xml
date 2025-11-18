@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameInfo>
+
+<Types>
+<Row Type="BUILDING_GILDED_Shipyard" Kind="KIND_BUILDING"/>
+</Types>
+
+<Buildings>
+<Row BuildingType="BUILDING_GILDED_Shipyard" Name="LOC_BUILDING_GILDED_Shipyard_NAME" Description="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION" 
+Cost="250"  PrereqDistrict="DISTRICT_HARBOR" CitizenSlots="1"/>
+</Buildings>
+<!--PrereqTech="TECH_MASS_PRODUCTION" PurchaseYield="YIELD_GOLD" -->
+<Building_GreatPersonPoints>
+<Row BuildingType="BUILDING_GILDED_Shipyard" GreatPersonClassType="GREAT_PERSON_CLASS_ADMIRAL" PointsPerTurn="2"/>
+</Building_GreatPersonPoints>
+
+<!-- <Building_YieldDistrictCopies>
+<Row BuildingType="BUILDING_GILDED_Shipyard" OldYieldType="YIELD_GOLD" NewYieldType="YIELD_PRODUCTION"/>
+</Building_YieldDistrictCopies> -->
+
+<Building_YieldChanges>
+<Row BuildingType="BUILDING_GILDED_Shipyard" YieldType="YIELD_FOOD" YieldChange="1"/>
+<Row BuildingType="BUILDING_GILDED_Shipyard" YieldType="YIELD_PRODUCTION" YieldChange="1"/>
+</Building_YieldChanges>
+
+<BuildingConditions>
+<Row BuildingType="BUILDING_GILDED_Shipyard" UnlocksFromEffect="true"/>
+</BuildingConditions>
+
+<BuildingModifiers>
+<Row BuildingType="BUILDING_GILDED_Shipyard" ModifierId="SHIPYARD_TRAINED_UNIT_XP_MODIFIER"/>
+<Row BuildingType="BUILDING_GILDED_Shipyard" ModifierId="SHIPYARD_UNIMPROVED_COAST_PRODUCTION"/>
+<Row BuildingType="BUILDING_GILDED_Shipyard" ModifierId="GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_UNLOCK_GILDED_VAULT_Shipyard_Culture"/>
+</BuildingModifiers>
+
+<BuildingPrereqs>
+<Row Building="BUILDING_GILDED_Shipyard" PrereqBuilding="BUILDING_LIGHTHOUSE"/>
+<Row Building="BUILDING_SEAPORT" PrereqBuilding="BUILDING_GILDED_Shipyard"/>
+</BuildingPrereqs>
+
+<BuildingReplaces>
+<Row CivUniqueBuildingType="BUILDING_GILDED_Shipyard" ReplacesBuildingType="BUILDING_SHIPYARD"/>
+</BuildingReplaces>
+
+<Building_TourismBombs_XP2>
+	<Row BuildingType="BUILDING_GILDED_Shipyard" TourismBombValue="500"/>
+</Building_TourismBombs_XP2>
+
+<GovernorPromotionModifiers>
+<Row>
+			<GovernorPromotionType>GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2</GovernorPromotionType>
+			<ModifierId>GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_UNLOCK_GILDED_VAULT_Shipyard</ModifierId>
+</Row>
+</GovernorPromotionModifiers>
+
+	
+<Modifiers>
+<Row>
+      <ModifierId>GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_UNLOCK_GILDED_VAULT_Shipyard</ModifierId>
+      <ModifierType>MODIFIER_PLAYER_ADJUST_VALID_BUILDING</ModifierType>
+</Row>
+	
+<Row>
+      <ModifierId>GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_UNLOCK_GILDED_VAULT_Shipyard_Culture</ModifierId>
+      <ModifierType>MODIFIER_SINGLE_CITY_ADJUST_YIELD_CHANGE</ModifierType>
+	 <SubjectRequirementSetId>BUILDING_GILDED_Shipyard_REQUIREMENTS</SubjectRequirementSetId>
+</Row>
+	
+
+	
+</Modifiers> 
+<ModifierArguments>
+	
+    <Row>
+      <ModifierId>GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_UNLOCK_GILDED_VAULT_Shipyard_Culture</ModifierId>
+      <Name>YieldType</Name>
+      <Value>YIELD_CULTURE</Value>
+    </Row>
+	
+	<Row>
+      <ModifierId>GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_UNLOCK_GILDED_VAULT_Shipyard_Culture</ModifierId>
+      <Name>Amount</Name>
+      <Value>3</Value>
+    </Row>
+	
+	<Row>
+		<ModifierId>GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_UNLOCK_GILDED_VAULT_Shipyard</ModifierId>
+		<Name>BuildingType</Name>
+		<Value>BUILDING_GILDED_Shipyard</Value>
+	</Row>
+	
+	<Row>
+      <ModifierId>GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_UNLOCK_GILDED_VAULT_Shipyard</ModifierId>
+      <Name>BuildingTypeToReplace</Name>
+      <Value>BUILDING_SHIPYARD</Value>
+    </Row>
+	
+</ModifierArguments>
+
+ <RequirementArguments>
+		<Row>
+			<RequirementId>REQUIRES_NO_GILDED_Shipyard</RequirementId>
+			<Name>BuildingType</Name>
+			<Value>BUILDING_GILDED_VAULT</Value>
+		</Row>
+		<Row>
+			<RequirementId>REQUIRES_NO_GILDED_Shipyard</RequirementId>
+			<Name>MustBeFunctioning</Name>
+			<Value>false</Value>
+		</Row>
+</RequirementArguments>
+
+<Requirements>
+		<Row>
+			<RequirementId>REQUIRES_NO_GILDED_Shipyard</RequirementId>
+			<RequirementType>REQUIREMENT_CITY_HAS_BUILDING</RequirementType>
+			<Inverse>true</Inverse>
+		</Row>
+	
+</Requirements>
+
+<RequirementSetRequirements>
+		<Row>
+			<RequirementSetId>BUILDING_GILDED_Shipyard_REQUIREMENTS</RequirementSetId>
+			<RequirementId>REQUIRES_NO_GILDED_Shipyard</RequirementId>
+		</Row>
+ </RequirementSetRequirements>
+<RequirementSets>
+	<Row>
+		<RequirementSetId>BUILDING_GILDED_Shipyard_REQUIREMENTS</RequirementSetId>
+		<RequirementSetType>REQUIREMENTSET_TEST_ALL</RequirementSetType>
+	</Row>
+</RequirementSets>
+</GameInfo>

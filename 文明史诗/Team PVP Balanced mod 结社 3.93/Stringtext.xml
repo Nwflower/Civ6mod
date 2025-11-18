@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GameData>
+	<LocalizedText>
+
+        <Replace Tag="LOC_GOVERNOR_PROMOTION_VOIDSINGERS_2_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>在中世纪解锁。城市每回合获得等同于其每回合所获 [ICON_Faith] 信仰值1%的 [ICON_Gold] 金币、10%的[ICON_Science] 科技值和 4%的[ICON_Culture] 文化值。</Text>
+        </Replace>
+		
+		<Replace Tag="LOC_BUILDING_GILDED_VAULT_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>弥涅耳瓦夜鹰专属，替代银行。+3 [ICON_CULTURE] 文化值。若此城市中拥有港口，则+1 [ICON_TradeRoute] 贸易路线容量。</Text>
+        </Replace>
+		<Replace Tag="LOC_UNIT_CULTIST_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>虚空吟唱者特色支援单位。其死亡或使用次数耗尽后将为玩家提供一个 [ICON_GreatWork_Relic] 虚空遗物。所有遗物、虚空遗物将额外提供2点 [ICON_SCIENCE] 科研、2点 [ICON_CULTURE] 文化和1点 [ICON_PRODUCTION] 生产力（若遗物已有某种加成，则不叠加）。未交战时此单位也能进入外国领土，并能消耗次数在相邻的外国城市中招募信徒，使此城市损失10点忠诚度。</Text>
+        </Replace>
+        <Replace Tag="LOC_GOVERNOR_PROMOTION_VOIDSINGERS_3_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>在文艺复兴时期解锁。解锁单位“邪教徒”。此单位可用 [ICON_Faith] 信仰值购买，可消耗次数来降低外国城市的忠诚度，并生成 [ICON_GreatWork_Relic] 虚空遗物。</Text>
+    </Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_2_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>在中世纪解锁。允许建造“银行”的强力替代品：“镀金宝库”。允许建造“造船厂”的强力替代品：“镀金银行”。</Text>
+    </Replace>
+		<!-- <Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_1_DESCRIPTION" Language="zh_Hans_CN">
+            <Text>向城邦派遣 [ICON_Envoy] 使者后解锁。+1经济政策槽位。</Text>
+        </Replace> -->
+    <Replace Tag="LOC_UNIT_VAMPIRE_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>血色契约特色战斗单位。其基础 [ICON_Strength] 战斗力等于城市曾生产之最强单位的战斗力。单位在相邻单元格中死去时将获得永久性 [ICON_Strength] 战斗力提升,最多提升+3 [ICON_Strength] 战斗力，无法从死去蛮族单位处获得提升。被击杀时将保留1点体力值，撤退至 [ICON_Capital] 首都或最近的吸血鬼城堡。掠夺敌方单元格将额外恢复50点生命值，但被动回血量减少。</Text>
+    </Replace>
+    <!-- <Replace Tag="LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>可由吸血鬼在玩家拥有的领土或中立领土中建造。为此单元格上的单位提供防御工事。无论是否建成，每个吸血鬼城堡的建造容量都会为首都提供+12 [ICON_PRODUCTION] 生产力、[ICON_Food] 食物。</Text>
+    </Replace> -->
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_2_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>在中世纪解锁。[ICON_Capital] 首都将出现1个吸血鬼单位，允许吸血鬼建造吸血鬼城堡（帝国中最多可建造1座）。</Text>
+    </Replace>
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_3_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>在文艺复兴时期解锁。[ICON_Capital] 首都将出现1个吸血鬼单位。将吸血鬼城堡建造上限提升至3座。您的吸血鬼现在能恐吓相邻的敌方单位，使其 [ICON_Strength] 战斗力-2。进行掠夺将消耗吸血鬼1点 [ICON_Movement] 移动力。</Text>
+    </Replace>
+    <Replace Tag="LOC_GOVERNOR_PROMOTION_SANGUINE_PACT_4_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>在原子能时代解锁。[ICON_Capital] 首都将出现1个吸血鬼单位。将吸血鬼城堡建造上限提升至4座。您吸血鬼城堡1单元格范围中的单位现在能瞬移至帝国其中一座吸血鬼城堡附近的任意单元格。</Text>
+    </Replace>
+	<Replace Tag="LOC_TRAIT_LEADER_LITHUANIAN_UNION_DESCRIPTION" Language="zh_Hans_CN">
+         <Text>如相邻城市在波兰文化炸弹的攻击下失去单元格，则波兰创立的宗教将成为此城中的主流宗教。圣地从相邻区域获得标准信仰值相邻加成。所有 [ICON_GreatWork_Relic] 遗物均提供加成：信仰值+4、文化值+3、金币+4。发教时获得1个遗物，完成宗教时获得1个遗物。</Text>
+       </Replace>
+<!-- <Replace Tag="LOC_BUILDING_GOV_TALL_DESCRIPTION" Language="zh_Hans_CN">
+           <Text>有 [ICON_Governor] 总督的城市+1 [ICON_Amenities] 宜居度、+3 [ICON_Housing] 住房、+1 [ICON_Food]  食物。[NEWLINE]无 [ICON_Governor] 总督的城市忠诚度-2。[NEWLINE]奖励1个 [Icon_Governor] 总督头衔。</Text>
+        </Replace>	 -->   
+		
+		<Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_3_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>在文艺复兴时期解锁。+1通配符政策槽位。+1间谍容量。您的间谍处于本方城市的领土中时，城市每回合+4忠诚度、+1 [ICON_Amenities] 宜居度。您的间谍处于敌方城市并在进行攻击型任务成功时，您还将获得目标城市在此回合获得的 [ICON_Science] 科技值、[ICON_Culture] 文化值、[ICON_Gold] 金币和 [ICON_Faith] 150%。</Text>
+    </Replace>
+	 <Replace Tag="LOC_GOVERNOR_PROMOTION_OWLS_OF_MINERVA_4_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>在原子能时代解锁。每回合您将获得等同于国库5%的 [ICON_Gold] 金币收入。</Text>
+    </Replace>
+	
+	<Replace Tag="LOC_ABILITY_ANTI_SPEAR_FightToXX_NAME" Language="zh_Hans_CN">
+      <Text>吸血鬼对阵枪兵</Text>
+    </Replace>
+	<Replace Tag="LOC_ABILITY_ANTI_SPEAR_FightToXX_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>对阵枪兵-5[ICON_Strength] 战斗力</Text>
+    </Replace>
+	<Replace Tag="LOC_ABILITY_ANIT_SPEAR_MODIFIER_FightToXX_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>对抗抗骑兵单位时-5 [ICON_Strength] 战斗力。</Text>
+    </Replace>
+	
+	<Replace Tag="LOC_BUILDING_GILDED_Shipyard_NAME" Language="zh_Hans_CN">
+      <Text>镀金船厂</Text>
+    </Replace>
+	
+	<Replace Tag="LOC_BUILDING_GILDED_Shipyard_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>此城中生产的所有海军单位+25%战斗经验值。[ICON_Production] 生产力加成等于港口区域的“基础”相邻加成。此城所有未改良的海岸和湖泊单元格提供的 [ICON_PRODUCTION] 生产力+1。此城中若没有镀金宝库，则+3 [ICON_Culture]文化。[NEWLINE]若解锁 [ICON_RESOURCE_COAL] 煤资源，每回合产出1点资源 [ICON_RESOURCE_COAL] 煤。</Text>
+    </Replace>
+	
+	<Replace Tag="LOC_POLICY_SIMULTANEUM_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>圣地中的建筑额外产出 [ICON_Faith] 信仰值：如城市 [ICON_CITIZEN] 人口大于等于10点，+50%信仰值；如区域拥有至少+3相邻加成，+50%信仰值。</Text>
+    </Replace>	
+	
+	 <Replace Tag="LOC_GOVERNOR_PROMOTION_AMBASSADOR_MESSENGER_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>城邦+1 [ICON_ENVOY] 使者。</Text>
+    </Replace>	 
+	
+	<Replace Tag="LOC_GOVERNOR_PROMOTION_HERMETIC_ORDER_3_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>在文艺复兴时期解锁。每获得一名 [ICON_GreatPerson] 伟人，地脉便获得等同于此 [ICON_GreatPerson] 伟人区域类型的+1产出，若为 [ICON_GreatMerchant] 大商人则+2 [ICON_Gold] 金币。[ICON_GreatAdmiral] 海军统帅 +1 [ICON_Food] 食物, [ICON_GreatGeneral] 大将军获得+1 [ICON_Production] 生产力。</Text>
+    </Replace>
+
+    <Replace Tag="LOC_IMPROVEMENT_VAMPIRE_CASTLE_DESCRIPTION" Language="zh_Hans_CN">
+      <Text>可由吸血鬼在玩家拥有的领土建造。为此单元格上的单位提供防御工事。建成后将吸血鬼城堡单元格的产出将提供给 [ICON_Capital] 首都。[NEWLINE]+9 [ICON_Food] 食物、+5 [ICON_Production] 生产力，相邻每个丘陵、树林、雨林、牧场、采石场、种植园、营地、渔船、矿山、伐木场、奢侈品资源、加成资源、战略资源都获得+1 [ICON_Production] 生产力，若相邻有产出的特色区域，则获得+1同类型的产出，若是 [ICON_Gold] 金币则+2。（有产出的特色区域仅包括学院、圣地、工业区、商业区、剧院、港口，及上述区域的文明特色区域）</Text>
+    </Replace>
+	</LocalizedText>	
+</GameData>

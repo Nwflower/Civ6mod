@@ -1,0 +1,237 @@
+<?xml version="1.0" ?>
+<Mod id="8821E6BF-39BD-20A2-3758-E33734D081D8" version="1113">
+	<Properties>
+		<Name>Epical Civilization [COLOR:ResCultureLabelCS]文明：史诗时代[ENDCOLOR]</Name>
+		<Description>这是在Team PVP balance mod的基础上，重新设计领袖文明能力的Mod。与Team PVP balance mod相似，但又略有不同。</Description>
+		<Teaser>这是在Team PVP balance mod的基础上，重新设计领袖文明能力的Mod。</Teaser>
+		<Authors>[COLOR:DiplomaticLabelCS]千川白浪[ENDCOLOR], 红魔族首席魔法师</Authors>
+		<SpecialThanks>BBS, zpMod, 号码菌, 枯木逢春平衡组, 致敬BBG</SpecialThanks>
+		<CompatibleVersions>1.2,2.0</CompatibleVersions>
+	</Properties>
+	<Dependencies>
+		<Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="LOC_EXPANSION1_MOD_TITLE"/>
+		<Mod id="4873eb62-8ccc-4574-b784-dda455e74e68" title="LOC_EXPANSION2_MOD_TITLE"/>
+	</Dependencies>
+	<FrontEndActions>
+		<ImportFiles id="FrontEnd">
+			<Properties>
+				<LoadOrder>19999</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 基础 4.86/stagingroom.lua</File>
+		</ImportFiles>
+		<UpdateText id="UpdateText">
+			<Properties>
+				<LoadOrder>12000</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 基础 4.86/Stringtext.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="FrontEndActionsUpdateDatabase">
+			<Properties>
+				<LoadOrder>120000</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 基础 4.86/frontEndDatabase.sql</File>
+		</UpdateDatabase>
+		<UpdateIcons id="UpdateIcons">
+			<Properties>
+				<LoadOrder>12000</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 基础 4.86/icons.xml</File>
+		</UpdateIcons>
+		<UpdateArt id="UpdateArt">
+			<File>Team PVP Balanced mod 基础 4.86/Team PVP Balanced mod.dep</File>
+		</UpdateArt>
+		<UpdateArt id="NewAction">
+			<File>Team PVP Balanced mod 结社 3.93/Buildings.artdef</File>
+		</UpdateArt>
+		<UpdateText id="NewAction">
+			<Properties>
+				<LoadOrder>22000000</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 结社 3.93/Stringtext.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="Config_SECRETSOCIETIES">
+			<Properties>
+				<LoadOrder>25</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 结社 3.93/Config/GameConfig_SECRETSOCIETIES.xml</File>
+		</UpdateDatabase>
+		<UpdateText id="NewAction">
+			<Properties>
+				<LoadOrder>33000000</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 行业 1.01/Stringtext.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="CivilizationalEpic">
+			<Properties>
+				<LoadOrder>420005</LoadOrder>
+			</Properties>
+			<File>文明史诗 Civilizational Epic/CE_FE.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="CivilizationalEpic">
+			<Properties>
+				<LoadOrder>420005</LoadOrder>
+			</Properties>
+			<File>文明史诗 Civilizational Epic/CE_Text.sql</File>
+		</UpdateText>
+	</FrontEndActions>
+	<InGameActions>
+		<AddUserInterfaces id="xxx">
+			<Properties>
+				<LoadOrder>1100</LoadOrder>
+				<Context>InGame</Context>
+			</Properties>
+			<File>Team PVP Balanced mod 基础 4.86/Close_PantheonChooser.xml</File>
+		</AddUserInterfaces>
+		<AddGameplayScripts id="bbg_core_script">
+			<File>Team PVP Balanced mod 基础 4.86/bbg_script.lua</File>
+		</AddGameplayScripts>
+		<AddGameplayScripts id="InGameActionsAddGameplayScripts">
+			<File>Team PVP Balanced mod 基础 4.86/exploits/culture_fix.lua</File>
+		</AddGameplayScripts>
+		<UpdateArt id="InGameActionsUpdateArt">
+			<File>Team PVP Balanced mod 基础 4.86/Team PVP Balanced mod.dep</File>
+		</UpdateArt>
+		<UpdateText id="InGameActionsUpdateText">
+			<Properties>
+				<LoadOrder>13000000</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 基础 4.86/Stringtext.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="InGameActionsUpdateDatabase">
+			<Properties>
+				<LoadOrder>120000</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 基础 4.86/civs_sql.sql</File>
+			<File>Team PVP Balanced mod 基础 4.86/civs.xml</File>
+			<File>Team PVP Balanced mod 基础 4.86/wonders_sql.sql</File>
+			<File>Team PVP Balanced mod 基础 4.86/2.67_sql.sql</File>
+			<File>Team PVP Balanced mod 基础 4.86/2.81_sql.sql</File>
+			<File>Team PVP Balanced mod 基础 4.86/3.09_sql.sql</File>
+			<File>Team PVP Balanced mod 基础 4.86/KublaiKhan_Vietnam.sql</File>
+			<File>Team PVP Balanced mod 基础 4.86/updataFourMonth.sql</File>
+			<File>Team PVP Balanced mod 基础 4.86/huangjinshidai.sql</File>
+		</UpdateDatabase>
+		<UpdateIcons id="InGameActionsUpdateIcons">
+			<Properties>
+				<LoadOrder>12000</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 基础 4.86/icons.xml</File>
+		</UpdateIcons>
+		<UpdateDatabase id="Gameplay">
+			<Properties>
+				<LoadOrder>22500000</LoadOrder>
+			</Properties>
+			<Criteria>SecretSocieties</Criteria>
+			<File>Team PVP Balanced mod 结社 3.93/Build_shipYard.xml</File>
+		</UpdateDatabase>
+		<UpdateDatabase id="Gameplay2">
+			<Properties>
+				<LoadOrder>22500000</LoadOrder>
+			</Properties>
+			<Criteria>SecretSocieties</Criteria>
+			<File>Team PVP Balanced mod 结社 3.93/secretSocieties.sql</File>
+		</UpdateDatabase>
+		<UpdateIcons id="UpdateIcons">
+			<Properties>
+				<LoadOrder>22000</LoadOrder>
+			</Properties>
+			<File>Team PVP Balanced mod 结社 3.93/icons.xml</File>
+		</UpdateIcons>
+		<UpdateText id="NewAction">
+			<Properties>
+				<LoadOrder>22000000</LoadOrder>
+			</Properties>
+			<Criteria>SecretSocieties</Criteria>
+			<File>Team PVP Balanced mod 结社 3.93/Stringtext.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="Gameplay">
+			<Properties>
+				<LoadOrder>33000000</LoadOrder>
+			</Properties>
+			<Criteria>Monopolies</Criteria>
+			<File>Team PVP Balanced mod 行业 1.01/Monopolies.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="NewAction">
+			<Properties>
+				<LoadOrder>33000000</LoadOrder>
+			</Properties>
+			<Criteria>Monopolies</Criteria>
+			<File>Team PVP Balanced mod 行业 1.01/Stringtext.xml</File>
+		</UpdateText>
+		<UpdateDatabase id="CivilizationalEpic_Database">
+			<Properties>
+				<LoadOrder>420005</LoadOrder>
+			</Properties>
+			<File>文明史诗 Civilizational Epic/CE.sql</File>
+		</UpdateDatabase>
+		<UpdateText id="UpdateText">
+			<Properties>
+				<LoadOrder>43000005</LoadOrder>
+			</Properties>
+			<File>文明史诗 Civilizational Epic/CE_Text.sql</File>
+		</UpdateText>
+		<AddGameplayScripts id="CivilizationalEpic">
+			<Properties>
+				<LoadOrder>4500</LoadOrder>
+			</Properties>
+			<File>文明史诗 Civilizational Epic/CE_Script.lua</File>
+		</AddGameplayScripts>
+		<AddUserInterfaces id="CivilizationalEpic">
+			<Properties>
+				<Context>InGame</Context>
+				<LoadOrder>4500</LoadOrder>
+			</Properties>
+			<File>文明史诗 Civilizational Epic/CE_UIScript.xml</File>
+		</AddUserInterfaces>
+	</InGameActions>
+	<Files>
+		<File>Team PVP Balanced mod 基础 4.86/civs.xml</File>
+		<File>Team PVP Balanced mod 基础 4.86/Stringtext.xml</File>
+		<File>Team PVP Balanced mod 基础 4.86/civs_sql.sql</File>
+		<File>Team PVP Balanced mod 基础 4.86/wonders_sql.sql</File>
+		<File>Team PVP Balanced mod 基础 4.86/2.67_sql.sql</File>
+		<File>Team PVP Balanced mod 基础 4.86/2.81_sql.sql</File>
+		<File>Team PVP Balanced mod 基础 4.86/3.09_sql.sql</File>
+		<File>Team PVP Balanced mod 基础 4.86/frontEndDatabase.sql</File>
+		<File>Team PVP Balanced mod 基础 4.86/KublaiKhan_Vietnam.sql</File>
+		<File>Team PVP Balanced mod 基础 4.86/updataFourMonth.sql</File>
+		<File>Team PVP Balanced mod 基础 4.86/huangjinshidai.sql</File>
+		<File>Team PVP Balanced mod 基础 4.86/icons.xml</File>
+		<File>Team PVP Balanced mod 基础 4.86/Team PVP Balanced mod.dep</File>
+		<File>Team PVP Balanced mod 基础 4.86/exploits/culture_fix.lua</File>
+		<File>Team PVP Balanced mod 基础 4.86/stagingroom.lua</File>
+		<File>Team PVP Balanced mod 基础 4.86/bbg_script.lua</File>
+		<File>Team PVP Balanced mod 基础 4.86/Close_PantheonChooser.xml</File>
+		<File>Team PVP Balanced mod 基础 4.86/Close_PantheonChooser.lua</File>
+		<File>Team PVP Balanced mod 结社 3.93/Buildings.artdef</File>
+		<File>Team PVP Balanced mod 结社 3.93/Build_shipYard.xml</File>
+		<File>Team PVP Balanced mod 结社 3.93/secretSocieties.sql</File>
+		<File>Team PVP Balanced mod 结社 3.93/Stringtext.xml</File>
+		<File>Team PVP Balanced mod 结社 3.93/icons.xml</File>
+		<File>Team PVP Balanced mod 结社 3.93/Config/GameConfig_SECRETSOCIETIES.xml</File>
+		<File>Team PVP Balanced mod 行业 1.01/Monopolies.sql</File>
+		<File>Team PVP Balanced mod 行业 1.01/Stringtext.xml</File>
+		<File>文明史诗 Civilizational Epic/CE.sql</File>
+		<File>文明史诗 Civilizational Epic/CE_FE.sql</File>
+		<File>文明史诗 Civilizational Epic/CE_Text.sql</File>
+		<File>文明史诗 Civilizational Epic/CE_Script.lua</File>
+		<File>文明史诗 Civilizational Epic/CE_UIScript.lua</File>
+		<File>文明史诗 Civilizational Epic/CE_UIScript.xml</File>
+	</Files>
+	<ActionCriteria>
+		<Criteria id="SecretSocieties">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>GAMEMODE_SECRETSOCIETIES</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+		<Criteria id="Monopolies">
+			<ConfigurationValueMatches>
+				<Group>Game</Group>
+				<ConfigurationId>GAMEMODE_MONOPOLIES</ConfigurationId>
+				<Value>1</Value>
+			</ConfigurationValueMatches>
+		</Criteria>
+	</ActionCriteria>
+</Mod>
