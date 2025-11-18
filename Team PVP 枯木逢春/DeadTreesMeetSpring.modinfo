@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
         <!-- 正式版 -->
-<Mod id="00000000-0000-0000-0000-167965900007" version="146">
+<Mod id="00000000-0000-0000-0000-167965900010" version="153">
     <Properties>
-        <Name>Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.46</Name>
+        <Name>Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.53</Name>
         <Description>
             [NEWLINE]全新DLC[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR]是对魔女MOD的完善补充。
-            [NEWLINE][NEWLINE][icon_You]Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.46
+            [NEWLINE][NEWLINE][icon_You]Team PVP Balanced mod [COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 1.53
             [NEWLINE][NEWLINE][icon_You]领袖加强
             [NEWLINE]------------------
             [NEWLINE]1.文德：文德每个包括市中心的专业区域+4%奇观加速，上限16%
@@ -24,6 +24,7 @@
             [NEWLINE]14.伯里克利：卫城相邻加生产力。
             [NEWLINE]15.武秦：近战类单位俘虏为军事工程师。
             [NEWLINE]16.瑞典：学院建筑提供额外的生产力和巨作槽位。
+            [NEWLINE]更多改动见相关公告
             枯木逢春平衡组将会在激烈讨论后，保持初衷，继续带来更多的优秀平衡，游玩请创意工坊订阅枯木逢春mod
         </Description>
         <Created>1757737153</Created>
@@ -37,10 +38,10 @@
         <Mod id="1B28771A-C749-434B-9053-D1380C553DE9" title="Expansion: Rise and Fall"/>
     </Dependencies>
     <ActionCriteria>
-        <Criteria id="NW_DTMS_NATUREWONDER_REBALANCE">
+        <Criteria id="NW_DTMS_CAC_REBALANCE">
             <ConfigurationValueMatches>
                 <Group>Game</Group>
-                <ConfigurationId>NW_DTMS_NATUREWONDER_REBALANCE</ConfigurationId>
+                <ConfigurationId>NW_DTMS_CAC_REBALANCE</ConfigurationId>
                 <Value>1</Value>
             </ConfigurationValueMatches>
         </Criteria>
@@ -87,21 +88,14 @@
             </Properties>
             <File>DTMS/DeadTreesMeetSpring_UIScript.xml</File>
         </AddUserInterfaces>
-        <!-- NW -->
+        <!-- CAC -->
         <UpdateDatabase id="NatureWonder_Database">
             <Properties>
                 <LoadOrder>20005</LoadOrder>
             </Properties>
-            <Criteria>NW_DTMS_NATUREWONDER_REBALANCE</Criteria>
-            <File>NatureWonder/NatureWonder.sql</File>
+            <Criteria>NW_DTMS_CAC_REBALANCE</Criteria>
+            <File>CAC/CAC.sql</File>
         </UpdateDatabase>
-        <UpdateText id="UpdateText">
-            <Properties>
-                <LoadOrder>3000005</LoadOrder>
-            </Properties>
-            <Criteria>NW_DTMS_NATUREWONDER_REBALANCE</Criteria>
-            <File>NatureWonder/NatureWonder_Text.sql</File>
-        </UpdateText>
     </InGameActions>
     <Files>
         <!-- DTMS -->
@@ -111,8 +105,7 @@
         <File>DTMS/DeadTreesMeetSpring_Script.lua</File>
         <File>DTMS/DeadTreesMeetSpring_UIScript.lua</File>
         <File>DTMS/DeadTreesMeetSpring_UIScript.xml</File>
-        <!-- NW -->
-        <File>NatureWonder/NatureWonder.sql</File>
-        <File>NatureWonder/NatureWonder_Text.sql</File>
+        <!-- CAC -->
+        <File>CAC/CAC.sql</File>
     </Files>
 </Mod>

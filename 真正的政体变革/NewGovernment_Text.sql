@@ -56,7 +56,7 @@ VALUES -- 0级政体
         '贵族共和'),
        --传承效果
        ('LOC_GOVT_INHERENT_BONUS_GUIZUGONGHE', 'zh_Hans_CN',
-        '奇观+4 [ICON_GOLD] 金币。'),
+        '所有单位提供+2 [ICON_GOLD] 金币。'),
        --固有效果
        ('LOC_GOVT_ACCUMULATE_BONUS_GUIZUGONGHE', 'zh_Hans_CN',
         '所有单位从水域上开始回合时，+1 [ICON_MOVEMENT] 移动力。'),

@@ -34,8 +34,27 @@ function Nw_DTMS_PLAYER_ATTACH(iPlayerID, params)
 		pPlayer:AttachModifierByID(params.ModifierID);
 	end
 end
+
+
+-- ===========================================================================
+-- 马其顿：激活亚历山大
+function Nw_DTMS_PLAYER_ALEXANDER(iPlayerID, params)
+	local pPlayer = Players[iPlayerID];
+	if not pPlayer then return end
+	for tRow in GameInfo.NW_TMPG_SUZERAIN() do
+		if (tRow.LeaderType == params.sLeader) then
+			pPlayer:AttachModifierByID(tRow.ModifierId)
+		end
+	end
+end
+-- ===========================================================================
+
+
 -- 文件初始化
 function Initialize()
+
+
+    GameEvents.Nw_DTMS_PLAYER_ALEXANDER.Add(Nw_DTMS_PLAYER_ALEXANDER);
     GameEvents.Nw_DTMS_CityGotBuilding.Add(Nw_DTMS_CityGotBuilding);
     GameEvents.Nw_DTMS_PLAYER_ATTACH.Add(Nw_DTMS_PLAYER_ATTACH);
 	print('DTMS Script Loaded Succeed.')

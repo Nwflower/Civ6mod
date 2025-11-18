@@ -20,3 +20,6 @@ INSERT INTO Parameters(ParameterId, Name, Description, Domain, DefaultValue, Con
 
 INSERT INTO DomainRanges(Domain, MinimumValue, MaximumValue) VALUES
 ('NwUnitActionTimes',1,2);
+
+UPDATE Players SET LeaderAbilityDescription = 'LOC_SSO_TRAIT_LEADER_ALLIANCE_AND_TRADE_DESCRIPTION'
+               WHERE LeaderType = 'LEADER_POUNDMAKER' AND EXISTS(SELECT 1 FROM Players WHERE LeaderAbilityDescription = '埃莉诺的城市中每个巨作可使9个单元格内的外国城市每回合减少3点忠诚度。著作+2 [ICON_Science] 科技值，其他巨作类+3 [ICON_Science] 科技值。城市因失去忠诚度而离开另一文明后，如其每回合对埃莉诺的忠诚度最高，则会跳过成为自由城市阶段直接加入埃莉诺的文明。埃莉诺的宫殿额外获得一个任意槽位。埃莉诺在建造剧院建筑、区域时+25 [ICON_PRODUCTION] 生产力。[NEWLINE]若解锁“政治哲学”市政，则每回合+1 [ICON_GreatWriter] 大作家点数，“城堡”改良+1 [ICON_GOLD] 金币。')

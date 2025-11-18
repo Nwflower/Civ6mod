@@ -129,7 +129,7 @@ function GenerateMap()
 
 	print("增加部落村庄");
 	local GoodyGen = TPT_AddGoodies(g_iW, g_iH, {
-		TilesPerGoody = 60 + RichNum * 5,
+		TilesPerGoody = 60 - RichNum * 3,
 		GoodyRange = 5 - math.floor(RichNum/5)
 	});
 

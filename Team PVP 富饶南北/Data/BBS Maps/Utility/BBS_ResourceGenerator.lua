@@ -320,12 +320,8 @@ function BBS_ResourceGenerator:__ScoreLuxuryPlots(iResourceIndex, eContinent)
         if (ResourceBuilder.CanHaveResource(pPlot, self.eResourceType[iResourceIndex]) and bIce == false) then
             row = {};
             row.MapIndex = plot;
-            row.Score = 500;
-            row.Score = row.Score / ((ResourceBuilder.GetAdjacentResourceCount(pPlot) * 3 + 1)) * (1 + self.RichNum/3);
-            row.Score = row.Score + TerrainBuilder.GetRandomNumber(100, "Resource Placement Score Adjust");
-            if (ResourceBuilder.GetAdjacentResourceCount(pPlot) <= 2 or #self.aaPossibleLuxLocs == 0) then
-                table.insert(self.aaPossibleLuxLocs[iResourceIndex], row);
-            end
+            row.Score = TerrainBuilder.GetRandomNumber(150 + self.RichNum * 8, "Resource Placement Score Adjust")/ ((ResourceBuilder.GetAdjacentResourceCount(pPlot) * 2 + 1));
+            table.insert(self.aaPossibleLuxLocs[iResourceIndex], row);
         end
     end
 end
@@ -622,10 +618,7 @@ function BBS_ResourceGenerator:__ScoreStrategicPlots(iResourceIndex, eContinent)
             row.Score = 500;
             row.Score = row.Score / ((ResourceBuilder.GetAdjacentResourceCount(pPlot) + 1) * 4.5);
             row.Score = row.Score + TerrainBuilder.GetRandomNumber(100, "Resource Placement Score Adjust");
-
-            if (ResourceBuilder.GetAdjacentResourceCount(pPlot) <= 1 or #self.aaPossibleStratLocs == 0) then
-                table.insert(self.aaPossibleStratLocs[iResourceIndex], row);
-            end
+            table.insert(self.aaPossibleStratLocs[iResourceIndex], row);
         end
     end
 end

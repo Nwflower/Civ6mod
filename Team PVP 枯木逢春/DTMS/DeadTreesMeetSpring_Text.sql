@@ -3,18 +3,45 @@ REPLACE
 INTO LocalizedText
     (Tag, Language, Text)
 VALUES -- FE
-       ('LOC_NW_DTMS_NATUREWONDER_REBALANCE_NAME', 'zh_Hans_CN',
-        '[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 山河重塑'),
-       ('LOC_NW_DTMS_NATUREWONDER_REBALANCE_DESCRIPTION', 'zh_Hans_CN',
-        '增强一些强度较低的自然奇观。'),
+       ('LOC_NW_DTMS_CAC_REBALANCE_NAME', 'zh_Hans_CN',
+        '[COLOR:ChatMessage_Team]枯木逢春[ENDCOLOR] 炼金杯额外配置'),
+       ('LOC_NW_DTMS_CAC_REBALANCE_DESCRIPTION', 'zh_Hans_CN',
+        '外交部（市政二级建筑）[NEWLINE]---------------[NEWLINE]重做效果：[NEWLINE]{LOC_CAC_BUILDING_GOV_CITYSTATES_EXPANSION2_DESCRIPTION}'),
+       ('LOC_CAC_BUILDING_GOV_CITYSTATES_EXPANSION2_DESCRIPTION', 'zh_Hans_CN',
+        '作为国际贸易路线的目的地，为起源城市+2 [ICON_Gold] 金币。+1 [ICON_tradeRoute] 贸易路线容量。同盟等级更快提高（每回合+1[COLOR:ResCultureLabelCS]同盟点数[ENDCOLOR]）。敌方间谍以己方城市为目标时，其效力降低一级。[NEWLINE]奖励1个 [Icon_Governor] 总督头衔。'),
+
+
+        -- 玛雅
+--        ('LOC_TRAIT_LEADER_MUTAL_DESCRIPTION', 'zh_Hans_CN',
+--         '[ICON_Capital] 首都6单元格范围内的非首都城市所有产出+5%。其他非首都城市的所有产出-10%。[ICON_Capital] 首都6单元格范围内的单位+2 [ICON_Strength] 战斗力。如果当前回合数恰能被2整除，则[ICON_Capital] 首都6单元格范围内的城市生产军事单位时+7% [ICON_Production] 生产力；反之，[ICON_Capital] 首都6单元格范围内的城市生产建造者时+14% [ICON_Production] 生产力。'),
+
+        -- 印加
+       ('LOC_TRAIT_LEADER_PACHACUTI_QHAPAQ_NAN_DESCRIPTION', 'zh_Hans_CN',
+        '起始城市中的每座山脉单元格为国内 [ICON_TradeRoute] 贸易路线提供+1 [ICON_Food] 食物。侦查单位可以使用自身的高 [ICON_Movement] 移动力护送平民单位。“对外贸易”市政后可获得一个侦察兵，并解锁印加路网改良设施。'),
+
+        -- 祖鲁
+       ('LOC_DISTRICT_IKANDA_DESCRIPTION', 'zh_Hans_CN',
+        '祖鲁特色区域，替代军营。提供 +1 [ICON_Housing] 住房。满足市政或科技先决条件后即可创建军团和军队。建成时提供一个枪兵。伊坎达中的建筑+1 [ICON_SCIENCE] 科技值。城市中的兵营额外+1 [ICON_CULTURE] 文化值，马厩+1 [ICON_SCIENCE] 科技值。可加快军团和军队的创建速度。'),
+
+       -- 马其顿
+       ('LOC_TRAIT_LEADER_TO_WORLDS_END_DESCRIPTION', 'zh_Hans_CN',
+        '城市不会产生厌战情绪。此玩家占领拥有世界奇观的城市时，所有军事单位的体力值将完全恢复。首次建成皇家学堂后，[ICON_Capital]首都获得亚历山大大帝。每回合获得的基础同盟点数+50%。'),
+       ('LOC_LEADER_NW_ALEXANDER_DESCRIPTION', 'zh_Hans_CN',
+        '亚历山大特色大将军单位。为2个单元格范围内的古典时代、中世纪和文艺复兴时期的单位+5 [ICON_Strength] 战斗力、+1 [ICON_Movement] 移动力，不会和完全相同的效果同时生效。可在城邦进行隐退，为玩家永久提供该城邦的宗主国加成效果。'),
+       ('LOC_GREAT_PERSON_INDIVIDUAL_ALEXANDER_ACTION_TEXT', 'zh_Hans_CN',
+        '永久提供该城邦的宗主国加成效果。'),
+       ('LOC_LEADER_NW_ALEXANDER_NAME', 'zh_Hans_CN',
+        '亚历山大大帝'),
 
        -- 阿兹特克
        ('LOC_TRAIT_LEADER_GIFTS_FOR_TLATOANI_DESCRIPTION', 'zh_Hans_CN',
-        '其领土中的奢侈品资源为额外2座城市提供1点 [ICON_Amenities] 宜居度。单位从单元格的每点魅力值获得+1 [ICON_Strength] 战斗力，至多通过这种方式+5 [ICON_Strength] 战斗力。'),
+        '其领土中的奢侈品资源为额外2座城市提供1点 [ICON_Amenities] 宜居度。阿兹特克的军队在进攻时+3 [ICON_Strength] 战斗力，在拥有迷人魅力的单元格上防御时+1 [ICON_Strength] 战斗力，进攻魅力值不足迷人的单元格上的单位时额外+1 [ICON_Strength] 战斗力。'),
        ('LOC_ABILITY_NW_AZTK_DESCRIPTION', 'zh_Hans_CN',
-        '从单元格的每点魅力值获得+1 [ICON_Strength] 战斗力，至多通过这种方式+5 [ICON_Strength] 战斗力。'),
+        '在拥有迷人魅力的单元格上防御时+1 [ICON_Strength] 战斗力，进攻魅力值不足迷人的单元格上的单位时额外+1 [ICON_Strength] 战斗力。'),
        ('LOC_MODIFIER_ABILITY_NW_AZTK_ADD_COMBAT', 'zh_Hans_CN',
         '+{Property} [ICON_Strength] 战斗力来自单元格魅力值。'),
+       ('LOC_BUILDING_TLACHTLI_XP1_DESCRIPTION', 'zh_Hans_CN',
+        '阿兹特克特色建筑。提供2点 [ICON_Amenities] 宜居度、+3 [ICON_Culture] 文化值、+2 [ICON_Faith] 信仰值，并提供2点 [ICON_GreatGeneral] 大将军点数。城市新训练的建造者可以建造一个额外的改良设施。采用“保护地球”市政后，提供的 [ICON_TOURISM] 旅游业绩+1。'),
 
        -- 瑞典
        ('LOC_TRAIT_LEADER_KRISTINA_AUTO_THEME_DESCRIPTION', 'zh_Hans_CN',
@@ -22,20 +49,17 @@ VALUES -- FE
        ('LOC_TRAIT_CIVILIZATION_NOBEL_PRIZE_DESCRIPTION', 'zh_Hans_CN',
         '瑞典招募伟人时可获得10点 [ICON_Favor] 外交支持（联机速度下）。学院建筑提供的 [ICON_PRODUCTION] 生产力等于其固定产出50%的基础 [ICON_SCIENCE] 科技值、工作坊+2 [ICON_SCIENCE] 科技值，并在建造工业、学院区域和建筑时+35% [ICON_PRODUCTION] 生产力。如瑞典在游戏中，进入工业时代后将增添3项特色世界议会竞赛。'),
        ('LOC_BUILDING_QUEENS_BIBLIOTHEQUE_DESCRIPTION', 'zh_Hans_CN',
-        '瑞典特色建筑。该建筑可以放置2个 [ICON_GreatWork_WRITING] 著作、4个 [ICON_GreatWork_Landscape] 艺术巨作。'),
+        '瑞典特色建筑。该建筑可以放置2个 [ICON_GreatWork_WRITING] 著作、3个 [ICON_GreatWork_Landscape] 艺术巨作。'),
 
        -- 大哥伦比亚
        ('LOC_TRAIT_CIVILIZATION_EJERCITO_PATRIOTA_DESCRIPTION', 'zh_Hans_CN',
         '在总指挥2个单元格范围内开始回合时，建造者和其他的总指挥单位+1 [ICON_MOVEMENT] 移动力。升级单位不会结束其回合。'),
        ('LOC_ABILITY_UNIT_COMANDANTE_GENERAL_DESCRIPTION', 'zh_Hans_CN',
         '2个单元格内的总指挥和建造者开始回合时+1 [ICON_MOVEMENT] 移动力。升级单位不会结束其回合。'),
+
        -- 朝鲜
-       ('LOC_TRAIT_CIVILIZATION_THREE_KINGDOMS_NAME', 'zh_Hans_CN',
-        '三个太阳的传说'),
-       ('LOC_TRAIT_CIVILIZATION_THREE_KINGDOMS_DESCRIPTION', 'zh_Hans_CN',
-        '每与一座书院区域相邻，矿山则+1 [ICON_SCIENCE] 科技值。当农场与书院区域相邻时+1 [ICON_GOLD] 金币，此外每与一座书院区域相邻时，农场还可以再获得+1 [ICON_GOLD] 金币。城市中每位 [ICON_Citizen] 公民每回合提供的忠诚度-1。在黄金或英雄时代初期设置着力点时，除原有加成外还将获得提高时代得分的普通时代加成。如城市忠诚度已达最高，产出的 [ICON_CULTURE] 文化值和 [ICON_PRODUCTION] 生产力+5%。遭受的进攻性间谍的行动效果下降1级。'),
-       ('LOC_ABILITY_NW_CX_LOW_SPY_LEVEL_DESCRIPTION', 'zh_Hans_CN',
-        '进攻性间谍的行动效果下降1级。'),
+       ('LOC_TRAIT_LEADER_HWARANG_DESCRIPTION', 'zh_Hans_CN',
+        '城市从就职 [ICON_Governor] 总督的每次升级（包括首次升级）中获得+3% [ICON_Culture] 文化值、+3% [ICON_Gold] 金币、+2% [ICON_Science] 科技值、+2% [ICON_Faith] 信仰值、+1% [ICON_Production] 生产力和+1% [ICON_Food] 食物。'),
 
        -- 文秦
        ('LOC_TRAIT_LEADER_QIN_NAME', 'zh_Hans_CN',
@@ -120,9 +144,10 @@ VALUES -- FE
        -- 爱法
        ('LOC_TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP_DESCRIPTION', 'zh_Hans_CN',
         '[ICON_GreatWork_Writing]著作、[ICON_GreatWork_Religious]宗教、[ICON_GreatWork_Portrait]肖像、[ICON_GreatWork_Landscape]风景、[ICON_GreatWork_Sculpture]雕塑和[ICON_GreatWork_Music]音乐+3 [ICON_Science] 科技值。巨作对9个单元格内的外国城市施加3点忠诚度压力。因埃莉诺的忠诚度压力而叛乱的城市将直接加入埃莉诺的文明。建造剧院广场及其建筑时+25% [ICON_PRODUCTION] 生产力。若解锁“戏剧与诗歌”市政，则获得一名免费的 [ICON_GreatWriter] 大作家、两项随机 [ICON_CivicBoosted] 鼓舞。'),
+
        --金法
        ('LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION', 'zh_Hans_CN',
-        '拥有写作和法典后解锁剧院广场。剧院广场从奢侈品单元格获得标准相邻加成，戏剧与诗歌市政后翻倍。可在拥有剧院广场区域的任意城市中开展“宫廷盛会”项目。建造剧院广场及其建筑时+45% [ICON_PRODUCTION] 生产力。'),
+        '拥有帝国初期市政后解锁剧院广场。剧院广场从奢侈品单元格获得标准相邻加成，戏剧与诗歌市政后翻倍。可在拥有剧院广场区域的任意城市中开展“宫廷盛会”项目。建造剧院广场及其建筑时+45% [ICON_PRODUCTION] 生产力。'),
        ('LOC_TRAIT_LEADER_MAGNIFICENCES_THEATER', 'zh_Hans_CN',
         '+{1_Num} [ICON_CULTURE]文化值来自相邻的奢侈品单元格。');
 

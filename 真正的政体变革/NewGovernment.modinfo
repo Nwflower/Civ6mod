@@ -2,7 +2,7 @@
 <Mod id="d2a7e909-410b-4999-4a44-61f365300000" version="1">
     <Properties>
         <Name>LOC_MOD_GOVERNMENT_NAME</Name>
-        <Description>LOC_MOD_GOVERNMENT_DESC体</Description>
+        <Description>LOC_MOD_GOVERNMENT_DESC</Description>
         <Created>1745481858</Created>
         <Teaser>LOC_MOD_GOVERNMENT_DESC</Teaser>
         <Authors>LOC_MOD_GOVERNMENT_AUTHORS</Authors>

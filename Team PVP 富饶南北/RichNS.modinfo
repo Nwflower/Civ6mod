@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Mod id="00000000-0065-7A03-4B90-167965982140" version="20251104">
+<Mod id="00000000-0065-7A03-4B90-167965982142" version="20251114">
     <Properties>
-        <Name>[ENDCOLOR][ENDCOLOR]Team PVP 地图 [COLOR:ResGoldLabelCS]富饶南北 1.40[ENDCOLOR]</Name>
+        <Name>[ENDCOLOR][ENDCOLOR]Team PVP 地图 [COLOR:ResGoldLabelCS]富饶南北 1.42[ENDCOLOR]</Name>
         <Description>资源比较多的一整块盘古大陆</Description>
         <Teaser>资源比较多的一整块盘古大陆</Teaser>
         <Authors>千川白浪，号码菌, 红魔族首席魔法师</Authors>
@@ -101,14 +101,14 @@
     <InGameActions>
         <UpdateText id="BBS_SETTINGS_TEXTS">
             <Properties>
-                <LoadOrder>171</LoadOrder>
+                <LoadOrder>99991</LoadOrder>
             </Properties>
             <Criteria>Map_TPT_RichNS</Criteria>
             <File>Configuration/ConfigText.xml</File>
         </UpdateText>
         <ImportFiles id="Map_BBS">
             <Properties>
-                <LoadOrder>1081</LoadOrder>
+                <LoadOrder>99991</LoadOrder>
             </Properties>
             <Criteria>Map_TPT_RichNS</Criteria>
             <File>Data/BBS Maps/Utility/BBS_MountainsCliffs.lua</File>
@@ -125,7 +125,7 @@
         </ImportFiles>
         <UpdateDatabase id="BBS_Global_Parameters">
             <Properties>
-                <LoadOrder>1081</LoadOrder>
+                <LoadOrder>99991</LoadOrder>
             </Properties>
             <Criteria>Map_TPT_RichNS</Criteria>
             <File>Maps_Gameplay.sql</File>
@@ -133,7 +133,7 @@
         </UpdateDatabase>
         <ImportFiles id="BBS_ExtraMapScriptImport">
             <Properties>
-                <LoadOrder>1081</LoadOrder>
+                <LoadOrder>100086</LoadOrder>
             </Properties>
             <Criteria>Map_TPT_RichNS</Criteria>
             <File>Data/BBS Maps/TPT_RichNS.lua</File>

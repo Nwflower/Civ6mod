@@ -1,1 +1,0 @@
-UPDATE Maps SET GridWidth=GridWidth - 4;

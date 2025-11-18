@@ -38,10 +38,30 @@ function AlbertCreateReligion(iPlayer, iUnit, iGPClass, iIndividual)
 end
 
 -- ===========================================================================
+-- 马其顿：激活亚历山大
+function onUnitGreatPersonActivated(iPlayer, iUnit, iGPClass, iIndividual)
+    if iPlayer ~= m_iCurrentPlayerID then return end
+    local pUnit = UnitManager.GetUnit(iPlayer, iUnit)
+    if pUnit and iGPClass == GameInfo.GreatPersonClasses['GREAT_PERSON_CLASS_ALEXANDER'].Index then
+        local x, y = pUnit:GetX(), pUnit:GetY()
+        local pCity = Cities.GetPlotPurchaseCity(Map.GetPlot(x, y))
+        if pCity then
+			local pPlayer = Players[iPlayer]
+			local playerConfig = PlayerConfigurations[pCity:GetOwner()]
+			-- 查询城邦Leader
+			local sLeader = playerConfig:GetLeaderTypeName()
+			UI.RequestPlayerOperation(pPlayer, PlayerOperations.EXECUTE_SCRIPT, {
+				OnStart = "Nw_DTMS_PLAYER_ALEXANDER",
+				sLeader = sLeader
+			});
+        end
+    end
+end
 
 -- ===========================================================================
 -- 文件初始化
 function Initialize()
+	Events.UnitGreatPersonActivated.Add(onUnitGreatPersonActivated)
 	Events.UnitGreatPersonActivated.Add(AlbertCreateReligion)
 	print('DTMS UIScript Loaded Succeed.');
 end

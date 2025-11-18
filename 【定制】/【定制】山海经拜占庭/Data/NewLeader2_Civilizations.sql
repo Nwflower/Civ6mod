@@ -1,4 +1,0 @@
-
-INSERT INTO CivilizationLeaders (CivilizationType, LeaderType, CapitalName)
-VALUES ('CIVILIZATION_BYZANTIUM', 'LEADER_BASIL_ALT', 'LOC_CITY_NAME_CONSTANTINOPLE');
-

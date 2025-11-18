@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- SP01 -->
-<!-- Author: bottlep -->
-<!-- DateCreated: 7/15/2023 9:25:10 PM -->
-<GameData>
-	<MapStartPositions>
-		<Row Map="{7d0ac0f8-402b-4a9b-8073-ae85f1679659}Arrival.Civ6Map" Plot="1974" Type="PLAYER" Value="1"/>
-	</MapStartPositions>
-</GameData>
