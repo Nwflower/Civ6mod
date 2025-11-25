@@ -9,7 +9,7 @@ ModInfoName = "Epical Civilization.modinfo"
 
 ModId = "8821E6BF-39BD-20A2-3758-E33734D081D8"
 ModVersion = "1113"
-ModName = "Epical Civilization [COLOR:ResCultureLabelCS]文明：史诗时代[ENDCOLOR]"
+ModName = "Epical Civilization [COLOR:ResCultureLabelCS]文明：史诗时代[ENDCOLOR] 1.05"
 ModDescription = "这是在Team PVP balance mod的基础上，重新设计领袖文明能力的Mod。与Team PVP balance mod相似，但又略有不同。"
 ModTeaser = "这是在Team PVP balance mod的基础上，重新设计领袖文明能力的Mod。"
 

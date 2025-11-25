@@ -48,15 +48,19 @@ function Nw_DTMS_PLAYER_ALEXANDER(iPlayerID, params)
 	end
 end
 -- ===========================================================================
-
+-- 玛雅：长纪历回合
+function Nw_DTMS_MAYA_GRANT_FAITH(iPlayerID, params)
+	local pPlayer = Players[params.iPlayer];
+	if not pPlayer then return end
+	pPlayer:GetReligion():ChangeFaithBalance(52)
+end
 
 -- 文件初始化
 function Initialize()
-
-
     GameEvents.Nw_DTMS_PLAYER_ALEXANDER.Add(Nw_DTMS_PLAYER_ALEXANDER);
     GameEvents.Nw_DTMS_CityGotBuilding.Add(Nw_DTMS_CityGotBuilding);
     GameEvents.Nw_DTMS_PLAYER_ATTACH.Add(Nw_DTMS_PLAYER_ATTACH);
+    GameEvents.Nw_DTMS_MAYA_GRANT_FAITH.Add(Nw_DTMS_MAYA_GRANT_FAITH);
 	print('DTMS Script Loaded Succeed.')
 end
 Events.LoadGameViewStateDone.Add(Initialize)

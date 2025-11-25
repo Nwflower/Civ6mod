@@ -277,7 +277,7 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
      ( 'LOC_TRAIT_LEADER_RELIGIOUS_CONVERT_NAME', 'zh_Hans_CN',
        '受洗国王' ),
      ( 'LOC_TRAIT_LEADER_RELIGIOUS_CONVERT_DESCRIPTION', 'zh_Hans_CN',
-       '对圣地及其建筑+25% [ICON_Production] 生产力。首次建造神社和寺庙时分别获得一个遗物。允许城市使用 [ICON_Production] 生产力建造宗教单位，生产宗教单位时+100% [ICON_Production] 生产力。' ),
+       '建成圣地时也建成神社。首次建成寺庙时分别获得一个遗物。城市信仰主流宗教后获得一个免费的使徒。' ),
      ( 'LOC_TRAIT_LEADER_NZINGA_MBANDE_NAME', 'zh_Hans_CN',
        '马坦巴的战略家' ),
      ( 'LOC_TRAIT_LEADER_NZINGA_MBANDE_DESCRIPTION', 'zh_Hans_CN',
@@ -329,16 +329,17 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
      -- 蒙古
      ( 'LOC_TRAIT_CIVILIZATION_MONGOLIAN_ORTOO_DESCRIPTION', 'zh_Hans_CN',
        '单位从草原、草原（丘陵）单元格开始回合时+1 [ICON_MOVEMENT] 移动力。创建 [ICON_TradeRoute] 贸易路线后，目的地城市中将立即出现1座 [ICON_TradingPost] 贸易站。' ),
-
      ( 'LOC_TRAIT_LEADER_GENGHIS_KHAN_ABILITY_DESCRIPTION', 'zh_Hans_CN',
-       '建造斡耳朵后获得1个免费轻骑兵单位。' ),
+       '游戏开始时可见 [ICON_RESOURCE_HORSES] 马资源。牧场为商业中心提供大量相邻加成。您的 [ICON_TRADEROUTE] 贸易路线每经过一个您的 [ICON_TRADINGPOST] 贸易站便+1 [ICON_SCIENCE] 科技值。所有骑兵类单位击败敌方骑兵类单位后有几率将其俘获。' ),
 
      ( 'LOC_UNIT_MONGOLIAN_KESHIG_DESCRIPTION', 'zh_Hans_CN',
        '中世纪蒙古特色远程骑兵单位，替代弩手。可利用自身的高 [ICON_Movement] 移动力护送平民和支援单位。' ),
-     ( 'LOC_BUILDING_ORDU_DESCRIPTION', 'zh_Hans_CN',
+     ( 'LOC_BUILDING_ORDU_EXPANSION2_DESCRIPTION', 'zh_Hans_CN',
        '蒙古特色建筑。其所在城市生产的骑兵单位无需维护费。其所在城市生产的所有骑兵类和攻城类单位+25%战斗经验值。无法建造在已拥有兵营的军营区域中。[NEWLINE]若解锁 [ICON_RESOURCE_HORSES] 马资源，每回合产出2点资源 [ICON_RESOURCE_HORSES] 马。' ),
      ( 'LOC_NW_MONGOLIA_ABILITY_GRASS_MOVEMENT_DESCRIPTION', 'zh_Hans_CN',
        '从草原、草原（丘陵）单元格开始回合时+1 [ICON_MOVEMENT] 移动力。' ),
+     ( 'LOC_MODIFIER_TRAIT_LEADER_GENGHIS_KHAN_ABILITY_IMPROVEMENT_ADJACENCY', 'zh_Hans_CN',
+       '+{1_Num} [ICON_Gold] 金币来自相邻牧场。' ),
 
      -- 荷兰
      ( 'LOC_TRAIT_RADIO_ORANJE_DESCRIPTION', 'zh_Hans_CN',

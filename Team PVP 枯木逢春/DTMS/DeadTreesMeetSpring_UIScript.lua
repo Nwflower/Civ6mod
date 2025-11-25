@@ -57,12 +57,33 @@ function onUnitGreatPersonActivated(iPlayer, iUnit, iGPClass, iIndividual)
         end
     end
 end
+-- ===========================================================================
+-- 玛雅：长纪历回合
+-- 该写法可对AI正常生效
+function onPlayerTurnActivated_Maya(playerID, isFirst)
+	if m_iCurrentPlayerID == playerID and m_iCurrentPlayerID == 0 and isFirst then
+		-- 遍历文明
+		if GameInfo.NW_MAYA_BAKTUN['BAKTUN_'..Game.GetCurrentGameTurn()] then
+			local kPlayers = PlayerManager.GetAliveMajors()
+			for _, pPlayer in ipairs(kPlayers) do
+				local iPlayer = pPlayer:GetID()
+				if (HasTrait_Property('TRAIT_LEADER_MUTAL',iPlayer)) then
+					UI.RequestPlayerOperation(m_pCurrentPlayer, PlayerOperations.EXECUTE_SCRIPT, {
+						OnStart = "Nw_DTMS_MAYA_GRANT_FAITH",
+						iPlayer = iPlayer
+					});
+				end
+			end
+		end
+	end
+end
 
 -- ===========================================================================
 -- 文件初始化
 function Initialize()
 	Events.UnitGreatPersonActivated.Add(onUnitGreatPersonActivated)
 	Events.UnitGreatPersonActivated.Add(AlbertCreateReligion)
+	Events.PlayerTurnActivated.Add(onPlayerTurnActivated_Maya);
 	print('DTMS UIScript Loaded Succeed.');
 end
 Events.LoadGameViewStateDone.Add(Initialize);
