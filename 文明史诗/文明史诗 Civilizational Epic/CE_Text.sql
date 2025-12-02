@@ -124,16 +124,16 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
      ( 'LOC_TRAIT_CIVILIZATION_ITERU_NAME', 'zh_Hans_CN',
        '泛滥季节' ),
      ( 'LOC_TRAIT_CIVILIZATION_ITERU_EXPANSION2_DESCRIPTION', 'zh_Hans_CN',
-       '在江河旁建造奇观时+15% [ICON_Production] 生产力。不会受到洪水的损害。' ),
+       '在江河旁建造区域、奇观时分别+15%、25% [ICON_Production] 生产力。不会受到洪水的损害。' ),
      -- 克利欧佩特拉（埃及）
      ( 'LOC_TRAIT_LEADER_MEDITERRANEAN_EXPANSION2_DESCRIPTION', 'zh_Hans_CN',
-       '相邻河流的区域、市中心和奇观+1 [ICON_SCIENCE] 科技值。您通往其他文明的 [ICON_TradeRoute] 贸易路线为埃及+4 [ICON_Gold] 金币。其他文明通往埃及的 [ICON_TradeRoute] 贸易路线能为其+2 [ICON_Food] 食物、为埃及+2 [ICON_Gold] 金币。与盟友进行贸易可获得双倍同盟点数。' ),
+       '法典市政后，相邻河流的区域、市中心、奇观和狮身人面像+1 [ICON_SCIENCE] 科技值。您通往其他文明的 [ICON_TradeRoute] 贸易路线为埃及+4 [ICON_Gold] 金币。其他文明通往埃及的 [ICON_TradeRoute] 贸易路线能为其+2 [ICON_Food] 食物、为埃及+2 [ICON_Gold] 金币。与盟友进行贸易可获得双倍同盟点数。' ),
      -- 拉美西斯二世
      ( 'LOC_TRAIT_LEADER_RAMSES_DESCRIPTION', 'zh_Hans_CN',
-       '相邻河流的区域、市中心和奇观+1 [ICON_PRODUCTION] 生产力。建筑或奇观建成时，获得等同于其花费25%的 [ICON_CULTURE] 文化值。' ),
+       '法典市政后，相邻河流的区域、市中心、奇观和狮身人面像+1 [ICON_PRODUCTION] 生产力。建筑或奇观建成时，获得等同于其花费25%的 [ICON_CULTURE] 文化值。' ),
      -- 克利欧佩特拉（托勒密）
      ( 'LOC_TRAIT_LEADER_CLEOPATRA_ALT_DESCRIPTION', 'zh_Hans_CN',
-       '相邻河流的区域、市中心和奇观+3 [ICON_GOLD] 金币。沿泛滥平原的资源+1 [ICON_CULTURE] 文化值、+1 [ICON_FOOD] 食物。已拥有的泛滥平原为相邻单元格提供+1魅力（而非通常的-1）。' ),
+       '法典市政后，相邻河流的区域、市中心、奇观和狮身人面像+3 [ICON_GOLD] 金币。沿泛滥平原的资源+1 [ICON_CULTURE] 文化值、+1 [ICON_FOOD] 食物。已拥有的泛滥平原为相邻单元格提供+1魅力（而非通常的-1）。' ),
 
      -- 英国
      ( 'LOC_TRAIT_CIVILIZATION_INDUSTRIAL_REVOLUTION_DESCRIPTION', 'zh_Hans_CN',
@@ -169,7 +169,7 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
        '为中世纪及之后的奇观+25% [ICON_Production] 生产力。所有奇观提供的基础产出、[ICON_Housing] 住房、 [ICON_Amenities] 宜居度、伟人点数和 [ICON_Tourism] 旅游业绩+100%。' ),
      -- 黑法
      ( 'LOC_TRAIT_LEADER_FLYING_SQUADRON_DESCRIPTION', 'zh_Hans_CN',
-       '行政部门市政后，对其他文明的外交能见度提高一级。建成古典时代及之后的奇观时提供一个免费间谍。' ),
+       '行政部门市政后，对其他文明的外交能见度提高一级。每次建成古典时代及之后的奇观时提供一个免费间谍。' ),
      -- 爱法
      ( 'LOC_TRAIT_LEADER_ELEANOR_FRANCE_LOYALTY_TEAM_PVP_DESCRIPTION', 'zh_Hans_CN',
        '建成剧院广场时也建成古罗马剧场。[ICON_GreatWork_Writing]著作、[ICON_GreatWork_Landscape]艺术巨作和[ICON_GreatWork_Music]音乐+3 [ICON_Science] 科技值。每个巨作对9个单元格内的外国城市施加3点忠诚度压力。因埃莉诺的忠诚度压力而叛乱的城市将直接加入埃莉诺的文明。' ),
@@ -177,7 +177,7 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
      ( 'LOC_TRAIT_LEADER_MAGNIFICENCES_NAME', 'zh_Hans_CN',
        '向着星辰与深渊' ),
      ( 'LOC_TRAIT_LEADER_MAGNIFICENCES_DESCRIPTION', 'zh_Hans_CN',
-       '拥有帝国初期市政后解锁剧院广场。剧院广场从奢侈品单元格获得大量相邻加成。可在拥有剧院广场区域的任意城市中开展“宫廷盛会”项目。' ),
+       '拥有对外贸易市政后解锁剧院广场。剧院广场从奢侈品单元格获得大量相邻加成。可在拥有剧院广场区域的任意城市中开展“宫廷盛会”项目。' ),
      ( 'LOC_TRAIT_LEADER_MAGNIFICENCES_THEATER', 'zh_Hans_CN',
        '+{1_Num} [ICON_CULTURE]文化值来自相邻的奢侈品单元格。' ),
 
@@ -277,7 +277,7 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
      ( 'LOC_TRAIT_LEADER_RELIGIOUS_CONVERT_NAME', 'zh_Hans_CN',
        '受洗国王' ),
      ( 'LOC_TRAIT_LEADER_RELIGIOUS_CONVERT_DESCRIPTION', 'zh_Hans_CN',
-       '建成圣地时也建成神社。首次建成寺庙时分别获得一个遗物。城市信仰主流宗教后获得一个免费的使徒。' ),
+       '建成圣地时也建成神社。首次建成寺庙时获得一个遗物。城市信仰主流宗教后获得一个免费的使徒。' ),
      ( 'LOC_TRAIT_LEADER_NZINGA_MBANDE_NAME', 'zh_Hans_CN',
        '马坦巴的战略家' ),
      ( 'LOC_TRAIT_LEADER_NZINGA_MBANDE_DESCRIPTION', 'zh_Hans_CN',
@@ -293,7 +293,7 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
      ( 'LOC_TRAIT_LEADER_TO_WORLDS_END_DESCRIPTION', 'zh_Hans_CN',
        '城市不会产生厌战情绪。此玩家占领拥有世界奇观的城市时，所有军事单位的体力值将完全恢复。首次建成皇家学堂后，[ICON_Capital]首都获得亚历山大大帝。' ),
      ( 'LOC_LEADER_NW_ALEXANDER_DESCRIPTION', 'zh_Hans_CN',
-       '亚历山大特色大将军单位。为2个单元格范围内的古典时代、中世纪和文艺复兴时期的单位+5 [ICON_Strength] 战斗力、+1 [ICON_Movement] 移动力，不会和完全相同的效果同时生效。可在城邦进行隐退，为玩家永久提供该城邦的宗主国加成效果。' ),
+       '亚历山大特色大将军单位。为2个单元格范围内的古典时代、中世纪、文艺复兴时期和工业时代的单位+5 [ICON_Strength] 战斗力、+1 [ICON_Movement] 移动力，不会和完全相同的效果同时生效。可在城邦进行隐退，为玩家永久提供该城邦的宗主国加成效果。' ),
      ( 'LOC_GREAT_PERSON_INDIVIDUAL_ALEXANDER_ACTION_TEXT', 'zh_Hans_CN',
        '永久提供该城邦的宗主国加成效果。' ),
      ( 'LOC_LEADER_NW_ALEXANDER_NAME', 'zh_Hans_CN',
@@ -320,7 +320,7 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
      ( 'LOC_TRAIT_CIVILIZATION_MAPUCHE_TOQUI_NAME','zh_Hans_CN',
        '图卡佩尔精神' ),
      ( 'LOC_TRAIT_CIVILIZATION_MAPUCHE_TOQUI_DESCRIPTION','zh_Hans_CN',
-       '拥有 [ICON_Governor] 总督的城市+1魅力值，+7% [ICON_Culture] 文化值和+7% [ICON_Production] 生产力，在这些城市训练的军事单位获得+50%战斗经验，该加成在非马普切建立的城市中翻倍。在敌方城市边界内击败敌方单位会使该城市失去20忠诚度。[ICON_Governor] 总督对9格内的所有城市施加+4忠诚度。' ),
+       ' ' ),
 
      -- 玛雅
      ( 'LOC_TRAIT_LEADER_MUTAL_DESCRIPTION', 'zh_Hans_CN',
@@ -364,9 +364,9 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
      ( 'LOC_TRAIT_LEADER_KANDAKE_OF_MEROE_NAME', 'zh_Hans_CN',
        '麦罗埃复兴' ),
      ( 'LOC_TRAIT_LEADER_KANDAKE_OF_MEROE_DESCRIPTION', 'zh_Hans_CN',
-       '没有专业化区域的城市建造区域时+100% [ICON_Production] 生产力。' ),
+       '国家劳动力市政后，没有专业化区域的城市建造区域时+100% [ICON_Production] 生产力。' ),
      ( 'LOC_TRAIT_CIVILIZATION_TA_SETI_DESCRIPTION', 'zh_Hans_CN',
-       '相邻河流的单位进攻时+2 [ICON_Strength] 战斗力，跨过河流攻击单位时不会受到 [ICON_Strength] 战斗力和 [ICON_MOVEMENT] 移动力减益。如果区域相邻河流，则可以使用 [ICON_FAITH] 信仰值购买其中的建筑。' ),
+       '相邻河流的单位进攻时+2 [ICON_Strength] 战斗力，跨过河流攻击单位时不会受到 [ICON_Strength] 战斗力和 [ICON_MOVEMENT] 移动力减益。区域建造在泛滥平原上时，可以使用 [ICON_FAITH] 信仰值购买其中的建筑。' ),
      ( 'LOC_IMPROVEMENT_PYRAMID_DESCRIPTION', 'zh_Hans_CN',
        '砌砖科技解锁建造者建造努比亚特色改良设施努比亚金字塔的能力。+2 [ICON_Faith] 信仰值、+1 [ICON_Food] 食物。与市中心相邻时 +1 [ICON_Food] 食物。与其他提供相邻加成的区域相邻时+2对应产出。[NEWLINE][NEWLINE]可以建造在沙漠、草原、平原及其丘陵或在泛滥平原上。不能建造在另一个努比亚金字塔旁。' ),
 
@@ -450,7 +450,6 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
      ( 'LOC_MODIFIER_TRAIT_LEADER_BANNOCKBURN_COMBAT', 'zh_Hans_CN',
        '+{1_Num} [ICON_Strength] 战斗力来自同盟（恩奇都奇遇）。' ),
 
-
      -- 瑞典
      ( 'LOC_TRAIT_LEADER_KRISTINA_AUTO_THEME_DESCRIPTION', 'zh_Hans_CN',
        '全部槽位填满时，建筑和奇观可自动获得主题。可在市政广场中建造女王图书馆。' ),
@@ -462,7 +461,6 @@ REPLACE INTO LocalizedText ( Tag, Language, Text )
      -- 越南
      ( 'LOC_TRAIT_LEADER_TRIEU_DESCRIPTION', 'zh_Hans_CN',
        '在雨林、沼泽或树林单元格中战斗的单位+2 [ICON_Strength] 战斗力。单位无视这些地貌的 [ICON_Movement] 移动力减益。' ),
-
 
      -- 祖鲁
      ( 'LOC_DISTRICT_IKANDA_DESCRIPTION', 'zh_Hans_CN',

@@ -63,7 +63,7 @@ end
 function onPlayerTurnActivated_Maya(playerID, isFirst)
 	if m_iCurrentPlayerID == playerID and m_iCurrentPlayerID == 0 and isFirst then
 		-- 遍历文明
-		if GameInfo.NW_MAYA_BAKTUN['BAKTUN_'..Game.GetCurrentGameTurn()] then
+		if Game.GetCurrentGameTurn() % 10 == 0 then
 			local kPlayers = PlayerManager.GetAliveMajors()
 			for _, pPlayer in ipairs(kPlayers) do
 				local iPlayer = pPlayer:GetID()
