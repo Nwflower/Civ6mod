@@ -16,11 +16,8 @@ INSERT OR IGNORE INTO Improvement_ValidResources (ResourceType, ImprovementType)
 'RESOURCE_LEY_LINE', ImprovementType
 FROM Improvements WHERE TraitType LIKE 'MINOR/_CIV%' ESCAPE '/';
 
-
--- 吸血鬼虚空和夜莺增加奇观判定（概率和地脉一样就行）
 UPDATE SecretSocieties 
-SET DiscoverAtNaturalWonderBaseChance = 100000
-WHERE 	SecretSocietyType IN ('SECRETSOCIETY_OWLS_OF_MINERVA','SECRETSOCIETY_VOIDSINGERS','SECRETSOCIETY_SANGUINE_PACT');
+SET DiscoverAtNaturalWonderBaseChance = 100000;
 
 -- 吸血国境内+1速，虚空碑+1金
 INSERT OR IGNORE INTO Building_YieldChanges(BuildingType, YieldType, YieldChange) VALUES 

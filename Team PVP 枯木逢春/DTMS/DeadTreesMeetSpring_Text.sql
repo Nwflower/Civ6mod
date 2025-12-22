@@ -136,6 +136,10 @@ VALUES -- FE
         '+{Property} 来着罗斯福推论（异大陆）。'),
        ('LOC_ABILITY_ROOSEVELT_COMBAT_BONUS_HOME_CONTINENT_DESCRIPTION', 'zh_Hans_CN',
         '[ICON_CAPITAL] 首都所在大陆上的单位从每个市政广场及其建筑获得+1 [ICON_Strength] 战斗力；[ICON_CAPITAL] 首都所在大陆以外的单位从每个外交区及其建筑获得+1 [ICON_Strength] 战斗力。'),
+
+       -- 马普切
+       ('LOC_TRAIT_CIVILIZATION_MAPUCHE_TOQUI_DESCRIPTION', 'zh_Hans_CN',
+        '拥有 [ICON_Governor] 总督的城市魅力值+1、 [ICON_CULTURE] 文化值+7%、[ICON_Production] 生产力+7%，此城市中生产的所有单位的战斗经验值+50%。在非马普切建立的城市中，上述加成翻倍。[ICON_Governor] 总督就职城市9单元格范围内的所有城市每回合对本方文明的忠诚度+4。'),
        -- 苏格兰
        ('LOC_TRAIT_CIVILIZATION_SCOTTISH_ENLIGHTENMENT_DESCRIPTION', 'zh_Hans_CN',
         '每3位 [ICON_CITIZEN] 公民消耗1 [ICON_AMENITIES] 宜居度，而非通常的2位。快乐的城市+5% [ICON_SCIENCE] 科技值和 [ICON_PRODUCTION] 生产力。欣喜若狂的城市，上述加成翻倍。'),
@@ -156,8 +160,10 @@ VALUES -- FE
        ('LOC_TRAIT_LEADER_MAGNIFICENCES_THEATER', 'zh_Hans_CN',
         '+{1_Num} [ICON_CULTURE]文化值来自相邻的奢侈品单元格。'),
        --越南
+       ('LOC_TRAIT_LEADER_TRIEU_DESCRIPTION', 'zh_Hans_CN',
+        '在雨林、沼泽或树林单元格中战斗的单位+2 [ICON_Strength] 战斗力。单位在回合开始时处于这些地貌中，则+1 [ICON_Movement] 移动力。建立城市可获得1格额外领土。'),
        ('LOC_TRAIT_CIVILIZATION_VIETNAM_DESCRIPTION', 'zh_Hans_CN',
-        '新建城市获得2格额外领土。所有陆地专业化区域额外提供+1 [ICON_GOLD] 金币，建造在雨林、沼泽或树林上时不会移除地貌。建在这些地貌上的建筑将获得以下收益：建在树林上提供+1 [ICON_PRODUCTION] 生产力、建在雨林上提供+1 [ICON_SCIENCE] 科技、建在沼泽上提供+1 [ICON_PRODUCTION] 生产力和+1 [ICON_GOLD] 金币。拥有“国家劳动力”市政后即可栽种树林。');
+        '所有陆地专业化区域额外提供+1 [ICON_GOLD] 金币，建造在雨林、沼泽或树林上时不会移除地貌。建在这些地貌上的建筑将获得以下收益：建在树林上提供+1 [ICON_PRODUCTION] 生产力、建在雨林上提供+1 [ICON_SCIENCE] 科技、建在沼泽上提供+1 [ICON_PRODUCTION] 生产力和+1 [ICON_GOLD] 金币。拥有“国家劳动力”市政后即可栽种树林。');
 
 
 -----------------------------------------------------------------------  魔女环境下伟人修改  -----------------------------------------------------------------------

@@ -1621,6 +1621,19 @@ WHERE TraitType = 'TRAIT_LEADER_TO_WORLDS_END';
 -- MAORI	毛利
 -- =============================================================
 -- MAPUCHE	马普切
+
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_MAPUCHE_TOQUI', 'TOQUI_APPEAL_FROM_GOVERNOR');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('TOQUI_APPEAL_FROM_GOVERNOR', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_APPEAL', 0, 0, 0, NULL, 'CITY_HAS_GOVERNOR_FOUNDED');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('TOQUI_APPEAL_FROM_GOVERNOR', 'Amount', '1');
+INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
+('TRAIT_CIVILIZATION_MAPUCHE_TOQUI', 'TOQUI_APPEAL_FROM_GOVERNOR_NOT_FOUNDED');
+INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
+('TOQUI_APPEAL_FROM_GOVERNOR_NOT_FOUNDED', 'MODIFIER_PLAYER_CITIES_ADJUST_CITY_APPEAL', 0, 0, 0, NULL, 'CITY_HAS_GOVERNOR_NOT_FOUNDED');
+INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
+('TOQUI_APPEAL_FROM_GOVERNOR_NOT_FOUNDED', 'Amount', '1');
 -- =============================================================
 -- MAYA	玛雅
 
@@ -1904,11 +1917,11 @@ DELETE FROM TraitModifiers WHERE TraitType = 'TRAIT_CIVILIZATION_VIETNAM'
     );
 
 INSERT INTO TraitModifiers (TraitType, ModifierId) VALUES
-('TRAIT_CIVILIZATION_VIETNAM', 'MODIFIER_TRAIT_CIVILIZATION_VIETNAM_TILE');
+('TRAIT_LEADER_TRIEU', 'MODIFIER_TRAIT_LEADER_TRIEU_TILE');
 INSERT INTO Modifiers (ModifierId, ModifierType, RunOnce, Permanent, NewOnly, OwnerRequirementSetId, SubjectRequirementSetId) VALUES
-('MODIFIER_TRAIT_CIVILIZATION_VIETNAM_TILE', 'MODIFIER_PLAYER_ADJUST_CITY_TILES', 0, 0, 0, NULL, NULL);
+('MODIFIER_TRAIT_LEADER_TRIEU_TILE', 'MODIFIER_PLAYER_ADJUST_CITY_TILES', 0, 0, 0, NULL, NULL);
 INSERT INTO ModifierArguments (ModifierId, Name, Value) VALUES
-('MODIFIER_TRAIT_CIVILIZATION_VIETNAM_TILE', 'Amount', '2');
+('MODIFIER_TRAIT_LEADER_TRIEU_TILE', 'Amount', 1);
 
 
 INSERT INTO TraitModifiers (TraitType, ModifierId)

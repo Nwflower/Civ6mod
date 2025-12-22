@@ -62,6 +62,7 @@ function Initialize()
     GameEvents.Nw_DTMS_CityGotBuilding.Add(Nw_DTMS_CityGotBuilding);
     GameEvents.Nw_DTMS_PLAYER_ATTACH.Add(Nw_DTMS_PLAYER_ATTACH);
     GameEvents.Nw_DTMS_HAMMURABI_LAW.Add(Nw_DTMS_HAMMURABI_LAW);
+    GameEvents.Nw_DTMS_HAMMURABI_LAW.Add(Nw_DTMS_HAMMURABI_LAW);
 	print('DTMS Script Loaded Succeed.')
 end
 Events.LoadGameViewStateDone.Add(Initialize)

@@ -80,10 +80,10 @@ UPDATE Resources SET Frequency='16' Where ResourceType='RESOURCE_COAL';
 --关联
 
 --马关联马里沙漠泛滥平原
-INSERT INTO Resource_ValidFeatures (ResourceType, FeatureType)
+INSERT OR IGNORE INTO Resource_ValidFeatures (ResourceType, FeatureType)
 VALUES ('RESOURCE_HORSES', 'FEATURE_FLOODPLAINS');
 --马关联加拿大或俄罗斯冻土丘陵
-INSERT INTO Resource_ValidTerrains (ResourceType, TerrainType)
+INSERT OR IGNORE INTO Resource_ValidTerrains (ResourceType, TerrainType)
 VALUES ('RESOURCE_HORSES', 'TERRAIN_TUNDRA');
 
 --加拿大
@@ -188,7 +188,7 @@ VALUES ('LEADER_T_ROOSEVELT',3),
 --==============================================================================
 --******			城邦出生关联		  	  ******
 --==============================================================================
-INSERT INTO StartBiasResources (CivilizationType , ResourceType , Tier)	VALUES
+INSERT OR IGNORE INTO StartBiasResources (CivilizationType , ResourceType , Tier)	VALUES
 ('CIVILIZATION_JERUSALEM' , 'RESOURCE_INCENSE' , 5),
 ('CIVILIZATION_ZANZIBAR' , 'RESOURCE_DIAMONDS' , 5),
 ('CIVILIZATION_KUMASI' , 'RESOURCE_COCOA' , 5),
@@ -198,9 +198,8 @@ INSERT INTO StartBiasResources (CivilizationType , ResourceType , Tier)	VALUES
 ('CIVILIZATION_HONG_KONG' , 'RESOURCE_SILK' , 5),
 ('CIVILIZATION_FEZ' , 'RESOURCE_DYES' , 5),
 ('CIVILIZATION_AKKAD' , 'RESOURCE_OIL' , 5);
-INSERT INTO StartBiasRivers (CivilizationType , Tier)	VALUES
+INSERT OR IGNORE INTO StartBiasRivers (CivilizationType , Tier)	VALUES
 ('CIVILIZATION_ANTIOCH' , 3),
-('CIVILIZATION_BOLOGNA' , 3),
 ('CIVILIZATION_KANDY' , 3),
 ('CIVILIZATION_VILNIUS' , 3),
 ('CIVILIZATION_HATTUSA' , 5),
@@ -209,16 +208,14 @@ INSERT INTO StartBiasRivers (CivilizationType , Tier)	VALUES
 ('CIVILIZATION_BRUSSELS' , 3),
 ('CIVILIZATION_JERUSALEM' , 3),
 ('CIVILIZATION_AKKAD' , 3);
-INSERT INTO StartBiasTerrains (CivilizationType , TerrainType , Tier)	VALUES
+INSERT OR IGNORE INTO StartBiasTerrains (CivilizationType , TerrainType , Tier)	VALUES
 ('CIVILIZATION_PRESLAV' , 'TERRAIN_PLAINS' , 5),
 ('CIVILIZATION_FEZ' , 'TERRAIN_PLAINS' , 5),
 ('CIVILIZATION_FEZ' , 'TERRAIN_PLAINS_HILLS' , 5),
 ('CIVILIZATION_VALLETTA' , 'TERRAIN_COAST' , 3),
 ('CIVILIZATION_CAHOKIA' , 'TERRAIN_PLAINS' , 5),
-('CIVILIZATION_BOLOGNA' , 'TERRAIN_PLAINS' , 5),
 ('CIVILIZATION_HATTUSA' , 'TERRAIN_PLAINS' , 5),
 ('CIVILIZATION_HATTUSA' , 'TERRAIN_PLAINS_HILLS' , 5),
-('CIVILIZATION_BOLOGNA' , 'TERRAIN_GRASS' , 5),
 ('CIVILIZATION_BRUSSELS' , 'TERRAIN_GRASS' , 5),
 ('CIVILIZATION_MEXICO_CITY' , 'TERRAIN_PLAINS' , 5),
 ('CIVILIZATION_ANTIOCH' , 'TERRAIN_PLAINS_HILLS' , 5),
@@ -236,12 +233,11 @@ INSERT INTO StartBiasTerrains (CivilizationType , TerrainType , Tier)	VALUES
 ('CIVILIZATION_KABUL' , 'TERRAIN_PLAINS_HILLS'  , 5),
 ('CIVILIZATION_ZANZIBAR' , 'TERRAIN_COAST' , 3),
 ('CIVILIZATION_BUENOS_AIRES' , 'TERRAIN_GRASS' , 5);
-INSERT INTO StartBiasFeatures (CivilizationType , FeatureType , Tier)VALUES
+INSERT OR IGNORE INTO StartBiasFeatures (CivilizationType , FeatureType , Tier)VALUES
 ('CIVILIZATION_PRESLAV' , 'FEATURE_FOREST' , 5),
 ('CIVILIZATION_FEZ' , 'FEATURE_FOREST' , 5),
 ('CIVILIZATION_VALLETTA' , 'FEATURE_FOREST' , 3),
 ('CIVILIZATION_CAHOKIA' , 'FEATURE_FOREST' , 5),
-('CIVILIZATION_BOLOGNA' , 'FEATURE_FOREST' , 5),
 ('CIVILIZATION_HATTUSA' , 'FEATURE_FOREST' , 5),
 ('CIVILIZATION_BRUSSELS' , 'FEATURE_FOREST' , 5),
 ('CIVILIZATION_ANTIOCH' , 'FEATURE_OASIS' , 5),
@@ -265,7 +261,7 @@ INSERT INTO StartBiasFeatures (CivilizationType , FeatureType , Tier)VALUES
 --==============================================================================
 --******			DLC城邦出生关联			  	  ******
 --==============================================================================
-INSERT INTO StartBiasResources (CivilizationType, ResourceType, Tier)
+INSERT OR IGNORE INTO StartBiasResources (CivilizationType, ResourceType, Tier)
 SELECT CivilizationType, 'RESOURCE_SHEEP', 5
 FROM Civilizations WHERE CivilizationType = 'CIVILIZATION_AUCKLAND'
 UNION SELECT CivilizationType, 'RESOURCE_FISH', 3
@@ -273,16 +269,16 @@ FROM Civilizations WHERE CivilizationType = 'CIVILIZATION_AUCKLAND'
 UNION SELECT CivilizationType, 'RESOURCE_CRABS', 3
 FROM Civilizations WHERE CivilizationType = 'CIVILIZATION_AUCKLAND';
 
-INSERT INTO StartBiasTerrains (CivilizationType, TerrainType, Tier)
+INSERT OR IGNORE INTO StartBiasTerrains (CivilizationType, TerrainType, Tier)
 SELECT CivilizationType, 'TERRAIN_COAST', 3
 FROM Civilizations WHERE CivilizationType = 'CIVILIZATION_MUSCAT'
 UNION SELECT CivilizationType, 'TERRAIN_GRASS', 5
 FROM Civilizations WHERE CivilizationType = 'CIVILIZATION_MUSCAT';
 
-INSERT INTO StartBiasFeatures (CivilizationType, FeatureType, Tier)
+INSERT OR IGNORE INTO StartBiasFeatures (CivilizationType, FeatureType, Tier)
 SELECT CivilizationType, 'FEATURE_JUNGLE', 3
 FROM Civilizations WHERE CivilizationType = 'CIVILIZATION_PALENQUE';
 
-INSERT INTO StartBiasRivers (CivilizationType, Tier)
+INSERT OR IGNORE INTO StartBiasRivers (CivilizationType, Tier)
 SELECT CivilizationType, 5
 FROM Civilizations WHERE CivilizationType = 'CIVILIZATION_PALENQUE';
